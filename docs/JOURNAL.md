@@ -5,6 +5,8 @@
 | # | Regle | Fichier(s) | Date |
 |---|-------|-----------|------|
 | 1 | `create-next-app` refuse un nom de dossier avec majuscules (regle npm) et, scaffolde directement dans un dossier existant, ecrase les fichiers homonymes (notre `CLAUDE.md` a ete remplace par `@AGENTS.md`) — toujours scaffolder dans un dossier temporaire (nom lowercase) puis copier/fusionner manuellement | `CLAUDE.md` | 2026-07-28 |
+| 2 | Next.js 16 : `proxy.ts` (middleware) a sa propre limite de taille de requete (10mb par defaut), separee de `experimental.serverActions.bodySizeLimit` — un upload de fichier volumineux (photo camera) est tronque silencieusement AVANT d'atteindre la Server Action ("Unexpected end of form") si `experimental.proxyClientMaxBodySize` n'est pas aussi releve | `next.config.ts` | 2026-07-29 |
+| 3 | Projet Vercel cree manuellement (pas via import Git auto-detecte) : le Framework Preset peut rester sur "Other", `next build` reussit mais aucune fonction serverless n'est enregistree (routes-manifest vide) → 404 sur toutes les routes en production, edge, avant meme d'atteindre le code. Toujours verifier/forcer via `vercel.json` (`"framework": "nextjs"`) des le premier deploiement | `vercel.json` | 2026-07-30 |
 
 ## Historique
 
@@ -73,3 +75,18 @@ Teste de bout en bout au navigateur avec un vrai compte : creation compte → em
 **Teste de bout en bout au navigateur** avec le vrai compte admin : connexion → sidebar 6 sections → Leads (lead reel existant, ajout note, changement statut, mailto) → Textes (edition titre hero, verifie visible immediatement sur `/`, puis restaure) → Photos (upload reel vers Cloudinary, activation, verifie affichee sur la galerie publique, suppression testee avec la nouvelle confirmation inline) → Services et Champs (rendu verifie, formulaires complets) → Tarifs (rendu verifie, formules + parametres km). Toutes les donnees de test nettoyees (lead, note, photo Cloudinary+DB). Build production final verifie propre.
 
 **Etat du projet :** les 3 modules (Devis, Dossier, CMS) sont implementes et testes de bout en bout. Reste avant mise en production reelle : contenu reel (vraies photos/textes d'Ernest a la place des placeholders/seed), verification du domaine `ernestphotography.com` dans Resend (emails actuellement limites au sandbox), pointage DNS Namecheap vers Vercel, et deploiement production.
+
+### [2026-07-29 02:46] SESSION — End
+**Resume :** Test utilisateur en conditions reelles apres l'implementation des 3 modules. Bug reel trouve : upload photo CMS tronque silencieusement au-dela de 10Mo — cause identifiee dans les logs serveur (limite proxy.ts separee de celle des Server Actions, voir regle #2), corrige via `experimental.proxyClientMaxBodySize`. Deux photos uploadees par l'utilisateur avant le fix etaient restees inactives (comportement voulu : upload puis activation manuelle, mais pas evident au premier usage) — activees manuellement en base pour debloquer le test. Un seul commit (82 fichiers, implementation initiale complete) pousse sur `master`.
+**Branche :** master
+**Commits pushes :** 1 (5a7e078)
+
+### [2026-07-30 00:02] FIX — 404 production Vercel
+**Fichiers :** `vercel.json`
+**Resume :** Le site deploye renvoyait 404 NOT_FOUND sur toutes les routes en production (`portfolio-photographe-neon.vercel.app`), meme si `next build` reussissait localement et dans les logs Vercel. Diagnostic : le projet Vercel avait ete cree manuellement par l'utilisateur (avant ce projet), Framework Preset reste sur "Other" au lieu de "Next.js" — Vercel executait bien `next build` mais n'enregistrait aucune fonction serverless ni routes-manifest (`vercel inspect --json` confirmait `"output": []`, a comparer avec artisastock-v2 qui a un tableau `output` rempli de lambdas). Confirme aussi par `vercel logs` : zero invocation, le 404 se produisait au niveau edge avant meme d'atteindre le code Next.js. Corrige en ajoutant `vercel.json` (`{"framework": "nextjs"}`) qui force la detection independamment du reglage dashboard. Redeploiement production verifie : `Detected Next.js version: 16.2.12` apparait desormais dans les logs de build, `/` et `/connexion` repondent 200.
+**Erreur corrigee :** Symptome : 404 NOT_FOUND sur toutes les routes en production malgre un build local et distant sans erreur / Cause : Framework Preset du projet Vercel sur "Other" (projet cree manuellement hors flow d'auto-detection), aucune fonction serverless enregistree / Fix : `vercel.json` avec `"framework": "nextjs"` / Regle retenue : quand un projet Vercel est cree manuellement (pas via import Git ou `vercel link` sur un repo deja detecte), toujours verifier le Framework Preset avant le premier deploiement — ou figer `vercel.json` des le depart pour eviter toute derive.
+
+### [2026-07-30 00:02] SESSION — End
+**Resume :** Diagnostic et correction d'un 404 production bloquant (voir entree FIX ci-dessus). Site de nouveau accessible sur `portfolio-photographe-neon.vercel.app`. Reprise prevue le lendemain.
+**Branche :** master
+**Commits pushes :** 1 (fddddb1, deja pousse pendant la session)
