@@ -32,10 +32,6 @@ export async function uploadPhoto(fileBuffer: Buffer, folder = "portfolio-photog
   );
 }
 
-export async function deletePhoto(publicId: string) {
-  await cloudinary.uploader.destroy(publicId);
-}
-
 export type CloudinaryLibraryPhoto = {
   publicId: string;
   url: string;

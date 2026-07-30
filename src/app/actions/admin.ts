@@ -2,12 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin-guard";
-import {
-  uploadPhoto,
-  deletePhoto as deleteCloudinaryPhoto,
-  listFolder,
-  type CloudinaryLibraryPhoto,
-} from "@/lib/cloudinary";
+import { uploadPhoto, listFolder, type CloudinaryLibraryPhoto } from "@/lib/cloudinary";
 import { geocode } from "@/lib/geo";
 
 // Catégories photo à slot unique : une seule photo active à la fois (CMS.md §3).
@@ -348,23 +343,12 @@ export async function setPhotoInactive(photoId: string): Promise<ActionResult> {
   return { ok: true };
 }
 
+// Retire uniquement la reference CMS — ne supprime jamais l'asset Cloudinary lui-meme.
+// Les photos proviennent d'une phototheque personnelle reutilisable (bibliotheque
+// Cloudinary partagee entre slots) : supprimer ici ne doit jamais detruire la source.
 export async function deletePhotoAction(photoId: string): Promise<ActionResult> {
   const admin = await requireAdmin();
   if (!admin) return FORBIDDEN;
-
-  const { data: photo } = await admin.supabase
-    .from("photos")
-    .select("id, public_id_cloudinary")
-    .eq("id", photoId)
-    .single();
-  if (!photo) return { ok: false, error: "Photo introuvable." };
-
-  try {
-    await deleteCloudinaryPhoto(photo.public_id_cloudinary);
-  } catch {
-    // Suppression Cloudinary échouée : on supprime quand même la référence DB,
-    // l'orphelin Cloudinary est sans conséquence (pas affiché, quota généreux).
-  }
 
   const { error } = await admin.supabase.from("photos").delete().eq("id", photoId);
   if (error) return { ok: false, error: "Échec de la suppression." };
