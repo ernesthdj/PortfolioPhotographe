@@ -12,17 +12,24 @@ cloudinary.config({
 // de clé API exposée côté client, jamais d'upload preset non signé). Voir
 // docs/modules/CMS.md §3.
 export async function uploadPhoto(fileBuffer: Buffer, folder = "portfolio-photographe") {
-  return new Promise<{ url: string; publicId: string }>((resolve, reject) => {
-    cloudinary.uploader
-      .upload_stream({ folder }, (error, result) => {
-        if (error || !result) {
-          reject(error ?? new Error("Échec de l'upload Cloudinary"));
-          return;
-        }
-        resolve({ url: result.secure_url, publicId: result.public_id });
-      })
-      .end(fileBuffer);
-  });
+  return new Promise<{ url: string; publicId: string; width: number; height: number }>(
+    (resolve, reject) => {
+      cloudinary.uploader
+        .upload_stream({ folder }, (error, result) => {
+          if (error || !result) {
+            reject(error ?? new Error("Échec de l'upload Cloudinary"));
+            return;
+          }
+          resolve({
+            url: result.secure_url,
+            publicId: result.public_id,
+            width: result.width,
+            height: result.height,
+          });
+        })
+        .end(fileBuffer);
+    }
+  );
 }
 
 export async function deletePhoto(publicId: string) {

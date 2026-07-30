@@ -265,7 +265,7 @@ export async function uploadPhotoAction(formData: FormData): Promise<ActionResul
   }
 
   const buffer = Buffer.from(await file.arrayBuffer());
-  let uploaded: { url: string; publicId: string };
+  let uploaded: { url: string; publicId: string; width: number; height: number };
   try {
     uploaded = await uploadPhoto(buffer);
   } catch {
@@ -278,6 +278,8 @@ export async function uploadPhotoAction(formData: FormData): Promise<ActionResul
     titre: titre || null,
     categorie,
     actif: false,
+    image_width: uploaded.width,
+    image_height: uploaded.height,
   });
   if (error) return { ok: false, error: "Échec de l'enregistrement." };
 
@@ -375,6 +377,8 @@ export async function assignPhotoFromLibrary(
   categorie: string,
   publicId: string,
   url: string,
+  width: number,
+  height: number,
   titre?: string
 ): Promise<ActionResult> {
   const admin = await requireAdmin();
@@ -399,9 +403,61 @@ export async function assignPhotoFromLibrary(
     titre: titre?.trim() || null,
     categorie,
     actif: false,
+    image_width: width,
+    image_height: height,
   });
   if (error) return { ok: false, error: "Échec de l'enregistrement." };
 
   revalidatePath("/admin/photos");
+  return { ok: true };
+}
+
+// Cadrage manuel (zoom + position) sauvegardé depuis le cropper CMS. Coordonnées en
+// pixels de l'image originale (image_width/image_height) — voir plan "Recadrage" du
+// 2026-07-30. null = pas de cadrage custom, fallback object-cover centré.
+export async function savePhotoCrop(
+  photoId: string,
+  crop: { x: number; y: number; width: number; height: number }
+): Promise<ActionResult> {
+  const admin = await requireAdmin();
+  if (!admin) return FORBIDDEN;
+
+  const { data: photo } = await admin.supabase
+    .from("photos")
+    .select("id, image_width, image_height")
+    .eq("id", photoId)
+    .single();
+  if (!photo) return { ok: false, error: "Photo introuvable." };
+  if (!photo.image_width || !photo.image_height) {
+    return { ok: false, error: "Dimensions de l'image inconnues." };
+  }
+
+  const { x, y, width, height } = crop;
+  const valid =
+    Number.isFinite(x) &&
+    Number.isFinite(y) &&
+    Number.isFinite(width) &&
+    Number.isFinite(height) &&
+    x >= 0 &&
+    y >= 0 &&
+    width > 0 &&
+    height > 0 &&
+    x + width <= photo.image_width + 1 &&
+    y + height <= photo.image_height + 1;
+  if (!valid) return { ok: false, error: "Cadrage invalide." };
+
+  const { error } = await admin.supabase
+    .from("photos")
+    .update({
+      crop_x: Math.round(x),
+      crop_y: Math.round(y),
+      crop_width: Math.round(width),
+      crop_height: Math.round(height),
+    })
+    .eq("id", photoId);
+  if (error) return { ok: false, error: "Échec de l'enregistrement du cadrage." };
+
+  revalidatePath("/admin/photos");
+  revalidatePath("/");
   return { ok: true };
 }

@@ -10,6 +10,7 @@ import {
   uploadPhotoAction,
 } from "@/app/actions/admin";
 import type { CloudinaryLibraryPhoto } from "@/lib/cloudinary";
+import { PhotoCropper, SLOT_CROP } from "./PhotoCropper";
 
 type Photo = {
   id: string;
@@ -20,6 +21,12 @@ type Photo = {
   actif: boolean;
   ordre_affichage: number;
   created_at: string;
+  image_width: number | null;
+  image_height: number | null;
+  crop_x: number | null;
+  crop_y: number | null;
+  crop_width: number | null;
+  crop_height: number | null;
 };
 
 const CATEGORIES = [
@@ -48,6 +55,7 @@ export function PhotosManager({ photos }: { photos: Photo[] }) {
   const [libraryError, setLibraryError] = useState<string | null>(null);
   const [isLoadingLibrary, setIsLoadingLibrary] = useState(false);
   const [assigningId, setAssigningId] = useState<string | null>(null);
+  const [croppingPhoto, setCroppingPhoto] = useState<Photo | null>(null);
 
   // Avertissement CMS.md §3 : catégories slot-unique sans photo active.
   const emptySlots = SLOT_CATEGORIES.filter(
@@ -112,7 +120,13 @@ export function PhotosManager({ photos }: { photos: Photo[] }) {
   function handleAssign(photo: CloudinaryLibraryPhoto) {
     setAssigningId(photo.publicId);
     startTransition(async () => {
-      const result = await assignPhotoFromLibrary(categorie, photo.publicId, photo.url);
+      const result = await assignPhotoFromLibrary(
+        categorie,
+        photo.publicId,
+        photo.url,
+        photo.width,
+        photo.height
+      );
       setMessage(
         result.ok ? "Photo rattachée — pensez à l'activer." : result.error
       );
@@ -250,17 +264,27 @@ export function PhotosManager({ photos }: { photos: Photo[] }) {
               </div>
               {photo.titre && <div className="text-[11px] text-ink/50">{photo.titre}</div>}
               <div className="mt-2 flex items-center justify-between">
-                <button
-                  onClick={() => handleToggle(photo)}
-                  disabled={isPending}
-                  className={`px-2 py-1 text-[11px] ${
-                    photo.actif
-                      ? "bg-bronze/15 text-bronze"
-                      : "border border-ink/20 text-ink/50 hover:border-ink/40"
-                  }`}
-                >
-                  {photo.actif ? "✓ Active" : "Activer"}
-                </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => handleToggle(photo)}
+                    disabled={isPending}
+                    className={`px-2 py-1 text-[11px] ${
+                      photo.actif
+                        ? "bg-bronze/15 text-bronze"
+                        : "border border-ink/20 text-ink/50 hover:border-ink/40"
+                    }`}
+                  >
+                    {photo.actif ? "✓ Active" : "Activer"}
+                  </button>
+                  {SLOT_CROP[photo.categorie] && (
+                    <button
+                      onClick={() => setCroppingPhoto(photo)}
+                      className="px-2 py-1 text-[11px] text-ink/60 underline hover:text-ink"
+                    >
+                      Cadrer
+                    </button>
+                  )}
+                </div>
                 <div className="flex items-center gap-2">
                   {confirmDeleteId === photo.id && (
                     <button
@@ -292,6 +316,10 @@ export function PhotosManager({ photos }: { photos: Photo[] }) {
           </p>
         )}
       </div>
+
+      {croppingPhoto && (
+        <PhotoCropper photo={croppingPhoto} onClose={() => setCroppingPhoto(null)} />
+      )}
     </div>
   );
 }

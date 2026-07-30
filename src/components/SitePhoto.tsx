@@ -22,7 +22,7 @@ export function SitePhoto({
   return (
     // eslint-disable-next-line @next/next/no-img-element -- Cloudinary gère déjà l'optimisation via l'URL de transformation
     <img
-      src={cloudinaryUrl(photo.url, 1200)}
+      src={cloudinaryUrl(photo.url, 1200, photo.crop)}
       alt={photo.titre ?? label}
       className={`object-cover ${rounded ? "rounded-full" : ""} ${className}`}
     />
