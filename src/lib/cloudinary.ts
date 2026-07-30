@@ -41,10 +41,13 @@ export type CloudinaryLibraryPhoto = {
 // permettre de les rattacher a un emplacement du CMS sans re-upload. Pas de pagination
 // (max_results=200) — suffisant pour une selection de meilleures photos. Voir plan
 // "Bibliotheque Cloudinary" du 2026-07-30.
+//
+// Ce compte Cloudinary utilise le Dynamic Folder Mode : le public_id des images
+// uploadees via le dashboard n'est PAS prefixe par le nom du dossier (asset_folder
+// est un attribut separe). `resources({ prefix })` (filtre sur public_id) ne les
+// trouve donc pas — il faut `resources_by_asset_folder`, la methode dediee a ce mode.
 export async function listFolder(folder: string): Promise<CloudinaryLibraryPhoto[]> {
-  const result = await cloudinary.api.resources({
-    type: "upload",
-    prefix: `${folder}/`,
+  const result = await cloudinary.api.resources_by_asset_folder(folder, {
     max_results: 200,
   });
 
