@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin-guard";
 import { uploadPhoto, listFolder, type CloudinaryLibraryPhoto } from "@/lib/cloudinary";
 import { geocode } from "@/lib/geo";
+import { slugify } from "@/lib/slugify";
 
 // Catégories photo à slot unique : une seule photo active à la fois (CMS.md §3).
 const SLOT_CATEGORIES = [
@@ -473,5 +474,310 @@ export async function savePhotoCrop(
 
   revalidatePath("/admin/photos");
   revalidatePath("/");
+  return { ok: true };
+}
+
+// ---------------------------------------------------------------------------
+// Pellicules (module Galerie — docs/modules/GALERIE.md)
+// ---------------------------------------------------------------------------
+
+type PelliculeIdResult = { ok: true; id: string } | { ok: false; error: string };
+
+async function uniqueSlug(
+  supabase: NonNullable<Awaited<ReturnType<typeof requireAdmin>>>["supabase"],
+  base: string,
+  excludeId?: string
+): Promise<string> {
+  const root = slugify(base) || "pellicule";
+  let candidate = root;
+  let suffix = 2;
+  // Boucle bornée par le nombre de pellicules existantes — pas de risque d'infini.
+  for (let i = 0; i < 100; i++) {
+    let query = supabase.from("pellicules").select("id").eq("slug", candidate);
+    if (excludeId) query = query.neq("id", excludeId);
+    const { data } = await query.maybeSingle();
+    if (!data) return candidate;
+    candidate = `${root}-${suffix}`;
+    suffix++;
+  }
+  return `${root}-${Date.now()}`;
+}
+
+export async function createPellicule(nomsMaries: string): Promise<PelliculeIdResult> {
+  const admin = await requireAdmin();
+  if (!admin) return FORBIDDEN;
+
+  const noms = nomsMaries.trim();
+  if (!noms) return { ok: false, error: "Noms des mariés requis." };
+
+  const slug = await uniqueSlug(admin.supabase, noms);
+
+  const { data: maxOrdre } = await admin.supabase
+    .from("pellicules")
+    .select("ordre_affichage")
+    .order("ordre_affichage", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  const { data, error } = await admin.supabase
+    .from("pellicules")
+    .insert({
+      slug,
+      noms_maries: noms,
+      actif: false,
+      ordre_affichage: (maxOrdre?.ordre_affichage ?? -1) + 1,
+    })
+    .select("id")
+    .single();
+  if (error || !data) return { ok: false, error: "Échec de la création." };
+
+  revalidatePath("/admin/pellicules");
+  return { ok: true, id: data.id };
+}
+
+export async function updatePellicule(
+  id: string,
+  input: {
+    nomsMaries: string;
+    lieu: string;
+    dateMariage: string;
+    formule: string;
+    temoignageCitation: string;
+    temoignageAuteur: string;
+    slug: string;
+  }
+): Promise<ActionResult> {
+  const admin = await requireAdmin();
+  if (!admin) return FORBIDDEN;
+
+  const noms = input.nomsMaries.trim();
+  if (!noms) return { ok: false, error: "Noms des mariés requis." };
+
+  const requestedSlug = slugify(input.slug) || slugify(noms) || "pellicule";
+  const { data: collision } = await admin.supabase
+    .from("pellicules")
+    .select("id")
+    .eq("slug", requestedSlug)
+    .neq("id", id)
+    .maybeSingle();
+  if (collision) {
+    return { ok: false, error: "Ce slug est déjà utilisé par une autre pellicule." };
+  }
+
+  const { error } = await admin.supabase
+    .from("pellicules")
+    .update({
+      slug: requestedSlug,
+      noms_maries: noms,
+      lieu: input.lieu.trim() || null,
+      date_mariage: input.dateMariage || null,
+      formule: input.formule.trim() || null,
+      temoignage_citation: input.temoignageCitation.trim() || null,
+      temoignage_auteur: input.temoignageAuteur.trim() || null,
+    })
+    .eq("id", id);
+  if (error) return { ok: false, error: "Échec de la mise à jour." };
+
+  revalidatePath("/admin/pellicules");
+  revalidatePath(`/admin/pellicules/${id}`);
+  revalidatePath("/galerie");
+  revalidatePath(`/galerie/${requestedSlug}`);
+  return { ok: true };
+}
+
+// Publication bloquée sans photo (UC-A5 #14, GALERIE.md §4.3) — validation proactive
+// côté admin plutôt qu'un simple non-affichage silencieux côté public.
+export async function setPelliculeActif(id: string, actif: boolean): Promise<ActionResult> {
+  const admin = await requireAdmin();
+  if (!admin) return FORBIDDEN;
+
+  if (actif) {
+    const { count } = await admin.supabase
+      .from("pellicule_photos")
+      .select("id", { count: "exact", head: true })
+      .eq("pellicule_id", id);
+    if (!count) return { ok: false, error: "Ajoutez au moins une photo avant de publier." };
+  }
+
+  const { error } = await admin.supabase.from("pellicules").update({ actif }).eq("id", id);
+  if (error) return { ok: false, error: "Échec." };
+
+  revalidatePath("/admin/pellicules");
+  revalidatePath(`/admin/pellicules/${id}`);
+  revalidatePath("/galerie");
+  return { ok: true };
+}
+
+// Retire uniquement la Pellicule et ses references DB (cascade sur pellicule_photos) —
+// ne touche jamais les assets Cloudinary, meme regle que le module Photos.
+export async function deletePelliculeAction(id: string): Promise<ActionResult> {
+  const admin = await requireAdmin();
+  if (!admin) return FORBIDDEN;
+
+  const { error } = await admin.supabase.from("pellicules").delete().eq("id", id);
+  if (error) return { ok: false, error: "Échec de la suppression." };
+
+  revalidatePath("/admin/pellicules");
+  revalidatePath("/galerie");
+  return { ok: true };
+}
+
+export async function movePellicule(id: string, direction: "up" | "down"): Promise<ActionResult> {
+  const admin = await requireAdmin();
+  if (!admin) return FORBIDDEN;
+
+  const { data: pellicules } = await admin.supabase
+    .from("pellicules")
+    .select("id, ordre_affichage")
+    .order("ordre_affichage");
+  if (!pellicules) return { ok: false, error: "Échec." };
+
+  const index = pellicules.findIndex((p) => p.id === id);
+  const swapIndex = direction === "up" ? index - 1 : index + 1;
+  if (index === -1 || swapIndex < 0 || swapIndex >= pellicules.length) {
+    return { ok: true };
+  }
+
+  const a = pellicules[index];
+  const b = pellicules[swapIndex];
+  await admin.supabase.from("pellicules").update({ ordre_affichage: b.ordre_affichage }).eq("id", a.id);
+  await admin.supabase.from("pellicules").update({ ordre_affichage: a.ordre_affichage }).eq("id", b.id);
+
+  revalidatePath("/admin/pellicules");
+  revalidatePath("/galerie");
+  return { ok: true };
+}
+
+export async function uploadPelliculePhoto(
+  pelliculeId: string,
+  formData: FormData
+): Promise<ActionResult> {
+  const admin = await requireAdmin();
+  if (!admin) return FORBIDDEN;
+
+  const file = formData.get("file");
+  if (!(file instanceof File)) return { ok: false, error: "Aucun fichier." };
+  if (!file.type.startsWith("image/")) return { ok: false, error: "Fichier non-image refusé." };
+  if (file.size > MAX_UPLOAD_BYTES) return { ok: false, error: "Image trop lourde (max 12 Mo)." };
+
+  const buffer = Buffer.from(await file.arrayBuffer());
+  let uploaded: { url: string; publicId: string };
+  try {
+    uploaded = await uploadPhoto(buffer);
+  } catch {
+    return { ok: false, error: "Échec de l'upload Cloudinary." };
+  }
+
+  const { data: maxOrdre } = await admin.supabase
+    .from("pellicule_photos")
+    .select("ordre_affichage")
+    .eq("pellicule_id", pelliculeId)
+    .order("ordre_affichage", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  const { error } = await admin.supabase.from("pellicule_photos").insert({
+    pellicule_id: pelliculeId,
+    url_cloudinary: uploaded.url,
+    public_id_cloudinary: uploaded.publicId,
+    ordre_affichage: (maxOrdre?.ordre_affichage ?? -1) + 1,
+  });
+  if (error) return { ok: false, error: "Échec de l'enregistrement." };
+
+  revalidatePath(`/admin/pellicules/${pelliculeId}`);
+  revalidatePath("/galerie");
+  return { ok: true };
+}
+
+export async function assignPelliculePhotoFromLibrary(
+  pelliculeId: string,
+  publicId: string,
+  url: string
+): Promise<ActionResult> {
+  const admin = await requireAdmin();
+  if (!admin) return FORBIDDEN;
+  if (!publicId || !url) return { ok: false, error: "Photo invalide." };
+
+  const { data: maxOrdre } = await admin.supabase
+    .from("pellicule_photos")
+    .select("ordre_affichage")
+    .eq("pellicule_id", pelliculeId)
+    .order("ordre_affichage", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  const { error } = await admin.supabase.from("pellicule_photos").insert({
+    pellicule_id: pelliculeId,
+    url_cloudinary: url,
+    public_id_cloudinary: publicId,
+    ordre_affichage: (maxOrdre?.ordre_affichage ?? -1) + 1,
+  });
+  if (error) return { ok: false, error: "Échec de l'enregistrement." };
+
+  revalidatePath(`/admin/pellicules/${pelliculeId}`);
+  revalidatePath("/galerie");
+  return { ok: true };
+}
+
+// Retire uniquement la ligne DB — jamais l'asset Cloudinary (règle établie module Photos).
+export async function removePelliculePhoto(photoId: string): Promise<ActionResult> {
+  const admin = await requireAdmin();
+  if (!admin) return FORBIDDEN;
+
+  const { data: photo } = await admin.supabase
+    .from("pellicule_photos")
+    .select("pellicule_id")
+    .eq("id", photoId)
+    .single();
+  if (!photo) return { ok: false, error: "Photo introuvable." };
+
+  const { error } = await admin.supabase.from("pellicule_photos").delete().eq("id", photoId);
+  if (error) return { ok: false, error: "Échec de la suppression." };
+
+  revalidatePath(`/admin/pellicules/${photo.pellicule_id}`);
+  revalidatePath("/galerie");
+  return { ok: true };
+}
+
+export async function movePelliculePhoto(
+  photoId: string,
+  direction: "up" | "down"
+): Promise<ActionResult> {
+  const admin = await requireAdmin();
+  if (!admin) return FORBIDDEN;
+
+  const { data: photo } = await admin.supabase
+    .from("pellicule_photos")
+    .select("pellicule_id")
+    .eq("id", photoId)
+    .single();
+  if (!photo) return { ok: false, error: "Photo introuvable." };
+
+  const { data: photos } = await admin.supabase
+    .from("pellicule_photos")
+    .select("id, ordre_affichage")
+    .eq("pellicule_id", photo.pellicule_id)
+    .order("ordre_affichage");
+  if (!photos) return { ok: false, error: "Échec." };
+
+  const index = photos.findIndex((p) => p.id === photoId);
+  const swapIndex = direction === "up" ? index - 1 : index + 1;
+  if (index === -1 || swapIndex < 0 || swapIndex >= photos.length) {
+    return { ok: true };
+  }
+
+  const a = photos[index];
+  const b = photos[swapIndex];
+  await admin.supabase
+    .from("pellicule_photos")
+    .update({ ordre_affichage: b.ordre_affichage })
+    .eq("id", a.id);
+  await admin.supabase
+    .from("pellicule_photos")
+    .update({ ordre_affichage: a.ordre_affichage })
+    .eq("id", b.id);
+
+  revalidatePath(`/admin/pellicules/${photo.pellicule_id}`);
+  revalidatePath("/galerie");
   return { ok: true };
 }

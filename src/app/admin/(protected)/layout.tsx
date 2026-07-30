@@ -6,6 +6,7 @@ import { requireAdmin } from "@/lib/admin-guard";
 // vérifie en plus le rôle admin (un client connecté n'est pas un admin).
 const SECTIONS = [
   { href: "/admin/photos", label: "Photos" },
+  { href: "/admin/pellicules", label: "Pellicules (Galerie)" },
   { href: "/admin/textes", label: "Textes" },
   { href: "/admin/tarifs", label: "Tarifs & Formules" },
   { href: "/admin/services", label: "Services à la carte" },

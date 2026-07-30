@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getGaleriePhotos } from "@/lib/site-content";
 import { Reveal } from "./Reveal";
 import { SitePhoto } from "./SitePhoto";
@@ -27,9 +28,9 @@ export async function Gallery() {
             />
           ))}
         </div>
-        <a href="#" className="mt-7 inline-block text-[13px]">
+        <Link href="/galerie" className="mt-7 inline-block text-[13px]">
           Voir toute la galerie →
-        </a>
+        </Link>
       </Reveal>
     </section>
   );

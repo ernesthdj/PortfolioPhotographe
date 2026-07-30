@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { type PhotoCrop } from "@/lib/cloudinary-url";
 
 // Lecture publique du contenu piloté par le CMS (contenus_site, photos actives) —
 // voir docs/modules/CMS.md §4 et §3. Fallback sur les valeurs par défaut si le CMS
@@ -9,8 +10,6 @@ export async function getContenus(): Promise<Record<string, string>> {
   const { data } = await supabase.from("contenus_site").select("cle, valeur");
   return Object.fromEntries((data ?? []).map((c) => [c.cle, c.valeur ?? ""]));
 }
-
-export type PhotoCrop = { x: number; y: number; width: number; height: number };
 
 export type PhotoRef = { url: string; titre: string | null; crop: PhotoCrop | null };
 
@@ -53,13 +52,4 @@ export async function getGaleriePhotos(): Promise<PhotoRef[]> {
   return (data ?? []).map((p) => ({ url: p.url_cloudinary, titre: p.titre, crop: toCrop(p) }));
 }
 
-// URL Cloudinary avec transformation responsive (redimensionnement + format auto).
-// Si un cadrage manuel existe (voir plan "Recadrage" du 2026-07-30), il est appliqué
-// avant le redimensionnement via un c_crop chaîné — sinon comportement inchangé
-// (object-cover centré côté CSS, comme avant cette fonctionnalité).
-export function cloudinaryUrl(url: string, width: number, crop?: PhotoCrop | null) {
-  const cropSegment = crop
-    ? `c_crop,x_${crop.x},y_${crop.y},w_${crop.width},h_${crop.height}/`
-    : "";
-  return url.replace("/upload/", `/upload/${cropSegment}w_${width},q_auto,f_auto/`);
-}
+export { cloudinaryUrl, cloudinaryOgImage, type PhotoCrop } from "@/lib/cloudinary-url";

@@ -27,7 +27,8 @@ Site vitrine personnel sur mesure pour Ernest, photographe événementiel spéci
 
 ### Fonctionnalités secondaires (v2+)
 - [ ] Formules/offres supplémentaires à définir
-- [ ] Page(s) dédiées enrichies (galerie filtrable par mariage/catégorie, page Tarifs détaillée) selon ce que la session design fera émerger
+- [x] Page Galerie dédiée, structurée par mariage ("Pellicule" + témoignage associé) — brainstormée, voir `docs/modules/GALERIE.md`
+- [ ] Page Tarifs détaillée
 - [ ] Comptes admin multiples (si Ernest travaille avec un(e) assistant(e))
 
 ### Hors scope (explicitement exclu)
@@ -197,6 +198,7 @@ Ernest, photographe événementiel mariage, remplace sa vitrine Adobe Portfolio 
 - [x] Direction visuelle/design — retenue (mock Claude Design, direction 5a), front-end implémenté
 - [x] Modules Devis, Dossier (fusion configurateur + logistique) et CMS brainstormés — voir `docs/modules/`
 - [x] Mécanisme d'engagement du dossier — retenu : "la pellicule qui se développe" (voir `docs/modules/DOSSIER.md` §5)
+- [x] Module Galerie (page dédiée par mariage) brainstormé — voir `docs/modules/GALERIE.md`
 - [ ] Structure exacte des pages restantes (compte, dossier) — dépend de la session design pour l'animation pellicule
 - [ ] Valeurs précises des paramètres tarifaires (rayon gratuit exact en km, tarif/km, adresse de base)
 - [ ] Prix exacts des options à la carte (album, coffret gravé laser, studio ambulant, shooting mariés seuls)
