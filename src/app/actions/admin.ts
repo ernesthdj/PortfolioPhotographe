@@ -249,6 +249,24 @@ export async function deleteChamp(id: string): Promise<ActionResult> {
 
 const MAX_UPLOAD_BYTES = 12 * 1024 * 1024;
 
+// Un slot unique (hero, about-*, timeline-*) ne doit jamais accumuler plusieurs lignes
+// candidates — contrairement a "galerie" (multi, additif par design). Choisir une
+// nouvelle photo pour un slot unique remplace donc integralement l'ancienne (supprime
+// la/les ligne(s) DB existantes pour cette categorie) et active la nouvelle
+// immediatement : plus besoin de geste "Activer" separe, le remplacement EST
+// l'activation. On ne touche jamais l'asset Cloudinary lui-meme ici (contrairement a
+// "Supprimer") — une photo assignee depuis la bibliotheque peut appartenir a la
+// photothèque personnelle reutilisable de l'utilisateur, jamais supprimee sans geste
+// explicite ("Supprimer").
+async function replaceSlotPhoto(
+  supabase: NonNullable<Awaited<ReturnType<typeof requireAdmin>>>["supabase"],
+  categorie: string
+) {
+  if (SLOT_CATEGORIES.includes(categorie)) {
+    await supabase.from("photos").delete().eq("categorie", categorie);
+  }
+}
+
 export async function uploadPhotoAction(formData: FormData): Promise<ActionResult> {
   const admin = await requireAdmin();
   if (!admin) return FORBIDDEN;
@@ -272,18 +290,21 @@ export async function uploadPhotoAction(formData: FormData): Promise<ActionResul
     return { ok: false, error: "Échec de l'upload Cloudinary." };
   }
 
+  await replaceSlotPhoto(admin.supabase, categorie);
+
   const { error } = await admin.supabase.from("photos").insert({
     url_cloudinary: uploaded.url,
     public_id_cloudinary: uploaded.publicId,
     titre: titre || null,
     categorie,
-    actif: false,
+    actif: SLOT_CATEGORIES.includes(categorie),
     image_width: uploaded.width,
     image_height: uploaded.height,
   });
   if (error) return { ok: false, error: "Échec de l'enregistrement." };
 
   revalidatePath("/admin/photos");
+  revalidatePath("/");
   return { ok: true };
 }
 
@@ -371,8 +392,9 @@ export async function listCloudinaryLibrary(folder: string): Promise<LibraryResu
 }
 
 // Rattache une photo deja presente sur Cloudinary a un emplacement, sans re-upload.
-// Inseree inactive comme le flux d'upload : l'activation reste un geste separe et
-// explicite (evite d'ecraser par erreur la photo active d'un slot unique).
+// Slot unique : remplace la ligne existante et active immediatement (voir
+// replaceSlotPhoto). "galerie" : additif, inseree inactive (activation manuelle,
+// pertinent pour une collection qu'on prepare avant de publier).
 export async function assignPhotoFromLibrary(
   categorie: string,
   publicId: string,
@@ -392,26 +414,31 @@ export async function assignPhotoFromLibrary(
     return { ok: false, error: "Dimensions invalides." };
   }
 
-  const { data: existing } = await admin.supabase
-    .from("photos")
-    .select("id")
-    .eq("public_id_cloudinary", publicId)
-    .eq("categorie", categorie)
-    .maybeSingle();
-  if (existing) return { ok: false, error: "Déjà présente pour cet emplacement." };
+  if (categorie === "galerie") {
+    const { data: existing } = await admin.supabase
+      .from("photos")
+      .select("id")
+      .eq("public_id_cloudinary", publicId)
+      .eq("categorie", categorie)
+      .maybeSingle();
+    if (existing) return { ok: false, error: "Déjà présente dans la galerie." };
+  }
+
+  await replaceSlotPhoto(admin.supabase, categorie);
 
   const { error } = await admin.supabase.from("photos").insert({
     url_cloudinary: url,
     public_id_cloudinary: publicId,
     titre: titre?.trim() || null,
     categorie,
-    actif: false,
+    actif: SLOT_CATEGORIES.includes(categorie),
     image_width: width,
     image_height: height,
   });
   if (error) return { ok: false, error: "Échec de l'enregistrement." };
 
   revalidatePath("/admin/photos");
+  revalidatePath("/");
   return { ok: true };
 }
 

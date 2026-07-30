@@ -75,7 +75,13 @@ export function PhotosManager({ photos }: { photos: Photo[] }) {
 
     startTransition(async () => {
       const result = await uploadPhotoAction(formData);
-      setMessage(result.ok ? "Photo uploadée — pensez à l'activer." : result.error);
+      setMessage(
+        result.ok
+          ? SLOT_CATEGORIES.includes(categorie)
+            ? "Photo uploadée et activée — remplace l'ancienne."
+            : "Photo uploadée — pensez à l'activer."
+          : result.error
+      );
       if (result.ok && fileRef.current) {
         fileRef.current.value = "";
         setTitre("");
@@ -128,7 +134,11 @@ export function PhotosManager({ photos }: { photos: Photo[] }) {
         photo.height
       );
       setMessage(
-        result.ok ? "Photo rattachée — pensez à l'activer." : result.error
+        result.ok
+          ? SLOT_CATEGORIES.includes(categorie)
+            ? "Photo rattachée et activée — remplace l'ancienne."
+            : "Photo rattachée — pensez à l'activer."
+          : result.error
       );
       setAssigningId(null);
       setTimeout(() => setMessage(null), 4000);
