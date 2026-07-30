@@ -11,9 +11,9 @@ import {
   removePelliculePhoto,
   setPelliculeActif,
   updatePellicule,
-  uploadPelliculePhoto,
 } from "@/app/actions/admin";
 import type { CloudinaryLibraryPhoto } from "@/lib/cloudinary";
+import { uploadFileToCloudinary } from "@/lib/cloudinary-client-upload";
 
 type Pellicule = {
   id: string;
@@ -113,10 +113,17 @@ export function PelliculeEditor({
       flash("Choisissez un fichier.");
       return;
     }
-    const formData = new FormData();
-    formData.set("file", file);
     startTransition(async () => {
-      const result = await uploadPelliculePhoto(pellicule.id, formData);
+      const uploaded = await uploadFileToCloudinary(file);
+      if (!uploaded.ok) {
+        flash(uploaded.error);
+        return;
+      }
+      const result = await assignPelliculePhotoFromLibrary(
+        pellicule.id,
+        uploaded.publicId,
+        uploaded.url
+      );
       flash(result.ok ? "Photo ajoutée." : result.error);
       if (result.ok && fileRef.current) fileRef.current.value = "";
       router.refresh();

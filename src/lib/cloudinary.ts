@@ -8,28 +8,25 @@ cloudinary.config({
   secure: true,
 });
 
-// Upload sécurisé — le fichier transite toujours par cette fonction serveur (jamais
-// de clé API exposée côté client, jamais d'upload preset non signé). Voir
-// docs/modules/CMS.md §3.
-export async function uploadPhoto(fileBuffer: Buffer, folder = "portfolio-photographe") {
-  return new Promise<{ url: string; publicId: string; width: number; height: number }>(
-    (resolve, reject) => {
-      cloudinary.uploader
-        .upload_stream({ folder }, (error, result) => {
-          if (error || !result) {
-            reject(error ?? new Error("Échec de l'upload Cloudinary"));
-            return;
-          }
-          resolve({
-            url: result.secure_url,
-            publicId: result.public_id,
-            width: result.width,
-            height: result.height,
-          });
-        })
-        .end(fileBuffer);
-    }
+// Signature d'upload — le fichier ne transite JAMAIS par notre Serverless Function
+// (Vercel plafonne le corps de requete d'une fonction a ~4-5 Mo, en amont de Next.js ;
+// aucun reglage next.config.ts ne peut lever cette limite — voir regle #7 JOURNAL.md).
+// Le navigateur envoie le fichier directement a Cloudinary avec cette signature ;
+// seule la reponse (url/publicId/dimensions, quelques octets) revient par nos Server
+// Actions pour l'enregistrement en base. La cle API secrete ne quitte jamais le serveur.
+export function getUploadSignature(folder = "portfolio-photographe") {
+  const timestamp = Math.round(Date.now() / 1000);
+  const signature = cloudinary.utils.api_sign_request(
+    { timestamp, folder },
+    process.env.CLOUDINARY_API_SECRET!
   );
+  return {
+    signature,
+    timestamp,
+    apiKey: process.env.CLOUDINARY_API_KEY!,
+    cloudName: process.env.CLOUDINARY_CLOUD_NAME!,
+    folder,
+  };
 }
 
 export type CloudinaryLibraryPhoto = {

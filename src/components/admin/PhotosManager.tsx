@@ -7,9 +7,9 @@ import {
   listCloudinaryLibrary,
   setPhotoActive,
   setPhotoInactive,
-  uploadPhotoAction,
 } from "@/app/actions/admin";
 import type { CloudinaryLibraryPhoto } from "@/lib/cloudinary";
+import { uploadFileToCloudinary } from "@/lib/cloudinary-client-upload";
 import { PhotoCropper, SLOT_CROP } from "./PhotoCropper";
 
 type Photo = {
@@ -68,13 +68,23 @@ export function PhotosManager({ photos }: { photos: Photo[] }) {
       setMessage("Choisissez un fichier.");
       return;
     }
-    const formData = new FormData();
-    formData.set("file", file);
-    formData.set("categorie", categorie);
-    formData.set("titre", titre);
 
     startTransition(async () => {
-      const result = await uploadPhotoAction(formData);
+      const uploaded = await uploadFileToCloudinary(file);
+      if (!uploaded.ok) {
+        setMessage(uploaded.error);
+        setTimeout(() => setMessage(null), 4000);
+        return;
+      }
+
+      const result = await assignPhotoFromLibrary(
+        categorie,
+        uploaded.publicId,
+        uploaded.url,
+        uploaded.width,
+        uploaded.height,
+        titre
+      );
       setMessage(
         result.ok
           ? SLOT_CATEGORIES.includes(categorie)

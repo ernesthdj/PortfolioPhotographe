@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin-guard";
-import { uploadPhoto, listFolder, type CloudinaryLibraryPhoto } from "@/lib/cloudinary";
+import { getUploadSignature, listFolder, type CloudinaryLibraryPhoto } from "@/lib/cloudinary";
 import { geocode } from "@/lib/geo";
 import { slugify } from "@/lib/slugify";
 
@@ -243,8 +243,6 @@ export async function deleteChamp(id: string): Promise<ActionResult> {
 // Photos
 // ---------------------------------------------------------------------------
 
-const MAX_UPLOAD_BYTES = 12 * 1024 * 1024;
-
 // Un slot unique (hero, about-*, timeline-*) ne doit jamais accumuler plusieurs lignes
 // candidates — contrairement a "galerie" (multi, additif par design). Choisir une
 // nouvelle photo pour un slot unique remplace donc integralement l'ancienne (supprime
@@ -263,45 +261,20 @@ async function replaceSlotPhoto(
   }
 }
 
-export async function uploadPhotoAction(formData: FormData): Promise<ActionResult> {
+// Signature d'upload direct navigateur -> Cloudinary. Le fichier ne transite jamais
+// par cette Server Action (voir getUploadSignature() : Vercel plafonne le corps de
+// requete d'une fonction a ~4-5 Mo, en amont de tout reglage next.config.ts — une photo
+// caméra un peu lourde faisait planter l'upload avant meme d'atteindre notre code).
+type UploadSignatureResult =
+  | { ok: true; signature: string; timestamp: number; apiKey: string; cloudName: string; folder: string }
+  | { ok: false; error: string };
+
+export async function requestUploadSignature(): Promise<UploadSignatureResult> {
   const admin = await requireAdmin();
   if (!admin) return FORBIDDEN;
 
-  const file = formData.get("file");
-  const categorie = String(formData.get("categorie") ?? "");
-  const titre = String(formData.get("titre") ?? "").trim();
-
-  if (!(file instanceof File)) return { ok: false, error: "Aucun fichier." };
-  if (!file.type.startsWith("image/")) return { ok: false, error: "Fichier non-image refusé." };
-  if (file.size > MAX_UPLOAD_BYTES) return { ok: false, error: "Image trop lourde (max 12 Mo)." };
-  if (![...SLOT_CATEGORIES, "galerie"].includes(categorie)) {
-    return { ok: false, error: "Catégorie invalide." };
-  }
-
-  const buffer = Buffer.from(await file.arrayBuffer());
-  let uploaded: { url: string; publicId: string; width: number; height: number };
-  try {
-    uploaded = await uploadPhoto(buffer);
-  } catch {
-    return { ok: false, error: "Échec de l'upload Cloudinary." };
-  }
-
-  await replaceSlotPhoto(admin.supabase, categorie);
-
-  const { error } = await admin.supabase.from("photos").insert({
-    url_cloudinary: uploaded.url,
-    public_id_cloudinary: uploaded.publicId,
-    titre: titre || null,
-    categorie,
-    actif: SLOT_CATEGORIES.includes(categorie),
-    image_width: uploaded.width,
-    image_height: uploaded.height,
-  });
-  if (error) return { ok: false, error: "Échec de l'enregistrement." };
-
-  revalidatePath("/admin/photos");
-  revalidatePath("/");
-  return { ok: true };
+  const sig = getUploadSignature();
+  return { ok: true, ...sig };
 }
 
 export async function setPhotoActive(photoId: string): Promise<ActionResult> {
@@ -648,47 +621,8 @@ export async function movePellicule(id: string, direction: "up" | "down"): Promi
   return { ok: true };
 }
 
-export async function uploadPelliculePhoto(
-  pelliculeId: string,
-  formData: FormData
-): Promise<ActionResult> {
-  const admin = await requireAdmin();
-  if (!admin) return FORBIDDEN;
-
-  const file = formData.get("file");
-  if (!(file instanceof File)) return { ok: false, error: "Aucun fichier." };
-  if (!file.type.startsWith("image/")) return { ok: false, error: "Fichier non-image refusé." };
-  if (file.size > MAX_UPLOAD_BYTES) return { ok: false, error: "Image trop lourde (max 12 Mo)." };
-
-  const buffer = Buffer.from(await file.arrayBuffer());
-  let uploaded: { url: string; publicId: string };
-  try {
-    uploaded = await uploadPhoto(buffer);
-  } catch {
-    return { ok: false, error: "Échec de l'upload Cloudinary." };
-  }
-
-  const { data: maxOrdre } = await admin.supabase
-    .from("pellicule_photos")
-    .select("ordre_affichage")
-    .eq("pellicule_id", pelliculeId)
-    .order("ordre_affichage", { ascending: false })
-    .limit(1)
-    .maybeSingle();
-
-  const { error } = await admin.supabase.from("pellicule_photos").insert({
-    pellicule_id: pelliculeId,
-    url_cloudinary: uploaded.url,
-    public_id_cloudinary: uploaded.publicId,
-    ordre_affichage: (maxOrdre?.ordre_affichage ?? -1) + 1,
-  });
-  if (error) return { ok: false, error: "Échec de l'enregistrement." };
-
-  revalidatePath(`/admin/pellicules/${pelliculeId}`);
-  revalidatePath("/galerie");
-  return { ok: true };
-}
-
+// Rattache une photo (deja uploadee sur Cloudinary — via upload direct signe ou
+// bibliotheque existante) a une Pellicule. Point d'entree unique pour les deux flux.
 export async function assignPelliculePhotoFromLibrary(
   pelliculeId: string,
   publicId: string,
