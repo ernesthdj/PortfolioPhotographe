@@ -28,3 +28,37 @@ export async function uploadPhoto(fileBuffer: Buffer, folder = "portfolio-photog
 export async function deletePhoto(publicId: string) {
   await cloudinary.uploader.destroy(publicId);
 }
+
+export type CloudinaryLibraryPhoto = {
+  publicId: string;
+  url: string;
+  width: number;
+  height: number;
+  createdAt: string;
+};
+
+// Liste les images d'un dossier Cloudinary existant (uploadées hors de l'app) pour
+// permettre de les rattacher a un emplacement du CMS sans re-upload. Pas de pagination
+// (max_results=200) — suffisant pour une selection de meilleures photos. Voir plan
+// "Bibliotheque Cloudinary" du 2026-07-30.
+export async function listFolder(folder: string): Promise<CloudinaryLibraryPhoto[]> {
+  const result = await cloudinary.api.resources({
+    type: "upload",
+    prefix: `${folder}/`,
+    max_results: 200,
+  });
+
+  return (result.resources as Array<{
+    public_id: string;
+    secure_url: string;
+    width: number;
+    height: number;
+    created_at: string;
+  }>).map((r) => ({
+    publicId: r.public_id,
+    url: r.secure_url,
+    width: r.width,
+    height: r.height,
+    createdAt: r.created_at,
+  }));
+}

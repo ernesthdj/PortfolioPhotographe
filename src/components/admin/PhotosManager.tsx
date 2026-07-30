@@ -2,15 +2,19 @@
 
 import { useRef, useState, useTransition } from "react";
 import {
+  assignPhotoFromLibrary,
   deletePhotoAction,
+  listCloudinaryLibrary,
   setPhotoActive,
   setPhotoInactive,
   uploadPhotoAction,
 } from "@/app/actions/admin";
+import type { CloudinaryLibraryPhoto } from "@/lib/cloudinary";
 
 type Photo = {
   id: string;
   url_cloudinary: string;
+  public_id_cloudinary: string;
   titre: string | null;
   categorie: string;
   actif: boolean;
@@ -38,6 +42,12 @@ export function PhotosManager({ photos }: { photos: Photo[] }) {
   const [message, setMessage] = useState<string | null>(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+
+  const [folder, setFolder] = useState("portfolio-photographe");
+  const [library, setLibrary] = useState<CloudinaryLibraryPhoto[] | null>(null);
+  const [libraryError, setLibraryError] = useState<string | null>(null);
+  const [isLoadingLibrary, setIsLoadingLibrary] = useState(false);
+  const [assigningId, setAssigningId] = useState<string | null>(null);
 
   // Avertissement CMS.md §3 : catégories slot-unique sans photo active.
   const emptySlots = SLOT_CATEGORIES.filter(
@@ -83,6 +93,35 @@ export function PhotosManager({ photos }: { photos: Photo[] }) {
       deletePhotoAction(photo.id);
     });
   }
+
+  function handleLoadLibrary() {
+    setIsLoadingLibrary(true);
+    setLibraryError(null);
+    startTransition(async () => {
+      const result = await listCloudinaryLibrary(folder);
+      if (result.ok) {
+        setLibrary(result.photos);
+      } else {
+        setLibrary(null);
+        setLibraryError(result.error);
+      }
+      setIsLoadingLibrary(false);
+    });
+  }
+
+  function handleAssign(photo: CloudinaryLibraryPhoto) {
+    setAssigningId(photo.publicId);
+    startTransition(async () => {
+      const result = await assignPhotoFromLibrary(categorie, photo.publicId, photo.url);
+      setMessage(
+        result.ok ? "Photo rattachée — pensez à l'activer." : result.error
+      );
+      setAssigningId(null);
+      setTimeout(() => setMessage(null), 4000);
+    });
+  }
+
+  const assignedPublicIds = new Set(photos.map((p) => p.public_id_cloudinary));
 
   return (
     <div>
@@ -136,6 +175,65 @@ export function PhotosManager({ photos }: { photos: Photo[] }) {
         </button>
       </div>
       {message && <p className="mt-3 text-[12.5px] text-bronze">{message}</p>}
+
+      <div className="mt-6 border border-ink/15 bg-cream-light p-4">
+        <div className="flex flex-wrap items-end gap-3">
+          <div>
+            <label className="mb-1.5 block text-[11.5px] tracking-[0.05em] text-ink/60">
+              Dossier Cloudinary
+            </label>
+            <input
+              value={folder}
+              onChange={(e) => setFolder(e.target.value)}
+              className="border border-ink/25 bg-transparent px-3 py-2 text-[12.5px] text-ink focus:border-bronze focus:outline-none"
+            />
+          </div>
+          <button
+            onClick={handleLoadLibrary}
+            disabled={isLoadingLibrary}
+            className="border border-ink/25 px-4 py-2 text-[12px] text-ink hover:border-bronze disabled:opacity-40"
+          >
+            {isLoadingLibrary ? "Chargement…" : "Charger le dossier"}
+          </button>
+          <p className="text-[11.5px] text-ink/50">
+            Rattache à la catégorie sélectionnée ci-dessus ({CATEGORIES.find((c) => c.value === categorie)?.label}).
+          </p>
+        </div>
+
+        {libraryError && <p className="mt-3 text-[12.5px] text-red-700/80">{libraryError}</p>}
+
+        {library && (
+          <div className="mt-4 grid grid-cols-3 gap-3 md:grid-cols-6">
+            {library.map((photo) => {
+              const alreadyAssigned = assignedPublicIds.has(photo.publicId);
+              return (
+                <button
+                  key={photo.publicId}
+                  onClick={() => handleAssign(photo)}
+                  disabled={isPending || alreadyAssigned}
+                  className="group relative border border-ink/15 disabled:opacity-40"
+                  title={alreadyAssigned ? "Déjà rattachée" : "Rattacher à cet emplacement"}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element -- vignettes bibliothèque Cloudinary */}
+                  <img
+                    src={photo.url.replace("/upload/", "/upload/w_200,q_auto/")}
+                    alt=""
+                    className="h-24 w-full object-cover"
+                  />
+                  {!alreadyAssigned && (
+                    <span className="absolute inset-0 hidden items-center justify-center bg-ink/60 text-[11px] text-cream-light group-hover:flex">
+                      {assigningId === photo.publicId ? "…" : "Choisir"}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+            {library.length === 0 && (
+              <p className="col-span-full text-[12.5px] text-ink/50">Dossier vide.</p>
+            )}
+          </div>
+        )}
+      </div>
 
       <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
         {photos.map((photo) => (

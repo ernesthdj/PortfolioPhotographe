@@ -2,7 +2,12 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin-guard";
-import { uploadPhoto, deletePhoto as deleteCloudinaryPhoto } from "@/lib/cloudinary";
+import {
+  uploadPhoto,
+  deletePhoto as deleteCloudinaryPhoto,
+  listFolder,
+  type CloudinaryLibraryPhoto,
+} from "@/lib/cloudinary";
 import { geocode } from "@/lib/geo";
 
 // Catégories photo à slot unique : une seule photo active à la fois (CMS.md §3).
@@ -18,7 +23,7 @@ const SLOT_CATEGORIES = [
 
 type ActionResult = { ok: true } | { ok: false; error: string };
 
-const FORBIDDEN: ActionResult = { ok: false, error: "Accès refusé." };
+const FORBIDDEN = { ok: false as const, error: "Accès refusé." };
 
 // ---------------------------------------------------------------------------
 // Leads
@@ -343,5 +348,60 @@ export async function deletePhotoAction(photoId: string): Promise<ActionResult> 
 
   revalidatePath("/admin/photos");
   revalidatePath("/");
+  return { ok: true };
+}
+
+type LibraryResult = { ok: true; photos: CloudinaryLibraryPhoto[] } | { ok: false; error: string };
+
+export async function listCloudinaryLibrary(folder: string): Promise<LibraryResult> {
+  const admin = await requireAdmin();
+  if (!admin) return FORBIDDEN;
+
+  const trimmed = folder.trim();
+  if (!trimmed) return { ok: false, error: "Nom de dossier vide." };
+
+  try {
+    const photos = await listFolder(trimmed);
+    return { ok: true, photos };
+  } catch {
+    return { ok: false, error: "Échec du chargement du dossier Cloudinary." };
+  }
+}
+
+// Rattache une photo deja presente sur Cloudinary a un emplacement, sans re-upload.
+// Inseree inactive comme le flux d'upload : l'activation reste un geste separe et
+// explicite (evite d'ecraser par erreur la photo active d'un slot unique).
+export async function assignPhotoFromLibrary(
+  categorie: string,
+  publicId: string,
+  url: string,
+  titre?: string
+): Promise<ActionResult> {
+  const admin = await requireAdmin();
+  if (!admin) return FORBIDDEN;
+
+  if (![...SLOT_CATEGORIES, "galerie"].includes(categorie)) {
+    return { ok: false, error: "Catégorie invalide." };
+  }
+  if (!publicId || !url) return { ok: false, error: "Photo invalide." };
+
+  const { data: existing } = await admin.supabase
+    .from("photos")
+    .select("id")
+    .eq("public_id_cloudinary", publicId)
+    .eq("categorie", categorie)
+    .maybeSingle();
+  if (existing) return { ok: false, error: "Déjà présente pour cet emplacement." };
+
+  const { error } = await admin.supabase.from("photos").insert({
+    url_cloudinary: url,
+    public_id_cloudinary: publicId,
+    titre: titre?.trim() || null,
+    categorie,
+    actif: false,
+  });
+  if (error) return { ok: false, error: "Échec de l'enregistrement." };
+
+  revalidatePath("/admin/photos");
   return { ok: true };
 }
