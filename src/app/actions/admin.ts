@@ -388,6 +388,9 @@ export async function assignPhotoFromLibrary(
     return { ok: false, error: "Catégorie invalide." };
   }
   if (!publicId || !url) return { ok: false, error: "Photo invalide." };
+  if (!Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) {
+    return { ok: false, error: "Dimensions invalides." };
+  }
 
   const { data: existing } = await admin.supabase
     .from("photos")

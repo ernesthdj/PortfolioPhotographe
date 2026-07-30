@@ -135,7 +135,13 @@ export function PhotosManager({ photos }: { photos: Photo[] }) {
     });
   }
 
-  const assignedPublicIds = new Set(photos.map((p) => p.public_id_cloudinary));
+  // Bug corrige : la disponibilite d'une photo Cloudinary dans la bibliotheque doit
+  // dependre de la categorie actuellement selectionnee, pas de toutes les categories
+  // confondues — sinon le changement de categorie n'a visuellement aucun effet sur la
+  // grille (une photo deja rattachee ailleurs restait grisee meme pour un nouveau slot).
+  const assignedPublicIdsForCategorie = new Set(
+    photos.filter((p) => p.categorie === categorie).map((p) => p.public_id_cloudinary)
+  );
 
   return (
     <div>
@@ -185,7 +191,9 @@ export function PhotosManager({ photos }: { photos: Photo[] }) {
           disabled={isPending}
           className="bg-ink px-4 py-2 text-[12px] text-cream-light disabled:opacity-40"
         >
-          {isPending ? "Upload…" : "Uploader"}
+          {isPending
+            ? "Upload…"
+            : `Uploader vers "${CATEGORIES.find((c) => c.value === categorie)?.label}"`}
         </button>
       </div>
       {message && <p className="mt-3 text-[12.5px] text-bronze">{message}</p>}
@@ -209,8 +217,8 @@ export function PhotosManager({ photos }: { photos: Photo[] }) {
           >
             {isLoadingLibrary ? "Chargement…" : "Charger le dossier"}
           </button>
-          <p className="text-[11.5px] text-ink/50">
-            Rattache à la catégorie sélectionnée ci-dessus ({CATEGORIES.find((c) => c.value === categorie)?.label}).
+          <p className="text-[11.5px] font-semibold text-bronze">
+            Rattachera vers : {CATEGORIES.find((c) => c.value === categorie)?.label}
           </p>
         </div>
 
@@ -219,7 +227,7 @@ export function PhotosManager({ photos }: { photos: Photo[] }) {
         {library && (
           <div className="mt-4 grid grid-cols-3 gap-3 md:grid-cols-6">
             {library.map((photo) => {
-              const alreadyAssigned = assignedPublicIds.has(photo.publicId);
+              const alreadyAssigned = assignedPublicIdsForCategorie.has(photo.publicId);
               return (
                 <button
                   key={photo.publicId}
