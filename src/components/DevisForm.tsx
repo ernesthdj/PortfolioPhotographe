@@ -128,7 +128,7 @@ export function DevisForm({ formules }: { formules: Formule[] }) {
                   "--sweep-offset": sweepOffset,
                 } as React.CSSProperties
               }
-              className={`folder-card group rounded-2xl border text-left transition-colors ${
+              className={`folder-card group overflow-hidden rounded-2xl border text-left transition-colors ${
                 isSelected ? "border-gold" : "border-cream-light/15 hover:border-cream-light/35"
               }`}
             >
@@ -189,7 +189,10 @@ export function DevisForm({ formules }: { formules: Formule[] }) {
                 >
                   {formule.nom}
                 </div>
-                <div className="mt-1 font-serif text-[26px] text-cream-light">
+                <div className="mt-1 font-mono text-[9px] uppercase tracking-[0.08em] text-cream-light/45">
+                  À partir de
+                </div>
+                <div className="mt-0.5 font-serif text-[26px] text-cream-light">
                   {formatEuros(formule.prix_base)}
                 </div>
                 {formule.description && (
@@ -213,7 +216,7 @@ export function DevisForm({ formules }: { formules: Formule[] }) {
             <span className="text-[13px] font-sans text-cream-light/50">estimés</span>
           </div>
           <div className="mt-1 text-[12px] text-cream-light/50">
-            {selectedFormule.nom} {formatEuros(selectedFormule.prix_base)}
+            {selectedFormule.nom} à partir de {formatEuros(selectedFormule.prix_base)}
             {fraisDeplacement > 0 && (
               <>
                 {" "}

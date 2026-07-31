@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Manrope } from "next/font/google";
 import { FrameDecor } from "@/components/FrameDecor";
+import { PageTransition } from "@/components/PageTransition";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -36,6 +37,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-cream text-ink font-sans">
         <FrameDecor />
+        <PageTransition />
         {children}
       </body>
     </html>

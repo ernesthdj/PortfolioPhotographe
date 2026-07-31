@@ -73,13 +73,13 @@ export async function Hero() {
         <div className="flex flex-wrap justify-center gap-4">
           <a
             href="#devis"
-            className="w-[200px] bg-ink px-6 py-3.5 text-center text-[12.5px] tracking-[0.05em] text-cream-light transition-opacity hover:opacity-90"
+            className="btn-glass-dark btn-glass-shine relative w-[200px] overflow-hidden rounded-full px-6 py-3.5 text-center text-[12.5px] tracking-[0.05em] text-cream-light"
           >
             Demander un devis
           </a>
           <a
             href="#galerie"
-            className="w-[200px] border border-ink/30 px-6 py-3.5 text-center text-[12.5px] tracking-[0.05em] text-ink transition-colors hover:bg-ink/5"
+            className="btn-glass-light btn-glass-shine relative w-[200px] overflow-hidden rounded-full px-6 py-3.5 text-center text-[12.5px] tracking-[0.05em] text-ink"
           >
             Voir la galerie
           </a>

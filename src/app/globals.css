@@ -101,11 +101,17 @@ a:hover {
   stroke-dashoffset: var(--sweep-offset);
 }
 
-/* Panneau avant du dossier : incline (comme un rabat pose a plat), se releve
-   au survol/selection — meme easing que le reste du cadran. */
+/* Panneau avant du dossier : volet — le carton noir est baisse au repos
+   (translateY pur, aucune inclinaison) et remonte au survol/selection. Le
+   `.folder-card` parent est en `overflow-hidden` : ce qui depasse en bas
+   quand le volet est baisse est simplement cache, comme derriere un cadre.
+   `min-height` fixe : les 3 formules ont des descriptions de longueurs
+   differentes, donc des hauteurs de contenu naturelles differentes — sans
+   ca, le grid (qui etire les cartes a hauteur egale) redistribue l'espace
+   en trop de facon incoherente d'une carte a l'autre (zone du haut decalee). */
 .folder-flap {
-  transform-origin: bottom center;
-  transform: perspective(500px) rotateX(42deg) translateY(10px);
+  min-height: 220px;
+  transform: translateY(120px);
   box-shadow: 0 0 0 0 rgba(28, 23, 18, 0);
   transition:
     transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
@@ -114,7 +120,7 @@ a:hover {
 
 .folder-card:hover .folder-flap,
 .folder-card[data-selected="true"] .folder-flap {
-  transform: perspective(500px) rotateX(0deg) translateY(0);
+  transform: translateY(0);
   box-shadow: 0 14px 26px -10px rgba(28, 23, 18, 0.55);
 }
 
@@ -164,5 +170,139 @@ a:hover {
   .gallery-slice,
   .gallery-track {
     transition: none;
+  }
+}
+
+/* Boutons "verre liquide" du Hero — CTA principal (sombre) et secondaire
+   (clair). Statiques (pas de blend/filtre anime en continu), seul le reflet
+   se deplace au survol : sans risque pour les FPS (voir regle cadran Hero). */
+.btn-glass-dark {
+  background: linear-gradient(135deg, rgba(43, 37, 33, 0.86) 0%, rgba(43, 37, 33, 0.64) 100%);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid rgba(244, 238, 228, 0.22);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.18),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.35),
+    0 10px 24px -10px rgba(28, 23, 18, 0.45);
+  transition:
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.4s ease;
+}
+
+.btn-glass-dark:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, rgba(43, 37, 33, 0.9) 0%, rgba(43, 37, 33, 0.7) 100%);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.26),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.35),
+    0 16px 30px -10px rgba(28, 23, 18, 0.55);
+}
+
+.btn-glass-light {
+  background: linear-gradient(135deg, rgba(244, 238, 228, 0.6) 0%, rgba(244, 238, 228, 0.24) 100%);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid rgba(43, 37, 33, 0.16);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.75),
+    inset 0 -1px 2px rgba(43, 37, 33, 0.06),
+    0 10px 22px -12px rgba(43, 37, 33, 0.18);
+  transition:
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.4s ease;
+}
+
+.btn-glass-light:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, rgba(244, 238, 228, 0.76) 0%, rgba(244, 238, 228, 0.36) 100%);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.85),
+    inset 0 -1px 2px rgba(43, 37, 33, 0.06),
+    0 16px 26px -12px rgba(43, 37, 33, 0.24);
+}
+
+/* Reflet cristallin qui traverse le bouton en diagonale au survol. */
+.btn-glass-shine::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.4) 46%,
+    rgba(255, 255, 255, 0.05) 58%,
+    transparent 72%
+  );
+  transform: translateX(-130%);
+  transition: transform 3.5s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.btn-glass-shine:hover::before {
+  transform: translateX(130%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-glass-dark,
+  .btn-glass-light,
+  .btn-glass-shine::before {
+    transition: none;
+  }
+  .btn-glass-dark:hover,
+  .btn-glass-light:hover {
+    transform: none;
+  }
+}
+
+/* Transition entre pages — bandeau noir façon pellicule, balaie l'ecran de
+   bas en haut en un seul geste continu (voir PageTransition.tsx). */
+.page-wipe {
+  background: var(--color-ink-dark);
+  transform: translateY(100%);
+}
+
+.page-wipe-hidden {
+  transform: translateY(100%);
+  transition: none;
+}
+
+.page-wipe-covering {
+  transform: translateY(0%);
+  transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.page-wipe-revealing {
+  transform: translateY(-100%);
+  transition: transform 0.64s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.page-wipe-perf {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 14px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(244, 238, 228, 0.55) 0 10px,
+    transparent 10px 26px
+  );
+}
+
+.page-wipe-perf-top {
+  top: 14px;
+}
+
+.page-wipe-perf-bottom {
+  bottom: 14px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Un flash noir instantane serait pire qu'un fondu pour la photosensibilite
+     — on desactive entierement l'effet plutot que de le rendre instantane. */
+  .page-wipe {
+    display: none;
   }
 }
