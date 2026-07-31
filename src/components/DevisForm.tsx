@@ -19,6 +19,17 @@ const formatEuros = (value: number) =>
     value
   );
 
+// Degrade par formule : la part de lumiere augmente avec la couverture
+// (bref instant -> journee complete), echo du cadran d'exposition du Hero.
+const FORMULE_GRADIENTS = [
+  "linear-gradient(160deg, #4a2f18 0%, #2b2521 100%)",
+  "linear-gradient(160deg, #8a5a2f 0%, #c9a46b 100%)",
+  "linear-gradient(160deg, #c9a46b 0%, #f4eee4 100%)",
+];
+
+const ARC_RADIUS = 40;
+const ARC_CIRCUMFERENCE = 2 * Math.PI * ARC_RADIUS;
+
 export function DevisForm({ formules }: { formules: Formule[] }) {
   const {
     register,
@@ -98,32 +109,94 @@ export function DevisForm({ formules }: { formules: Formule[] }) {
         {...register("honeypot")}
       />
 
-      <div className="flex flex-wrap items-center justify-center gap-8 md:gap-9">
+      <div className="mx-auto grid max-w-3xl grid-cols-1 gap-6 sm:grid-cols-3 sm:gap-5">
         {formules.map((formule, i) => {
           const isSelected = formule.id === formuleId;
+          const sweepFraction = (i + 1) / formules.length;
+          const sweepOffset = ARC_CIRCUMFERENCE * (1 - sweepFraction);
+
           return (
             <button
               type="button"
               key={formule.id}
+              aria-pressed={isSelected}
               onClick={() => setValue("formuleId", formule.id, { shouldValidate: true })}
-              className={`relative flex flex-col items-center justify-center rounded-full transition-all ${
-                isSelected
-                  ? "h-[210px] w-[210px] border border-gold bg-gold/[0.14]"
-                  : "h-[190px] w-[190px] border border-cream-light/25 bg-cream-light/[0.06] hover:border-cream-light/50"
+              data-selected={isSelected}
+              style={
+                {
+                  "--circumference": ARC_CIRCUMFERENCE,
+                  "--sweep-offset": sweepOffset,
+                } as React.CSSProperties
+              }
+              className={`folder-card group rounded-2xl border text-left transition-colors ${
+                isSelected ? "border-gold" : "border-cream-light/15 hover:border-cream-light/35"
               }`}
             >
-              {isSelected && (
-                <div className="absolute -inset-2.5 rounded-full border border-dashed border-gold/40" />
-              )}
               <div
-                className={`text-[10.5px] uppercase tracking-[0.1em] ${
-                  isSelected ? "text-gold" : "text-cream-light/60"
-                }`}
+                className="relative h-28 w-full overflow-hidden rounded-t-2xl"
+                style={{ background: FORMULE_GRADIENTS[i % FORMULE_GRADIENTS.length] }}
               >
-                {formule.nom}
+                <div className="absolute inset-0 flex items-center justify-center transition-transform duration-500 group-hover:scale-105">
+                  <svg viewBox="0 0 100 100" className="h-16 w-16" aria-hidden="true">
+                    <circle cx="50" cy="50" r={ARC_RADIUS} fill="none" stroke="rgba(244,238,228,0.25)" strokeWidth="2.5" />
+                    {[0, 90, 180, 270].map((deg) => (
+                      <line
+                        key={deg}
+                        x1="50"
+                        y1="4"
+                        x2="50"
+                        y2="9"
+                        stroke="rgba(244,238,228,0.4)"
+                        strokeWidth="2"
+                        transform={`rotate(${deg} 50 50)`}
+                      />
+                    ))}
+                    <circle
+                      cx="50"
+                      cy="50"
+                      r={ARC_RADIUS}
+                      fill="none"
+                      stroke="#f4eee4"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeDasharray={ARC_CIRCUMFERENCE}
+                      className="folder-arc"
+                      transform="rotate(-90 50 50)"
+                    />
+                  </svg>
+                </div>
               </div>
-              <div className="mt-1.5 font-serif text-3xl text-cream-light">
-                {formatEuros(formule.prix_base)}
+
+              <div className="folder-flap relative -mt-6 rounded-tl-[32px] rounded-tr-lg rounded-b-2xl bg-ink px-5 pb-5 pt-5">
+                <div className="flex items-start justify-between">
+                  <span className="font-serif text-2xl text-cream-light/50">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span
+                    className={`flex h-7 w-7 flex-none items-center justify-center rounded-full border text-[12px] transition-colors ${
+                      isSelected
+                        ? "border-gold bg-gold text-ink"
+                        : "border-cream-light/25 text-cream-light/50 group-hover:border-cream-light/50"
+                    }`}
+                  >
+                    {isSelected ? "✓" : "↗"}
+                  </span>
+                </div>
+                <div
+                  className={`mt-3 text-[10.5px] uppercase tracking-[0.1em] ${
+                    isSelected ? "text-gold" : "text-cream-light/60"
+                  }`}
+                >
+                  {formule.nom}
+                </div>
+                <div className="mt-1 font-serif text-[26px] text-cream-light">
+                  {formatEuros(formule.prix_base)}
+                </div>
+                {formule.description && (
+                  <p className="mt-2 text-[12px] leading-[1.5] text-cream-light/55">
+                    {formule.description}
+                  </p>
+                )}
               </div>
             </button>
           );

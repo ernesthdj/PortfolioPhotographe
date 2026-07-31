@@ -19,7 +19,8 @@ export async function Hero() {
         <div className="relative mb-5 h-[280px] w-[280px] md:h-[400px] md:w-[400px]">
           <div className="absolute inset-0 rounded-full border border-ink/22" />
           <div className="absolute inset-3 rounded-full border border-dashed border-ink/15" />
-          <div className="absolute inset-7 overflow-hidden rounded-full">
+          <div className="hero-glass-bezel absolute inset-3 rounded-full" aria-hidden="true" />
+          <div className="hero-iris absolute inset-7 overflow-hidden rounded-full">
             <SitePhoto photo={heroPhoto} label="Photo signature" className="h-full w-full" />
           </div>
           <div
@@ -29,6 +30,9 @@ export async function Hero() {
                 "conic-gradient(from 210deg, rgba(138,90,47,.22) 0deg, rgba(201,164,107,.3) 30deg, rgba(43,37,33,0) 60deg, rgba(43,37,33,0) 300deg, rgba(138,90,47,.22) 330deg, rgba(138,90,47,.22) 360deg)",
             }}
           />
+          <div className="hero-orbit pointer-events-none absolute inset-3 rounded-full" aria-hidden="true">
+            <div className="absolute left-1/2 top-0 h-[7px] w-[7px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold shadow-[0_0_7px_2px_rgba(201,164,107,0.55)]" />
+          </div>
           <div
             className="absolute left-1/2 top-1/2 h-3.5 w-px bg-ink"
             style={{ transform: "translate(-50%, -50%) rotate(0deg)" }}

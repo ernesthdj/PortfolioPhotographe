@@ -2,10 +2,16 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import type { Pellicule } from "@/lib/pellicules";
 import { cloudinaryUrl } from "@/lib/cloudinary-url";
 import { Reveal } from "./Reveal";
+
+// Largeur d'une tranche inactive et espacement entre tranches (doit rester
+// synchro avec la classe `gap-1` du conteneur ci-dessous et la classe CSS
+// `.gallery-slice` dans globals.css).
+const SLICE_INACTIVE_WIDTH = 56;
+const SLICE_GAP = 4;
 
 function formatDate(iso: string) {
   try {
@@ -34,6 +40,29 @@ export function GalerieViewer({
     setTrackedSlug(currentSlug);
     setPhotoIndex(0);
   }
+
+  // Dimensions du conteneur des tranches — mesurees pour donner a chaque photo
+  // une taille fixe et reelle (jamais recalculee au clic, voir plus bas : seul
+  // le cadre qui la recadre change de taille, jamais la photo elle-meme).
+  const sliceRowRef = useRef<HTMLDivElement>(null);
+  const [rowSize, setRowSize] = useState({ width: 0, height: 0 });
+  useLayoutEffect(() => {
+    const el = sliceRowRef.current;
+    if (!el) return;
+    setRowSize({ width: el.clientWidth, height: el.clientHeight });
+    const observer = new ResizeObserver((entries) => {
+      const { width, height } = entries[0].contentRect;
+      setRowSize({ width, height });
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Ratio naturel (largeur/hauteur) de chaque photo, mesure une fois l'image
+  // chargee — permet au volet de ne s'ouvrir que jusqu'a la largeur reelle de
+  // la photo a la hauteur de la rangee, sans espace vide inutile de part et
+  // d'autre quand la photo est plus etroite que l'espace disponible.
+  const [photoRatios, setPhotoRatios] = useState<Record<string, number>>({});
 
   const currentIndex = Math.max(
     0,
@@ -64,7 +93,6 @@ export function GalerieViewer({
   }
 
   const photos = current.photos;
-  const mainPhoto = photos[Math.min(photoIndex, Math.max(0, photos.length - 1))];
 
   function prevPhoto() {
     setPhotoIndex((i) => (i - 1 + photos.length) % photos.length);
@@ -146,57 +174,115 @@ export function GalerieViewer({
         )}
       </div>
 
-      <div className="mt-9 grid grid-cols-[44px_1fr_44px] items-center gap-4 md:gap-6">
+      <div className="mt-9 flex items-center gap-3 md:gap-5">
         <button
           onClick={prevPhoto}
           disabled={photos.length < 2}
           aria-label="Photo précédente"
-          className="flex h-11 w-11 items-center justify-center justify-self-end rounded-full border border-ink/30 text-[16px] text-ink disabled:opacity-30"
+          className="flex h-11 w-11 flex-none items-center justify-center rounded-full border border-ink/30 text-[16px] text-ink disabled:opacity-30"
         >
           ‹
         </button>
-        <div className="relative mx-auto flex w-full justify-center">
-          <div className="pointer-events-none absolute inset-[6%] rounded-full border border-dashed border-ink/10" />
-          {mainPhoto ? (
-            // eslint-disable-next-line @next/next/no-img-element -- taille responsive fixe (max-w)
-            <img
-              src={cloudinaryUrl(mainPhoto.url, 1000)}
-              alt={mainPhoto.titre ?? current.nomsMaries}
-              className="h-[300px] w-full max-w-[640px] object-cover md:h-[440px]"
-            />
-          ) : (
-            <div className="flex h-[300px] w-full max-w-[640px] items-center justify-center bg-ink/5 text-[12px] text-ink/40 md:h-[440px]">
-              Aucune photo
-            </div>
-          )}
-        </div>
+
+        {photos.length > 0 ? (
+          (() => {
+            // Largeur max disponible pour la tranche ouverte (espace de la
+            // rangee moins les autres tranches fermees).
+            const maxAvailable = Math.max(
+              rowSize.width - (photos.length - 1) * (SLICE_INACTIVE_WIDTH + SLICE_GAP),
+              SLICE_INACTIVE_WIDTH
+            );
+            // Largeur reelle d'une photo a la hauteur de la rangee — le volet ne
+            // s'ouvre pas plus loin que ca, pour eviter du vide inutile de part et
+            // d'autre d'une photo plus etroite que l'espace disponible. Tant que le
+            // ratio n'est pas encore mesure (image pas chargee), repli sur maxAvailable.
+            const getOpenWidth = (photoId: string) => {
+              const ratio = photoRatios[photoId];
+              return ratio && rowSize.height
+                ? Math.min(maxAvailable, Math.round(ratio * rowSize.height))
+                : maxAvailable;
+            };
+            const activeOpenWidth = getOpenWidth(photos[photoIndex].id);
+            // Decalage de la piste pour que le CENTRE de la photo active tombe
+            // toujours au centre de la rangee (donc de la page, symetrique de
+            // part et d'autre) — les tranches fermees avant elle ont toutes la
+            // meme largeur, d'ou ce calcul simple.
+            const offsetBeforeActive = photoIndex * (SLICE_INACTIVE_WIDTH + SLICE_GAP);
+            const trackOffset = rowSize.width / 2 - (offsetBeforeActive + activeOpenWidth / 2);
+
+            return (
+              <div ref={sliceRowRef} className="relative h-[340px] flex-1 overflow-hidden md:h-[560px]">
+                <div
+                  className="gallery-track flex h-full items-stretch gap-1"
+                  style={{ transform: `translateX(${trackOffset}px)` }}
+                >
+                  {photos.map((photo, i) => {
+                    const isActive = i === photoIndex;
+                    const openWidth = getOpenWidth(photo.id);
+                    return (
+                      <button
+                        key={photo.id}
+                        type="button"
+                        onClick={() => setPhotoIndex(i)}
+                        aria-label={photo.titre ?? `Photo ${i + 1}`}
+                        aria-current={isActive}
+                        style={{ flexShrink: 0, width: isActive ? openWidth : SLICE_INACTIVE_WIDTH }}
+                        className="gallery-slice relative h-full overflow-hidden rounded-xl bg-ink/5"
+                      >
+                        {/* La photo a une taille FIXE (toujours `openWidth`, jamais animee ni
+                            recalculee) et n'est jamais deplacee ni transformee — seul le cadre
+                            ci-dessus (overflow-hidden) change de largeur et la recadre, comme
+                            un volet qui s'ouvre/se ferme par-dessus une image immobile. Centree
+                            via `left-1/2 -translate-x-1/2`, un positionnement fixe (pas anime),
+                            pour que la tranche inactive revele toujours le centre de la photo. */}
+                        {/* eslint-disable-next-line @next/next/no-img-element -- taille fixe pilotee par openWidth, pas par next/image */}
+                        <img
+                          ref={(el) => {
+                            // `onLoad` ne se declenche pas de facon fiable si l'image est
+                            // deja en cache navigateur (l'evenement peut avoir eu lieu
+                            // avant que React n'attache le listener) — on verifie donc
+                            // `complete` directement des le montage, en plus du fallback.
+                            if (!el) return;
+                            const measure = () => {
+                              if (photoRatios[photo.id] || !el.naturalWidth || !el.naturalHeight) return;
+                              const nextRatio = el.naturalWidth / el.naturalHeight;
+                              setPhotoRatios((prev) => ({ ...prev, [photo.id]: nextRatio }));
+                            };
+                            if (el.complete) measure();
+                            else el.addEventListener("load", measure, { once: true });
+                          }}
+                          src={cloudinaryUrl(photo.url, 1000)}
+                          alt={photo.titre ?? current.nomsMaries}
+                          style={{ width: openWidth }}
+                          className="absolute left-1/2 top-0 h-full max-w-none -translate-x-1/2 object-contain"
+                        />
+                        {isActive && photo.titre && (
+                          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/70 to-transparent px-4 pb-3 pt-8 text-left">
+                            <p className="font-serif text-[15px] text-cream-light">{photo.titre}</p>
+                          </div>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })()
+        ) : (
+          <div className="flex h-[340px] flex-1 items-center justify-center bg-ink/5 text-[12px] text-ink/40 md:h-[560px]">
+            Aucune photo
+          </div>
+        )}
+
         <button
           onClick={nextPhoto}
           disabled={photos.length < 2}
           aria-label="Photo suivante"
-          className="flex h-11 w-11 items-center justify-center justify-self-start rounded-full border border-ink/30 text-[16px] text-ink disabled:opacity-30"
+          className="flex h-11 w-11 flex-none items-center justify-center rounded-full border border-ink/30 text-[16px] text-ink disabled:opacity-30"
         >
           ›
         </button>
       </div>
-
-      {photos.length > 1 && (
-        <div className="mt-5 flex justify-center gap-3 overflow-x-auto px-2 pb-1">
-          {photos.map((photo, i) => (
-            <button
-              key={photo.id}
-              onClick={() => setPhotoIndex(i)}
-              aria-label={`Photo ${i + 1}`}
-              className={`h-[62px] w-[88px] flex-none overflow-hidden border transition-opacity ${
-                i === photoIndex ? "border-2 border-bronze" : "border-ink/15 opacity-55 hover:opacity-80"
-              }`}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element -- vignette filmstrip, taille fixe */}
-              <img src={cloudinaryUrl(photo.url, 200)} alt="" className="h-full w-full object-cover" />
-            </button>
-          ))}
-        </div>
-      )}
 
       {current.temoignageCitation && (
         <Reveal className="mt-11 flex flex-col items-center text-center">
