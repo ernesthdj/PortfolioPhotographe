@@ -191,3 +191,27 @@ Teste de bout en bout au navigateur avec un vrai compte : creation compte → em
 **Resume :** Session dediee au peaufinage des animations : cadran du Hero (iris + repere orbital, apres un premier essai de rotation continue en blend-mode qui faisait chuter les FPS), cartes formule du Devis (pattern "folder card" avec volet vertical), polaroids de la Timeline, refonte complete du viewer de galerie (volet qui recadre une photo immobile, jamais deformee, centree dans la page), boutons verre liquide du Hero, et une nouvelle transition entre pages façon pellicule. Plusieurs bugs reels trouves et corriges en iterant avec l'utilisateur en conditions reelles (Framer Motion `animate` inoperant, `max-width` du preflight Tailwind, `onLoad` et le cache navigateur, decalage de grille cause par des hauteurs de contenu variables). Diagnostic Cloudinary pour un probleme de bibliotheque signale par l'utilisateur (cause reelle : photos deposees hors du dossier attendu, pas un bug applicatif). 2 commits pousses sur `master`.
 **Branche :** master
 **Commits pushes :** 2 (8b1f184, 8e65055)
+
+### SESSION 3 — 2026-10-29
+
+### [2026-10-29] DESIGN — sondes « premier impact » et direction calepin
+**Fichiers :** `docs/front/premier-impact-design.md` (nouveau)
+**Resume :** Premier essai rejete par l'utilisateur : un artifact de page complete editable (calques deplacables, variantes par element), juge « pas convaincu ». On repart du macro avec 4 sondes animees en fil de fer, notees Garder / Bof / Ecarter :
+- sonde 1 (8 directions) : 7 gardees, l'objectif ecarte ;
+- sonde 2 (croisements) ;
+- sonde 3 (smartphone, pilotee au pouce) : album, graphe et volets gardes ;
+- sonde 4 (finalistes) : A couverture, D moments en volets et F tirage gardes.
+
+Un parcours complet A → D → F → devis → contact a ete dessine, puis l'utilisateur a recentre sur le seul theme du calepin : le site entier devient un calepin relie par le haut, et chaque page du carnet est une page du site (couverture = accueil, puis journee, galerie, devis, contact). Technique retenue pour l'integration : pages en HTML tournees en 3D CSS (`rotateX` sur la reliure), defilement aimante une page par ecran, onglets a droite ; le rendu canvas des sondes est abandonne pour le site. Maquette : https://claude.ai/artifact/9Y4ta1n5Rxav5Wmr6ooWur.
+
+Choix figes et ecartes dans `docs/front/premier-impact-design.md`. A peaufiner a la prochaine session. Questions ouvertes : palette finale (cyan de la signature ou creme et bronze du projet), version ordinateur, rendu des vraies photos Cloudinary. Aucun code applicatif modifie.
+
+### SESSION 4 — 2026-10-30
+
+### [2026-10-30] DESIGN — proportions reelles du calepin
+**Fichiers :** `docs/front/premier-impact-design.md` (section Formats d'ecran)
+**Resume :** Mesure de la maquette contre les vraies zones visibles (Statcounter Belgique, profils Playwright) : le cadre 388×840 ignorait les barres du navigateur, soit environ 140 px de carnet en trop par rapport a 390×664. Ajout dans la maquette d'un simulateur de 11 formats avec barres de navigateur et d'une planche cote a cote. Sur retour de l'utilisateur (« ca depasse dans tous les formats »), recalage de toutes les pages et voyant refait pour detecter les chevauchements sur le texte reel, valide avec un temoin casse volontairement. 55 combinaisons page × format propres dans Chrome ; version 3 retenue par l'utilisateur (« tres tres BON »). Reste a verifier sur un vrai iPhone. Questions ouvertes inchangees : palette, photos reelles, version ordinateur. Aucun code applicatif modifie.
+
+### [2026-10-30] FEAT — calepin integre sur la branche `feat/calepin`
+**Fichiers :** `src/app/page.tsx`, `src/components/carnet/*` (nouveaux)
+**Resume :** La page d'accueil devient le calepin, branche sur les vraies donnees : textes CMS, photos par categorie, premiere pellicule, formules, `estimateTravelFee` et `submitDevis`. Par rapport a la maquette : la distance est calculee depuis la ville (le curseur en km disparait) et le formulaire de contact gagne telephone et consentement RGPD, requis par `devisSchema`. Le defilement vit dans un conteneur dedie pour eviter que la barre du navigateur mobile change la hauteur en cours de geste. Les polices et tokens restent limites a `.carnet` tant que la palette n'est pas decidee. Les anciens composants d'accueil sont conserves jusqu'a validation. Verification : tsc, eslint, build, 50 combinaisons page × format et parcours complet, sur un faux serveur Supabase local car la vraie base est en pause.
