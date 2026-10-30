@@ -215,3 +215,7 @@ Choix figes et ecartes dans `docs/front/premier-impact-design.md`. A peaufiner a
 ### [2026-10-30] FEAT — calepin integre sur la branche `feat/calepin`
 **Fichiers :** `src/app/page.tsx`, `src/components/carnet/*` (nouveaux)
 **Resume :** La page d'accueil devient le calepin, branche sur les vraies donnees : textes CMS, photos par categorie, premiere pellicule, formules, `estimateTravelFee` et `submitDevis`. Par rapport a la maquette : la distance est calculee depuis la ville (le curseur en km disparait) et le formulaire de contact gagne telephone et consentement RGPD, requis par `devisSchema`. Le defilement vit dans un conteneur dedie pour eviter que la barre du navigateur mobile change la hauteur en cours de geste. Les polices et tokens restent limites a `.carnet` tant que la palette n'est pas decidee. Les anciens composants d'accueil sont conserves jusqu'a validation. Verification : tsc, eslint, build, 50 combinaisons page × format et parcours complet, sur un faux serveur Supabase local car la vraie base est en pause.
+
+### [2026-10-30] FIX — calepin verifie avec les vraies donnees
+**Fichiers :** `src/components/carnet/CarnetPages.tsx`
+**Resume :** Base Supabase restauree par l'utilisateur (elle etait en pause sur l'offre gratuite). Controle refait avec les vraies donnees : 50 combinaisons page × format propres, estimation de deplacement reelle correcte (Namur), aucun devis envoye. La planche de galerie adapte maintenant son nombre de rangees aux photos disponibles (6 au lieu de 9). Contenu encore manquant cote CMS : photos 19H et 23H.

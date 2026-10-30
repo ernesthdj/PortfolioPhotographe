@@ -101,7 +101,12 @@ export function GalleryPage({ galerie }: { galerie: CarnetGalerie }) {
         <CarnetPhoto photo={tirage} label="Tirage" width={1200} />
         <figcaption>TIRAGE · {(tirage?.titre ?? "Pellicule").toUpperCase()}</figcaption>
       </figure>
-      <div className="sheet" role="group" aria-label="Planche contact">
+      <div
+        className="sheet"
+        role="group"
+        aria-label="Planche contact"
+        style={{ gridTemplateRows: `repeat(${Math.ceil(galerie.photos.length / 3) || 1}, minmax(0, 1fr))` }}
+      >
         {galerie.photos.map((photo, i) => (
           <button
             type="button"
