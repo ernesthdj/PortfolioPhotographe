@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Contact · Conversation guidée</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+.vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(118% 100% at 50% 44%,rgba(20,18,16,0) 48%,rgba(20,18,16,.10) 76%,rgba(20,18,16,.27) 100%);box-shadow:inset 0 0 140px rgba(20,18,16,.10)}
+.w{position:relative;display:inline-block;white-space:nowrap}
+.w .o{display:block;color:transparent;-webkit-text-stroke:1px currentColor}
+.w .f{position:absolute;left:0;top:-.24em;padding:.24em .14em .24em 0;color:inherit}
+.verre{position:absolute;border-radius:24px;background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(250,248,244,.86) 55%,rgba(240,237,231,.9) 100%);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 16px 32px -12px rgba(20,18,16,.30),0 4px 10px -3px rgba(20,18,16,.16),inset 0 1px 0 #fff,inset 0 0 0 1px rgba(255,255,255,.6),inset 0 -2px 0 rgba(20,18,16,.06),inset 0 -12px 18px -12px rgba(20,18,16,.10)}
+.verre::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(90% 140% at 22% 0%,rgba(255,255,255,.75),rgba(255,255,255,0) 60%)}
+svg.ln{position:absolute;overflow:visible;pointer-events:none}
+.ln path{fill:none;stroke:#0D0E10;stroke-width:1.5px;shape-rendering:geometricPrecision;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 102;stroke-dashoffset:101}
+.ln path.comete{stroke-dasharray:6 94;stroke-dashoffset:0}
+.ln path.fil{stroke-width:1px;stroke:rgba(13,14,16,.2)}
+.nav a,.lien{color:inherit;text-decoration:none}
+.btn{position:absolute;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:20px;text-decoration:none;font:500 14px Inter,sans-serif;color:#EEEDE9}
+.btn.clair{color:#0D0E10}
+.btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.encre{background:#0D0E10;box-shadow:0 20px 34px -10px rgba(13,14,16,.58),0 7px 12px -3px rgba(13,14,16,.32),inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1.5px 0 rgba(0,0,0,.22)}
+.photo{position:absolute;display:block;object-fit:cover;box-shadow:0 22px 40px -16px rgba(20,18,16,.34),0 6px 12px -4px rgba(20,18,16,.16)}
+@keyframes drawS{from{stroke-dashoffset:101}to{stroke-dashoffset:0}}
+@keyframes trace{0%{stroke-dashoffset:101}50%{stroke-dashoffset:0}65%{stroke-dashoffset:0}100%{stroke-dashoffset:-102}}
+@keyframes trace2{0%{stroke-dashoffset:101}50%{stroke-dashoffset:0}65%{stroke-dashoffset:0}100%{stroke-dashoffset:-102}}
+@keyframes wIn{from{clip-path:inset(-24px 100% -24px 0)}to{clip-path:inset(-24px -24px -24px 0)}}
+@keyframes wIn2{from{clip-path:inset(-24px 100% -24px 0)}to{clip-path:inset(-24px -24px -24px 0)}}
+@keyframes wOut{from{clip-path:inset(-24px -24px -24px 0)}to{clip-path:inset(-24px 100% -24px 0)}}
+@keyframes habille{from{opacity:0}to{opacity:1}}
+@keyframes dev{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@keyframes dev2{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@keyframes devNB{0%{opacity:0;filter:grayscale(1) contrast(1.05)}45%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
+@keyframes devNB2{0%{opacity:0;filter:grayscale(1) contrast(1.05)}45%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
+@keyframes devOut{from{opacity:1}to{opacity:0}}
+@keyframes apparait{from{stroke-opacity:0}to{stroke-opacity:1}}
+@keyframes eteint{from{stroke-opacity:1}to{stroke-opacity:0}}
+@keyframes comete{from{stroke-dashoffset:0}to{stroke-dashoffset:-100}}
+.om{position:absolute;inset:-160px;pointer-events:none;overflow:hidden;animation:habille 3.5s ease-in-out 3.6s both}
+.om-i{position:absolute;inset:0;opacity:0}
+.om-i>i{position:absolute;inset:-200px}
+.dia>i{background:linear-gradient(to top right,rgba(20,18,16,0) 28%,rgba(20,18,16,.12) 40%,rgba(20,18,16,.26) 50%,rgba(20,18,16,.12) 60%,rgba(20,18,16,0) 72%);-webkit-mask-image:linear-gradient(to bottom right,#000 10%,rgba(0,0,0,.3) 75%,transparent 95%);mask-image:linear-gradient(to bottom right,#000 10%,rgba(0,0,0,.3) 75%,transparent 95%);filter:blur(14px);animation:glisseA 19s ease-in-out infinite alternate}
+.lat>i{background:linear-gradient(to left,rgba(20,18,16,.30) 0%,rgba(20,18,16,.16) 22%,rgba(20,18,16,0) 52%),linear-gradient(to top,rgba(20,18,16,.12) 0%,rgba(20,18,16,0) 30%);filter:blur(10px);animation:glisseH 23s ease-in-out infinite alternate}
+.spot>i{background:radial-gradient(ellipse 55% 60% at 50% 22%,rgba(20,18,16,0) 30%,rgba(20,18,16,.10) 62%,rgba(20,18,16,.28) 100%);animation:respire 17s ease-in-out infinite alternate}
+.cyc>i{background:linear-gradient(180deg,rgba(20,18,16,.22) 0%,rgba(20,18,16,.06) 34%,rgba(20,18,16,0) 52%,rgba(20,18,16,0) 70%,rgba(20,18,16,.10) 84%,rgba(20,18,16,.20) 100%);filter:blur(8px);animation:glisseV 21s ease-in-out infinite alternate}
+.str>i{background:linear-gradient(to top left,rgba(20,18,16,.20) 0%,rgba(20,18,16,.08) 30%,rgba(20,18,16,0) 44%,rgba(20,18,16,0) 56%,rgba(20,18,16,.08) 70%,rgba(20,18,16,.22) 100%);filter:blur(12px);animation:glisseB 25s ease-in-out infinite alternate}
+@keyframes glisseA{from{transform:translate(-70px,50px)}to{transform:translate(80px,-60px)}}
+@keyframes glisseB{from{transform:translate(70px,40px)}to{transform:translate(-60px,-50px)}}
+@keyframes glisseH{from{transform:translateX(-90px)}to{transform:translateX(60px)}}
+@keyframes glisseV{from{transform:translateY(-50px)}to{transform:translateY(40px)}}
+@keyframes respire{from{transform:translate(-60px,-20px) scale(1)}to{transform:translate(70px,20px) scale(1.06)}}
+@keyframes seul{from{opacity:0}to{opacity:1}}
+@keyframes alt0{0%{opacity:0}5%,15%{opacity:1}20%,100%{opacity:0}}
+@keyframes alt1{0%,20%{opacity:0}25%,35%{opacity:1}40%,100%{opacity:0}}
+@keyframes alt2{0%,40%{opacity:0}45%,55%{opacity:1}60%,100%{opacity:0}}
+@keyframes alt3{0%,60%{opacity:0}65%,75%{opacity:1}80%,100%{opacity:0}}
+@keyframes alt4{0%,80%{opacity:0}85%,95%{opacity:1}100%{opacity:0}}
+@media (prefers-reduced-motion: reduce){*{animation-duration:0s !important;animation-delay:0s !important;transition-duration:0s !important}}
+
+.chip{height:44px;padding:0 20px;border:0;border-radius:22px;background:rgba(255,255,255,.7);box-shadow:inset 0 0 0 1.5px #0D0E10,0 8px 16px -10px rgba(20,18,16,.3);color:#0D0E10;cursor:pointer;font:400 15px Inter,sans-serif;transition:background .3s ease,color .3s ease}
+.chip:hover{background:rgba(13,14,16,.06)}
+.chip.on{background:#0D0E10;color:#EEEDE9}
+.gros label{display:block;font:500 10.5px 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#4B4D52}
+.gros input,.gros textarea{display:block;box-sizing:border-box;width:100%;margin-top:8px;padding:8px 0;border:0;border-bottom:1px solid rgba(13,14,16,.4);border-radius:0;background:transparent;font:300 26px Inter,sans-serif;letter-spacing:-.01em;color:#0D0E10;outline:none;resize:none}
+.gros input:focus,.gros textarea:focus{border-bottom:2px solid #3AA6B5}
+.gros input::placeholder,.gros textarea::placeholder{color:#9A9CA0}
+button.btn{border:0;cursor:pointer;padding:0}
+button.lien{padding:0;border:0;background:transparent;cursor:pointer}
+.chip:focus-visible,.btn:focus-visible,.lien:focus-visible{outline:2px solid #0D0E10;outline-offset:3px}
+</style>
+</helmet>
+<div style="position: relative; width: 1440px; height: 900px; overflow: hidden; background: #FFFFFF; color: #0D0E10; font-family: Inter, system-ui, sans-serif">
+  <sc-if value="{{om.on}}" hint-placeholder-val="{{ true }}">
+    <div class="om" aria-hidden="true">
+      <sc-for list="{{om.cs}}" as="c" hint-placeholder-count="5">
+        <div class="{{c.cls}}" style="display: {{c.d}}; animation: {{c.a}}"><i></i></div>
+      </sc-for>
+    </div>
+  </sc-if>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <svg class="ln" aria-hidden="true" style="left: 0; top: 0; width: 1440px; height: 900px">
+    <path pathLength="100" d="M720 100 L80 100" style="animation: {{a.sep}}"></path>
+    <path pathLength="100" d="M720 100 L1360 100" style="animation: {{a.sep}}"></path>
+  </svg>
+  <a href="#" class="lien" style="position: absolute; left: 80px; top: 38px; font: 600 22px Inter, sans-serif; letter-spacing: -.01em">
+    <span class="w"><span class="o" style="animation: {{a.logo.o}}">Ernest H.</span><span class="f" aria-hidden="true" style="animation: {{a.logo.f}}">Ernest H.</span></span>
+  </a>
+  <span aria-hidden="true" style="position: absolute; left: 80px; top: 70px; width: 28px; height: 2px; border-radius: 1px; background: #3AA6B5; animation: {{a.sig}}"></span>
+  <nav class="nav" aria-label="Menu principal" style="position: absolute; left: 600px; top: 46px; display: flex; gap: 36px; font: 500 14px Inter, sans-serif">
+    <a href="#"><span class="w"><span class="o" style="animation: {{a.n0.o}}">Galerie</span><span class="f" aria-hidden="true" style="animation: {{a.n0.f}}">Galerie</span></span></a>
+    <a href="#"><span class="w"><span class="o" style="animation: {{a.n1.o}}">Services</span><span class="f" aria-hidden="true" style="animation: {{a.n1.f}}">Services</span></span></a>
+    <a href="#"><span class="w"><span class="o" style="animation: {{a.n2.o}}">À propos</span><span class="f" aria-hidden="true" style="animation: {{a.n2.f}}">À propos</span></span></a>
+    <a href="#" aria-current="page" style="position: relative"><span class="w"><span class="o" style="animation: {{a.n3.o}}">Contact</span><span class="f" aria-hidden="true" style="animation: {{a.n3.f}}">Contact</span></span><span aria-hidden="true" style="position: absolute; left: 0; right: 0; bottom: -7px; height: 2px; border-radius: 1px; background: #3AA6B5; animation: {{a.navU}}"></span></a>
+  </nav>
+  <span class="encre" aria-hidden="true" style="position: absolute; left: 1184px; top: 34px; width: 176px; height: 40px; border-radius: 20px; animation: {{a.hFl}}"></span>
+  <a href="#" class="btn" style="left: 1184px; top: 34px; width: 176px; height: 40px">
+    <span class="w"><span class="o" style="animation: {{a.hCta.o}}">Créer mon devis</span><span class="f" aria-hidden="true" style="animation: {{a.hCta.f}}">Créer mon devis</span></span>
+  </a>
+
+  <p style="position: absolute; left: 80px; top: 136px; margin: 0; display: flex; align-items: center; gap: 14px; font: 500 11.5px 'IBM Plex Mono', monospace; letter-spacing: .18em; text-transform: uppercase; color: #4B4D52">
+    <span aria-hidden="true" style="display: block; width: 28px; height: 1px; background: #D9783A; animation: {{a.eyeL}}"></span>
+    <span class="w"><span class="o" style="animation: {{a.eye.o}}">Contact · {{pas}}</span><span class="f" aria-hidden="true" style="animation: {{a.eye.f}}">Contact · {{pas}}</span></span>
+  </p>
+  <svg class="ln" aria-hidden="true" style="left: 0; top: 0; width: 1440px; height: 900px">
+    <path class="fil" pathLength="100" d="M80 172 L900 172" style="animation: {{a.fil}}"></path>
+  </svg>
+  <span aria-hidden="true" style="position: absolute; left: 80px; top: 171px; width: {{prog}}px; height: 2px; border-radius: 1px; background: #3AA6B5; transition: width .9s cubic-bezier(.45,0,.2,1); animation: {{a.prog}}"></span>
+
+  <h1 style="position: absolute; left: 78px; top: 232px; margin: 0; font: 300 46px/1.12 Inter, sans-serif; letter-spacing: -.03em; filter: drop-shadow(0 6px 9px rgba(20,18,16,.18))">
+    <span class="w"><span class="o" style="animation: {{w.q1.o}}">{{q.l1}}</span><span class="f" aria-hidden="true" style="animation: {{w.q1.f}}">{{q.l1}}</span></span><br>
+    <span class="w"><span class="o" style="animation: {{w.q2.o}}"><i style="font: italic 400 54px/1 'Instrument Serif', serif">{{q.l2}}</i></span><span class="f" aria-hidden="true" style="animation: {{w.q2.f}}"><i style="font: italic 400 54px/1 'Instrument Serif', serif">{{q.l2}}</i></span></span>
+  </h1>
+  <p style="position: absolute; left: 80px; top: 362px; margin: 0; font: 400 15px Inter, sans-serif; color: #4B4D52">
+    <span class="w"><span class="o" style="animation: {{w.h.o}}">{{q.h}}</span><span class="f" aria-hidden="true" style="animation: {{w.h.f}}">{{q.h}}</span></span>
+  </p>
+
+  <div style="position: absolute; left: 80px; top: 420px; width: 800px; opacity: 0; animation: {{w.z}}">
+    <sc-if value="{{q.isChips}}" hint-placeholder-val="{{ true }}">
+      <div role="group" aria-label="{{q.l1}}" style="display: flex; flex-wrap: wrap; gap: 12px">
+        <sc-for list="{{chips}}" as="c" hint-placeholder-count="6">
+          <button type="button" class="{{c.cls}}" aria-pressed="{{c.on}}" onClick="{{c.pick}}">{{c.t}}</button>
+        </sc-for>
+      </div>
+    </sc-if>
+    <sc-if value="{{q.isChamps}}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; gap: 40px">
+        <sc-for list="{{q.champs}}" as="c" hint-placeholder-count="2">
+          <div class="gros" style="width: {{c.w}}px">
+            <label for="{{c.id}}">{{c.lab}}</label>
+            <sc-if value="{{c.isIn}}" hint-placeholder-val="{{ true }}"><input id="{{c.id}}" type="{{c.type}}" autocomplete="{{c.ac}}" placeholder="{{c.ph}}"></sc-if>
+            <sc-if value="{{c.isTa}}" hint-placeholder-val="{{ false }}"><textarea id="{{c.id}}" rows="3" placeholder="{{c.ph}}"></textarea></sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+  </div>
+
+  <sc-if value="{{nav.on}}" hint-placeholder-val="{{ true }}">
+    <span class="encre" aria-hidden="true" style="position: absolute; left: 80px; top: 700px; width: 200px; height: 48px; border-radius: 24px; opacity: 0; animation: {{w.z}}"></span>
+    <button type="button" class="btn" style="left: 80px; top: 700px; width: 200px; height: 48px; border-radius: 24px; opacity: 0; animation: {{w.z}}" onClick="{{suivant}}">
+      <span>{{nav.t}}</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12 H19 M13 6 L19 12 L13 18"></path></svg>
+    </button>
+    <sc-if value="{{nav.back}}" hint-placeholder-val="{{ false }}">
+      <button type="button" class="lien" style="position: absolute; left: 308px; top: 714px; font: 500 14px Inter, sans-serif; color: #0D0E10; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px; opacity: 0; animation: {{w.z}}" onClick="{{precedent}}">Question précédente</button>
+    </sc-if>
+  </sc-if>
+  <p style="position: absolute; left: 80px; top: 806px; margin: 0; font: 500 10.5px 'IBM Plex Mono', monospace; letter-spacing: .08em; text-transform: uppercase; color: #4B4D52">
+    <span class="w"><span class="o" style="animation: {{a.coo.o}}">Pressé ? Simuler un devis · ou écrire à [votre adresse e-mail]</span><span class="f" aria-hidden="true" style="animation: {{a.coo.f}}">Pressé ? Simuler un devis · ou écrire à [votre adresse e-mail]</span></span>
+  </p>
+
+  <img class="photo" src="{{pv.src}}" alt="{{pv.alt}}" style="left: 980px; top: 220px; width: 380px; height: 520px; animation: {{pv.anim}}">
+  <svg class="ln" aria-hidden="true" style="left: 979px; top: 219px; width: 382px; height: 522px">
+    <path pathLength="100" d="M1 1 L381 1 L381 521 L1 521 Z" style="animation: {{pv.tr}}"></path>
+    <path class="comete" pathLength="100" d="M1 1 L381 1 L381 521 L1 521 Z" style="stroke: #3AA6B5; animation: {{pv.com}}"></path>
+  </svg>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"ombre":{"editor":"enum","options":["Alternance","Diagonale","Studio · latérale","Studio · spot","Studio · cyclo","Studio · strip","Sans"],"default":"Alternance"},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { q: 0, sw: 0, out: false, svc: -1 }; }
+  componentWillUnmount() { clearTimeout(this.t); }
+  aller(q) {
+    if (this.state.out || q < 0 || q > 5) return;
+    this.setState({ out: true }); clearTimeout(this.t);
+    this.t = setTimeout(() => this.setState({ q, sw: this.state.sw + 1, out: false }), 340);
+  }
+  renderVals() {
+    const K = .62, E = 'cubic-bezier(.45,0,.2,1)', st = this.state, first = st.sw === 0, alt = st.sw % 2 === 1;
+    const T = (dl, d) => ({ o: `wIn ${d * K}s ${E} ${(dl * K).toFixed(2)}s both`, f: `wIn ${d * K}s ${E} ${((dl + .25) * K).toFixed(2)}s both` });
+    const R = (dl, d) => { const n = alt ? 'wIn2' : 'wIn'; return { o: `${n} ${d}s ${E} ${dl.toFixed(2)}s both`, f: `${n} ${d}s ${E} ${(dl + .16).toFixed(2)}s both` }; };
+    const O = (k) => ({ o: `wOut .28s ${E} ${(.03 + k * .03).toFixed(2)}s both`, f: `wOut .26s ${E} ${(k * .03).toFixed(2)}s both` });
+    const SV = ['Un mariage', 'Une séance engagement', 'Une séance famille', 'Un anniversaire', 'Un événement', 'Culinaire ou studio'];
+    const Q = [
+      { l1: 'Quel est', l2: 'votre projet ?', h: 'Choisissez ce qui s’en rapproche le plus.', chips: true, p: 0 },
+      { l1: 'Pour quand', l2: 'est-ce prévu ?', h: 'Une date approximative suffit.', p: 1,
+        champs: [{ id: 'g-date', lab: 'Date envisagée', w: 360, type: 'date', ac: 'off', ph: '' }] },
+      { l1: 'Où est-ce que', l2: 'ça se passe ?', h: 'Une ville ou un lieu, même approximatif.', p: 2,
+        champs: [{ id: 'g-lieu', lab: 'Lieu', w: 520, type: 'text', ac: 'address-level2', ph: 'Namur, château de …' }] },
+      { l1: 'Comment', l2: 'vous joindre ?', h: 'Je vous réponds sous [48 h].', p: 3,
+        champs: [{ id: 'g-nom', lab: 'Prénom et nom', w: 360, type: 'text', ac: 'name', ph: 'Camille Dupont' }, { id: 'g-mail', lab: 'E-mail', w: 400, type: 'email', ac: 'email', ph: 'camille@exemple.be' }] },
+      { l1: 'Un mot', l2: 'de plus ?', h: 'Ce qui compte pour vous, vos envies, vos questions.', p: 4,
+        champs: [{ id: 'g-msg', lab: 'Votre message (facultatif)', w: 800, ta: true, ph: 'Racontez-moi votre journée…' }] },
+      { l1: 'Merci,', l2: 'c’est bien reçu.', h: 'Je reviens vers vous très vite avec mes premières questions.', p: 0, fin: true }
+    ];
+    const PH = [
+      { src: '/_blob/79058532f3d7d37917786298a0ac7945', alt: 'Les mariés devant le château' },
+      { src: '/_blob/2b6e173fdf036442185ceb85aa49021f', alt: 'Baiser sur la joue' },
+      { src: '/_blob/6832670aa81d041033100b28a2e4313e', alt: 'Couple enlacé dans un champ' },
+      { src: '/_blob/4e34f55900df112fe7752da33bc917a5', alt: 'Les mariés sur un balcon en fer forgé' },
+      { src: '/_blob/9b725673bcdd88ed30e17af8444a53f5', alt: 'Couple debout dans un grand champ' }
+    ];
+    const cq = Q[st.q];
+    const q = { l1: cq.l1, l2: cq.l2, h: cq.h, isChips: !!cq.chips, isChamps: !!cq.champs,
+      champs: (cq.champs || []).map(c => ({ ...c, isIn: !c.ta, isTa: !!c.ta })) };
+    const a = {
+      sep: `drawS ${.8 * K}s ${E} 0s both`, logo: T(.3, .8), sig: `wIn ${.5 * K}s ${E} ${1.35 * K}s both`,
+      n0: T(.5, .45), n1: T(.6, .45), n2: T(.7, .45), n3: T(.8, .45), navU: `wIn ${.5 * K}s ${E} ${1.2 * K}s both`,
+      hFl: `habille 1s ease ${.9 * K}s both`, hCta: T(1.3, .45),
+      eyeL: `wIn ${.4 * K}s ${E} ${.6 * K}s both`, eye: first ? T(.75, .6) : (st.out ? O(0) : R(.05, .4)),
+      fil: `drawS ${1.2 * K}s ${E} ${1.0 * K}s both`, prog: `wIn ${.8 * K}s ${E} ${1.8 * K}s both`, coo: T(3.6, 1.2)
+    };
+    const w = st.out ? { q1: O(0), q2: O(1), h: O(2), z: 'devOut .25s ease-out forwards' }
+      : first ? { q1: T(1.2, .9), q2: T(1.45, 1), h: T(2.0, .8), z: `habille .9s ease ${(2.6 * K).toFixed(2)}s both` }
+      : { q1: R(.05, .5), q2: R(.2, .6), h: R(.45, .5), z: 'habille .6s ease .6s both' };
+    const chips = SV.map((t, i) => ({ t, on: st.svc === i, cls: st.svc === i ? 'chip on' : 'chip', pick: () => { this.setState({ svc: i }); this.aller(1); } }));
+    const nav = { on: !cq.fin && !cq.chips, back: st.q > 0, t: st.q === 4 ? 'Envoyer' : 'Suivant' };
+    const ph = PH[cq.p], dl = first ? 1.6 * K : .05;
+    const pv = { src: ph.src, alt: ph.alt,
+      anim: st.out ? 'devOut .26s ease-out forwards' : `${st.q % 2 ? 'devNB' : 'dev'}${alt ? '2' : ''} 2.8s ease-in-out ${dl.toFixed(2)}s both`,
+      tr: st.out ? 'none' : `${alt ? 'trace2' : 'trace'} 2.6s ${E} ${dl.toFixed(2)}s both`,
+      com: st.out ? 'eteint .2s ease forwards' : `apparait 1.8s ease-in-out ${first ? 5.4 : 3}s both, comete 18s linear ${first ? 5.4 : 3}s infinite` };
+    const pas = cq.fin ? 'envoyé' : 'question ' + (st.q + 1) + ' / 5';
+    const prog = Math.round(820 * (cq.fin ? 1 : (st.q + 1) / 5));
+    const oz = this.props.ombre || 'Alternance', alterne = oz === 'Alternance';
+    const OM = [['Diagonale', 'dia'], ['Studio · latérale', 'lat'], ['Studio · spot', 'spot'], ['Studio · cyclo', 'cyc'], ['Studio · strip', 'str']];
+    const om = { on: oz !== 'Sans', cs: OM.map((o, k) => ({ cls: 'om-i ' + o[1], d: alterne || oz === o[0] ? 'block' : 'none',
+      a: alterne ? `alt${k} 70s ease-in-out infinite` : (oz === o[0] ? 'seul 2.5s ease-in-out both' : 'none') })) };
+
+    return { a, w, q, chips, nav, pv, pas, prog, suivant: () => this.aller(st.q + 1), precedent: () => this.aller(st.q - 1), om };
+  }
+}
+</script>
+</body>
+</html>

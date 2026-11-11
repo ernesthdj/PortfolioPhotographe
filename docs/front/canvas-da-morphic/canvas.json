@@ -7,7 +7,7 @@
   "title": "Ernest H. — DA Morphic",
   "launch": {
     "view": "canvas",
-    "page": "p6"
+    "page": "p7"
   },
   "pages": [
     {
@@ -33,6 +33,10 @@
     {
       "id": "p6",
       "name": "À propos"
+    },
+    {
+      "id": "p7",
+      "name": "Contact"
     }
   ],
   "boards": {
@@ -224,6 +228,33 @@
       "title": "À propos · C · Une journée en trois temps",
       "is_interactive": true,
       "page": "p6"
+    },
+    "ContactLettre.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "Contact · A · La lettre",
+      "is_interactive": true,
+      "page": "p7"
+    },
+    "ContactPortes.dc.html": {
+      "x": 1520,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "Contact · B · Deux portes (retenue)",
+      "is_interactive": true,
+      "page": "p7"
+    },
+    "ContactGuide.dc.html": {
+      "x": 3040,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "Contact · C · Conversation guidée",
+      "is_interactive": true,
+      "page": "p7"
     }
   },
   "order": [
@@ -247,7 +278,10 @@
     "ServicesFiche.dc.html",
     "AproposPortrait.dc.html",
     "AproposFil.dc.html",
-    "AproposTemps.dc.html"
+    "AproposTemps.dc.html",
+    "ContactLettre.dc.html",
+    "ContactPortes.dc.html",
+    "ContactGuide.dc.html"
   ],
   "notes": {
     "titre": {
@@ -323,6 +357,14 @@
       "kind": "title1",
       "maxW": 4480,
       "page": "p6"
+    },
+    "titre7": {
+      "x": 0,
+      "y": -300,
+      "text": "Contact : 3 structures",
+      "kind": "title1",
+      "maxW": 4480,
+      "page": "p7"
     }
   },
   "designSystems": []

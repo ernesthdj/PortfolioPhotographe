@@ -75,11 +75,19 @@ Collage cinématique (≈ 6,5 s) : cadres tracés, photos développées en noir 
 - Bouton noir « Me contacter » + lien « ou simuler un devis ». Ombres d'arrière-plan validées.
 - Profil IT présenté discrètement : jamais de section « développeur » à part, seulement ces trois touches.
 
+### Contact (retenue : B · deux portes)
+- Titre « Comment voulez-vous *commencer ?* » + deux lignes : un prix tout de suite, ou d'abord une conversation.
+- Deux grandes cartes de verre côte à côte, tracées puis habillées : 01 · Le plus rapide « Simuler mon devis » (photo couleur, bouton noir « Lancer le simulateur » vers le générateur PID) et 02 · Le plus personnel « Écrire un message » (photo noir et blanc, bouton contour « Écrire maintenant »).
+- « Écrire maintenant » : la carte de gauche s'efface, la carte de droite s'étire sur toute la largeur (transition left/width) et devient un formulaire court (prénom et nom, e-mail, type d'événement, message, « Envoyer »). « Revenir aux deux choix » : retour rapide sans rejouer l'intro.
+- Ligne de coordonnées en mono au pied de page : [e-mail] · [téléphone] · [@compte] · réponse sous [48 h].
+- Dans PID : validation serveur (Form Request), jeton CSRF, consentement RGPD à ajouter au formulaire, envoi réel de l'e-mail.
+
 ## 6. Reste à faire
 
 - [x] Page services (structure C retenue, ombres validées)
 - [x] Page à propos (structure A retenue)
-- [ ] Pages : contact, entrée du générateur de devis.
+- [x] Page contact (structure B retenue)
+- [ ] Entrée du générateur de devis.
 - [ ] Version smartphone.
 - [ ] Remplacer photos, textes entre crochets et témoignages par les vrais contenus (dans PID).
 - [ ] Mettre à jour `PID/docs/PALETTE.md` et `PID/docs/UI-DESIGN.md` (anciens tons crème et bronze).
