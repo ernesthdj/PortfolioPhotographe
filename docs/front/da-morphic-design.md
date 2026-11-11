@@ -82,12 +82,33 @@ Collage cinématique (≈ 6,5 s) : cadres tracés, photos développées en noir 
 - Ligne de coordonnées en mono au pied de page : [e-mail] · [téléphone] · [@compte] · réponse sous [48 h].
 - Dans PID : validation serveur (Form Request), jeton CSRF, consentement RGPD à ajouter au formulaire, envoi réel de l'e-mail.
 
+### Simulateur de devis (retenu : A + C · pupitre et journée)
+- Fidèle au dossier de lancement de PID : une seule page E01 + panneaux (pas de tunnel d'étapes).
+- Gauche : catalogue groupé par catégorie dans une pastille de verre ; la ligne du service est elle-même cliquable, avec un petit + cerclé (pas de bouton « Ajouter »).
+- Centre : la journée de 10:00 à 24:00, une rangée par prestation (bande de présence foncée pour les heures incluses, plus claire pour le dépassement facturé, lieux posés à leur heure, arc cyan vers le lieu le plus éloigné et km dans l'intitulé), puis les lignes de prix qui défilent.
+- Droite : totaux HTVA / TVA 21 % / TVAC, « Soumettre mon devis » inactif tant qu'une adresse manque ; code promo ou de parrainage ; suggestion d'option.
+- Panneau E01.a « Configurer ce service » (le fond se résorbe, le panneau se trace) : durée par pas de 15 min (demi-heure entamée facturée) ou quantité, date, lieux répétables sans limite (zone qui défile), options, mini-frise de la journée et prix recalculés en direct.
+- Panneau E01.b « Soumettre mon devis » : récapitulatif + « Créez votre compte » (e-mail, mot de passe) ou « J'ai déjà un compte » ; « Soumission… » puis « Merci, votre dossier est en cours d'examen. » et « Voir mon dossier ».
+- Transport : « Départ photographe → <lieu> : <km> », jamais l'adresse de départ. Montants de la maquette = exemples.
+
+### Espace client · dossier (retenu : A · page à onglets, E03 de PID)
+- En-tête client : « Mes dossiers » (page active) + bouton noir « Simuler un devis ».
+- Titre « Votre mariage, *en cours d'examen.* », suivi des étapes Soumis → Accepté → Confirmé → Réalisé (point cyan qui pulse sur l'étape en cours).
+- Encadré « Modifiable jusqu'au <date limite> » + « + Ajouter au dossier ».
+- Onglets dans une pastille de verre : Devis (figé, frise de la journée, lignes, totaux), Fiches techniques (complète / incomplète, informations manquantes), Demandes, Documents (versions PDF), Parrainage (code + Copier).
+
+### Parcours complet (canvas, page « Parcours complet »)
+- Copies reliées des pages retenues : Intro → Accueil → Galerie, Services, À propos, Contact, Simulateur (+ soumission) → Espace client. Lancer « Play » sur « 1 · Intro ».
+
 ## 6. Reste à faire
 
 - [x] Page services (structure C retenue, ombres validées)
 - [x] Page à propos (structure A retenue)
 - [x] Page contact (structure B retenue)
-- [ ] Entrée du générateur de devis.
+- [x] Simulateur de devis (A + C retenu) et soumission avec création de compte
+- [x] Espace client · dossier (A retenu)
+- [x] Parcours complet relié sur le canvas
+- [ ] Écrans encore non dessinés : Mes dossiers (E02), fiche technique (UC02.3), Ajouter au dossier (E03.f), connexion seule.
 - [ ] Version smartphone.
 - [ ] Remplacer photos, textes entre crochets et témoignages par les vrais contenus (dans PID).
 - [ ] Mettre à jour `PID/docs/PALETTE.md` et `PID/docs/UI-DESIGN.md` (anciens tons crème et bronze).

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Parcours · Intro collage</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+.papier{background-image:url(/_blob/612ef09ea0c09023a971391c52f66ba3);background-size:256px 256px}
+.plan{position:absolute;left:0;top:0;width:1440px;height:900px}
+svg.ln{position:absolute;left:0;top:0;width:1440px;height:900px;overflow:visible;pointer-events:none}
+.ln path{fill:none;stroke-width:2px;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 102;stroke-dashoffset:101}
+.w{position:relative;display:inline-block;white-space:nowrap}
+.w .o{display:block;color:transparent;-webkit-text-stroke:1px currentColor}
+.w .f{position:absolute;left:0;top:-.24em;padding:.24em .14em .24em 0;background-color:currentColor;background-image:radial-gradient(closest-side,rgba(255,255,255,.22),rgba(255,255,255,.07) 45%,rgba(255,255,255,0)),url(/_blob/956ecc2dced01c374092a3a28db73e7e);background-size:70% 60%,120px 120px;background-repeat:no-repeat,repeat;background-position:18% 12%,0 0;background-blend-mode:screen,overlay;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.ph{position:absolute;display:block;object-fit:cover;--c0:inset(0 100% 0 0);--c1:inset(0 0 0 0)}
+.pt{position:absolute;width:10px;height:10px;border-radius:50%;background:#7A1F33;box-shadow:inset 0 1px 0 rgba(255,255,255,.14),inset 0 -1.5px 0 rgba(0,0,0,.24)}
+.ctl{position:absolute;height:28px;padding:0 12px;border-radius:14px;border:2px solid currentColor;background:transparent;color:#4B4D52;font:500 12px Inter,sans-serif;cursor:pointer}
+.ctl:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+@keyframes pan{from{transform:translateX(70px)}to{transform:translateX(-150px)}}
+@keyframes trace{0%{stroke-dashoffset:101}50%{stroke-dashoffset:0}65%{stroke-dashoffset:0}100%{stroke-dashoffset:-102}}
+@keyframes teinte{0%{stroke:#3AA6B5}55%{stroke:#D9783A}100%{stroke:#7A1F33}}
+@keyframes wIn{from{clip-path:inset(-12px 100% -12px 0)}to{clip-path:inset(-12px -12px -12px 0)}}
+@keyframes wOut{from{clip-path:inset(-12px -12px -12px 0)}to{clip-path:inset(-12px 100% -12px 0)}}
+@keyframes rIn{from{clip-path:var(--c0)}to{clip-path:var(--c1)}}
+@keyframes rOut{from{clip-path:var(--c1)}to{clip-path:var(--c0)}}
+@keyframes melt{0%{transform:scale(1)}40%{transform:scale(2,.4)}100%{transform:scale(0)}}
+@keyframes devNB{0%{opacity:0;filter:grayscale(1) contrast(1.05)}45%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
+@keyframes dev{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@media (prefers-reduced-motion: reduce){*{animation-duration:0s !important;animation-delay:0s !important}}
+</style>
+</helmet>
+<div class="papier" style="position: relative; width: 1440px; height: 900px; overflow: hidden; background-color: #FFFFFF; color: #0D0E10; font-family: Inter, system-ui, sans-serif">
+  <div aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none; background: radial-gradient(118% 100% at 50% 44%,rgba(20,18,16,0) 48%,rgba(20,18,16,.10) 76%,rgba(20,18,16,.27) 100%); box-shadow: inset 0 0 140px rgba(20,18,16,.10)"></div>
+
+  <sc-if value="{{enIntro}}" hint-placeholder-val="{{ true }}">
+    <div class="plan" style="animation: {{a.pan}}">
+      <img class="ph" src="/_blob/4e34f55900df112fe7752da33bc917a5" alt="Les mariés enlacés sur un balcon" style="left: 300px; top: 170px; width: 240px; height: 360px; animation: {{a.pA}}">
+      <img class="ph" src="/_blob/6832670aa81d041033100b28a2e4313e" alt="Couple enlacé dans un champ" style="left: 580px; top: 140px; width: 420px; height: 180px; animation: {{a.pB}}">
+      <img class="ph" src="/_blob/2b6e173fdf036442185ceb85aa49021f" alt="Le marié embrasse la mariée sur la joue" style="left: 580px; top: 350px; width: 200px; height: 300px; animation: {{a.pC}}">
+      <img class="ph" src="/_blob/9b725673bcdd88ed30e17af8444a53f5" alt="Couple debout dans un grand champ" style="left: 820px; top: 470px; width: 400px; height: 172px; animation: {{a.pD}}">
+      <img class="ph" src="/_blob/79058532f3d7d37917786298a0ac7945" alt="Les mariés devant le château" style="left: 1040px; top: 110px; width: 220px; height: 330px; animation: {{a.pE}}">
+      <svg class="ln" aria-hidden="true" style="stroke: #0D0E10">
+        <path pathLength="100" d="M299 169 L541 169 L541 531 L299 531 Z" style="animation: {{a.tA}}"></path>
+        <path pathLength="100" d="M579 139 L1001 139 L1001 321 L579 321 Z" style="animation: {{a.tB}}"></path>
+        <path pathLength="100" d="M579 349 L781 349 L781 651 L579 651 Z" style="animation: {{a.tC}}"></path>
+        <path pathLength="100" d="M819 469 L1221 469 L1221 643 L819 643 Z" style="animation: {{a.tD}}"></path>
+        <path pathLength="100" d="M1039 109 L1261 109 L1261 441 L1039 441 Z" style="animation: {{a.tE}}"></path>
+      </svg>
+      <span class="pt" aria-hidden="true" style="left: 294px; top: 164px; animation: {{a.pt}}"></span>
+    </div>
+    <p style="position: absolute; left: 300px; top: 728px; margin: 0; font: 500 20px Inter, sans-serif; letter-spacing: -.01em">
+      <span class="w"><span class="o" style="animation: {{a.m1.o}}">Un regard,</span><span class="f" aria-hidden="true" style="animation: {{a.m1.f}}">Un regard,</span></span>
+      <span class="w"><span class="o" style="animation: {{a.m2.o}}">un instant,</span><span class="f" aria-hidden="true" style="animation: {{a.m2.f}}">un instant,</span></span>
+      <span class="w"><span class="o" style="animation: {{a.m3.o}}">une histoire.</span><span class="f" aria-hidden="true" style="animation: {{a.m3.f}}">une histoire.</span></span>
+    </p>
+    <p style="position: absolute; left: 300px; top: 766px; margin: 0; font: 500 12.5px 'IBM Plex Mono', monospace; letter-spacing: .04em; color: #4B4D52">
+      <span class="w"><span class="o" style="animation: {{a.tc.o}}">Ernest H. · Photographe</span><span class="f" aria-hidden="true" style="animation: {{a.tc.f}}">Ernest H. · Photographe</span></span>
+    </p>
+    <button type="button" class="ctl" style="right: 24px; top: 24px" onClick="{{passer}}">Passer l'intro</button>
+  </sc-if>
+
+  <sc-if value="{{fin}}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; inset: 0">
+      <dc-import name="PAccueil" seul="{{ false }}" retard="{{ 0 }}" phase="in" hint-size="1440px,900px"></dc-import>
+    </div>
+  </sc-if>
+
+  <button type="button" class="ctl" style="right: 24px; bottom: 20px" onClick="{{replay}}">Rejouer l'intro</button>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { ph: 'in', fin: false }; }
+  componentDidMount() { this.plan(); }
+  componentWillUnmount() { clearTimeout(this.tFin); clearTimeout(this.tIn); }
+  plan() { clearTimeout(this.tFin); this.tFin = setTimeout(() => this.setState({ fin: true }), 6400); }
+  renderVals() {
+    const on = this.state.ph === 'in';
+    const E = 'cubic-bezier(.45,0,.2,1)';
+    const END = 5.5;
+    const T = (dl, d) => ({
+      o: on ? `wIn ${d}s ${E} ${dl}s both, wOut .25s ${E} ${END + .1}s forwards` : 'none',
+      f: on ? `wIn ${d}s ${E} ${dl + .16}s both, wOut .25s ${E} ${END + .06}s forwards` : 'none'
+    });
+    const TR = (dl) => on ? `trace 1.5s ${E} ${dl}s both, teinte 1.5s linear ${dl}s both` : 'none';
+    const PH = (dl, i, c) => on ? `rIn .8s ${E} ${dl}s both, ${c ? 'dev' : 'devNB'} 2.6s ease-in-out ${dl}s both, rOut .4s ${E} ${END + i * .08}s forwards` : 'none';
+    const a = {
+      pan: on ? `pan 6.4s linear 0s both` : 'none',
+      pt: on ? `melt .3s ${E} 0s both` : 'none',
+      tA: TR(0), pA: PH(.45, 0),
+      tB: TR(.9), pB: PH(1.35, 1, true),
+      tC: TR(1.7), pC: PH(2.15, 2),
+      tD: TR(2.4), pD: PH(2.85, 3),
+      tE: TR(3.1), pE: PH(3.55, 4, true),
+      m1: T(1.2, .6), m2: T(2.6, .6), m3: T(4.0, .7), tc: T(4.5, .7)
+    };
+    const passer = () => { clearTimeout(this.tFin); this.setState({ fin: true }); };
+    const replay = () => {
+      clearTimeout(this.tIn);
+      this.setState({ ph: 'out', fin: false });
+      this.tIn = setTimeout(() => { this.setState({ ph: 'in' }); this.plan(); }, 60);
+    };
+    return { a, passer, replay, fin: this.state.fin, enIntro: !this.state.fin };
+  }
+}
+</script>
+</body>
+</html>

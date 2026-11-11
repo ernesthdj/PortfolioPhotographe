@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Simulateur · Le ticket</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+.vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(118% 100% at 50% 44%,rgba(20,18,16,0) 48%,rgba(20,18,16,.10) 76%,rgba(20,18,16,.27) 100%);box-shadow:inset 0 0 140px rgba(20,18,16,.10)}
+.w{position:relative;display:inline-block;white-space:nowrap}
+.w .o{display:block;color:transparent;-webkit-text-stroke:1px currentColor}
+.w .f{position:absolute;left:0;top:-.24em;padding:.24em .14em .24em 0;color:inherit}
+.verre{position:absolute;border-radius:24px;background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(250,248,244,.86) 55%,rgba(240,237,231,.9) 100%);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 16px 32px -12px rgba(20,18,16,.30),0 4px 10px -3px rgba(20,18,16,.16),inset 0 1px 0 #fff,inset 0 0 0 1px rgba(255,255,255,.6),inset 0 -2px 0 rgba(20,18,16,.06),inset 0 -12px 18px -12px rgba(20,18,16,.10)}
+.verre::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(90% 140% at 22% 0%,rgba(255,255,255,.75),rgba(255,255,255,0) 60%)}
+svg.ln{position:absolute;overflow:visible;pointer-events:none}
+.ln path{fill:none;stroke:#0D0E10;stroke-width:1.5px;shape-rendering:geometricPrecision;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 102;stroke-dashoffset:101}
+.ln path.comete{stroke-dasharray:6 94;stroke-dashoffset:0}
+.ln path.fil{stroke-width:1px;stroke:rgba(13,14,16,.2)}
+.nav a,.lien{color:inherit;text-decoration:none}
+.btn{position:absolute;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:20px;text-decoration:none;font:500 14px Inter,sans-serif;color:#EEEDE9}
+.btn.clair{color:#0D0E10}
+.btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.encre{background:#0D0E10;box-shadow:0 20px 34px -10px rgba(13,14,16,.58),0 7px 12px -3px rgba(13,14,16,.32),inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1.5px 0 rgba(0,0,0,.22)}
+.photo{position:absolute;display:block;object-fit:cover;box-shadow:0 22px 40px -16px rgba(20,18,16,.34),0 6px 12px -4px rgba(20,18,16,.16)}
+@keyframes drawS{from{stroke-dashoffset:101}to{stroke-dashoffset:0}}
+@keyframes trace{0%{stroke-dashoffset:101}50%{stroke-dashoffset:0}65%{stroke-dashoffset:0}100%{stroke-dashoffset:-102}}
+@keyframes trace2{0%{stroke-dashoffset:101}50%{stroke-dashoffset:0}65%{stroke-dashoffset:0}100%{stroke-dashoffset:-102}}
+@keyframes wIn{from{clip-path:inset(-24px 100% -24px 0)}to{clip-path:inset(-24px -24px -24px 0)}}
+@keyframes wIn2{from{clip-path:inset(-24px 100% -24px 0)}to{clip-path:inset(-24px -24px -24px 0)}}
+@keyframes wOut{from{clip-path:inset(-24px -24px -24px 0)}to{clip-path:inset(-24px 100% -24px 0)}}
+@keyframes habille{from{opacity:0}to{opacity:1}}
+@keyframes dev{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@keyframes dev2{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@keyframes devNB{0%{opacity:0;filter:grayscale(1) contrast(1.05)}45%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
+@keyframes devNB2{0%{opacity:0;filter:grayscale(1) contrast(1.05)}45%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
+@keyframes devOut{from{opacity:1}to{opacity:0}}
+@keyframes apparait{from{stroke-opacity:0}to{stroke-opacity:1}}
+@keyframes eteint{from{stroke-opacity:1}to{stroke-opacity:0}}
+@keyframes comete{from{stroke-dashoffset:0}to{stroke-dashoffset:-100}}
+.om{position:absolute;inset:-160px;pointer-events:none;overflow:hidden;animation:habille 3.5s ease-in-out 3.6s both}
+.om-i{position:absolute;inset:0;opacity:0}
+.om-i>i{position:absolute;inset:-200px}
+.dia>i{background:linear-gradient(to top right,rgba(20,18,16,0) 28%,rgba(20,18,16,.12) 40%,rgba(20,18,16,.26) 50%,rgba(20,18,16,.12) 60%,rgba(20,18,16,0) 72%);-webkit-mask-image:linear-gradient(to bottom right,#000 10%,rgba(0,0,0,.3) 75%,transparent 95%);mask-image:linear-gradient(to bottom right,#000 10%,rgba(0,0,0,.3) 75%,transparent 95%);filter:blur(14px);animation:glisseA 19s ease-in-out infinite alternate}
+.lat>i{background:linear-gradient(to left,rgba(20,18,16,.30) 0%,rgba(20,18,16,.16) 22%,rgba(20,18,16,0) 52%),linear-gradient(to top,rgba(20,18,16,.12) 0%,rgba(20,18,16,0) 30%);filter:blur(10px);animation:glisseH 23s ease-in-out infinite alternate}
+.spot>i{background:radial-gradient(ellipse 55% 60% at 50% 22%,rgba(20,18,16,0) 30%,rgba(20,18,16,.10) 62%,rgba(20,18,16,.28) 100%);animation:respire 17s ease-in-out infinite alternate}
+.cyc>i{background:linear-gradient(180deg,rgba(20,18,16,.22) 0%,rgba(20,18,16,.06) 34%,rgba(20,18,16,0) 52%,rgba(20,18,16,0) 70%,rgba(20,18,16,.10) 84%,rgba(20,18,16,.20) 100%);filter:blur(8px);animation:glisseV 21s ease-in-out infinite alternate}
+.str>i{background:linear-gradient(to top left,rgba(20,18,16,.20) 0%,rgba(20,18,16,.08) 30%,rgba(20,18,16,0) 44%,rgba(20,18,16,0) 56%,rgba(20,18,16,.08) 70%,rgba(20,18,16,.22) 100%);filter:blur(12px);animation:glisseB 25s ease-in-out infinite alternate}
+@keyframes glisseA{from{transform:translate(-70px,50px)}to{transform:translate(80px,-60px)}}
+@keyframes glisseB{from{transform:translate(70px,40px)}to{transform:translate(-60px,-50px)}}
+@keyframes glisseH{from{transform:translateX(-90px)}to{transform:translateX(60px)}}
+@keyframes glisseV{from{transform:translateY(-50px)}to{transform:translateY(40px)}}
+@keyframes respire{from{transform:translate(-60px,-20px) scale(1)}to{transform:translate(70px,20px) scale(1.06)}}
+@keyframes seul{from{opacity:0}to{opacity:1}}
+@keyframes alt0{0%{opacity:0}5%,15%{opacity:1}20%,100%{opacity:0}}
+@keyframes alt1{0%,20%{opacity:0}25%,35%{opacity:1}40%,100%{opacity:0}}
+@keyframes alt2{0%,40%{opacity:0}45%,55%{opacity:1}60%,100%{opacity:0}}
+@keyframes alt3{0%,60%{opacity:0}65%,75%{opacity:1}80%,100%{opacity:0}}
+@keyframes alt4{0%,80%{opacity:0}85%,95%{opacity:1}100%{opacity:0}}
+@media (prefers-reduced-motion: reduce){*{animation-duration:0s !important;animation-delay:0s !important;transition-duration:0s !important}}
+
+.mono{font:500 10.5px 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#4B4D52}
+.carte{position:absolute;top:236px;width:140px;padding:0;border:0;background:transparent;cursor:pointer;text-align:left;color:#0D0E10}
+.carte img{display:block;width:140px;height:96px;object-fit:cover;box-shadow:0 14px 24px -12px rgba(20,18,16,.32)}
+.carte .t{display:block;margin-top:10px;font:400 14px Inter,sans-serif}
+.carte .p{display:block;margin-top:2px;font:500 10.5px 'IBM Plex Mono',monospace;color:#4B4D52}
+.carte.off img{filter:grayscale(1) contrast(1.05) brightness(1.04)}
+.cfg{position:absolute;top:446px}
+.step{display:inline-flex;align-items:center;gap:12px;margin-top:8px}
+.step span.b{width:32px;height:32px;border-radius:16px;box-shadow:inset 0 0 0 1.5px #0D0E10;display:inline-flex;align-items:center;justify-content:center;font:400 16px Inter,sans-serif}
+.chip{display:inline-flex;align-items:center;height:30px;padding:0 12px;border-radius:15px;box-shadow:inset 0 0 0 1.2px rgba(13,14,16,.5);font:400 13px Inter,sans-serif}
+.chip.on{background:#0D0E10;color:#EEEDE9;box-shadow:none}
+.ticket{position:absolute;left:964px;top:196px;width:396px;height:660px;background:#FCFBF8;box-shadow:0 26px 44px -18px rgba(20,18,16,.36),0 6px 12px -4px rgba(20,18,16,.14)}
+@keyframes tkIn{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(-40px -40px -60px -40px)}}
+.bx{display:inline-block;width:14px;height:14px;box-sizing:border-box;border:1.5px solid #0D0E10;border-radius:3px;margin-right:10px;vertical-align:-2px}
+.bx.on{background:#0D0E10}
+.tl{position:absolute;left:28px;width:340px;display:flex;align-items:baseline;gap:8px;font:400 13px 'IBM Plex Mono',monospace;color:#0D0E10}
+.tl .lb{white-space:nowrap}
+.tl .pt{flex:1;border-bottom:1px dotted rgba(13,14,16,.45);transform:translateY(-3px)}
+.tl .sb{position:absolute;left:0;top:18px;font:400 11.5px Inter,sans-serif;color:#4B4D52;white-space:nowrap}
+button.btn{border:0;cursor:pointer;padding:0;background:transparent}
+.carte:focus-visible,.btn:focus-visible{outline:2px solid #0D0E10;outline-offset:3px}
+</style>
+</helmet>
+<div style="position: relative; width: 1440px; height: 900px; overflow: hidden; background: #FFFFFF; color: #0D0E10; font-family: Inter, system-ui, sans-serif">
+  <sc-if value="{{om.on}}" hint-placeholder-val="{{ true }}">
+    <div class="om" aria-hidden="true">
+      <sc-for list="{{om.cs}}" as="c" hint-placeholder-count="5">
+        <div class="{{c.cls}}" style="display: {{c.d}}; animation: {{c.a}}"><i></i></div>
+      </sc-for>
+    </div>
+  </sc-if>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <svg class="ln" aria-hidden="true" style="left: 0; top: 0; width: 1440px; height: 900px">
+    <path pathLength="100" d="M720 100 L80 100" style="animation: {{a.sep}}"></path>
+    <path pathLength="100" d="M720 100 L1360 100" style="animation: {{a.sep}}"></path>
+  </svg>
+  <a href="#" class="lien" style="position: absolute; left: 80px; top: 38px; font: 600 22px Inter, sans-serif; letter-spacing: -.01em">
+    <span class="w"><span class="o" style="animation: {{a.logo.o}}">Ernest H.</span><span class="f" aria-hidden="true" style="animation: {{a.logo.f}}">Ernest H.</span></span>
+  </a>
+  <span aria-hidden="true" style="position: absolute; left: 80px; top: 70px; width: 28px; height: 2px; border-radius: 1px; background: #3AA6B5; animation: {{a.sig}}"></span>
+  <nav class="nav" aria-label="Menu principal" style="position: absolute; left: 600px; top: 46px; display: flex; gap: 36px; font: 500 14px Inter, sans-serif">
+    <a href="#"><span class="w"><span class="o" style="animation: {{a.n0.o}}">Galerie</span><span class="f" aria-hidden="true" style="animation: {{a.n0.f}}">Galerie</span></span></a>
+    <a href="#"><span class="w"><span class="o" style="animation: {{a.n1.o}}">Services</span><span class="f" aria-hidden="true" style="animation: {{a.n1.f}}">Services</span></span></a>
+    <a href="#"><span class="w"><span class="o" style="animation: {{a.n2.o}}">À propos</span><span class="f" aria-hidden="true" style="animation: {{a.n2.f}}">À propos</span></span></a>
+    <a href="#"><span class="w"><span class="o" style="animation: {{a.n3.o}}">Contact</span><span class="f" aria-hidden="true" style="animation: {{a.n3.f}}">Contact</span></span></a>
+  </nav>
+  <span class="encre" aria-hidden="true" style="position: absolute; left: 1184px; top: 34px; width: 176px; height: 40px; border-radius: 20px; animation: {{a.hFl}}"></span>
+  <a href="#" class="btn" aria-current="page" style="left: 1184px; top: 34px; width: 176px; height: 40px">
+    <span class="w"><span class="o" style="animation: {{a.hCta.o}}">Créer mon devis</span><span class="f" aria-hidden="true" style="animation: {{a.hCta.f}}">Créer mon devis</span></span>
+  </a>
+
+  <p style="position: absolute; left: 80px; top: 128px; margin: 0; display: flex; align-items: center; gap: 14px; font: 500 11.5px 'IBM Plex Mono', monospace; letter-spacing: .18em; text-transform: uppercase; color: #4B4D52">
+    <span aria-hidden="true" style="display: block; width: 28px; height: 1px; background: #D9783A; animation: {{a.eyeL}}"></span>
+    <span class="w"><span class="o" style="animation: {{a.eye.o}}">Simulateur de devis</span><span class="f" aria-hidden="true" style="animation: {{a.eye.f}}">Simulateur de devis</span></span>
+  </p>
+  <h1 style="position: absolute; left: 78px; top: 154px; margin: 0; font: 300 40px/1.1 Inter, sans-serif; letter-spacing: -.03em; filter: drop-shadow(0 6px 9px rgba(20,18,16,.18))">
+    <span class="w"><span class="o" style="animation: {{a.h1.o}}">Votre devis</span><span class="f" aria-hidden="true" style="animation: {{a.h1.f}}">Votre devis</span></span>
+    <span class="w"><span class="o" style="animation: {{a.h2.o}}"><i style="font: italic 400 48px/1 'Instrument Serif', serif">s’imprime en direct.</i></span><span class="f" aria-hidden="true" style="animation: {{a.h2.f}}"><i style="font: italic 400 48px/1 'Instrument Serif', serif">s’imprime en direct.</i></span></span>
+  </h1>
+
+  <div role="group" aria-label="Catalogue des services">
+    <sc-for list="{{cartes}}" as="c" hint-placeholder-count="6">
+      <button type="button" class="{{c.cls}}" aria-pressed="{{c.on}}" style="left: {{c.x}}px">
+        <img src="{{c.src}}" alt="" style="animation: {{c.dev}}">
+        <span class="t"><span class="w"><span class="o" style="animation: {{c.at.o}}">{{c.t}}</span><span class="f" aria-hidden="true" style="animation: {{c.at.f}}">{{c.t}}</span></span></span>
+        <span class="p"><span class="w"><span class="o" style="animation: {{c.ap.o}}">{{c.p}}</span><span class="f" aria-hidden="true" style="animation: {{c.ap.f}}">{{c.p}}</span></span></span>
+      </button>
+    </sc-for>
+  </div>
+  <svg class="ln" aria-hidden="true" style="left: 79px; top: 235px; width: 142px; height: 98px">
+    <path pathLength="100" d="M1 1 L141 1 L141 97 L1 97 Z" style="animation: {{a.selF}}"></path>
+  </svg>
+  <svg class="ln" aria-hidden="true" style="left: 0; top: 0; width: 1440px; height: 900px">
+    <path pathLength="100" d="M80 420 L900 420" style="stroke: #3AA6B5; animation: {{a.lien}}"></path>
+  </svg>
+
+  <p class="mono cfg" style="left: 80px; top: 440px; margin: 0; color: #0D0E10">
+    <span class="w"><span class="o" style="animation: {{a.cT.o}}">Mariage · configurer</span><span class="f" aria-hidden="true" style="animation: {{a.cT.f}}">Mariage · configurer</span></span>
+  </p>
+  <div class="cfg" style="left: 80px; top: 476px; opacity: 0; animation: {{a.cfg}}">
+    <span class="mono" style="display: block">Durée de présence</span>
+    <div class="step"><span class="b" aria-hidden="true">−</span><span style="min-width: 80px; text-align: center; font: 300 24px Inter, sans-serif">9 h 15</span><span class="b" aria-hidden="true">+</span></div>
+    <p style="margin: 8px 0 0; font: 400 12.5px Inter, sans-serif; color: #4B4D52">8 h incluses · chaque demi-heure entamée en plus : 45,00 €</p>
+  </div>
+  <div class="cfg" style="left: 470px; top: 476px; opacity: 0; animation: {{a.cfg}}">
+    <span class="mono" style="display: block">Date du shooting</span>
+    <p style="margin: 12px 0 0; font: 300 22px Inter, sans-serif; border-bottom: 1px solid rgba(13,14,16,.35); padding-bottom: 6px; width: 240px">samedi 12 juin 2027</p>
+  </div>
+  <div class="cfg" style="left: 80px; top: 586px; width: 820px; opacity: 0; animation: {{a.cfg2}}">
+    <span class="mono" style="display: block; margin-bottom: 10px">Lieux de la journée · triés par heure</span>
+    <sc-for list="{{lieux}}" as="z" hint-placeholder-count="3">
+      <div style="display: flex; align-items: center; gap: 14px; height: 40px">
+        <span style="width: 56px; font: 500 13px 'IBM Plex Mono', monospace">{{z.h}}</span>
+        <span style="width: 260px; font: 400 14px Inter, sans-serif">{{z.l}}</span>
+        <span class="chip on">{{z.c}}</span>
+      </div>
+    </sc-for>
+    <p style="margin: 6px 0 0; font: 500 13px Inter, sans-serif; text-decoration: underline; text-underline-offset: 4px">+ Ajouter un lieu</p>
+  </div>
+  <div class="cfg" style="left: 640px; top: 476px; width: 260px; opacity: 0; animation: {{a.cfg}}">
+    <span class="mono" style="display: block; margin-bottom: 10px">Options</span>
+    <p style="margin: 0; display: flex; justify-content: space-between; font: 400 14px Inter, sans-serif"><span><span class="bx on" aria-hidden="true"></span>Album photo 30×30</span><span style="font: 500 12.5px 'IBM Plex Mono', monospace">120,00 €</span></p>
+    <p style="margin: 10px 0 0; display: flex; justify-content: space-between; font: 400 14px Inter, sans-serif; color: #4B4D52"><span><span class="bx" aria-hidden="true"></span>10 tirages 20×30</span><span style="font: 500 12.5px 'IBM Plex Mono', monospace">45,00 €</span></p>
+    <p style="margin: 10px 0 0; display: flex; justify-content: space-between; font: 400 14px Inter, sans-serif; color: #4B4D52"><span><span class="bx" aria-hidden="true"></span>Second photographe</span><span style="font: 500 12.5px 'IBM Plex Mono', monospace">300,00 €</span></p>
+  </div>
+
+  <div class="ticket" aria-label="Votre devis" style="clip-path: inset(0 0 100% 0); animation: {{a.tk}}">
+    <p class="mono" style="position: absolute; left: 28px; top: 28px; margin: 0; color: #0D0E10">Ernest H. · devis simulé</p>
+    <p class="mono" style="position: absolute; left: 28px; top: 48px; margin: 0">Valeurs d’exemple · HTVA</p>
+    <sc-for list="{{tk}}" as="l" hint-placeholder-count="4">
+      <div class="tl" style="top: {{l.y}}px; clip-path: inset(0 100% 0 0); animation: {{l.a}}">
+        <span class="lb">{{l.t}}</span><span class="pt" aria-hidden="true"></span><span>{{l.v}}</span>
+        <span class="sb">{{l.s}}</span>
+      </div>
+    </sc-for>
+    <svg class="ln" aria-hidden="true" style="left: 28px; top: 380px; width: 340px; height: 2px"><path pathLength="100" d="M0 1 L340 1" style="stroke-width: 1px; stroke-dasharray: 3 4; stroke-dashoffset: 0"></path></svg>
+    <div class="tl" style="top: 400px"><span class="lb">Total HTVA</span><span class="pt" aria-hidden="true"></span><span>1 487,30 €</span></div>
+    <div class="tl" style="top: 428px"><span class="lb">TVA 21 %</span><span class="pt" aria-hidden="true"></span><span>312,33 €</span></div>
+    <p class="mono" style="position: absolute; left: 28px; top: 476px; margin: 0">Total TVAC</p>
+    <p style="position: absolute; left: 26px; top: 494px; margin: 0; font: 300 42px Inter, sans-serif; letter-spacing: -.02em">1 799,63 €</p>
+    <p style="position: absolute; left: 28px; top: 550px; margin: 0; font: 500 12.5px Inter, sans-serif; text-decoration: underline; text-underline-offset: 4px">Code promo ou de parrainage</p>
+    <span class="encre" aria-hidden="true" style="position: absolute; left: 28px; top: 588px; width: 340px; height: 48px; border-radius: 24px"></span>
+    <button type="button" class="btn" style="left: 28px; top: 588px; width: 340px; height: 48px; border-radius: 24px">Soumettre mon devis</button>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"ombre":{"editor":"enum","options":["Alternance","Diagonale","Studio · latérale","Studio · spot","Studio · cyclo","Studio · strip","Sans"],"default":"Alternance"},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const K = .62, E = 'cubic-bezier(.45,0,.2,1)';
+    const T = (dl, d) => ({ o: `wIn ${d * K}s ${E} ${(dl * K).toFixed(2)}s both`, f: `wIn ${d * K}s ${E} ${((dl + .25) * K).toFixed(2)}s both` });
+    const a = {
+      sep: `drawS ${.8 * K}s ${E} 0s both`, logo: T(.3, .8), sig: `wIn ${.5 * K}s ${E} ${1.35 * K}s both`,
+      n0: T(.5, .45), n1: T(.6, .45), n2: T(.7, .45), n3: T(.8, .45), navU: `wIn ${.5 * K}s ${E} ${1.2 * K}s both`,
+      hFl: `habille 1s ease ${.9 * K}s both`, hCta: T(1.3, .45),
+      eyeL: `wIn ${.4 * K}s ${E} ${.6 * K}s both`, eye: T(.75, .6), h1: T(.9, .8), h2: T(1.1, 1),
+      selF: `drawS ${.9 * K}s ${E} ${3.0 * K}s both`, lien: `drawS ${1.2 * K}s ${E} ${3.3 * K}s both`,
+      cT: T(3.6, .6), cfg: `habille 1s ease ${(3.9 * K).toFixed(2)}s both`, cfg2: `habille 1s ease ${(4.2 * K).toFixed(2)}s both`,
+      tk: `tkIn 1.4s ${E} ${(2.0 * K).toFixed(2)}s both`
+    };
+    const PH = ['/_blob/79058532f3d7d37917786298a0ac7945', '/_blob/6832670aa81d041033100b28a2e4313e', '/_blob/2b6e173fdf036442185ceb85aa49021f',
+      '/_blob/4e34f55900df112fe7752da33bc917a5', '/_blob/9b725673bcdd88ed30e17af8444a53f5', '/_blob/79058532f3d7d37917786298a0ac7945'];
+    const SV = [['Mariage', 'dès 1 200,00 €'], ['Engagement', 'dès 180,00 €'], ['Famille', 'dès 220,00 €'], ['Anniversaire', 'dès 250,00 €'], ['Événementiel', 'dès 250,00 €'], ['Culinaire', 'dès 75,00 €']];
+    const cartes = SV.map((s, i) => {
+      const dl = 1.4 + i * .14;
+      return { x: 80 + i * 164, t: s[0], p: s[1], src: PH[i], on: i === 0, cls: i === 0 ? 'carte' : 'carte off',
+        dev: `${i === 0 ? 'dev' : 'devNB'} 2.4s ease-in-out ${(dl * K).toFixed(2)}s both`, at: T(dl + .5, .5), ap: T(dl + .6, .5) };
+    });
+    const lieux = [['13:00', 'Mairie', 'Namur'], ['14:30', 'Église Saint-Loup', 'Namur'], ['18:00', 'Salle de réception', 'Bruxelles']].map(z => ({ h: z[0], l: z[1], c: z[2] }));
+    const L = [
+      ['Mariage · 9 h 15', '1 335,00 €', '8 h incluses + 1 h 30 à 90,00 € / h'],
+      ['Album photo 30×30', '120,00 €', 'option'],
+      ['Transport', '32,30 €', 'Départ photographe → Bruxelles : 44,8 km · 25 km offerts'],
+      ['Code promo', '—', 'aucun code appliqué']
+    ];
+    const tk = L.map((l, i) => ({ t: l[0], v: l[1], s: l[2], y: 96 + i * 64, a: `wIn .7s ${E} ${((2.9 + i * .35) * K).toFixed(2)}s both` }));
+    const oz = this.props.ombre || 'Alternance', alterne = oz === 'Alternance';
+    const OM = [['Diagonale', 'dia'], ['Studio · latérale', 'lat'], ['Studio · spot', 'spot'], ['Studio · cyclo', 'cyc'], ['Studio · strip', 'str']];
+    const om = { on: oz !== 'Sans', cs: OM.map((o, k) => ({ cls: 'om-i ' + o[1], d: alterne || oz === o[0] ? 'block' : 'none',
+      a: alterne ? `alt${k} 70s ease-in-out infinite` : (oz === o[0] ? 'seul 2.5s ease-in-out both' : 'none') })) };
+
+    return { a, cartes, lieux, tk, om };
+  }
+}
+</script>
+</body>
+</html>

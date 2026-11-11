@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Simulateur · La journée</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+.vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(118% 100% at 50% 44%,rgba(20,18,16,0) 48%,rgba(20,18,16,.10) 76%,rgba(20,18,16,.27) 100%);box-shadow:inset 0 0 140px rgba(20,18,16,.10)}
+.w{position:relative;display:inline-block;white-space:nowrap}
+.w .o{display:block;color:transparent;-webkit-text-stroke:1px currentColor}
+.w .f{position:absolute;left:0;top:-.24em;padding:.24em .14em .24em 0;color:inherit}
+.verre{position:absolute;border-radius:24px;background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(250,248,244,.86) 55%,rgba(240,237,231,.9) 100%);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 16px 32px -12px rgba(20,18,16,.30),0 4px 10px -3px rgba(20,18,16,.16),inset 0 1px 0 #fff,inset 0 0 0 1px rgba(255,255,255,.6),inset 0 -2px 0 rgba(20,18,16,.06),inset 0 -12px 18px -12px rgba(20,18,16,.10)}
+.verre::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(90% 140% at 22% 0%,rgba(255,255,255,.75),rgba(255,255,255,0) 60%)}
+svg.ln{position:absolute;overflow:visible;pointer-events:none}
+.ln path{fill:none;stroke:#0D0E10;stroke-width:1.5px;shape-rendering:geometricPrecision;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 102;stroke-dashoffset:101}
+.ln path.comete{stroke-dasharray:6 94;stroke-dashoffset:0}
+.ln path.fil{stroke-width:1px;stroke:rgba(13,14,16,.2)}
+.nav a,.lien{color:inherit;text-decoration:none}
+.btn{position:absolute;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:20px;text-decoration:none;font:500 14px Inter,sans-serif;color:#EEEDE9}
+.btn.clair{color:#0D0E10}
+.btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.encre{background:#0D0E10;box-shadow:0 20px 34px -10px rgba(13,14,16,.58),0 7px 12px -3px rgba(13,14,16,.32),inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1.5px 0 rgba(0,0,0,.22)}
+.photo{position:absolute;display:block;object-fit:cover;box-shadow:0 22px 40px -16px rgba(20,18,16,.34),0 6px 12px -4px rgba(20,18,16,.16)}
+@keyframes drawS{from{stroke-dashoffset:101}to{stroke-dashoffset:0}}
+@keyframes trace{0%{stroke-dashoffset:101}50%{stroke-dashoffset:0}65%{stroke-dashoffset:0}100%{stroke-dashoffset:-102}}
+@keyframes trace2{0%{stroke-dashoffset:101}50%{stroke-dashoffset:0}65%{stroke-dashoffset:0}100%{stroke-dashoffset:-102}}
+@keyframes wIn{from{clip-path:inset(-24px 100% -24px 0)}to{clip-path:inset(-24px -24px -24px 0)}}
+@keyframes wIn2{from{clip-path:inset(-24px 100% -24px 0)}to{clip-path:inset(-24px -24px -24px 0)}}
+@keyframes wOut{from{clip-path:inset(-24px -24px -24px 0)}to{clip-path:inset(-24px 100% -24px 0)}}
+@keyframes habille{from{opacity:0}to{opacity:1}}
+@keyframes dev{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@keyframes dev2{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@keyframes devNB{0%{opacity:0;filter:grayscale(1) contrast(1.05)}45%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
+@keyframes devNB2{0%{opacity:0;filter:grayscale(1) contrast(1.05)}45%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
+@keyframes devOut{from{opacity:1}to{opacity:0}}
+@keyframes apparait{from{stroke-opacity:0}to{stroke-opacity:1}}
+@keyframes eteint{from{stroke-opacity:1}to{stroke-opacity:0}}
+@keyframes comete{from{stroke-dashoffset:0}to{stroke-dashoffset:-100}}
+.om{position:absolute;inset:-160px;pointer-events:none;overflow:hidden;animation:habille 3.5s ease-in-out 3.6s both}
+.om-i{position:absolute;inset:0;opacity:0}
+.om-i>i{position:absolute;inset:-200px}
+.dia>i{background:linear-gradient(to top right,rgba(20,18,16,0) 28%,rgba(20,18,16,.12) 40%,rgba(20,18,16,.26) 50%,rgba(20,18,16,.12) 60%,rgba(20,18,16,0) 72%);-webkit-mask-image:linear-gradient(to bottom right,#000 10%,rgba(0,0,0,.3) 75%,transparent 95%);mask-image:linear-gradient(to bottom right,#000 10%,rgba(0,0,0,.3) 75%,transparent 95%);filter:blur(14px);animation:glisseA 19s ease-in-out infinite alternate}
+.lat>i{background:linear-gradient(to left,rgba(20,18,16,.30) 0%,rgba(20,18,16,.16) 22%,rgba(20,18,16,0) 52%),linear-gradient(to top,rgba(20,18,16,.12) 0%,rgba(20,18,16,0) 30%);filter:blur(10px);animation:glisseH 23s ease-in-out infinite alternate}
+.spot>i{background:radial-gradient(ellipse 55% 60% at 50% 22%,rgba(20,18,16,0) 30%,rgba(20,18,16,.10) 62%,rgba(20,18,16,.28) 100%);animation:respire 17s ease-in-out infinite alternate}
+.cyc>i{background:linear-gradient(180deg,rgba(20,18,16,.22) 0%,rgba(20,18,16,.06) 34%,rgba(20,18,16,0) 52%,rgba(20,18,16,0) 70%,rgba(20,18,16,.10) 84%,rgba(20,18,16,.20) 100%);filter:blur(8px);animation:glisseV 21s ease-in-out infinite alternate}
+.str>i{background:linear-gradient(to top left,rgba(20,18,16,.20) 0%,rgba(20,18,16,.08) 30%,rgba(20,18,16,0) 44%,rgba(20,18,16,0) 56%,rgba(20,18,16,.08) 70%,rgba(20,18,16,.22) 100%);filter:blur(12px);animation:glisseB 25s ease-in-out infinite alternate}
+@keyframes glisseA{from{transform:translate(-70px,50px)}to{transform:translate(80px,-60px)}}
+@keyframes glisseB{from{transform:translate(70px,40px)}to{transform:translate(-60px,-50px)}}
+@keyframes glisseH{from{transform:translateX(-90px)}to{transform:translateX(60px)}}
+@keyframes glisseV{from{transform:translateY(-50px)}to{transform:translateY(40px)}}
+@keyframes respire{from{transform:translate(-60px,-20px) scale(1)}to{transform:translate(70px,20px) scale(1.06)}}
+@keyframes seul{from{opacity:0}to{opacity:1}}
+@keyframes alt0{0%{opacity:0}5%,15%{opacity:1}20%,100%{opacity:0}}
+@keyframes alt1{0%,20%{opacity:0}25%,35%{opacity:1}40%,100%{opacity:0}}
+@keyframes alt2{0%,40%{opacity:0}45%,55%{opacity:1}60%,100%{opacity:0}}
+@keyframes alt3{0%,60%{opacity:0}65%,75%{opacity:1}80%,100%{opacity:0}}
+@keyframes alt4{0%,80%{opacity:0}85%,95%{opacity:1}100%{opacity:0}}
+@media (prefers-reduced-motion: reduce){*{animation-duration:0s !important;animation-delay:0s !important;transition-duration:0s !important}}
+
+.mono{font:500 10.5px 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#4B4D52}
+.chip{display:inline-flex;align-items:center;height:30px;padding:0 13px;border:0;border-radius:15px;background:transparent;box-shadow:inset 0 0 0 1.2px rgba(13,14,16,.5);color:#0D0E10;font:400 13px Inter,sans-serif;cursor:pointer}
+.chip.on{background:#0D0E10;color:#EEEDE9;box-shadow:none}
+.lieu{position:absolute;top:496px;white-space:nowrap}
+.lieu .h{display:block;font:500 12px 'IBM Plex Mono',monospace;color:#0D0E10}
+.lieu .n{display:block;margin-top:4px;font:400 15px Inter,sans-serif;color:#0D0E10}
+.lieu .c{display:block;margin-top:2px;font:400 13px Inter,sans-serif;color:#4B4D52}
+.tick{position:absolute;top:462px;font:500 10.5px 'IBM Plex Mono',monospace;color:#4B4D52;transform:translateX(-50%)}
+.tot{display:flex;flex-direction:column;gap:4px}
+.tot .v{font:500 14px 'IBM Plex Mono',monospace;color:#0D0E10}
+button.btn{border:0;cursor:pointer;padding:0;background:transparent}
+.chip:focus-visible,.btn:focus-visible{outline:2px solid #0D0E10;outline-offset:3px}
+</style>
+</helmet>
+<div style="position: relative; width: 1440px; height: 900px; overflow: hidden; background: #FFFFFF; color: #0D0E10; font-family: Inter, system-ui, sans-serif">
+  <sc-if value="{{om.on}}" hint-placeholder-val="{{ true }}">
+    <div class="om" aria-hidden="true">
+      <sc-for list="{{om.cs}}" as="c" hint-placeholder-count="5">
+        <div class="{{c.cls}}" style="display: {{c.d}}; animation: {{c.a}}"><i></i></div>
+      </sc-for>
+    </div>
+  </sc-if>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <svg class="ln" aria-hidden="true" style="left: 0; top: 0; width: 1440px; height: 900px">
+    <path pathLength="100" d="M720 100 L80 100" style="animation: {{a.sep}}"></path>
+    <path pathLength="100" d="M720 100 L1360 100" style="animation: {{a.sep}}"></path>
+  </svg>
+  <a href="#" class="lien" style="position: absolute; left: 80px; top: 38px; font: 600 22px Inter, sans-serif; letter-spacing: -.01em">
+    <span class="w"><span class="o" style="animation: {{a.logo.o}}">Ernest H.</span><span class="f" aria-hidden="true" style="animation: {{a.logo.f}}">Ernest H.</span></span>
+  </a>
+  <span aria-hidden="true" style="position: absolute; left: 80px; top: 70px; width: 28px; height: 2px; border-radius: 1px; background: #3AA6B5; animation: {{a.sig}}"></span>
+  <nav class="nav" aria-label="Menu principal" style="position: absolute; left: 600px; top: 46px; display: flex; gap: 36px; font: 500 14px Inter, sans-serif">
+    <a href="#"><span class="w"><span class="o" style="animation: {{a.n0.o}}">Galerie</span><span class="f" aria-hidden="true" style="animation: {{a.n0.f}}">Galerie</span></span></a>
+    <a href="#"><span class="w"><span class="o" style="animation: {{a.n1.o}}">Services</span><span class="f" aria-hidden="true" style="animation: {{a.n1.f}}">Services</span></span></a>
+    <a href="#"><span class="w"><span class="o" style="animation: {{a.n2.o}}">À propos</span><span class="f" aria-hidden="true" style="animation: {{a.n2.f}}">À propos</span></span></a>
+    <a href="#"><span class="w"><span class="o" style="animation: {{a.n3.o}}">Contact</span><span class="f" aria-hidden="true" style="animation: {{a.n3.f}}">Contact</span></span></a>
+  </nav>
+  <span class="encre" aria-hidden="true" style="position: absolute; left: 1184px; top: 34px; width: 176px; height: 40px; border-radius: 20px; animation: {{a.hFl}}"></span>
+  <a href="#" class="btn" aria-current="page" style="left: 1184px; top: 34px; width: 176px; height: 40px">
+    <span class="w"><span class="o" style="animation: {{a.hCta.o}}">Créer mon devis</span><span class="f" aria-hidden="true" style="animation: {{a.hCta.f}}">Créer mon devis</span></span>
+  </a>
+
+  <p style="position: absolute; left: 80px; top: 128px; margin: 0; display: flex; align-items: center; gap: 14px; font: 500 11.5px 'IBM Plex Mono', monospace; letter-spacing: .18em; text-transform: uppercase; color: #4B4D52">
+    <span aria-hidden="true" style="display: block; width: 28px; height: 1px; background: #D9783A; animation: {{a.eyeL}}"></span>
+    <span class="w"><span class="o" style="animation: {{a.eye.o}}">Simulateur de devis · samedi 12 juin 2027</span><span class="f" aria-hidden="true" style="animation: {{a.eye.f}}">Simulateur de devis · samedi 12 juin 2027</span></span>
+  </p>
+  <h1 style="position: absolute; left: 78px; top: 154px; margin: 0; font: 300 40px/1.1 Inter, sans-serif; letter-spacing: -.03em; filter: drop-shadow(0 6px 9px rgba(20,18,16,.18))">
+    <span class="w"><span class="o" style="animation: {{a.h1.o}}">Votre journée,</span><span class="f" aria-hidden="true" style="animation: {{a.h1.f}}">Votre journée,</span></span>
+    <span class="w"><span class="o" style="animation: {{a.h2.o}}"><i style="font: italic 400 48px/1 'Instrument Serif', serif">heure par heure.</i></span><span class="f" aria-hidden="true" style="animation: {{a.h2.f}}"><i style="font: italic 400 48px/1 'Instrument Serif', serif">heure par heure.</i></span></span>
+  </h1>
+  <div role="group" aria-label="Service" style="position: absolute; left: 80px; top: 236px; display: flex; gap: 8px; align-items: center; opacity: 0; animation: {{a.chips}}">
+    <span class="mono" style="margin-right: 8px">Service</span>
+    <sc-for list="{{svcs}}" as="s" hint-placeholder-count="6"><button type="button" class="{{s.cls}}" aria-pressed="{{s.on}}">{{s.t}}</button></sc-for>
+  </div>
+
+  <p class="mono" style="position: absolute; left: 377px; top: 326px; margin: 0; color: #0D0E10">
+    <span class="w"><span class="o" style="animation: {{a.bandT.o}}">Présence 9 h 15 · 8 h incluses</span><span class="f" aria-hidden="true" style="animation: {{a.bandT.f}}">Présence 9 h 15 · 8 h incluses</span></span>
+  </p>
+  <span aria-hidden="true" style="position: absolute; left: 377px; top: 352px; width: 686px; height: 26px; border-radius: 13px 0 0 13px; background: #0D0E10; box-shadow: 0 12px 20px -10px rgba(13,14,16,.5); clip-path: inset(0 100% 0 0); animation: {{a.band}}"></span>
+  <span aria-hidden="true" style="position: absolute; left: 1063px; top: 352px; width: 107px; height: 26px; border-radius: 0 13px 13px 0; background: rgba(13,14,16,.28); clip-path: inset(0 100% 0 0); animation: {{a.band2}}"></span>
+  <p style="position: absolute; left: 1063px; top: 388px; margin: 0; font: 400 12.5px Inter, sans-serif; color: #4B4D52">
+    <span class="w"><span class="o" style="animation: {{a.over.o}}">+ 1 h 15 → 1 h 30 facturée</span><span class="f" aria-hidden="true" style="animation: {{a.over.f}}">+ 1 h 15 → 1 h 30 facturée</span></span>
+  </p>
+  <p style="position: absolute; left: 377px; top: 388px; margin: 0; font: 400 12.5px Inter, sans-serif; color: #4B4D52">
+    <span class="w"><span class="o" style="animation: {{a.inc.o}}">13:00 → 22:15 · glissez les bords pour changer la durée</span><span class="f" aria-hidden="true" style="animation: {{a.inc.f}}">13:00 → 22:15 · glissez les bords pour changer la durée</span></span>
+  </p>
+
+  <svg class="ln" aria-hidden="true" style="left: 0; top: 0; width: 1440px; height: 900px">
+    <path pathLength="100" d="M120 470 L1320 470" style="stroke-width: 1px; animation: {{a.axe}}"></path>
+    <path pathLength="100" d="M120 474 Q 463 650 806 474" style="stroke: #3AA6B5; animation: {{a.arc}}"></path>
+  </svg>
+  <sc-for list="{{ticks}}" as="k" hint-placeholder-count="8">
+    <span class="tick" style="left: {{k.x}}px; top: 446px; opacity: 0; animation: {{k.a}}">{{k.t}}</span>
+  </sc-for>
+  <span class="mono" style="position: absolute; left: 80px; top: 496px; width: 120px; opacity: 0; animation: {{a.dep}}">Départ<br>photographe</span>
+  <sc-for list="{{lieux}}" as="z" hint-placeholder-count="3">
+    <span aria-hidden="true" style="position: absolute; left: {{z.dx}}px; top: 462px; width: 16px; height: 16px; box-sizing: border-box; border-radius: 50%; border: 1.5px solid #0D0E10; background: #0D0E10; opacity: 0; animation: {{z.ad}}"></span>
+    <p class="lieu" style="left: {{z.x}}px; margin: 0">
+      <span class="h"><span class="w"><span class="o" style="animation: {{z.a1.o}}">{{z.h}}</span><span class="f" aria-hidden="true" style="animation: {{z.a1.f}}">{{z.h}}</span></span></span>
+      <span class="n"><span class="w"><span class="o" style="animation: {{z.a2.o}}">{{z.n}}</span><span class="f" aria-hidden="true" style="animation: {{z.a2.f}}">{{z.n}}</span></span></span>
+      <span class="c"><span class="w"><span class="o" style="animation: {{z.a3.o}}">{{z.c}}</span><span class="f" aria-hidden="true" style="animation: {{z.a3.f}}">{{z.c}}</span></span></span>
+    </p>
+  </sc-for>
+  <p style="position: absolute; left: 380px; top: 590px; margin: 0; font: 500 12px 'IBM Plex Mono', monospace; color: #0D0E10">
+    <span class="w"><span class="o" style="animation: {{a.km.o}}">Départ photographe → Bruxelles : 44,8 km · aller-retour, 25 km offerts</span><span class="f" aria-hidden="true" style="animation: {{a.km.f}}">Départ photographe → Bruxelles : 44,8 km · aller-retour, 25 km offerts</span></span>
+  </p>
+  <p style="position: absolute; left: 1010px; top: 496px; margin: 0; font: 500 13px Inter, sans-serif; text-decoration: underline; text-underline-offset: 4px; opacity: 0; animation: {{a.dep}}">+ Ajouter un lieu</p>
+
+  <div role="group" aria-label="Options" style="position: absolute; left: 80px; top: 652px; display: flex; gap: 8px; align-items: center; opacity: 0; animation: {{a.opts}}">
+    <span class="mono" style="margin-right: 8px">Options</span>
+    <button type="button" class="chip on" aria-pressed="true">Album photo 30×30 · 120,00 €</button>
+    <button type="button" class="chip" aria-pressed="false">10 tirages 20×30 · 45,00 €</button>
+    <button type="button" class="chip" aria-pressed="false">Second photographe · 300,00 €</button>
+  </div>
+
+  <div class="verre" aria-hidden="true" style="left: 64px; top: 720px; width: 1312px; height: 120px; opacity: 0; animation: {{a.pill}}"></div>
+  <svg class="ln" aria-hidden="true" style="left: 64px; top: 720px; width: 1312px; height: 120px">
+    <path pathLength="100" d="M0 60 L0 24 A24 24 0 0 1 24 0 L1288 0 A24 24 0 0 1 1312 24 L1312 60" style="animation: {{a.pillL}}"></path>
+    <path pathLength="100" d="M0 60 L0 96 A24 24 0 0 0 24 120 L1288 120 A24 24 0 0 0 1312 96 L1312 60" style="animation: {{a.pillL}}"></path>
+    <path class="comete" pathLength="100" d="M0 60 L0 24 A24 24 0 0 1 24 0 L1288 0 A24 24 0 0 1 1312 24 L1312 96 A24 24 0 0 1 1288 120 L24 120 A24 24 0 0 1 0 96 Z" style="stroke: #D9783A; animation: {{a.pillC}}"></path>
+  </svg>
+  <div style="position: absolute; left: 100px; top: 748px; display: flex; gap: 40px; opacity: 0; animation: {{a.tot}}">
+    <sc-for list="{{lignes}}" as="l" hint-placeholder-count="3">
+      <div class="tot"><span class="mono">{{l.o}}</span><span class="v">{{l.v}}</span><span style="font: 400 12px Inter, sans-serif; color: #4B4D52">{{l.t}}</span></div>
+    </sc-for>
+  </div>
+  <div style="position: absolute; left: 640px; top: 748px; display: flex; gap: 28px; align-items: flex-end; opacity: 0; animation: {{a.tot}}">
+    <div class="tot"><span class="mono">HTVA</span><span class="v">1 487,30 €</span></div>
+    <div class="tot"><span class="mono">TVA 21 %</span><span class="v">312,33 €</span></div>
+    <div class="tot"><span class="mono">Total TVAC</span><span style="font: 300 34px Inter, sans-serif; letter-spacing: -.02em; line-height: 1">1 799,63 €</span></div>
+  </div>
+  <span class="encre" aria-hidden="true" style="position: absolute; left: 1104px; top: 756px; width: 240px; height: 48px; border-radius: 24px; animation: {{a.eFl}}"></span>
+  <button type="button" class="btn" style="left: 1104px; top: 756px; width: 240px; height: 48px; border-radius: 24px">
+    <span class="w"><span class="o" style="animation: {{a.sub.o}}">Soumettre mon devis</span><span class="f" aria-hidden="true" style="animation: {{a.sub.f}}">Soumettre mon devis</span></span>
+  </button>
+  <p class="mono" style="position: absolute; left: 80px; top: 858px; margin: 0">
+    <span class="w"><span class="o" style="animation: {{a.foot.o}}">Valeurs d’exemple · composition gardée dans ce navigateur · code promo au récapitulatif</span><span class="f" aria-hidden="true" style="animation: {{a.foot.f}}">Valeurs d’exemple · composition gardée dans ce navigateur · code promo au récapitulatif</span></span>
+  </p>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"ombre":{"editor":"enum","options":["Alternance","Diagonale","Studio · latérale","Studio · spot","Studio · cyclo","Studio · strip","Sans"],"default":"Alternance"},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const K = .62, E = 'cubic-bezier(.45,0,.2,1)';
+    const T = (dl, d) => ({ o: `wIn ${d * K}s ${E} ${(dl * K).toFixed(2)}s both`, f: `wIn ${d * K}s ${E} ${((dl + .25) * K).toFixed(2)}s both` });
+    const H = dl => `habille 1s ease ${(dl * K).toFixed(2)}s both`;
+    const X = h => Math.round(120 + (h - 10) * 1200 / 14);
+    const a = {
+      sep: `drawS ${.8 * K}s ${E} 0s both`, logo: T(.3, .8), sig: `wIn ${.5 * K}s ${E} ${1.35 * K}s both`,
+      n0: T(.5, .45), n1: T(.6, .45), n2: T(.7, .45), n3: T(.8, .45), navU: `wIn ${.5 * K}s ${E} ${1.2 * K}s both`,
+      hFl: `habille 1s ease ${.9 * K}s both`, hCta: T(1.3, .45),
+      eyeL: `wIn ${.4 * K}s ${E} ${.6 * K}s both`, eye: T(.75, .8), h1: T(.9, .8), h2: T(1.1, 1), chips: H(1.6),
+      axe: `drawS ${1.4 * K}s ${E} ${1.8 * K}s both`, bandT: T(2.6, .7),
+      band: `wIn ${1.6 * K}s ${E} ${2.6 * K}s both`, band2: `wIn ${.6 * K}s ${E} ${(2.6 + 1.6) * K}s both`,
+      over: T(4.3, .6), inc: T(3.2, 1.1), arc: `drawS ${1.4 * K}s ${E} ${3.9 * K}s both`, km: T(4.6, 1.2), dep: H(3.0),
+      opts: H(4.6), pill: `habille 1.8s ease-in-out ${(4.4 * K).toFixed(2)}s both`, pillL: `drawS ${1.2 * K}s ${E} ${3.8 * K}s both`,
+      pillC: 'apparait 1.8s ease-in-out 7s both, comete 30s linear 7s infinite', tot: H(5.0), eFl: H(5.2), sub: T(5.4, .5), foot: T(5.6, 1.4)
+    };
+    const svcs = ['Mariage', 'Engagement', 'Famille', 'Anniversaire', 'Événementiel', 'Culinaire'].map((t, i) => ({ t, on: i === 0 ? 'true' : 'false', cls: i === 0 ? 'chip on' : 'chip' }));
+    const ticks = [10, 12, 14, 16, 18, 20, 22, 24].map((h, i) => ({ x: X(h), t: String(h % 24).padStart(2, '0') + ':00', a: H(2.0 + i * .08) }));
+    const lieux = [[13, '13:00', 'Mairie', 'Namur'], [14.5, '14:30', 'Église Saint-Loup', 'Namur'], [18, '18:00', 'Salle de réception', 'Bruxelles']].map((z, i) => {
+      const d0 = 3.0 + i * .3, x = X(z[0]);
+      return { dx: x - 8, x: x - 8, h: z[1], n: z[2], c: z[3], ad: H(d0), a1: T(d0 + .1, .4), a2: T(d0 + .2, .6), a3: T(d0 + .3, .5) };
+    });
+    const lignes = [['Service', '1 335,00 €', 'Mariage · 9 h 15'], ['Option', '120,00 €', 'Album photo'], ['Transport', '32,30 €', '→ Bruxelles']].map(l => ({ o: l[0], v: l[1], t: l[2] }));
+    const oz = this.props.ombre || 'Alternance', alterne = oz === 'Alternance';
+    const OM = [['Diagonale', 'dia'], ['Studio · latérale', 'lat'], ['Studio · spot', 'spot'], ['Studio · cyclo', 'cyc'], ['Studio · strip', 'str']];
+    const om = { on: oz !== 'Sans', cs: OM.map((o, k) => ({ cls: 'om-i ' + o[1], d: alterne || oz === o[0] ? 'block' : 'none',
+      a: alterne ? `alt${k} 70s ease-in-out infinite` : (oz === o[0] ? 'seul 2.5s ease-in-out both' : 'none') })) };
+
+    return { a, svcs, ticks, lieux, lignes, om };
+  }
+}
+</script>
+</body>
+</html>

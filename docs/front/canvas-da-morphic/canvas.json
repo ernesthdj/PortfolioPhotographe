@@ -7,7 +7,7 @@
   "title": "Ernest H. — DA Morphic",
   "launch": {
     "view": "canvas",
-    "page": "p7"
+    "page": "p10"
   },
   "pages": [
     {
@@ -37,6 +37,18 @@
     {
       "id": "p7",
       "name": "Contact"
+    },
+    {
+      "id": "p8",
+      "name": "Simulateur"
+    },
+    {
+      "id": "p9",
+      "name": "Espace client"
+    },
+    {
+      "id": "p10",
+      "name": "Parcours complet"
     }
   ],
   "boards": {
@@ -255,6 +267,132 @@
       "title": "Contact · C · Conversation guidée",
       "is_interactive": true,
       "page": "p7"
+    },
+    "SimPupitre.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "Simulateur · A · Le pupitre (recommandée)",
+      "is_interactive": true,
+      "page": "p8"
+    },
+    "SimTicket.dc.html": {
+      "x": 1520,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "Simulateur · B · Le ticket",
+      "is_interactive": true,
+      "page": "p8"
+    },
+    "SimJournee.dc.html": {
+      "x": 3040,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "Simulateur · C · La journée heure par heure",
+      "is_interactive": true,
+      "page": "p8"
+    },
+    "SimMix.dc.html": {
+      "x": 0,
+      "y": 1020,
+      "w": 1440,
+      "h": 900,
+      "title": "Simulateur · A + C · Pupitre et journée (retenue)",
+      "is_interactive": true,
+      "page": "p8"
+    },
+    "DossierOnglets.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "Dossier client · A · Page à onglets (recommandée)",
+      "is_interactive": true,
+      "page": "p9"
+    },
+    "DossierFil.dc.html": {
+      "x": 1520,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "Dossier client · B · Le fil du dossier",
+      "is_interactive": true,
+      "page": "p9"
+    },
+    "PIntro.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "1 · Intro → accueil (Play ici)",
+      "is_interactive": true,
+      "page": "p10"
+    },
+    "PAccueil.dc.html": {
+      "x": 1520,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "2 · Accueil",
+      "is_interactive": true,
+      "page": "p10"
+    },
+    "PGalerie.dc.html": {
+      "x": 3040,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "3 · Galerie",
+      "is_interactive": true,
+      "page": "p10"
+    },
+    "PServices.dc.html": {
+      "x": 4560,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "4 · Services",
+      "is_interactive": true,
+      "page": "p10"
+    },
+    "PApropos.dc.html": {
+      "x": 0,
+      "y": 1020,
+      "w": 1440,
+      "h": 900,
+      "title": "5 · À propos",
+      "is_interactive": true,
+      "page": "p10"
+    },
+    "PContact.dc.html": {
+      "x": 1520,
+      "y": 1020,
+      "w": 1440,
+      "h": 900,
+      "title": "6 · Contact",
+      "is_interactive": true,
+      "page": "p10"
+    },
+    "PSimulateur.dc.html": {
+      "x": 3040,
+      "y": 1020,
+      "w": 1440,
+      "h": 900,
+      "title": "7 · Simulateur + soumission",
+      "is_interactive": true,
+      "page": "p10"
+    },
+    "PDossier.dc.html": {
+      "x": 4560,
+      "y": 1020,
+      "w": 1440,
+      "h": 900,
+      "title": "8 · Espace client · dossier",
+      "is_interactive": true,
+      "page": "p10"
     }
   },
   "order": [
@@ -281,7 +419,21 @@
     "AproposTemps.dc.html",
     "ContactLettre.dc.html",
     "ContactPortes.dc.html",
-    "ContactGuide.dc.html"
+    "ContactGuide.dc.html",
+    "SimPupitre.dc.html",
+    "SimTicket.dc.html",
+    "SimJournee.dc.html",
+    "SimMix.dc.html",
+    "DossierOnglets.dc.html",
+    "DossierFil.dc.html",
+    "PIntro.dc.html",
+    "PAccueil.dc.html",
+    "PGalerie.dc.html",
+    "PServices.dc.html",
+    "PApropos.dc.html",
+    "PContact.dc.html",
+    "PSimulateur.dc.html",
+    "PDossier.dc.html"
   ],
   "notes": {
     "titre": {
@@ -365,6 +517,30 @@
       "kind": "title1",
       "maxW": 4480,
       "page": "p7"
+    },
+    "titre8": {
+      "x": 0,
+      "y": -300,
+      "text": "Simulateur de devis (E01 + panneau E01.a de PID)",
+      "kind": "title1",
+      "maxW": 4480,
+      "page": "p8"
+    },
+    "titre9": {
+      "x": 0,
+      "y": -300,
+      "text": "Espace client : dossier soumis (E03 de PID)",
+      "kind": "title1",
+      "maxW": 2960,
+      "page": "p9"
+    },
+    "titre10": {
+      "x": 0,
+      "y": -300,
+      "text": "Parcours complet : toutes les pages retenues, reliées",
+      "kind": "title1",
+      "maxW": 5920,
+      "page": "p10"
     }
   },
   "designSystems": []

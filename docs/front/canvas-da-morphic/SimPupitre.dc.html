@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Simulateur · Le pupitre</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+.vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(118% 100% at 50% 44%,rgba(20,18,16,0) 48%,rgba(20,18,16,.10) 76%,rgba(20,18,16,.27) 100%);box-shadow:inset 0 0 140px rgba(20,18,16,.10)}
+.w{position:relative;display:inline-block;white-space:nowrap}
+.w .o{display:block;color:transparent;-webkit-text-stroke:1px currentColor}
+.w .f{position:absolute;left:0;top:-.24em;padding:.24em .14em .24em 0;color:inherit}
+.verre{position:absolute;border-radius:24px;background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(250,248,244,.86) 55%,rgba(240,237,231,.9) 100%);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 16px 32px -12px rgba(20,18,16,.30),0 4px 10px -3px rgba(20,18,16,.16),inset 0 1px 0 #fff,inset 0 0 0 1px rgba(255,255,255,.6),inset 0 -2px 0 rgba(20,18,16,.06),inset 0 -12px 18px -12px rgba(20,18,16,.10)}
+.verre::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(90% 140% at 22% 0%,rgba(255,255,255,.75),rgba(255,255,255,0) 60%)}
+svg.ln{position:absolute;overflow:visible;pointer-events:none}
+.ln path{fill:none;stroke:#0D0E10;stroke-width:1.5px;shape-rendering:geometricPrecision;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 102;stroke-dashoffset:101}
+.ln path.comete{stroke-dasharray:6 94;stroke-dashoffset:0}
+.ln path.fil{stroke-width:1px;stroke:rgba(13,14,16,.2)}
+.nav a,.lien{color:inherit;text-decoration:none}
+.btn{position:absolute;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:20px;text-decoration:none;font:500 14px Inter,sans-serif;color:#EEEDE9}
+.btn.clair{color:#0D0E10}
+.btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.encre{background:#0D0E10;box-shadow:0 20px 34px -10px rgba(13,14,16,.58),0 7px 12px -3px rgba(13,14,16,.32),inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1.5px 0 rgba(0,0,0,.22)}
+.photo{position:absolute;display:block;object-fit:cover;box-shadow:0 22px 40px -16px rgba(20,18,16,.34),0 6px 12px -4px rgba(20,18,16,.16)}
+@keyframes drawS{from{stroke-dashoffset:101}to{stroke-dashoffset:0}}
+@keyframes trace{0%{stroke-dashoffset:101}50%{stroke-dashoffset:0}65%{stroke-dashoffset:0}100%{stroke-dashoffset:-102}}
+@keyframes trace2{0%{stroke-dashoffset:101}50%{stroke-dashoffset:0}65%{stroke-dashoffset:0}100%{stroke-dashoffset:-102}}
+@keyframes wIn{from{clip-path:inset(-24px 100% -24px 0)}to{clip-path:inset(-24px -24px -24px 0)}}
+@keyframes wIn2{from{clip-path:inset(-24px 100% -24px 0)}to{clip-path:inset(-24px -24px -24px 0)}}
+@keyframes wOut{from{clip-path:inset(-24px -24px -24px 0)}to{clip-path:inset(-24px 100% -24px 0)}}
+@keyframes habille{from{opacity:0}to{opacity:1}}
+@keyframes dev{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@keyframes dev2{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@keyframes devNB{0%{opacity:0;filter:grayscale(1) contrast(1.05)}45%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
+@keyframes devNB2{0%{opacity:0;filter:grayscale(1) contrast(1.05)}45%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
+@keyframes devOut{from{opacity:1}to{opacity:0}}
+@keyframes apparait{from{stroke-opacity:0}to{stroke-opacity:1}}
+@keyframes eteint{from{stroke-opacity:1}to{stroke-opacity:0}}
+@keyframes comete{from{stroke-dashoffset:0}to{stroke-dashoffset:-100}}
+.om{position:absolute;inset:-160px;pointer-events:none;overflow:hidden;animation:habille 3.5s ease-in-out 3.6s both}
+.om-i{position:absolute;inset:0;opacity:0}
+.om-i>i{position:absolute;inset:-200px}
+.dia>i{background:linear-gradient(to top right,rgba(20,18,16,0) 28%,rgba(20,18,16,.12) 40%,rgba(20,18,16,.26) 50%,rgba(20,18,16,.12) 60%,rgba(20,18,16,0) 72%);-webkit-mask-image:linear-gradient(to bottom right,#000 10%,rgba(0,0,0,.3) 75%,transparent 95%);mask-image:linear-gradient(to bottom right,#000 10%,rgba(0,0,0,.3) 75%,transparent 95%);filter:blur(14px);animation:glisseA 19s ease-in-out infinite alternate}
+.lat>i{background:linear-gradient(to left,rgba(20,18,16,.30) 0%,rgba(20,18,16,.16) 22%,rgba(20,18,16,0) 52%),linear-gradient(to top,rgba(20,18,16,.12) 0%,rgba(20,18,16,0) 30%);filter:blur(10px);animation:glisseH 23s ease-in-out infinite alternate}
+.spot>i{background:radial-gradient(ellipse 55% 60% at 50% 22%,rgba(20,18,16,0) 30%,rgba(20,18,16,.10) 62%,rgba(20,18,16,.28) 100%);animation:respire 17s ease-in-out infinite alternate}
+.cyc>i{background:linear-gradient(180deg,rgba(20,18,16,.22) 0%,rgba(20,18,16,.06) 34%,rgba(20,18,16,0) 52%,rgba(20,18,16,0) 70%,rgba(20,18,16,.10) 84%,rgba(20,18,16,.20) 100%);filter:blur(8px);animation:glisseV 21s ease-in-out infinite alternate}
+.str>i{background:linear-gradient(to top left,rgba(20,18,16,.20) 0%,rgba(20,18,16,.08) 30%,rgba(20,18,16,0) 44%,rgba(20,18,16,0) 56%,rgba(20,18,16,.08) 70%,rgba(20,18,16,.22) 100%);filter:blur(12px);animation:glisseB 25s ease-in-out infinite alternate}
+@keyframes glisseA{from{transform:translate(-70px,50px)}to{transform:translate(80px,-60px)}}
+@keyframes glisseB{from{transform:translate(70px,40px)}to{transform:translate(-60px,-50px)}}
+@keyframes glisseH{from{transform:translateX(-90px)}to{transform:translateX(60px)}}
+@keyframes glisseV{from{transform:translateY(-50px)}to{transform:translateY(40px)}}
+@keyframes respire{from{transform:translate(-60px,-20px) scale(1)}to{transform:translate(70px,20px) scale(1.06)}}
+@keyframes seul{from{opacity:0}to{opacity:1}}
+@keyframes alt0{0%{opacity:0}5%,15%{opacity:1}20%,100%{opacity:0}}
+@keyframes alt1{0%,20%{opacity:0}25%,35%{opacity:1}40%,100%{opacity:0}}
+@keyframes alt2{0%,40%{opacity:0}45%,55%{opacity:1}60%,100%{opacity:0}}
+@keyframes alt3{0%,60%{opacity:0}65%,75%{opacity:1}80%,100%{opacity:0}}
+@keyframes alt4{0%,80%{opacity:0}85%,95%{opacity:1}100%{opacity:0}}
+@media (prefers-reduced-motion: reduce){*{animation-duration:0s !important;animation-delay:0s !important;transition-duration:0s !important}}
+
+@keyframes undrawS{from{stroke-dashoffset:0}to{stroke-dashoffset:101}}
+.mono{font:500 10.5px 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#4B4D52}
+.cat-h{position:absolute;left:88px}
+.srv{position:absolute;left:88px;width:292px;height:50px}
+.srv .t{position:absolute;left:0;top:4px;font:400 15px Inter,sans-serif;color:#0D0E10}
+.srv .p{position:absolute;left:0;top:26px;font:500 11px 'IBM Plex Mono',monospace;letter-spacing:.04em;color:#4B4D52}
+.add{position:absolute;right:0;top:6px;display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 14px 0 10px;border:0;border-radius:16px;background:transparent;box-shadow:inset 0 0 0 1.5px #0D0E10;color:#0D0E10;cursor:pointer;font:500 13px Inter,sans-serif}
+.add:hover{background:rgba(13,14,16,.06)}
+.add svg,.mini svg,.step svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+.ligne{position:absolute;left:440px;width:560px;display:flex;justify-content:space-between;align-items:baseline}
+.ligne .g{display:flex;gap:14px;align-items:baseline}
+.ligne .o{width:78px;flex:none}
+.ligne .l{font:400 14.5px Inter,sans-serif;color:#0D0E10}
+.ligne .l.s{color:#4B4D52;font-size:13.5px}
+.ligne .v{font:500 13px 'IBM Plex Mono',monospace;color:#0D0E10;white-space:nowrap}
+.mini{padding:0;border:0;background:transparent;cursor:pointer;font:500 12.5px Inter,sans-serif;color:#0D0E10;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
+.tot{position:absolute;left:1068px;width:264px;display:flex;justify-content:space-between;align-items:baseline}
+.tot .l{font:400 14px Inter,sans-serif;color:#4B4D52}
+.tot .v{font:500 14px 'IBM Plex Mono',monospace;color:#0D0E10}
+.champ label,.blk .mono{display:block}
+.champ input{display:block;box-sizing:border-box;width:100%;margin-top:6px;padding:6px 0;border:0;border-bottom:1px solid rgba(13,14,16,.35);border-radius:0;background:transparent;font:400 15px Inter,sans-serif;color:#0D0E10;outline:none}
+.champ input:focus{border-bottom:2px solid #3AA6B5}
+.step{display:inline-flex;align-items:center;gap:14px;margin-top:8px}
+.step button{width:36px;height:36px;padding:0;border:0;border-radius:18px;background:transparent;box-shadow:inset 0 0 0 1.5px #0D0E10;color:#0D0E10;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+.step button:hover{background:rgba(13,14,16,.06)}
+.step .n{min-width:92px;text-align:center;font:300 24px Inter,sans-serif}
+.chip{height:32px;padding:0 14px;border:0;border-radius:16px;background:transparent;box-shadow:inset 0 0 0 1.2px rgba(13,14,16,.5);color:#0D0E10;cursor:pointer;font:400 13px Inter,sans-serif}
+.chip.on{background:#0D0E10;color:#EEEDE9;box-shadow:none}
+.opt{display:flex;align-items:center;justify-content:space-between;width:100%;height:40px;padding:0;border:0;background:transparent;cursor:pointer;text-align:left;font:400 14px Inter,sans-serif;color:#0D0E10}
+.opt .c{display:inline-flex;align-items:center;gap:10px}
+.opt .bx{width:16px;height:16px;box-sizing:border-box;border:1.5px solid #0D0E10;border-radius:4px;display:inline-flex;align-items:center;justify-content:center}
+.opt.on .bx{background:#0D0E10}
+.opt .bx svg{width:11px;height:11px;fill:none;stroke:#FFFFFF;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.opt .v{font:500 12.5px 'IBM Plex Mono',monospace}
+.note{font:400 12.5px Inter,sans-serif;color:#4B4D52}
+button.btn{border:0;cursor:pointer;padding:0;background:transparent}
+.btn.off{background:transparent;color:#5D5F64;box-shadow:inset 0 0 0 1.5px rgba(13,14,16,.3);cursor:not-allowed}
+.add:focus-visible,.mini:focus-visible,.step button:focus-visible,.chip:focus-visible,.opt:focus-visible,.btn:focus-visible,.lien:focus-visible{outline:2px solid #0D0E10;outline-offset:3px}
+.rangee{animation:wIn .5s cubic-bezier(.45,0,.2,1) both}
+
+</style>
+</helmet>
+<div style="position: relative; width: 1440px; height: 900px; overflow: hidden; background: #FFFFFF; color: #0D0E10; font-family: Inter, system-ui, sans-serif">
+  <sc-if value="{{om.on}}" hint-placeholder-val="{{ true }}">
+    <div class="om" aria-hidden="true">
+      <sc-for list="{{om.cs}}" as="c" hint-placeholder-count="5">
+        <div class="{{c.cls}}" style="display: {{c.d}}; animation: {{c.a}}"><i></i></div>
+      </sc-for>
+    </div>
+  </sc-if>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <svg class="ln" aria-hidden="true" style="left: 0; top: 0; width: 1440px; height: 900px">
+    <path pathLength="100" d="M720 100 L80 100" style="animation: {{a.sep}}"></path>
+    <path pathLength="100" d="M720 100 L1360 100" style="animation: {{a.sep}}"></path>
+  </svg>
+  <a href="#" class="lien" style="position: absolute; left: 80px; top: 38px; font: 600 22px Inter, sans-serif; letter-spacing: -.01em">
+    <span class="w"><span class="o" style="animation: {{a.logo.o}}">Ernest H.</span><span class="f" aria-hidden="true" style="animation: {{a.logo.f}}">Ernest H.</span></span>
+  </a>
+  <span aria-hidden="true" style="position: absolute; left: 80px; top: 70px; width: 28px; height: 2px; border-radius: 1px; background: #3AA6B5; animation: {{a.sig}}"></span>
+  <nav class="nav" aria-label="Menu principal" style="position: absolute; left: 600px; top: 46px; display: flex; gap: 36px; font: 500 14px Inter, sans-serif">
+    <a href="#"><span class="w"><span class="o" style="animation: {{a.n0.o}}">Galerie</span><span class="f" aria-hidden="true" style="animation: {{a.n0.f}}">Galerie</span></span></a>
+    <a href="#"><span class="w"><span class="o" style="animation: {{a.n1.o}}">Services</span><span class="f" aria-hidden="true" style="animation: {{a.n1.f}}">Services</span></span></a>
+    <a href="#"><span class="w"><span class="o" style="animation: {{a.n2.o}}">À propos</span><span class="f" aria-hidden="true" style="animation: {{a.n2.f}}">À propos</span></span></a>
+    <a href="#"><span class="w"><span class="o" style="animation: {{a.n3.o}}">Contact</span><span class="f" aria-hidden="true" style="animation: {{a.n3.f}}">Contact</span></span></a>
+  </nav>
+  <span class="encre" aria-hidden="true" style="position: absolute; left: 1184px; top: 34px; width: 176px; height: 40px; border-radius: 20px; animation: {{a.hFl}}"></span>
+  <a href="#" class="btn" aria-current="page" style="left: 1184px; top: 34px; width: 176px; height: 40px">
+    <span class="w"><span class="o" style="animation: {{a.hCta.o}}">Créer mon devis</span><span class="f" aria-hidden="true" style="animation: {{a.hCta.f}}">Créer mon devis</span></span>
+  </a>
+
+  <div class="fond" style="position: absolute; inset: 0; animation: {{fond}}">
+  <p style="position: absolute; left: 80px; top: 128px; margin: 0; display: flex; align-items: center; gap: 14px; font: 500 11.5px 'IBM Plex Mono', monospace; letter-spacing: .18em; text-transform: uppercase; color: #4B4D52">
+    <span aria-hidden="true" style="display: block; width: 28px; height: 1px; background: #D9783A; animation: {{a.eyeL}}"></span>
+    <span class="w"><span class="o" style="animation: {{a.eye.o}}">Simulateur de devis</span><span class="f" aria-hidden="true" style="animation: {{a.eye.f}}">Simulateur de devis</span></span>
+  </p>
+  <h1 style="position: absolute; left: 78px; top: 154px; margin: 0; font: 300 40px/1.1 Inter, sans-serif; letter-spacing: -.03em; filter: drop-shadow(0 6px 9px rgba(20,18,16,.18))">
+    <span class="w"><span class="o" style="animation: {{a.h1.o}}">Composez</span><span class="f" aria-hidden="true" style="animation: {{a.h1.f}}">Composez</span></span>
+    <span class="w"><span class="o" style="animation: {{a.h2.o}}"><i style="font: italic 400 48px/1 'Instrument Serif', serif">votre journée.</i></span><span class="f" aria-hidden="true" style="animation: {{a.h2.f}}"><i style="font: italic 400 48px/1 'Instrument Serif', serif">votre journée.</i></span></span>
+  </h1>
+  <p class="mono" style="position: absolute; left: 820px; top: 176px; margin: 0">
+    <span class="w"><span class="o" style="animation: {{a.sub.o}}">Prix en direct · HTVA, TVA, TVAC · sans compte · valeurs d’exemple</span><span class="f" aria-hidden="true" style="animation: {{a.sub.f}}">Prix en direct · HTVA, TVA, TVAC · sans compte · valeurs d’exemple</span></span>
+  </p>
+
+  <div class="verre" aria-hidden="true" style="left: 64px; top: 240px; width: 340px; height: 600px; opacity: 0; animation: {{a.pill}}"></div>
+  <svg class="ln" aria-hidden="true" style="left: 64px; top: 240px; width: 340px; height: 600px">
+    <path pathLength="100" d="M0 300 L0 24 A24 24 0 0 1 24 0 L316 0 A24 24 0 0 1 340 24 L340 300" style="animation: {{a.pillL}}"></path>
+    <path pathLength="100" d="M0 300 L0 576 A24 24 0 0 0 24 600 L316 600 A24 24 0 0 0 340 576 L340 300" style="animation: {{a.pillL}}"></path>
+    <path class="comete" pathLength="100" d="M0 300 L0 24 A24 24 0 0 1 24 0 L316 0 A24 24 0 0 1 340 24 L340 576 A24 24 0 0 1 316 600 L24 600 A24 24 0 0 1 0 576 Z" style="stroke: #D9783A; animation: {{a.pillC}}"></path>
+  </svg>
+  <p class="mono" style="position: absolute; left: 88px; top: 262px; margin: 0">
+    <span class="w"><span class="o" style="animation: {{a.catT.o}}">Catalogue</span><span class="f" aria-hidden="true" style="animation: {{a.catT.f}}">Catalogue</span></span>
+  </p>
+  <sc-for list="{{cats}}" as="c" hint-placeholder-count="3">
+    <p class="cat-h mono" style="top: {{c.y}}px; margin: 0; color: #0D0E10">
+      <span class="w"><span class="o" style="animation: {{c.a.o}}">{{c.t}}</span><span class="f" aria-hidden="true" style="animation: {{c.a.f}}">{{c.t}}</span></span>
+    </p>
+  </sc-for>
+  <sc-for list="{{srvs}}" as="s" hint-placeholder-count="6">
+    <div class="srv" style="top: {{s.y}}px">
+      <span class="t"><span class="w"><span class="o" style="animation: {{s.at.o}}">{{s.t}}</span><span class="f" aria-hidden="true" style="animation: {{s.at.f}}">{{s.t}}</span></span></span>
+      <span class="p"><span class="w"><span class="o" style="animation: {{s.ap.o}}">{{s.p}}</span><span class="f" aria-hidden="true" style="animation: {{s.ap.f}}">{{s.p}}</span></span></span>
+      <button type="button" class="add" aria-label="{{s.lab}}" style="opacity: 0; animation: {{s.ab}}" onClick="{{s.ajouter}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5 V19 M5 12 H19"></path></svg>Ajouter</button>
+    </div>
+  </sc-for>
+
+  <p class="mono" style="position: absolute; left: 440px; top: 262px; margin: 0">
+    <span class="w"><span class="o" style="animation: {{a.devT.o}}">Votre devis · {{nb}}</span><span class="f" aria-hidden="true" style="animation: {{a.devT.f}}">Votre devis · {{nb}}</span></span>
+  </p>
+  <svg class="ln" aria-hidden="true" style="left: 440px; top: 290px; width: 560px; height: 2px"><path pathLength="100" d="M0 1 L560 1" style="stroke-width: 1px; animation: {{a.devL}}"></path></svg>
+  <sc-if value="{{vide}}" hint-placeholder-val="{{ true }}">
+    <p style="position: absolute; left: 440px; top: 316px; margin: 0; font: italic 400 26px 'Instrument Serif', serif; color: #4B4D52">
+      <span class="w"><span class="o" style="animation: {{a.msg2.o}}">Ajoutez une prestation pour voir votre prix.</span><span class="f" aria-hidden="true" style="animation: {{a.msg2.f}}">Ajoutez une prestation pour voir votre prix.</span></span>
+    </p>
+  </sc-if>
+  <sc-for list="{{lignes}}" as="l" hint-placeholder-count="4">
+    <div class="ligne rangee" style="top: {{l.y}}px; animation-delay: {{l.dl}}">
+      <span class="g">
+        <span class="o mono">{{l.o}}</span>
+        <span>
+          <span class="{{l.cls}}">{{l.t}}</span>
+          <sc-if value="{{l.act}}" hint-placeholder-val="{{ false }}">
+            <span style="display: flex; gap: 16px; margin-top: 4px">
+              <button type="button" class="mini" onClick="{{l.modifier}}">Modifier</button>
+              <button type="button" class="mini" onClick="{{l.retirer}}">Retirer</button>
+            </span>
+          </sc-if>
+        </span>
+      </span>
+      <span class="v">{{l.v}}</span>
+    </div>
+  </sc-for>
+  <sc-if value="{{sug.on}}" hint-placeholder-val="{{ false }}">
+    <p class="rangee" style="position: absolute; left: 440px; top: 690px; margin: 0; display: flex; align-items: center; gap: 12px">
+      <span aria-hidden="true" style="display: block; width: 20px; height: 1px; background: #D9783A"></span>
+      <span class="mono">Suggestion</span>
+      <button type="button" class="mini" onClick="{{sug.go}}">{{sug.t}}</button>
+    </p>
+  </sc-if>
+  <div class="champ" style="position: absolute; left: 440px; top: 736px; width: 300px; opacity: 0; animation: {{a.promo}}">
+    <label class="mono" for="sim-code">Code promo ou de parrainage</label>
+    <input id="sim-code" type="text" maxlength="40" autocomplete="off" placeholder="EX-2026">
+  </div>
+  <button type="button" class="mini" style="position: absolute; left: 764px; top: 770px; opacity: 0; animation: {{a.promo}}" onClick="{{appliquer}}">Appliquer</button>
+  <sc-if value="{{promoMsg.on}}" hint-placeholder-val="{{ false }}">
+    <p class="note rangee" role="status" style="position: absolute; left: 440px; top: 806px; margin: 0">{{promoMsg.t}}</p>
+  </sc-if>
+
+  <div class="verre" aria-hidden="true" style="left: 1040px; top: 240px; width: 320px; height: 420px; opacity: 0; animation: {{a.tB}}"></div>
+  <svg class="ln" aria-hidden="true" style="left: 1040px; top: 240px; width: 320px; height: 420px">
+    <path pathLength="100" d="M0 210 L0 24 A24 24 0 0 1 24 0 L296 0 A24 24 0 0 1 320 24 L320 210" style="animation: {{a.tL}}"></path>
+    <path pathLength="100" d="M0 210 L0 396 A24 24 0 0 0 24 420 L296 420 A24 24 0 0 0 320 396 L320 210" style="animation: {{a.tL}}"></path>
+  </svg>
+  <p class="mono" style="position: absolute; left: 1068px; top: 266px; margin: 0">
+    <span class="w"><span class="o" style="animation: {{a.totT.o}}">Totaux</span><span class="f" aria-hidden="true" style="animation: {{a.totT.f}}">Totaux</span></span>
+  </p>
+  <div class="tot" style="top: 304px; opacity: 0; animation: {{a.tV}}"><span class="l">Total HTVA</span><span class="v">{{t.ht}}</span></div>
+  <div class="tot" style="top: 336px; opacity: 0; animation: {{a.tV}}"><span class="l">TVA 21 %</span><span class="v">{{t.tva}}</span></div>
+  <svg class="ln" aria-hidden="true" style="left: 1068px; top: 370px; width: 264px; height: 2px"><path pathLength="100" d="M0 1 L264 1" style="stroke-width: 1px; animation: {{a.tVl}}"></path></svg>
+  <p class="mono" style="position: absolute; left: 1068px; top: 388px; margin: 0">Total TVAC{{t.inc}}</p>
+  <p style="position: absolute; left: 1066px; top: 406px; margin: 0; font: 300 40px Inter, sans-serif; letter-spacing: -.02em; filter: drop-shadow(0 6px 9px rgba(20,18,16,.16)); opacity: 0; animation: {{a.tV}}">{{t.ttc}}</p>
+  <sc-if value="{{t.manque}}" hint-placeholder-val="{{ false }}">
+    <p class="note rangee" style="position: absolute; left: 1068px; top: 486px; width: 264px; margin: 0; line-height: 1.5">Indiquez l’adresse de chaque lieu pour obtenir le prix complet.</p>
+  </sc-if>
+  <span class="encre" aria-hidden="true" style="position: absolute; left: 1068px; top: 580px; width: 264px; height: 48px; border-radius: 24px; opacity: {{t.okOp}}; transition: opacity .5s ease"></span>
+  <button type="button" class="{{t.cls}}" aria-disabled="{{t.dis}}" style="left: 1068px; top: 580px; width: 264px; height: 48px; border-radius: 24px; opacity: 0; animation: {{a.tV}}">Soumettre mon devis</button>
+  <p class="note" style="position: absolute; left: 1040px; top: 684px; width: 320px; margin: 0; line-height: 1.5; opacity: 0; animation: {{a.tV}}">Votre composition reste gardée dans ce navigateur, même après un rechargement.</p>
+  </div>
+
+  <sc-if value="{{pan.on}}" hint-placeholder-val="{{ false }}">
+    <div role="dialog" aria-modal="true" aria-label="{{pan.titre}}">
+      <div class="verre" aria-hidden="true" style="left: 200px; top: 128px; width: 1040px; height: 720px; opacity: 0; animation: {{pan.fl}}"></div>
+      <svg class="ln" aria-hidden="true" style="left: 200px; top: 128px; width: 1040px; height: 720px">
+        <path pathLength="100" d="M0 24 A24 24 0 0 1 24 0 L1016 0 A24 24 0 0 1 1040 24 L1040 696 A24 24 0 0 1 1016 720 L24 720 A24 24 0 0 1 0 696 Z" style="animation: {{pan.tr}}"></path>
+      </svg>
+      <div style="position: absolute; left: 200px; top: 128px; width: 1040px; height: 720px; opacity: 0; animation: {{pan.ct}}">
+        <p class="mono" style="position: absolute; left: 40px; top: 32px; margin: 0">Configurer ce service</p>
+        <p style="position: absolute; left: 40px; top: 52px; margin: 0; font: 300 30px Inter, sans-serif; letter-spacing: -.02em">{{pan.svc}}</p>
+        <button type="button" class="lb" aria-label="Fermer" style="position: absolute; right: 24px; top: 24px; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 22px; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center" onClick="{{pan.annuler}}"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 18px; height: 18px; fill: none; stroke: #0D0E10; stroke-width: 1.8; stroke-linecap: round"><path d="M6 6 L18 18 M18 6 L6 18"></path></svg></button>
+
+        <div class="blk" style="position: absolute; left: 40px; top: 116px; width: 560px">
+          <span class="mono">{{pan.pLab}}</span>
+          <div class="step">
+            <button type="button" aria-label="Diminuer" onClick="{{pan.moins}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12 H19"></path></svg></button>
+            <span class="n" aria-live="polite">{{pan.pVal}}</span>
+            <button type="button" aria-label="Augmenter" onClick="{{pan.plus}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5 V19 M5 12 H19"></path></svg></button>
+          </div>
+          <p class="note" style="margin: 8px 0 0">{{pan.pNote}}</p>
+        </div>
+
+        <sc-if value="{{pan.tech}}" hint-placeholder-val="{{ true }}">
+          <div class="champ" style="position: absolute; left: 40px; top: 236px; width: 260px">
+            <label class="mono" for="sim-date">Date du shooting</label>
+            <input id="sim-date" type="date">
+          </div>
+          <p class="mono" style="position: absolute; left: 40px; top: 316px; margin: 0">Lieux de la journée · triés par heure</p>
+          <sc-for list="{{pan.lieux}}" as="z" hint-placeholder-count="2">
+            <div class="rangee" style="position: absolute; left: 40px; top: {{z.y}}px; width: 560px">
+              <div style="display: flex; align-items: center; gap: 12px">
+                <span class="mono" style="width: 64px">Lieu {{z.n}}</span>
+                <div class="step" style="margin: 0; gap: 8px">
+                  <button type="button" aria-label="Heure plus tôt" style="width: 30px; height: 30px" onClick="{{z.hm}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12 H19"></path></svg></button>
+                  <span style="min-width: 56px; text-align: center; font: 500 14px 'IBM Plex Mono', monospace">{{z.h}}</span>
+                  <button type="button" aria-label="Heure plus tard" style="width: 30px; height: 30px" onClick="{{z.hp}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5 V19 M5 12 H19"></path></svg></button>
+                </div>
+                <sc-if value="{{z.del}}" hint-placeholder-val="{{ false }}"><button type="button" class="mini" style="margin-left: auto" onClick="{{z.retirer}}">Retirer ce lieu</button></sc-if>
+              </div>
+              <div role="group" aria-label="Commune" style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px">
+                <sc-for list="{{z.communes}}" as="c" hint-placeholder-count="5">
+                  <button type="button" class="{{c.cls}}" aria-pressed="{{c.on}}" onClick="{{c.pick}}">{{c.t}}</button>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+          <sc-if value="{{pan.plusLieu}}" hint-placeholder-val="{{ true }}">
+            <button type="button" class="mini" style="position: absolute; left: 40px; top: {{pan.yPlus}}px" onClick="{{pan.ajLieu}}">+ Ajouter un lieu</button>
+          </sc-if>
+        </sc-if>
+        <sc-if value="{{pan.studio}}" hint-placeholder-val="{{ false }}">
+          <p class="note" style="position: absolute; left: 40px; top: 240px; width: 520px; margin: 0; line-height: 1.6">Ce service se fait en studio : pas de date ni de lieu à indiquer ici, nous les fixons ensemble après votre demande.</p>
+        </sc-if>
+
+        <div style="position: absolute; left: 660px; top: 116px; width: 340px">
+          <span class="mono" style="display: block; margin-bottom: 6px">Options</span>
+          <sc-for list="{{pan.opts}}" as="o" hint-placeholder-count="3">
+            <button type="button" class="{{o.cls}}" aria-pressed="{{o.on}}" onClick="{{o.toggle}}">
+              <span class="c"><span class="bx" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12 L10 17 L19 7"></path></svg></span>{{o.t}}</span>
+              <span class="v">{{o.v}}</span>
+            </button>
+          </sc-for>
+        </div>
+        <div style="position: absolute; left: 660px; top: 344px; width: 340px">
+          <span class="mono" style="display: block; margin-bottom: 10px">Prix de ce service</span>
+          <sc-for list="{{pan.prix}}" as="x" hint-placeholder-count="3">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 6px 0; font: 400 13.5px Inter, sans-serif; color: {{x.c}}">
+              <span>{{x.t}}</span><span style="font: 500 12.5px 'IBM Plex Mono', monospace; white-space: nowrap">{{x.v}}</span>
+            </div>
+          </sc-for>
+          <svg class="ln" aria-hidden="true" style="position: relative; display: block; width: 340px; height: 2px; margin: 6px 0"><path pathLength="100" d="M0 1 L340 1" style="stroke-width: 1px; stroke-dashoffset: 0"></path></svg>
+          <div style="display: flex; justify-content: space-between; align-items: baseline"><span class="mono">Sous-total HTVA</span><span style="font: 300 26px Inter, sans-serif">{{pan.st}}</span></div>
+        </div>
+
+        <span class="encre" aria-hidden="true" style="position: absolute; left: 660px; top: 640px; width: 220px; height: 48px; border-radius: 24px"></span>
+        <button type="button" class="btn" style="left: 660px; top: 640px; width: 220px; height: 48px; border-radius: 24px" onClick="{{pan.valider}}">{{pan.bt}}</button>
+        <button type="button" class="mini" style="position: absolute; left: 904px; top: 655px; font-size: 14px" onClick="{{pan.annuler}}">Annuler</button>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"ombre":{"editor":"enum","options":["Alternance","Diagonale","Studio · latérale","Studio · spot","Studio · cyclo","Studio · strip","Sans"],"default":"Alternance"},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { lignes: [], pan: null, ph: 'off', promo: false, n: 0 }; }
+  componentWillUnmount() { clearTimeout(this.t); }
+  S() { return [
+    { id: 'mar', cat: 0, t: 'Mariage', mode: 'P3', base: 1200, incl: 8, extra: 90, tech: true, opts: ['album', 'tir', 'sec'] },
+    { id: 'eng', cat: 0, t: 'Séance engagement', mode: 'P3', base: 180, incl: 1.5, extra: 60, tech: true, opts: ['album', 'tir'] },
+    { id: 'fam', cat: 1, t: 'Famille lifestyle', mode: 'P3', base: 220, incl: 2, extra: 60, tech: true, opts: ['album', 'tir'] },
+    { id: 'ann', cat: 1, t: 'Anniversaire', mode: 'P3', base: 250, incl: 2, extra: 60, tech: true, opts: ['tir'] },
+    { id: 'evt', cat: 2, t: 'Événementiel', mode: 'P3', base: 250, incl: 2, extra: 60, tech: true, opts: ['tir'] },
+    { id: 'cul', cat: 2, t: 'Culinaire & studio', mode: 'P4', unit: 15, min: 5, max: 40, tech: false, opts: [] }
+  ]; }
+  ouvrir(cfg, idx) {
+    if (this.state.ph !== 'off') return;
+    this.setState({ pan: { cfg: JSON.parse(JSON.stringify(cfg)), idx }, ph: 'open' });
+  }
+  fermer(garder) {
+    if (this.state.ph !== 'open') return;
+    const st = this.state;
+    let lignes = st.lignes;
+    if (garder) { lignes = lignes.slice(); if (st.pan.idx === null) lignes.push(st.pan.cfg); else lignes[st.pan.idx] = st.pan.cfg; }
+    this.setState({ ph: 'closing', lignes, n: st.n + 1 });
+    clearTimeout(this.t);
+    this.t = setTimeout(() => this.setState({ ph: 'off', pan: null }), 380);
+  }
+  maj(f) { const pan = JSON.parse(JSON.stringify(this.state.pan)); f(pan.cfg); this.setState({ pan }); }
+  calc(cfg) {
+    const OPT = { album: ['Album photo 30×30', 120], tir: ['10 tirages 20×30', 45], sec: ['Second photographe', 300] };
+    const s = this.S().find(x => x.id === cfg.sid), r2 = n => Math.round(n * 100 + 1e-9) / 100;
+    const D = [44.8, 12.0, 61.3, 30.5, 58.2], C = ['Bruxelles', 'Namur', 'Liège', 'Charleroi', 'Mons'];
+    const hm = h => { const H = Math.floor(h), M = Math.round((h - H) * 60); return M ? `${H} h ${String(M).padStart(2, '0')}` : `${H} h`; };
+    const out = []; let manque = false;
+    if (s.mode === 'P3') {
+      const over = Math.max(0, cfg.dur - s.incl), bill = Math.ceil(over * 2 - 1e-9) / 2;
+      out.push({ o: 'Service', t: `${s.t} · ${hm(cfg.dur)}`, ht: r2(s.base + bill * s.extra), act: true,
+        sub: bill > 0 ? `${hm(s.incl)} incluses, ${hm(bill)} en plus à ${s.extra} € / h` : `forfait, ${hm(s.incl)} incluses` });
+    } else {
+      out.push({ o: 'Service', t: `${s.t} · ${cfg.qty} plats`, ht: r2(cfg.qty * s.unit), act: true, sub: `${s.unit},00 € par plat` });
+    }
+    cfg.opts.forEach(k => out.push({ o: 'Option', t: OPT[k][0], ht: OPT[k][1] }));
+    if (s.tech) {
+      if (cfg.lieux.some(z => z.c < 0)) { manque = true; out.push({ o: 'Transport', t: 'Adresse requise', ht: null }); }
+      else {
+        const sorted = cfg.lieux.slice().sort((a, b) => a.h - b.h);
+        let far = sorted[0]; sorted.forEach(z => { if (D[z.c] > D[far.c]) far = z; });
+        const km = Math.round(D[far.c] * 2 * 10) / 10, fee = r2(Math.max(0, km - 25) * .5);
+        out.push({ o: 'Transport', t: `Départ photographe → ${C[far.c]} : ${String(D[far.c].toFixed(1)).replace('.', ',')} km`, ht: fee,
+          sub: fee > 0 ? `aller-retour ${String(km.toFixed(1)).replace('.', ',')} km, 25 km offerts, 0,50 € / km` : 'Déplacement offert' });
+      }
+    }
+    return { s, lignes: out, manque, ht: r2(out.reduce((t, l) => t + (l.ht || 0), 0)) };
+  }
+  renderVals() {
+    const K = .62, E = 'cubic-bezier(.45,0,.2,1)', st = this.state, again = st.n > 0;
+    const T = (dl, d) => again ? { o: `wIn .3s ${E} ${(dl * .04).toFixed(2)}s both`, f: `wIn .3s ${E} ${(dl * .04 + .08).toFixed(2)}s both` }
+      : { o: `wIn ${d * K}s ${E} ${(dl * K).toFixed(2)}s both`, f: `wIn ${d * K}s ${E} ${((dl + .25) * K).toFixed(2)}s both` };
+    const H = (dl) => again ? 'habille .35s ease .1s both' : `habille 1s ease ${(dl * K).toFixed(2)}s both`;
+    const eur = n => n.toLocaleString('fr-BE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+    const a = {
+      sep: `drawS ${.8 * K}s ${E} 0s both`, logo: T(.3, .8), sig: `wIn ${.5 * K}s ${E} ${1.35 * K}s both`,
+      n0: T(.5, .45), n1: T(.6, .45), n2: T(.7, .45), n3: T(.8, .45), navU: `wIn ${.5 * K}s ${E} ${1.2 * K}s both`,
+      hFl: `habille 1s ease ${.9 * K}s both`, hCta: T(1.3, .45),
+      eyeL: `wIn ${.4 * K}s ${E} ${.6 * K}s both`, eye: T(.75, .6), h1: T(.9, .8), h2: T(1.1, 1), sub: T(1.4, 1.2),
+      pillL: again ? 'none' : `drawS ${1 * K}s ${E} ${1.2 * K}s both`, pill: again ? 'habille .3s ease both' : `habille 1.8s ease-in-out ${2.1 * K}s both`,
+      pillC: `apparait 1.8s ease-in-out 6s both, comete 24s linear 6s infinite`, catT: T(1.6, .4),
+      devT: T(1.8, .5), devL: again ? 'none' : `drawS ${1 * K}s ${E} ${1.8 * K}s both`, msg2: T(2.4, 1.2), promo: H(3.4),
+      tL: again ? 'none' : `drawS ${1 * K}s ${E} ${2.0 * K}s both`, tB: again ? 'habille .3s ease both' : `habille 1.8s ease-in-out ${2.9 * K}s both`,
+      totT: T(2.4, .4), tV: H(2.8), tVl: again ? 'none' : `drawS ${.6 * K}s ${E} ${2.8 * K}s both`
+    };
+    if (again) Object.assign(a, { sep: 'none', logo: T(0, .3), sig: 'none', n0: T(0, .3), n1: T(0, .3), n2: T(0, .3), n3: T(0, .3), hFl: 'none', hCta: T(0, .3) });
+    const SV = this.S(), CAT = ['Mariages & couples', 'Familles & fêtes', 'Entreprises & studio'];
+    let y = 300; const cats = [], srvs = [];
+    CAT.forEach((t, ci) => {
+      cats.push({ t, y, a: T(1.7 + ci * .3, .5) }); y += 26;
+      SV.filter(s => s.cat === ci).forEach((s, k) => {
+        const dl = 1.8 + ci * .3 + k * .12;
+        const cfg = s.mode === 'P3' ? { sid: s.id, dur: s.incl, opts: [], lieux: [{ c: -1, h: 14 }] } : { sid: s.id, qty: 10, opts: [], lieux: [] };
+        srvs.push({ t: s.t, p: 'dès ' + eur(s.mode === 'P3' ? s.base : s.unit * s.min), y, lab: 'Ajouter ' + s.t + ' au devis',
+          at: T(dl, .6), ap: T(dl + .1, .5), ab: H(dl + .5), ajouter: () => this.ouvrir(cfg, null) });
+        y += 60;
+      });
+      y += 18;
+    });
+    const res = st.lignes.map(c => this.calc(c));
+    const lignes = []; let ly = 312, k = 0;
+    res.forEach((r, gi) => r.lignes.forEach(l => {
+      lignes.push({ o: l.o, t: l.t, cls: 'l', v: l.ht === null ? '—' : eur(l.ht), y: ly, dl: (k * .05).toFixed(2) + 's', act: !!l.act,
+        modifier: () => this.ouvrir(st.lignes[gi], gi), retirer: () => this.setState({ lignes: st.lignes.filter((_, i) => i !== gi), n: st.n + 1 }) });
+      ly += l.act ? 50 : 30; k++;
+      if (l.sub) { lignes.push({ o: '', t: l.sub, cls: 'l s', v: '', y: ly - 6, dl: (k * .05).toFixed(2) + 's', act: false }); ly += 24; }
+    }));
+    const ht = Math.round(res.reduce((t, r) => t + r.ht, 0) * 100) / 100, tva = Math.round(ht * 21 + 1e-9) / 100, manque = res.some(r => r.manque);
+    const ok = res.length > 0 && !manque;
+    const t = { ht: eur(ht), tva: eur(tva), ttc: eur(Math.round((ht + tva) * 100) / 100), inc: manque ? ' · incomplet' : '', manque,
+      cls: ok ? 'btn' : 'btn off', dis: ok ? 'false' : 'true', okOp: ok ? 1 : 0 };
+    const noAlbum = st.lignes.findIndex(c => { const s = SV.find(x => x.id === c.sid); return s.opts.includes('album') && !c.opts.includes('album'); });
+    const sug = { on: noAlbum >= 0 && st.ph === 'off', t: 'Ajoutez un album : Album photo 30×30', go: () => this.ouvrir(st.lignes[noAlbum], noAlbum) };
+    let pan = { on: false };
+    if (st.pan) {
+      const cfg = st.pan.cfg, r = this.calc(cfg), s = r.s, closing = st.ph === 'closing';
+      const hm = h => { const Hh = Math.floor(h), M = Math.round((h - Hh) * 60); return M ? `${Hh} h ${String(M).padStart(2, '0')}` : `${Hh} h`; };
+      const OPT = { album: ['Album photo 30×30', 120], tir: ['10 tirages 20×30', 45], sec: ['Second photographe', 300] };
+      const C = ['Bruxelles', 'Namur', 'Liège', 'Charleroi', 'Mons'];
+      const P3 = s.mode === 'P3';
+      const note = P3 ? (cfg.dur <= .5 ? 'La durée minimale est de 30 min.' : cfg.dur >= 14 ? 'La durée maximale est de 14 h.' : cfg.dur <= s.incl ? `Facturé au forfait : ${hm(s.incl)} incluses.` : 'Au-delà du forfait, chaque demi-heure entamée est facturée.')
+        : (cfg.qty <= s.min || cfg.qty >= s.max ? `La quantité est comprise entre ${s.min} et ${s.max}.` : `${s.unit},00 € par plat.`);
+      const lieux = (cfg.lieux || []).map((z, i) => ({ n: i + 1, y: 340 + i * 92, h: String(Math.floor(z.h)).padStart(2, '0') + ':' + (z.h % 1 ? '30' : '00'), del: i > 0,
+        hm: () => this.maj(c => { c.lieux[i].h = Math.max(6, c.lieux[i].h - .5); }), hp: () => this.maj(c => { c.lieux[i].h = Math.min(23.5, c.lieux[i].h + .5); }),
+        retirer: () => this.maj(c => { c.lieux.splice(i, 1); }),
+        communes: C.map((t2, ci) => ({ t: t2, on: z.c === ci, cls: z.c === ci ? 'chip on' : 'chip', pick: () => this.maj(c => { c.lieux[i].c = ci; }) })) }));
+      pan = { on: true, titre: 'Configurer ' + s.t, svc: s.t, tech: s.tech, studio: !s.tech,
+        fl: closing ? 'devOut .3s ease-out forwards' : 'habille .7s ease .35s both',
+        tr: closing ? `undrawS .35s ${E} both` : `drawS .55s ${E} both`,
+        ct: closing ? 'devOut .2s ease-out forwards' : 'habille .45s ease .5s both',
+        pLab: P3 ? 'Durée de présence' : 'Nombre de plats', pVal: P3 ? hm(cfg.dur) : String(cfg.qty), pNote: note,
+        moins: () => this.maj(c => { if (P3) c.dur = Math.max(.5, c.dur - .25); else c.qty = Math.max(s.min, c.qty - 1); }),
+        plus: () => this.maj(c => { if (P3) c.dur = Math.min(14, c.dur + .25); else c.qty = Math.min(s.max, c.qty + 1); }),
+        lieux, plusLieu: s.tech && cfg.lieux.length < 3, yPlus: 340 + cfg.lieux.length * 92,
+        ajLieu: () => this.maj(c => { c.lieux.push({ c: -1, h: Math.min(23.5, c.lieux[c.lieux.length - 1].h + 2) }); }),
+        opts: s.opts.map(k2 => ({ t: OPT[k2][0], v: eur(OPT[k2][1]), on: cfg.opts.includes(k2), cls: cfg.opts.includes(k2) ? 'opt on' : 'opt',
+          toggle: () => this.maj(c => { c.opts = c.opts.includes(k2) ? c.opts.filter(x => x !== k2) : c.opts.concat(k2); }) })),
+        prix: r.lignes.map(l => ({ t: l.t, v: l.ht === null ? 'Adresse requise' : eur(l.ht), c: l.ht === null ? '#4B4D52' : '#0D0E10' })),
+        st: eur(r.ht), bt: st.pan.idx === null ? 'Ajouter au devis' : 'Enregistrer',
+        valider: () => this.fermer(true), annuler: () => this.fermer(false) };
+    }
+    const nb = st.lignes.length ? st.lignes.length + (st.lignes.length > 1 ? ' prestations' : ' prestation') : 'vide';
+    const oz = this.props.ombre || 'Alternance', alterne = oz === 'Alternance';
+    const OM = [['Diagonale', 'dia'], ['Studio · latérale', 'lat'], ['Studio · spot', 'spot'], ['Studio · cyclo', 'cyc'], ['Studio · strip', 'str']];
+    const om = { on: oz !== 'Sans', cs: OM.map((o, k) => ({ cls: 'om-i ' + o[1], d: alterne || oz === o[0] ? 'block' : 'none',
+      a: alterne ? `alt${k} 70s ease-in-out infinite` : (oz === o[0] ? 'seul 2.5s ease-in-out both' : 'none') })) };
+
+    return { a, cats, srvs, lignes, vide: !st.lignes.length, nb, t, sug, pan, fond: st.ph === 'open' ? `wOut .4s ${E} both` : (again ? `wIn .5s ${E} .05s both` : 'none'),
+      promoMsg: { on: st.promo, t: 'Ce code promo n’est pas valable.' }, appliquer: () => this.setState({ promo: true }), om };
+  }
+}
+</script>
+</body>
+</html>

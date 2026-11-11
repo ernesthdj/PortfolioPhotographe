@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Parcours · Dashboard</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+.papier{background-image:url(/_blob/612ef09ea0c09023a971391c52f66ba3);background-size:256px 256px}
+svg.ln{position:absolute;left:0;top:0;width:1440px;height:900px;overflow:visible;pointer-events:none}
+.ln path{fill:none;stroke-width:1.5px;shape-rendering:geometricPrecision;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 102;stroke-dashoffset:101}
+.w{position:relative;display:inline-block;white-space:nowrap}
+.w .o{display:block;color:transparent;-webkit-text-stroke:1px currentColor}
+.w .f{position:absolute;left:0;top:-.24em;padding:.24em .14em .24em 0;background-color:currentColor;background-image:radial-gradient(closest-side,rgba(255,255,255,.22),rgba(255,255,255,.07) 45%,rgba(255,255,255,0)),url(/_blob/956ecc2dced01c374092a3a28db73e7e);background-size:70% 60%,120px 120px;background-repeat:no-repeat,repeat;background-position:18% 12%,0 0;background-blend-mode:screen,overlay;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.ph{position:absolute;display:block;object-fit:cover;box-shadow:0 22px 40px -16px rgba(20,18,16,.34),0 6px 12px -4px rgba(20,18,16,.16);--c0:inset(0 100% 0 0);--c1:inset(0 0 0 0)}
+.btn{position:absolute;display:flex;align-items:center;justify-content:center;border-radius:24px;text-decoration:none;font:500 14px Inter,sans-serif;color:#0D0E10}
+.tuile{position:absolute;top:640px;width:200px;height:96px;border-radius:14px;color:inherit;text-decoration:none}
+.tuile .k{position:absolute;left:16px;top:14px;font:500 12px 'IBM Plex Mono',monospace;letter-spacing:.04em}
+.tuile .l{position:absolute;left:16px;top:58px;font:500 15px Inter,sans-serif}
+.tuile .fl{position:absolute;right:16px;top:58px;font:500 15px Inter,sans-serif}
+.nav a,.lien{color:inherit;text-decoration:none}
+.btn:focus-visible,.nav a:focus-visible,.lien:focus-visible,.tuile:focus-visible,.rj:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+.rj{position:absolute;right:24px;bottom:20px;height:28px;padding:0 12px;border-radius:14px;border:2px solid currentColor;background:transparent;color:inherit;font:500 12px Inter,sans-serif;cursor:pointer}
+@keyframes drawS{from{stroke-dashoffset:101}to{stroke-dashoffset:0}}
+@keyframes undrawS{from{stroke-dashoffset:0}to{stroke-dashoffset:101}}
+@keyframes trace{0%{stroke-dashoffset:101}50%{stroke-dashoffset:0}65%{stroke-dashoffset:0}100%{stroke-dashoffset:-102}}
+@keyframes wIn{from{clip-path:inset(-12px 100% -12px 0)}to{clip-path:inset(-12px -12px -12px 0)}}
+@keyframes wOut{from{clip-path:inset(-12px -12px -12px 0)}to{clip-path:inset(-12px 100% -12px 0)}}
+@keyframes rIn{from{clip-path:var(--c0)}to{clip-path:var(--c1)}}
+@keyframes rOut{from{clip-path:var(--c1)}to{clip-path:var(--c0)}}
+@keyframes dev{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@keyframes devNB{0%{opacity:0;filter:grayscale(1) contrast(1.05)}45%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
+@keyframes devOut{0%{opacity:1;filter:brightness(1) grayscale(0)}100%{opacity:0;filter:brightness(0) grayscale(1)}}
+.phbtn{position:absolute;padding:0;margin:0;border:0;background:transparent;cursor:zoom-in}
+.phbtn:focus-visible{outline:2px solid #0D0E10;outline-offset:4px}
+.lb-fond{position:absolute;inset:0;background-color:#FFFFFF}
+.lb-img{position:absolute;display:block;object-fit:cover;box-shadow:0 30px 60px -20px rgba(20,18,16,.38),0 8px 16px -6px rgba(20,18,16,.18)}
+.lb-cadre{position:absolute;box-sizing:border-box;border:2px solid #0D0E10;pointer-events:none}
+.lb-btn{position:absolute;width:48px;height:48px;padding:0;border:0;border-radius:24px;background:transparent;color:#0D0E10;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.lb-btn:hover{background:rgba(13,14,16,.06)}
+.lb-btn:focus-visible{outline:2px solid currentColor;outline-offset:2px}
+.lb-btn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+@keyframes dev2{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+.svc{position:relative;display:inline-flex;align-items:baseline;gap:8px;flex:none;padding:6px 0 14px;color:#0D0E10;text-decoration:none}
+.svc:focus-visible{outline:2px solid #0D0E10;outline-offset:6px;border-radius:4px}
+.svc .k{font:500 11.5px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#4B4D52}
+.svc .l{font:300 22px/1 Inter,sans-serif;letter-spacing:-.02em;white-space:nowrap}
+.svc .u{position:absolute;left:0;bottom:4px;height:2px;border-radius:1px;background:#3AA6B5;width:0;transition:width .45s cubic-bezier(.45,0,.2,1)}
+.svc.on .u{width:100%}
+@keyframes rIn2{from{clip-path:var(--c0)}to{clip-path:var(--c1)}}
+@keyframes trace2{0%{stroke-dashoffset:101}50%{stroke-dashoffset:0}65%{stroke-dashoffset:0}100%{stroke-dashoffset:-102}}
+@keyframes devNB2{0%{opacity:0;filter:grayscale(1) contrast(1.05)}45%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
+@keyframes comete{from{stroke-dashoffset:0}to{stroke-dashoffset:-100}}
+@keyframes cometeR{from{stroke-dashoffset:0}to{stroke-dashoffset:100}}
+@keyframes apparait{from{stroke-opacity:0}to{stroke-opacity:1}}
+@keyframes eteint{from{stroke-opacity:0}to{stroke-opacity:0}}
+@keyframes rebatit{0%{stroke-dashoffset:0}84%{stroke-dashoffset:0}90%{stroke-dashoffset:101}96%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
+@keyframes souffle{0%{width:28px}50%{width:46px}100%{width:28px}}
+.comete{fill:none;stroke-width:1.5px;stroke-linecap:round;stroke-dasharray:6 94}
+.vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(118% 100% at 50% 44%,rgba(20,18,16,0) 48%,rgba(20,18,16,.10) 76%,rgba(20,18,16,.27) 100%);box-shadow:inset 0 0 140px rgba(20,18,16,.10)}
+.encre{box-shadow:0 20px 34px -10px rgba(13,14,16,.58),0 7px 12px -3px rgba(13,14,16,.32),inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1.5px 0 rgba(0,0,0,.22),inset 0 0 0 .5px rgba(0,0,0,.12)}
+.encre::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:1;background:radial-gradient(closest-side,rgba(255,255,255,.22),rgba(255,255,255,.07) 45%,rgba(255,255,255,0) 100%) no-repeat;background-size:70% 60%;background-position:18% 12%;mix-blend-mode:screen;animation:lueur 7s cubic-bezier(.45,0,.2,1) infinite alternate}
+@keyframes lueur{0%{background-position:14% 10%}50%{background-position:42% 18%}100%{background-position:72% 14%}}
+.encre::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:url(/_blob/956ecc2dced01c374092a3a28db73e7e) repeat,radial-gradient(120% 90% at 35% 25%,rgba(255,255,255,.07),rgba(0,0,0,.10));background-size:120px 120px,100% 100%;mix-blend-mode:overlay;opacity:.55}
+.pastille{position:absolute;border-radius:24px;opacity:0;overflow:hidden;background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(250,248,244,.86) 55%,rgba(240,237,231,.9) 100%);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 16px 32px -12px rgba(20,18,16,.30),0 4px 10px -3px rgba(20,18,16,.16),inset 0 1px 0 rgba(255,255,255,1),inset 0 0 0 1px rgba(255,255,255,.6),inset 0 -2px 0 rgba(20,18,16,.06),inset 0 -12px 18px -12px rgba(20,18,16,.10)}
+@keyframes derive2{0%{transform:translate(0,0)}50%{transform:translate(24px,-6px)}100%{transform:translate(-18px,5px)}}
+@keyframes haloIn{from{opacity:0}to{opacity:.85}}
+.pastille::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(90% 140% at 22% 0%,rgba(255,255,255,.75),rgba(255,255,255,0) 60%)}
+@keyframes habille{from{opacity:0}to{opacity:1}}
+@keyframes deshabille{from{opacity:1}to{opacity:0}}
+svg.pp{position:absolute;left:0;top:0;width:1440px;height:900px;overflow:visible;pointer-events:none}
+.pp path{fill:none;stroke:#0D0E10;stroke-width:1.5px;shape-rendering:geometricPrecision;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 102;stroke-dashoffset:101}
+.pp path.comete{stroke-dasharray:5 95;stroke-dashoffset:0}
+svg.cad{position:absolute;overflow:visible;pointer-events:none}
+.cad path{fill:none;stroke:#0D0E10;stroke-width:1.5px;shape-rendering:geometricPrecision;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 102;stroke-dashoffset:101}
+.cad path.comete{stroke-dasharray:6 94;stroke-dashoffset:0}
+@keyframes cadreFin{to{border-color:transparent}}
+@keyframes cadreFin2{to{border-color:transparent}}
+@keyframes retire{from{stroke-dashoffset:0}to{stroke-dashoffset:-102}}
+@keyframes retire2{from{stroke-dashoffset:0}to{stroke-dashoffset:-102}}
+svg.lbtr{position:absolute;overflow:visible;pointer-events:none}
+.lbtr path{fill:none;stroke:#0D0E10;stroke-width:2px;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 102;stroke-dashoffset:101}
+@keyframes melt{0%{transform:scale(1)}40%{transform:scale(2.2,.35)}100%{transform:scale(0)}}
+@keyframes reform{from{transform:scale(0)}to{transform:scale(1)}}
+@keyframes melt2{0%{transform:scale(1)}40%{transform:scale(2.2,.35)}100%{transform:scale(0)}}
+@keyframes fondV{0%{left:0;top:0;width:10px;height:10px}40%{left:3px;top:-5px;width:4px;height:20px}100%{left:5px;top:5px;width:0;height:0}}
+@keyframes fondV2{0%{left:0;top:0;width:10px;height:10px}40%{left:3px;top:-5px;width:4px;height:20px}100%{left:5px;top:5px;width:0;height:0}}
+@keyframes fondVr{0%{left:0;top:0;width:10px;height:10px}40%{left:3px;top:-5px;width:4px;height:20px}100%{left:5px;top:5px;width:0;height:0}}
+@keyframes ecrit{0%{left:65px;top:var(--dt);width:10px;height:10px;border-radius:5px}15%{left:77px;top:207px;width:3px;height:var(--H);border-radius:1.5px}85%{left:calc(77px + var(--W));top:207px;width:3px;height:var(--H);border-radius:1.5px}100%{left:calc(78px + var(--W));top:calc(207px + var(--H) / 2);width:0;height:0;border-radius:0}}
+@keyframes ecrit2{0%{left:65px;top:var(--dt);width:10px;height:10px;border-radius:5px}15%{left:77px;top:207px;width:3px;height:var(--H);border-radius:1.5px}85%{left:calc(77px + var(--W));top:207px;width:3px;height:var(--H);border-radius:1.5px}100%{left:calc(78px + var(--W));top:calc(207px + var(--H) / 2);width:0;height:0;border-radius:0}}
+@keyframes resorbe{0%{left:calc(78px + var(--W));top:calc(207px + var(--H) / 2);width:0;height:0;border-radius:0}12%{left:calc(77px + var(--W));top:207px;width:3px;height:var(--H);border-radius:1.5px}85%{left:77px;top:207px;width:3px;height:var(--H);border-radius:1.5px}100%{left:65px;top:var(--dt);width:10px;height:10px;border-radius:5px}}
+.tete{position:absolute;background:#0D0E10;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1.5px 0 rgba(0,0,0,.22),0 2px 5px rgba(13,14,16,.22)}
+@media (prefers-reduced-motion: reduce){*{animation-duration:0s !important;animation-delay:0s !important}}
+</style>
+</helmet>
+<div class="papier" style="position: relative; width: 1440px; height: 900px; overflow: hidden; background-color: #FFFFFF; color: #0D0E10; font-family: Inter, system-ui, sans-serif">
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="pastille" aria-hidden="true" style="left: {{pp.nx}}px; top: 30px; width: {{pp.nw}}px; height: 48px; animation: {{pp.nFill}}"></div>
+  <div class="pastille" aria-hidden="true" style="left: 80px; top: 488px; width: 200px; height: 48px; animation: {{pp.gFill}}"></div>
+  <div class="pastille" aria-hidden="true" style="left: 64px; top: 596px; width: 1312px; height: 116px; animation: {{pp.sFill}}"></div>
+  <svg class="pp" aria-hidden="true">
+    <path pathLength="100" d="{{pp.nTop}}" style="animation: {{pp.nLine}}"></path>
+    <path pathLength="100" d="{{pp.nBot}}" style="animation: {{pp.nLine}}"></path>
+    <path class="comete" pathLength="100" d="{{pp.nLoop}}" style="stroke: #3AA6B5; animation: {{pp.nCom}}"></path>
+    <path pathLength="100" d="M64 654 L64 620 A24 24 0 0 1 88 596 L1352 596 A24 24 0 0 1 1376 620 L1376 654" style="animation: {{pp.sLine}}"></path>
+    <path pathLength="100" d="M64 654 L64 688 A24 24 0 0 0 88 712 L1352 712 A24 24 0 0 0 1376 688 L1376 654" style="animation: {{pp.sLine}}"></path>
+    <path class="comete" pathLength="100" d="M64 654 L64 620 A24 24 0 0 1 88 596 L1352 596 A24 24 0 0 1 1376 620 L1376 688 A24 24 0 0 1 1352 712 L88 712 A24 24 0 0 1 64 688 Z" style="stroke: #D9783A; animation: {{pp.sCom}}"></path>
+  </svg>
+
+
+  <sc-for list="{{mos}}" as="p" hint-placeholder-count="4">
+    <img class="ph" src="{{p.src}}" alt="{{p.alt}}" style="left: {{p.x}}px; top: {{p.y}}px; width: {{p.w}}px; height: {{p.h}}px; animation: {{p.anim}}">
+    <svg class="cad" aria-hidden="true" style="left: {{p.sx}}px; top: {{p.sy}}px; width: {{p.sw}}px; height: {{p.sh}}px">
+      <path pathLength="100" d="{{p.d}}" style="animation: {{p.tr}}"></path>
+      <path class="comete" pathLength="100" d="{{p.d}}" style="stroke: {{p.cc}}; animation: {{p.com}}"></path>
+    </svg>
+  </sc-for>
+  <svg class="ln" aria-hidden="true" style="stroke: #0D0E10">
+    <path pathLength="100" d="M720 100 L80 100" style="animation: {{viv.sep}}"></path>
+    <path pathLength="100" d="M720 100 L1360 100" style="animation: {{viv.sep}}"></path>
+    <path pathLength="100" d="M80 148 L580 148" style="stroke-width: 1px; animation: {{viv.lb1}}"></path>
+    <path pathLength="100" d="M80 566 L580 566" style="stroke-width: 1px; animation: {{viv.lb2}}"></path>
+    <path pathLength="100" d="M80 512 Q80 488 104 488 L256 488 Q280 488 280 512" style="animation: {{a.pill}}"></path>
+    <path pathLength="100" d="M80 512 Q80 536 104 536 L256 536 Q280 536 280 512" style="animation: {{a.pill}}"></path>
+  </svg>
+
+  <a href="PAccueil.dc.html" class="lien" style="position: absolute; left: 80px; top: 38px; font: 600 22px Inter, sans-serif; letter-spacing: -.01em">
+    <span class="w"><span class="o" style="animation: {{a.logo.o}}">Ernest H.</span><span class="f" aria-hidden="true" style="animation: {{a.logo.f}}">Ernest H.</span></span>
+  </a>
+  <span aria-hidden="true" style="position: absolute; left: 80px; top: 70px; width: 28px; height: 2px; border-radius: 1px; background: #3AA6B5; animation: {{viv.sig}}"></span>
+
+  <nav class="nav" aria-label="Menu principal" style="position: absolute; left: 600px; top: 46px; width: {{ind.navW}}px; display: flex; gap: 36px; font: 500 14px Inter, sans-serif">
+    <a href="PGalerie.dc.html" onMouseEnter="{{ind.h0}}" onFocus="{{ind.h0}}" onMouseLeave="{{ind.out}}" onBlur="{{ind.out}}"><span class="w"><span class="o" style="animation: {{a.n0.o}}">Galerie</span><span class="f" aria-hidden="true" style="animation: {{a.n0.f}}">Galerie</span></span></a>
+    <a href="PServices.dc.html" onMouseEnter="{{ind.h1}}" onFocus="{{ind.h1}}" onMouseLeave="{{ind.out}}" onBlur="{{ind.out}}"><span class="w"><span class="o" style="animation: {{a.n1.o}}">Services</span><span class="f" aria-hidden="true" style="animation: {{a.n1.f}}">Services</span></span></a>
+    <a href="PApropos.dc.html" onMouseEnter="{{ind.h2}}" onFocus="{{ind.h2}}" onMouseLeave="{{ind.out}}" onBlur="{{ind.out}}"><span class="w"><span class="o" style="animation: {{a.n2.o}}">À propos</span><span class="f" aria-hidden="true" style="animation: {{a.n2.f}}">À propos</span></span></a>
+    <a href="PContact.dc.html" onMouseEnter="{{ind.h3}}" onFocus="{{ind.h3}}" onMouseLeave="{{ind.out}}" onBlur="{{ind.out}}"><span class="w"><span class="o" style="animation: {{a.n3.o}}">Contact</span><span class="f" aria-hidden="true" style="animation: {{a.n3.f}}">Contact</span></span></a>
+    <span aria-hidden="true" style="position: absolute; bottom: -7px; height: 2px; border-radius: 1px; left: {{ind.l}}px; right: {{ind.r}}px; background: {{ind.c}}; transition: {{ind.tr}}"></span>
+  </nav>
+  <span class="encre" aria-hidden="true" style="position: absolute; left: 1184px; top: 34px; width: 176px; height: 40px; border-radius: 20px; background: #0D0E10; --c0: inset(0 100% 0 0 round 20px); --c1: inset(0 0 0 0 round 20px); animation: {{a.hFl}}"></span>
+  <a href="PSimulateur.dc.html" class="btn" style="left: 1184px; top: 34px; width: 176px; height: 40px; color: #FFFFFF">
+    <span class="w"><span class="o" style="animation: {{a.hCta.o}}">Créer mon devis</span><span class="f" aria-hidden="true" style="animation: {{a.hCta.f}}">Créer mon devis</span></span>
+  </a>
+
+  <span class="tete" aria-hidden="true" style="--W: {{hero.W}}px; --H: {{hero.H}}px; --dt: {{hero.dotTop}}px; left: 65px; top: {{hero.dotTop}}px; width: 10px; height: 10px; border-radius: 5px; animation: {{hero.dot}}"></span>
+  <div aria-live="polite" style="position: absolute; left: 80px; top: 172px; width: 520px">
+    <p style="margin: 0; display: flex; align-items: center; gap: 14px; font: 500 11.5px 'IBM Plex Mono', monospace; letter-spacing: .18em; text-transform: uppercase; color: #4B4D52">
+      <span aria-hidden="true" style="display: block; width: 28px; height: 1px; background: #D9783A; animation: {{a.eyeL}}"></span>
+      <span class="w"><span class="o" style="animation: {{hero.eye.o}}">{{hero.eyeT}}</span><span class="f" aria-hidden="true" style="animation: {{hero.eye.f}}">{{hero.eyeT}}</span></span>
+    </p>
+    <sc-for list="{{hero.lines}}" as="l" hint-placeholder-count="3">
+      <p style="margin: {{l.mt}} 0 0 {{l.ml}}; font: {{l.font}}; letter-spacing: {{l.ls}}; color: #0D0E10; filter: drop-shadow(0 7px 10px rgba(20,18,16,.22)) drop-shadow(0 2px 2px rgba(20,18,16,.14))">
+        <span class="w"><span class="o" style="animation: {{l.o}}">{{l.pre}}<i style="font: {{l.emf}}; letter-spacing: -.01em">{{l.em}}</i></span><span class="f" aria-hidden="true" style="animation: {{l.f}}">{{l.pre}}<i style="font: {{l.emf}}; letter-spacing: -.01em">{{l.em}}</i></span></span>
+      </p>
+    </sc-for>
+    <sc-for list="{{hero.para}}" as="l" hint-placeholder-count="2">
+      <p style="margin: {{l.mt}} 0 0; font: 400 15px/1.7 Inter, sans-serif; color: #4B4D52">
+        <span class="w"><span class="o" style="animation: {{l.o}}">{{l.t}}</span><span class="f" aria-hidden="true" style="animation: {{l.f}}">{{l.t}}</span></span>
+      </p>
+    </sc-for>
+  </div>
+  <a href="PGalerie.dc.html" class="btn" style="left: 80px; top: 488px; width: 200px; height: 48px">
+    <span class="w"><span class="o" style="animation: {{a.gal.o}}">Explorer la galerie</span><span class="f" aria-hidden="true" style="animation: {{a.gal.f}}">Explorer la galerie</span></span>
+  </a>
+  <a href="PContact.dc.html" class="lien" style="position: absolute; left: 304px; top: 502px; font: 500 14px Inter, sans-serif; color: #0D0E10; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px">
+    <span class="w"><span class="o" style="animation: {{a.dev.o}}">ou me contacter</span><span class="f" aria-hidden="true" style="animation: {{a.dev.f}}">ou me contacter</span></span>
+  </a>
+  <p style="position: absolute; left: 420px; top: 574px; width: 160px; margin: 0; text-align: right; font: 500 11px 'IBM Plex Mono', monospace; letter-spacing: .12em; color: #4B4D52">
+    <span class="w"><span class="o" style="animation: {{a.tc.o}}">SC. 01 · 00:00:24</span><span class="f" aria-hidden="true" style="animation: {{a.tc.f}}">SC. 01 · 00:00:24</span></span>
+  </p>
+
+  <p style="position: absolute; left: 80px; top: 608px; margin: 0; font: 500 12.5px 'IBM Plex Mono', monospace; letter-spacing: .04em; color: #4B4D52">
+    <span class="w"><span class="o" style="animation: {{a.sv.o}}">Mes services</span><span class="f" aria-hidden="true" style="animation: {{a.sv.f}}">Mes services</span></span>
+  </p>
+  <nav aria-label="Services" style="position: absolute; left: 80px; right: 80px; top: 650px; display: flex; flex-wrap: nowrap; justify-content: space-between; column-gap: 24px">
+    <sc-for list="{{svcs}}" as="it" hint-placeholder-count="6">
+      <a href="PServices.dc.html" class="{{it.cls}}" onMouseEnter="{{it.hov}}" onFocus="{{it.hov}}">
+        <span class="k w"><span class="o" style="animation: {{it.k.o}}">{{it.n}}</span><span class="f" aria-hidden="true" style="animation: {{it.k.f}}">{{it.n}}</span></span>
+        <span class="l w"><span class="o" style="animation: {{it.l.o}}">{{it.t}}</span><span class="f" aria-hidden="true" style="animation: {{it.l.f}}">{{it.t}}</span></span>
+        <span class="u" aria-hidden="true"></span>
+      </a>
+    </sc-for>
+  </nav>
+
+  <p style="position: absolute; left: 80px; top: 812px; margin: 0; font: 500 12.5px 'IBM Plex Mono', monospace; letter-spacing: .02em; color: #4B4D52">
+    <span class="w"><span class="o" style="animation: {{a.foot.o}}">Espace client · Instagram</span><span class="f" aria-hidden="true" style="animation: {{a.foot.f}}">Espace client · Instagram</span></span>
+  </p>
+  <p style="position: absolute; right: 80px; top: 812px; margin: 0; font: 500 12.5px 'IBM Plex Mono', monospace; letter-spacing: .02em; color: #4B4D52">
+    <span class="w"><span class="o" style="animation: {{a.scroll.o}}">Faire défiler pour découvrir ↓</span><span class="f" aria-hidden="true" style="animation: {{a.scroll.f}}">Faire défiler pour découvrir ↓</span></span>
+  </p>
+
+  <sc-for list="{{hits}}" as="h" hint-placeholder-count="4">
+    <button type="button" class="phbtn" aria-label="{{h.label}}" style="left: {{h.x}}px; top: {{h.y}}px; width: {{h.w}}px; height: {{h.h}}px" onClick="{{h.open}}"></button>
+  </sc-for>
+
+  <sc-if value="{{lb.on}}" hint-placeholder-val="{{ false }}">
+    <div role="dialog" aria-modal="true" aria-label="Photo en grand" style="position: absolute; inset: 0">
+      <div class="lb-fond papier" style="clip-path: {{lb.clip}}; transition: {{lb.trFond}}"></div>
+      <img class="lb-img" src="{{lb.src}}" alt="{{lb.alt}}" style="left: {{lb.x}}px; top: {{lb.y}}px; width: {{lb.w}}px; height: {{lb.h}}px; animation: {{lb.anim}}">
+      <div class="lb-cadre" style="left: {{lb.fx}}px; top: {{lb.fy}}px; width: {{lb.fw}}px; height: {{lb.fh}}px; transition: {{lb.trCadre}}; animation: {{lb.cadAnim}}"></div>
+      <svg class="lbtr" aria-hidden="true" style="left: {{lb.tx1}}px; top: {{lb.ty1}}px; width: {{lb.tw2}}px; height: {{lb.th2}}px"><path pathLength="100" d="{{lb.td}}" style="animation: {{lb.retire}}"></path></svg>
+      <p style="position: absolute; left: 120px; top: 846px; margin: 0; font: 500 12.5px 'IBM Plex Mono', monospace; letter-spacing: .04em; color: #4B4D52">
+        <span class="w"><span class="o" style="animation: {{lb.t.o}}">{{lb.cap}}</span><span class="f" aria-hidden="true" style="animation: {{lb.t.f}}">{{lb.cap}}</span></span>
+      </p>
+      <p style="position: absolute; left: 670px; top: 846px; width: 100px; margin: 0; text-align: center; font: 500 12.5px 'IBM Plex Mono', monospace; letter-spacing: .04em; color: #4B4D52">
+        <span class="w"><span class="o" style="animation: {{lb.t.o}}">{{lb.num}}</span><span class="f" aria-hidden="true" style="animation: {{lb.t.f}}">{{lb.num}}</span></span>
+      </p>
+      <button type="button" class="lb-btn" aria-label="Fermer" style="right: 32px; top: 16px; animation: {{lb.t.o}}" onClick="{{lb.close}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6 L18 18 M18 6 L6 18"></path></svg></button>
+      <button type="button" class="lb-btn" aria-label="Photo précédente" style="left: 44px; top: 416px; animation: {{lb.t.o}}" onClick="{{lb.prev}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 L8 12 L15 19"></path></svg></button>
+      <button type="button" class="lb-btn" aria-label="Photo suivante" style="right: 44px; top: 416px; animation: {{lb.t.o}}" onClick="{{lb.next}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5 L16 12 L9 19"></path></svg></button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{seul}}" hint-placeholder-val="{{ true }}">
+    <button type="button" class="rj" style="color: #4B4D52" onClick="{{replay}}">Rejouer</button>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"retard":{"editor":null,"default":0},"phase":{"editor":null,"default":"in"},"seul":{"editor":null,"default":true},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { ph: 'in', lbI: null, lbSt: 'from', lbN: 0, navI: -1, navH: null, svc: 0, svcN: 0, svcFade: false, heroI: 0, heroN: 0, heroOut: false }; this.prevI = -1; }
+  componentDidMount() {
+    const D = (this.props.seul ?? true) ? 0 : (this.props.retard ?? 0);
+    this.tNav = setTimeout(() => {
+      this.setState({ navI: 0 });
+      this.iNav = setInterval(() => { if (this.state.navH === null) this.setState({ navI: (this.state.navI + 1) % 4 }); }, 2800);
+    }, (D + 4.4) * 1000);
+    this.tHero = setTimeout(() => {
+      this.iHero = setInterval(() => {
+        this.setState({ heroOut: true });
+        this.tHero2 = setTimeout(() => this.setState({ heroI: (this.state.heroI + 1) % 5, heroN: this.state.heroN + 1, heroOut: false }), 1000);
+      }, 8000);
+    }, (D + 4) * 1000);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { this.navW = null; this.forceUpdate(); });
+  }
+  componentWillUnmount() { clearTimeout(this.tm); clearTimeout(this.tLb); clearTimeout(this.tNav); clearInterval(this.iNav); clearTimeout(this.tSvc); clearTimeout(this.tHero); clearTimeout(this.tHero2); clearInterval(this.iHero); }
+  choisir(i) {
+    if (this.state.svc === i && !this.state.svcFade) return;
+    clearTimeout(this.tSvc);
+    this.setState({ svcFade: true });
+    this.tSvc = setTimeout(() => this.setState({ svc: i, svcN: this.state.svcN + 1, svcFade: false }), 300);
+  }
+  mesures() {
+    if (this.navW) return this.navW;
+    const c = document.createElement('canvas').getContext('2d');
+    c.font = '500 14px Inter, sans-serif';
+    const w = ['Galerie', 'Services', 'À propos', 'Contact'].map(t => Math.ceil(c.measureText(t).width));
+    const x = []; let acc = 0;
+    w.forEach(v => { x.push(acc); acc += v + 36; });
+    this.navW = { w, x, total: acc - 36 };
+    return this.navW;
+  }
+  ouvrir(i) {
+    if (this.state.lbI !== null) return;
+    clearTimeout(this.tLb);
+    this.setState({ lbI: i, lbSt: 'from', lbN: 0 });
+    this.tLb = setTimeout(() => this.setState({ lbSt: 'to' }), 40);
+  }
+  fermer() {
+    if (this.state.lbSt !== 'to') return;
+    this.setState({ lbSt: 'closing' });
+    clearTimeout(this.tLb);
+    this.tLb = setTimeout(() => this.setState({ lbI: null, lbSt: 'from' }), 820);
+  }
+  aller(d, n) {
+    if (this.state.lbSt !== 'to') return;
+    this.setState({ lbI: (this.state.lbI + d + n) % n, lbN: this.state.lbN + 1 });
+  }
+  renderVals() {
+    const seul = this.props.seul ?? true;
+    const D = seul ? 0 : (this.props.retard ?? 0);
+    const ph = seul ? this.state.ph : (this.props.phase ?? 'in');
+    const K = .62, E = 'cubic-bezier(.45,0,.2,1)', on = ph === 'in';
+    const at = (dl) => (D + dl * K).toFixed(2);
+    const S = (dl, d) => on ? `drawS ${d * K}s ${E} ${at(dl)}s both` : `undrawS .22s ${E} .1s both`;
+    const F = (dl, d) => on ? `drawS ${d * K}s ${E} ${at(dl)}s both` : `undrawS .35s ${E} .3s both`;
+    const TR = (dl, d) => on ? `trace ${d * K}s ${E} ${at(dl)}s both` : 'none';
+    const T = (dl, d) => ({
+      o: on ? `wIn ${d * K}s ${E} ${at(dl)}s both` : `wOut .2s ${E} .04s both`,
+      f: on ? `wIn ${d * K}s ${E} ${at(dl + .25)}s both` : `wOut .2s ${E} 0s both`
+    });
+    const P = (dl, nb) => on ? `${nb ? 'devNB' : 'dev'} 3.2s ease-in-out ${at(dl)}s both` : `devOut .25s ${E} 0s both`;
+    const R = (dl, d) => on ? `rIn ${d * K}s ${E} ${at(dl)}s both` : `rOut .22s ${E} .05s both`;
+    const a = {
+      sep: F(0, .8), logo: T(.3, .8), sig: on ? `wIn ${.5 * K}s ${E} ${at(1.35)}s both` : `wOut .2s ${E} 0s both`,
+      n0: T(.5, .45), n1: T(.6, .45), n2: T(.7, .45), n3: T(.8, .45),
+      hFl: R(.9, .6), hCta: T(1.3, .45),
+      t0: TR(.4, 1.6), t1: TR(.55, 1.6), t2: TR(.7, 1.6), t3: TR(.85, 1.6),
+      p0: P(.6), p1: P(.75, true), p2: P(.9), p3: P(1.05, true),
+      eye: T(.75, .6), eyeL: on ? `wIn ${.4 * K}s ${E} ${at(.6)}s both` : `wOut .2s ${E} 0s both`,
+      lb1: S(.45, 1.1), lb2: S(1.75, 1.1), tc: T(2.3, .5),
+      h1: T(.9, .9), h2: T(1.12, .9), h3: T(1.34, 1.0), l1: T(1.6, .7), l2: T(1.8, .7),
+      pill: S(1.95, .65), gal: T(2.3, .45), dev: T(2.4, .5),
+      sv: T(1.8, .5),
+      c0: S(1.9, .7), c1: S(2.0, .7), c2: S(2.1, .7), c3: S(2.2, .7), c4: S(2.3, .7), c5: S(2.4, .7),
+      une: on ? `wIn ${.5 * K}s ${E} ${at(2.9)}s both` : `wOut .2s ${E} 0s both`,
+      foot: T(2.6, .5), scroll: T(2.7, .7)
+    };
+    const POOL = [
+      { src: '/_blob/79058532f3d7d37917786298a0ac7945', alt: 'Les mariés devant le château, la mariée sourit', r: 2 / 3 },
+      { src: '/_blob/6832670aa81d041033100b28a2e4313e', alt: 'Couple enlacé dans un champ', r: 1400 / 600 },
+      { src: '/_blob/4e34f55900df112fe7752da33bc917a5', alt: 'Les mariés enlacés sur un balcon en fer forgé', r: 2 / 3 },
+      { src: '/_blob/2b6e173fdf036442185ceb85aa49021f', alt: 'Le marié embrasse la mariée sur la joue', r: 2 / 3 },
+      { src: '/_blob/9b725673bcdd88ed30e17af8444a53f5', alt: 'Couple debout dans un grand champ', r: 1400 / 600 }
+    ];
+    const SERVICES = [
+      { t: 'Mariages', set: [0, 1, 2, 3] }, { t: 'Engagement', set: [1, 2, 4] },
+      { t: 'Famille lifestyle', set: [3, 4, 0, 1, 2] }, { t: 'Anniversaires', set: [0, 4, 3] },
+      { t: 'Événementiel', set: [2, 1, 0, 3, 4] }, { t: 'Culinaire & studio', set: [4, 3, 2, 1] }
+    ];
+    const sv = this.state.svc;
+    const cur = SERVICES[sv].set.map(k => POOL[k]);
+    const sn = this.state.svcN, alt2 = sn % 2 === 1;
+    const AX = 640, AY = 124, AW = 716, AH = 452, GAP = 16;
+    const rects = (() => {
+      const r = cur.map(p => p.r), n = r.length;
+      let best = null;
+      for (let mask = 0; mask < (1 << (n - 1)); mask++) {
+        const rows = []; let row = [0];
+        for (let i = 1; i < n; i++) { if (mask & (1 << (i - 1))) { rows.push(row); row = [i]; } else row.push(i); }
+        rows.push(row);
+        const hs = rows.map(rw => (AW - GAP * (rw.length - 1)) / rw.reduce((t, i) => t + r[i], 0));
+        const tot = hs.reduce((t, h) => t + h, 0) + GAP * (rows.length - 1);
+        const kk = Math.min(1, AH / tot);
+        const area = rows.reduce((t, rw, ri) => t + rw.reduce((u, i) => u + r[i] * hs[ri] * kk * hs[ri] * kk, 0), 0);
+        const score = -area;
+        if (!best || score < best.score) best = { rows, hs, tot, score };
+      }
+      const k = Math.min(1, AH / best.tot);
+      const out = new Array(n);
+      let y = AY + (AH - best.tot * k) / 2;
+      best.rows.forEach((rw, ri) => {
+        const h = best.hs[ri] * k;
+        const rowW = rw.reduce((t, i) => t + r[i] * h, 0) + GAP * (rw.length - 1);
+        let x = AX + (AW - rowW) / 2;
+        rw.forEach(i => { const w = r[i] * h; out[i] = { x: Math.round(x), y: Math.round(y), w: Math.round(w), h: Math.round(h) }; x += w + GAP; });
+        y += h + GAP;
+      });
+      return out;
+    })();
+    const COMC = ['#3AA6B5', '#0D0E10', '#D9783A', '#7A1F33'];
+    const mos = cur.map((p, i) => {
+      const R = rects[i], nb = i % 2 === 1;
+      let anim, tr;
+      if (sn === 0) { anim = P(.6 + i * .15, nb); tr = TR(.4 + i * .15, 1.6); }
+      else if (!on) { anim = P(.6, nb); tr = 'none'; }
+      else if (this.state.svcFade) { anim = `devOut .26s ease-out ${(i * .03).toFixed(2)}s forwards`; tr = 'none'; }
+      else {
+        const dl = (.1 + i * .12).toFixed(2);
+        anim = `${nb ? (alt2 ? 'devNB2' : 'devNB') : (alt2 ? 'dev2' : 'dev')} 2.8s ease-in-out ${dl}s both`;
+        tr = `${alt2 ? 'trace2' : 'trace'} 2.6s ${E} ${dl}s both`;
+      }
+      return { src: p.src, alt: p.alt, ...R, sx: R.x - 1, sy: R.y - 1, sw: R.w + 2, sh: R.h + 2,
+        d: `M1 1 L${R.w + 1} 1 L${R.w + 1} ${R.h + 1} L1 ${R.h + 1} Z`, anim, tr, cc: COMC[i % 4], com: 'none' };
+    });
+    const svcs = SERVICES.map((x, i) => ({
+      t: x.t, n: '0' + (i + 1), cls: i === sv ? 'svc on' : 'svc',
+      k: T(2.2 + i * .1, .4), l: T(2.3 + i * .1, .45),
+      hov: () => this.choisir(i)
+    }));
+    const tuiles = [];
+    const replay = () => {
+      if (this.tm) return;
+      this.setState({ ph: 'out' });
+      this.tm = setTimeout(() => { this.tm = null; this.setState({ ph: 'in' }); }, 1000);
+    };
+    const CAPS = ['Les mariés', 'Plein air', 'Le balcon', 'Complicité', 'Instant'];
+    const PHOTOS = cur.map((p, i) => ({ src: p.src, alt: p.alt, r: p.r, ...rects[i], cap: SERVICES[sv].t + ' · ' + CAPS[i % CAPS.length] }));
+    const hits = PHOTOS.map((p, i) => ({ x: p.x, y: p.y, w: p.w, h: p.h, label: 'Agrandir : ' + p.alt, open: () => this.ouvrir(i) }));
+    const lbI = this.state.lbI, st = this.state.lbSt;
+    let lb = { on: false };
+    if (lbI !== null && lbI !== undefined) {
+      const p = PHOTOS[lbI];
+      const w0 = Math.min(1180, 740 * p.r), h0 = w0 / p.r;
+      const tx = Math.round(720 - w0 / 2), ty = Math.round(446 - h0 / 2), tw = Math.round(w0), th = Math.round(h0);
+      const atSrc = st === 'from' || st === 'closing';
+      const rect = atSrc ? { x: p.x, y: p.y, w: p.w, h: p.h } : { x: tx, y: ty, w: tw, h: th };
+      const growing = st === 'to';
+      const box = (d, dl) => ['left', 'top', 'width', 'height'].map(k => `${k} ${d}s ${E} ${dl}s`).join(', ');
+      lb = {
+        on: true, src: p.src, alt: p.alt, cap: p.cap, num: '0' + (lbI + 1) + ' / 0' + PHOTOS.length,
+        x: tx, y: ty, w: tw, h: th,
+        fx: rect.x - 1, fy: rect.y - 1, fw: rect.w + 2, fh: rect.h + 2,
+        clip: growing ? 'inset(0 0 0 0)' : 'inset(0 0 100% 0)',
+        trFond: st === 'from' ? 'none' : (growing ? `clip-path .8s ${E}` : `clip-path .55s ${E} .2s`),
+        trCadre: st === 'from' ? 'none' : (growing ? box(.75, 0) : box(.6, .12)),
+        anim: st === 'closing' ? `devOut .22s ${E} 0s forwards` : (growing ? `${this.state.lbN % 2 ? 'dev2' : 'dev'} 2.2s ease-in-out ${this.state.lbN ? .3 : .5}s both` : 'devOut .01s linear 0s forwards'),
+        t: st === 'closing'
+          ? { o: `wOut .18s ${E} 0s both`, f: `wOut .18s ${E} 0s both` }
+          : { o: growing ? `wIn .45s ${E} .7s both` : 'none', f: growing ? `wIn .45s ${E} .85s both` : 'none' },
+        cadAnim: growing ? `${this.state.lbN % 2 ? 'cadreFin2' : 'cadreFin'} .01s linear .82s forwards` : 'none',
+        retire: growing ? `${this.state.lbN % 2 ? 'retire2' : 'retire'} 1s ${E} .8s forwards` : 'none',
+        tx1: tx - 1, ty1: ty - 1, tw2: tw + 2, th2: th + 2,
+        td: `M1 1 L${tw + 1} 1 L${tw + 1} ${th + 1} L1 ${th + 1} Z`,
+        close: () => this.fermer(),
+        prev: () => this.aller(-1, PHOTOS.length),
+        next: () => this.aller(1, PHOTOS.length)
+      };
+    }
+    const m = this.mesures();
+    const curN = this.state.navH !== null ? this.state.navH : this.state.navI;
+    const forward = curN >= this.prevI;
+    this.prevI = curN;
+    const lead = `.42s ${E} 0s`, follow = `.42s ${E} .14s`;
+    const COUL = ['#3AA6B5', '#D9783A', '#7A1F33', '#3AA6B5'];
+    const ind = {
+      navW: m.total,
+      l: curN < 0 ? 0 : m.x[curN],
+      r: curN < 0 ? m.total : m.total - (m.x[curN] + m.w[curN]),
+      c: COUL[Math.max(curN, 0)],
+      tr: forward ? `right ${lead}, left ${follow}, background-color .6s ease` : `left ${lead}, right ${follow}, background-color .6s ease`,
+      out: () => this.setState({ navH: null })
+    };
+    [0, 1, 2, 3].forEach(i => { ind['h' + i] = () => this.setState({ navH: i }); });
+    const go = (D + 4.6).toFixed(2);
+    const live = (base, extra) => on ? `${base}, ${extra}` : base;
+    const com = (name, dur, dl) => on ? `apparait 1.8s ease-in-out ${(D + 4.6 + dl).toFixed(2)}s both, ${name} ${dur}s linear ${(D + 4.6 + dl).toFixed(2)}s infinite` : 'eteint .01s linear 0s both';
+    const viv = {
+      sep: live(a.sep, `rebatit 15s ${E} ${go}s infinite`),
+      lb1: live(a.lb1, `rebatit 19s ${E} ${(D + 7.1).toFixed(2)}s infinite`),
+      lb2: live(a.lb2, `rebatit 21s ${E} ${(D + 10.3).toFixed(2)}s infinite`),
+      sig: live(a.sig, `souffle 6.5s ease-in-out ${go}s infinite`),
+      c0: com('comete', 16, 0), c1: com('cometeR', 13, .5), c2: com('comete', 19, 1.1), c3: com('cometeR', 15, 1.6)
+    };
+    const SERIF = (px) => `italic 400 ${px}px/1 'Instrument Serif', serif`;
+    const HERO = [
+      { eye: 'Photographe · Belgique', lh: 62.6, font: '300 58px/1.08 Inter, sans-serif', ls: '-.035em', em: SERIF(64),
+        lines: [['Des instants'], ['racontés comme'], ['ils ont été ', 'vécus.']], ind: [0, 0, 0],
+        para: ['Mariages, familles, événements :', "des images qui gardent l'émotion du moment."] },
+      { eye: 'Témoignage · Mariage', lh: 47.9, font: "italic 400 42px/1.14 'Instrument Serif', serif", ls: '-.01em', em: SERIF(42),
+        lines: [['« On revit chaque instant'], ['en regardant'], ['nos photos. »']], ind: [0, 28, 56],
+        para: ['— [Prénoms des mariés], [lieu]'] },
+      { eye: 'Mariages · Familles · Événements', lh: 56.2, font: '600 54px/1.04 Inter, sans-serif', ls: '-.045em', em: SERIF(60),
+        lines: [['Lumière naturelle,'], ['émotion ', 'vraie.']], ind: [0, 64],
+        para: ['Un regard discret, de la préparation', 'à la dernière photo de la soirée.'] },
+      { eye: 'Témoignage · Anniversaire', lh: 44.8, font: "italic 400 38px/1.18 'Instrument Serif', serif", ls: '-.01em', em: SERIF(38),
+        lines: [['« Discret toute la soirée,'], ['et pourtant rien'], ['ne lui a échappé. »']], ind: [0, 0, 0],
+        para: ['— [Prénom], [ville]'] },
+      { eye: 'Six façons de raconter', lh: 57.2, font: '300 52px/1.1 Inter, sans-serif', ls: '-.035em', em: SERIF(58),
+        lines: [['Des familles,'], ['des fêtes,'], ['des ', 'promesses.']], ind: [0, 44, 88],
+        para: ['Choisissez un service ci-dessous', 'pour découvrir sa galerie.'] }
+    ];
+    const hi = this.state.heroI, hs = HERO[hi], first = this.state.heroN === 0, hout = this.state.heroOut;
+    const HT = (dl, d, k) => {
+      if (!on) return { o: `wOut .2s ${E} .04s both`, f: `wOut .2s ${E} 0s both` };
+      if (hout) return { o: `wOut .3s ${E} ${(k * .04).toFixed(2)}s both`, f: `wOut .26s ${E} ${(k * .04).toFixed(2)}s both` };
+      if (first) return T(dl, d);
+      const t0 = (dl - .75) * .9 + .05;
+      return { o: `wIn ${(d * .9).toFixed(2)}s ${E} ${t0.toFixed(2)}s both`, f: `wIn ${(d * .9).toFixed(2)}s ${E} ${(t0 + .18).toFixed(2)}s both` };
+    };
+    if (!this.mctx) this.mctx = document.createElement('canvas').getContext('2d');
+    const mesure = (txt, font) => { if (!txt) return 0; this.mctx.font = font.replace(/\/[\d.]+/, ''); return this.mctx.measureText(txt).width; };
+    const Wt = Math.round(Math.max(...hs.lines.map((ln, i) => hs.ind[i] + mesure(ln[0], hs.font) + mesure(ln[1], hs.em))) + 4);
+    const Ht = Math.round(hs.lh * hs.lines.length);
+    const DW = 1.7, DR = .9;
+    const w0 = first ? D + .9 * K : .1;
+    const heroDot = !on || hout ? `resorbe ${DR}s ${E} 0s both`
+      : `${this.state.heroN % 2 ? 'ecrit2' : 'ecrit'} ${DW}s ${E} ${w0.toFixed(2)}s both`;
+    const lineAnim = () => {
+      if (!on || hout) return { o: `wOut ${(DR * .73).toFixed(2)}s ${E} ${(DR * .12).toFixed(2)}s both`, f: `wOut ${(DR * .7).toFixed(2)}s ${E} ${(DR * .1).toFixed(2)}s both` };
+      const st = w0 + DW * .15, du = DW * .7;
+      return { o: `wIn ${du.toFixed(2)}s ${E} ${st.toFixed(2)}s both`, f: `wIn ${du.toFixed(2)}s ${E} ${(st + .16).toFixed(2)}s both` };
+    };
+    const hero = {
+      dot: heroDot, dotTop: Math.round(207 + hs.lh / 2 - 5), W: Wt, H: Ht,
+      eyeT: hs.eye, eye: HT(.75, .6, 0),
+      lines: hs.lines.map((ln, i) => ({ pre: ln[0], em: ln[1] || '', font: hs.font, ls: hs.ls, emf: hs.em, mt: i === 0 ? '18px' : '0', ml: hs.ind[i] + 'px', ...lineAnim() })),
+      para: hs.para.map((t, i) => ({ t, mt: i === 0 ? '22px' : '0', ...(on && !hout ? { o: `wIn .5s ${E} ${(w0 + DW * .8 + i * .15).toFixed(2)}s both`, f: `wIn .5s ${E} ${(w0 + DW * .8 + i * .15 + .16).toFixed(2)}s both` } : HT(0, .5, i)) }))
+    };
+    const nx = 600 - 26, nw = m.total + 52, ny = 30, r = 24, x2 = nx + nw;
+    const pp = {
+      nx, nw,
+      nTop: `M${nx} ${ny + r} A${r} ${r} 0 0 1 ${nx + r} ${ny} L${x2 - r} ${ny} A${r} ${r} 0 0 1 ${x2} ${ny + r}`,
+      nBot: `M${nx} ${ny + r} A${r} ${r} 0 0 0 ${nx + r} ${ny + 2 * r} L${x2 - r} ${ny + 2 * r} A${r} ${r} 0 0 0 ${x2} ${ny + r}`,
+      nLoop: `M${nx} ${ny + r} A${r} ${r} 0 0 1 ${nx + r} ${ny} L${x2 - r} ${ny} A${r} ${r} 0 0 1 ${x2 - r} ${ny + 2 * r} L${nx + r} ${ny + 2 * r} A${r} ${r} 0 0 1 ${nx} ${ny + r} Z`,
+      nLine: S(.3, .7), nFill: on ? `habille 1.8s ease-in-out ${at(1.0)}s both` : `deshabille .25s ease 0s both`,
+      sLine: S(1.6, .9), sFill: on ? `habille 1.8s ease-in-out ${at(2.5)}s both` : `deshabille .25s ease 0s both`,
+      nCom: com('comete', 9, .2), sCom: com('cometeR', 22, .8),
+      gFill: on ? `habille 1.6s ease-in-out ${at(2.6)}s both` : `deshabille .25s ease 0s both`,
+      hx: nx - 14, hw: nw + 28,
+      nHalo: on ? `haloIn 2.2s ease-in-out ${at(1.0)}s both` : `deshabille .25s ease 0s both`,
+      sHalo: on ? `haloIn 2.2s ease-in-out ${at(2.5)}s both` : `deshabille .25s ease 0s both`
+    };
+    const CDUR = [16, 13, 19, 15, 17], CDIR = ['comete', 'cometeR', 'comete', 'cometeR', 'comete'];
+    mos.forEach((m, i) => {
+      let t0 = null;
+      if (on && sn === 0) t0 = D + (.6 + i * .15) * K + 3.4;
+      else if (on && !this.state.svcFade) t0 = .1 + i * .12 + 3.0;
+      m.com = t0 === null ? 'eteint .01s linear 0s both' : `apparait 1.8s ease-in-out ${t0.toFixed(2)}s both, ${CDIR[i % 5]} ${CDUR[i % 5]}s linear ${t0.toFixed(2)}s infinite`;
+    });
+    return { a, tuiles, replay, seul, hits, lb, ind, svcs, viv, hero, pp, mos };
+  }
+}
+</script>
+</body>
+</html>
