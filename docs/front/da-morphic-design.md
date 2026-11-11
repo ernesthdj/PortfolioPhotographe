@@ -55,9 +55,22 @@ Collage cinématique (≈ 6,5 s) : cadres tracés, photos développées en noir 
 - Un témoignage (texte seul avec ombre portée) prend la place d'une photo à un endroit aléatoire de chaque section, et défile.
 - Photo agrandie : part de sa vignette, le fond se décompose ; au ✕ la photo revient dans sa vignette et la page se redessine vite.
 
+### Services (retenue : C · une fiche par service)
+- Colonne gauche : pastille de verre avec les 6 services en chapitres (01 à 06, trait cyan qui glisse), mention « prix de départ indicatifs ».
+- Centre : grande photo en portrait du service (cadre tracé, développement noir et blanc → couleur, comète).
+- Droite : fiche tarif — chapitre, titre (Inter léger + mot en Instrument Serif italique), description, lignes « Forfait de base / Durée incluse / Heure supplémentaire / Trajet » sur filets tracés, encadré de verre « Exemple de simulation ≈ [prix] € », bouton noir « Simuler ma journée » (ouvre le générateur PID avec le service présélectionné) et lien vers la galerie du service.
+- Changement de chapitre : la fiche se résorbe puis se réécrit, la photo sort en fondu rapide et se redéveloppe.
+- Prix entre crochets : à remplir depuis le catalogue de services de PID.
+
+### Ombres d'arrière-plan (validées)
+- Calque d'ombre derrière tout le contenu, uniquement en dégradés CSS (aucune rayure, aucune image), apparu en fondu après la naissance de la page.
+- Alternance sur 70 s, chaque ombre entre et sort **seulement en fondu** et dérive lentement : Diagonale (haut gauche → bas droite, atténuée), Studio latérale, Studio spot, Studio cyclo, Studio strip.
+- Pas de volet glissant ni de rayures (écartés).
+
 ## 6. Reste à faire
 
-- [ ] Pages : services, à propos, contact, entrée du générateur de devis.
+- [x] Page services (structure C retenue, ombres validées)
+- [ ] Pages : à propos, contact, entrée du générateur de devis.
 - [ ] Version smartphone.
 - [ ] Remplacer photos, textes entre crochets et témoignages par les vrais contenus (dans PID).
 - [ ] Mettre à jour `PID/docs/PALETTE.md` et `PID/docs/UI-DESIGN.md` (anciens tons crème et bronze).

@@ -7,7 +7,7 @@
   "title": "Ernest H. — DA Morphic",
   "launch": {
     "view": "canvas",
-    "page": "p4"
+    "page": "p5"
   },
   "pages": [
     {
@@ -25,6 +25,10 @@
     {
       "id": "p4",
       "name": "Galerie"
+    },
+    {
+      "id": "p5",
+      "name": "Services"
     }
   ],
   "boards": {
@@ -162,6 +166,33 @@
       "title": "Galerie · A · Planche filtrée (recommandée)",
       "is_interactive": true,
       "page": "p4"
+    },
+    "ServicesIndex.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "Services · A · Index tarifé (ombrages validés)",
+      "is_interactive": true,
+      "page": "p5"
+    },
+    "ServicesEtape.dc.html": {
+      "x": 1520,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "Services · B · Premier pas du simulateur",
+      "is_interactive": true,
+      "page": "p5"
+    },
+    "ServicesFiche.dc.html": {
+      "x": 3040,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "Services · C · Une fiche par service (retenue)",
+      "is_interactive": true,
+      "page": "p5"
     }
   },
   "order": [
@@ -179,7 +210,10 @@
     "NavSommaire.dc.html",
     "NavIndex.dc.html",
     "NavPellicule.dc.html",
-    "Galerie.dc.html"
+    "Galerie.dc.html",
+    "ServicesIndex.dc.html",
+    "ServicesEtape.dc.html",
+    "ServicesFiche.dc.html"
   ],
   "notes": {
     "titre": {
@@ -239,6 +273,14 @@
       "kind": "title1",
       "maxW": 1440,
       "page": "p4"
+    },
+    "titre5": {
+      "x": 0,
+      "y": -300,
+      "text": "Services : 3 structures",
+      "kind": "title1",
+      "maxW": 4480,
+      "page": "p5"
     }
   },
   "designSystems": []

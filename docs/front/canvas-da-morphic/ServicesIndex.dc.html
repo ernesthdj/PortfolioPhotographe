@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Services · Index tarifé</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+.vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(118% 100% at 50% 44%,rgba(20,18,16,0) 48%,rgba(20,18,16,.10) 76%,rgba(20,18,16,.27) 100%);box-shadow:inset 0 0 140px rgba(20,18,16,.10)}
+.w{position:relative;display:inline-block;white-space:nowrap}
+.w .o{display:block;color:transparent;-webkit-text-stroke:1px currentColor}
+.w .f{position:absolute;left:0;top:-.24em;padding:.24em .14em .24em 0;color:inherit}
+.verre{position:absolute;border-radius:24px;background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(250,248,244,.86) 55%,rgba(240,237,231,.9) 100%);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 16px 32px -12px rgba(20,18,16,.30),0 4px 10px -3px rgba(20,18,16,.16),inset 0 1px 0 #fff,inset 0 0 0 1px rgba(255,255,255,.6),inset 0 -2px 0 rgba(20,18,16,.06),inset 0 -12px 18px -12px rgba(20,18,16,.10)}
+.verre::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(90% 140% at 22% 0%,rgba(255,255,255,.75),rgba(255,255,255,0) 60%)}
+svg.ln{position:absolute;overflow:visible;pointer-events:none}
+.ln path{fill:none;stroke:#0D0E10;stroke-width:1.5px;shape-rendering:geometricPrecision;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 102;stroke-dashoffset:101}
+.ln path.comete{stroke-dasharray:6 94;stroke-dashoffset:0}
+.ln path.fil{stroke-width:1px;stroke:rgba(13,14,16,.2)}
+.nav a,.lien{color:inherit;text-decoration:none}
+.btn{position:absolute;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:20px;text-decoration:none;font:500 14px Inter,sans-serif;color:#EEEDE9}
+.btn.clair{color:#0D0E10}
+.btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.encre{background:#0D0E10;box-shadow:0 20px 34px -10px rgba(13,14,16,.58),0 7px 12px -3px rgba(13,14,16,.32),inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1.5px 0 rgba(0,0,0,.22)}
+.svc{position:absolute;left:388px;width:488px;height:92px;padding:0;border:0;border-radius:14px;background:transparent;color:#5D5F64;cursor:pointer;text-align:left;font-family:Inter,sans-serif}
+.svc.on{color:#0D0E10}
+.svc .k{position:absolute;left:8px;top:22px;font:500 11px 'IBM Plex Mono',monospace;letter-spacing:.06em;color:#4B4D52}
+.svc .t{position:absolute;left:44px;top:14px;font:300 23px/1.2 Inter,sans-serif;letter-spacing:-.015em}
+.svc .d{position:absolute;left:44px;top:60px;font:400 13.5px Inter,sans-serif;color:#4B4D52}
+.svc .pa{position:absolute;right:10px;top:20px;font:500 10px 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#4B4D52}
+.svc .px{position:absolute;right:10px;top:38px;font:500 19px Inter,sans-serif;letter-spacing:-.01em;color:#0D0E10}
+.svc:focus-visible,.nav a:focus-visible,.btn:focus-visible,.lien:focus-visible{outline:2px solid #0D0E10;outline-offset:3px}
+.photo{position:absolute;display:block;object-fit:cover;box-shadow:0 22px 40px -16px rgba(20,18,16,.34),0 6px 12px -4px rgba(20,18,16,.16)}
+@keyframes drawS{from{stroke-dashoffset:101}to{stroke-dashoffset:0}}
+@keyframes trace{0%{stroke-dashoffset:101}50%{stroke-dashoffset:0}65%{stroke-dashoffset:0}100%{stroke-dashoffset:-102}}
+@keyframes trace2{0%{stroke-dashoffset:101}50%{stroke-dashoffset:0}65%{stroke-dashoffset:0}100%{stroke-dashoffset:-102}}
+@keyframes wIn{from{clip-path:inset(-24px 100% -24px 0)}to{clip-path:inset(-24px -24px -24px 0)}}
+@keyframes wIn2{from{clip-path:inset(-24px 100% -24px 0)}to{clip-path:inset(-24px -24px -24px 0)}}
+@keyframes wOut{from{clip-path:inset(-24px -24px -24px 0)}to{clip-path:inset(-24px 100% -24px 0)}}
+@keyframes habille{from{opacity:0}to{opacity:1}}
+@keyframes dev{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@keyframes dev2{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@keyframes devNB{0%{opacity:0;filter:grayscale(1) contrast(1.05)}45%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
+@keyframes devNB2{0%{opacity:0;filter:grayscale(1) contrast(1.05)}45%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
+@keyframes devOut{from{opacity:1}to{opacity:0}}
+@keyframes apparait{from{stroke-opacity:0}to{stroke-opacity:1}}
+@keyframes eteint{from{stroke-opacity:1}to{stroke-opacity:0}}
+@keyframes comete{from{stroke-dashoffset:0}to{stroke-dashoffset:-100}}
+.om{position:absolute;inset:-160px;pointer-events:none;overflow:hidden;animation:habille 3.5s ease-in-out 3.6s both}
+.om-i{position:absolute;inset:0;opacity:0}
+.om-i>i{position:absolute;inset:-200px}
+.dia>i{background:linear-gradient(to top right,rgba(20,18,16,0) 28%,rgba(20,18,16,.12) 40%,rgba(20,18,16,.26) 50%,rgba(20,18,16,.12) 60%,rgba(20,18,16,0) 72%);-webkit-mask-image:linear-gradient(to bottom right,#000 10%,rgba(0,0,0,.3) 75%,transparent 95%);mask-image:linear-gradient(to bottom right,#000 10%,rgba(0,0,0,.3) 75%,transparent 95%);filter:blur(14px);animation:glisseA 19s ease-in-out infinite alternate}
+.lat>i{background:linear-gradient(to left,rgba(20,18,16,.30) 0%,rgba(20,18,16,.16) 22%,rgba(20,18,16,0) 52%),linear-gradient(to top,rgba(20,18,16,.12) 0%,rgba(20,18,16,0) 30%);filter:blur(10px);animation:glisseH 23s ease-in-out infinite alternate}
+.spot>i{background:radial-gradient(ellipse 55% 60% at 50% 22%,rgba(20,18,16,0) 30%,rgba(20,18,16,.10) 62%,rgba(20,18,16,.28) 100%);animation:respire 17s ease-in-out infinite alternate}
+.cyc>i{background:linear-gradient(180deg,rgba(20,18,16,.22) 0%,rgba(20,18,16,.06) 34%,rgba(20,18,16,0) 52%,rgba(20,18,16,0) 70%,rgba(20,18,16,.10) 84%,rgba(20,18,16,.20) 100%);filter:blur(8px);animation:glisseV 21s ease-in-out infinite alternate}
+.str>i{background:linear-gradient(to top left,rgba(20,18,16,.20) 0%,rgba(20,18,16,.08) 30%,rgba(20,18,16,0) 44%,rgba(20,18,16,0) 56%,rgba(20,18,16,.08) 70%,rgba(20,18,16,.22) 100%);filter:blur(12px);animation:glisseB 25s ease-in-out infinite alternate}
+@keyframes glisseA{from{transform:translate(-70px,50px)}to{transform:translate(80px,-60px)}}
+@keyframes glisseB{from{transform:translate(70px,40px)}to{transform:translate(-60px,-50px)}}
+@keyframes glisseH{from{transform:translateX(-90px)}to{transform:translateX(60px)}}
+@keyframes glisseV{from{transform:translateY(-50px)}to{transform:translateY(40px)}}
+@keyframes respire{from{transform:translate(-60px,-20px) scale(1)}to{transform:translate(70px,20px) scale(1.06)}}
+@keyframes seul{from{opacity:0}to{opacity:1}}
+@keyframes alt0{0%{opacity:0}5%,15%{opacity:1}20%,100%{opacity:0}}
+@keyframes alt1{0%,20%{opacity:0}25%,35%{opacity:1}40%,100%{opacity:0}}
+@keyframes alt2{0%,40%{opacity:0}45%,55%{opacity:1}60%,100%{opacity:0}}
+@keyframes alt3{0%,60%{opacity:0}65%,75%{opacity:1}80%,100%{opacity:0}}
+@keyframes alt4{0%,80%{opacity:0}85%,95%{opacity:1}100%{opacity:0}}
+@media (prefers-reduced-motion: reduce){*{animation-duration:0s !important;animation-delay:0s !important;transition-duration:0s !important}}
+</style>
+</helmet>
+<div style="position: relative; width: 1440px; height: 900px; overflow: hidden; background: #FFFFFF; color: #0D0E10; font-family: Inter, system-ui, sans-serif">
+  <sc-if value="{{om.on}}" hint-placeholder-val="{{ true }}">
+    <div class="om" aria-hidden="true">
+      <sc-for list="{{om.cs}}" as="c" hint-placeholder-count="5">
+        <div class="{{c.cls}}" style="display: {{c.d}}; animation: {{c.a}}"><i></i></div>
+      </sc-for>
+    </div>
+  </sc-if>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <svg class="ln" aria-hidden="true" style="left: 0; top: 0; width: 1440px; height: 900px">
+    <path pathLength="100" d="M720 100 L80 100" style="animation: {{a.sep}}"></path>
+    <path pathLength="100" d="M720 100 L1360 100" style="animation: {{a.sep}}"></path>
+  </svg>
+  <a href="#" class="lien" style="position: absolute; left: 80px; top: 38px; font: 600 22px Inter, sans-serif; letter-spacing: -.01em">
+    <span class="w"><span class="o" style="animation: {{a.logo.o}}">Ernest H.</span><span class="f" aria-hidden="true" style="animation: {{a.logo.f}}">Ernest H.</span></span>
+  </a>
+  <span aria-hidden="true" style="position: absolute; left: 80px; top: 70px; width: 28px; height: 2px; border-radius: 1px; background: #3AA6B5; animation: {{a.sig}}"></span>
+  <nav class="nav" aria-label="Menu principal" style="position: absolute; left: 600px; top: 46px; display: flex; gap: 36px; font: 500 14px Inter, sans-serif">
+    <a href="#"><span class="w"><span class="o" style="animation: {{a.n0.o}}">Galerie</span><span class="f" aria-hidden="true" style="animation: {{a.n0.f}}">Galerie</span></span></a>
+    <a href="#" aria-current="page" style="position: relative"><span class="w"><span class="o" style="animation: {{a.n1.o}}">Services</span><span class="f" aria-hidden="true" style="animation: {{a.n1.f}}">Services</span></span><span aria-hidden="true" style="position: absolute; left: 0; right: 0; bottom: -7px; height: 2px; border-radius: 1px; background: #3AA6B5; animation: {{a.navU}}"></span></a>
+    <a href="#"><span class="w"><span class="o" style="animation: {{a.n2.o}}">À propos</span><span class="f" aria-hidden="true" style="animation: {{a.n2.f}}">À propos</span></span></a>
+    <a href="#"><span class="w"><span class="o" style="animation: {{a.n3.o}}">Contact</span><span class="f" aria-hidden="true" style="animation: {{a.n3.f}}">Contact</span></span></a>
+  </nav>
+  <span class="encre" aria-hidden="true" style="position: absolute; left: 1184px; top: 34px; width: 176px; height: 40px; border-radius: 20px; animation: {{a.hFl}}"></span>
+  <a href="#" class="btn" style="left: 1184px; top: 34px; width: 176px; height: 40px">
+    <span class="w"><span class="o" style="animation: {{a.hCta.o}}">Créer mon devis</span><span class="f" aria-hidden="true" style="animation: {{a.hCta.f}}">Créer mon devis</span></span>
+  </a>
+
+  <p style="position: absolute; left: 80px; top: 136px; margin: 0; display: flex; align-items: center; gap: 14px; font: 500 11.5px 'IBM Plex Mono', monospace; letter-spacing: .18em; text-transform: uppercase; color: #4B4D52">
+    <span aria-hidden="true" style="display: block; width: 28px; height: 1px; background: #D9783A; animation: {{a.eyeL}}"></span>
+    <span class="w"><span class="o" style="animation: {{a.eye.o}}">Services</span><span class="f" aria-hidden="true" style="animation: {{a.eye.f}}">Services</span></span>
+  </p>
+  <h1 style="position: absolute; left: 78px; top: 164px; margin: 0; font: 300 34px/1.12 Inter, sans-serif; letter-spacing: -.03em; filter: drop-shadow(0 6px 9px rgba(20,18,16,.18))">
+    <span class="w"><span class="o" style="animation: {{a.h1.o}}">Six façons</span><span class="f" aria-hidden="true" style="animation: {{a.h1.f}}">Six façons</span></span><br>
+    <span class="w"><span class="o" style="animation: {{a.h2.o}}"><i style="font: italic 400 40px/1 'Instrument Serif', serif">de raconter.</i></span><span class="f" aria-hidden="true" style="animation: {{a.h2.f}}"><i style="font: italic 400 40px/1 'Instrument Serif', serif">de raconter.</i></span></span>
+  </h1>
+  <div style="position: absolute; left: 80px; top: 284px; width: 280px">
+    <sc-for list="{{intro}}" as="l" hint-placeholder-count="4">
+      <p style="margin: 0; font: 400 14.5px/1.75 Inter, sans-serif; color: #4B4D52">
+        <span class="w"><span class="o" style="animation: {{l.a.o}}">{{l.t}}</span><span class="f" aria-hidden="true" style="animation: {{l.a.f}}">{{l.t}}</span></span>
+      </p>
+    </sc-for>
+  </div>
+
+  <span class="encre" aria-hidden="true" style="position: absolute; left: 80px; top: 640px; width: 220px; height: 48px; border-radius: 24px; animation: {{a.dFl}}"></span>
+  <a href="#" class="btn" style="left: 80px; top: 640px; width: 220px; height: 48px; border-radius: 24px">
+    <span class="w"><span class="o" style="animation: {{a.dCta.o}}">Simuler mon devis</span><span class="f" aria-hidden="true" style="animation: {{a.dCta.f}}">Simuler mon devis</span></span>
+  </a>
+  <p style="position: absolute; left: 82px; top: 708px; margin: 0; font: 500 10.5px/1.9 'IBM Plex Mono', monospace; letter-spacing: .08em; text-transform: uppercase; color: #4B4D52">
+    <span class="w"><span class="o" style="animation: {{a.m1.o}}">≈ 3 min · sans engagement</span><span class="f" aria-hidden="true" style="animation: {{a.m1.f}}">≈ 3 min · sans engagement</span></span><br>
+    <span class="w"><span class="o" style="animation: {{a.m2.o}}">Prix exact, ligne par ligne</span><span class="f" aria-hidden="true" style="animation: {{a.m2.f}}">Prix exact, ligne par ligne</span></span>
+  </p>
+
+  <div class="verre" aria-hidden="true" style="left: 372px; top: 136px; width: 520px; height: 620px; opacity: 0; animation: {{a.pill}}"></div>
+  <svg class="ln" aria-hidden="true" style="left: 372px; top: 136px; width: 520px; height: 620px">
+    <path pathLength="100" d="M0 310 L0 24 A24 24 0 0 1 24 0 L496 0 A24 24 0 0 1 520 24 L520 310" style="animation: {{a.pillL}}"></path>
+    <path pathLength="100" d="M0 310 L0 596 A24 24 0 0 0 24 620 L496 620 A24 24 0 0 0 520 596 L520 310" style="animation: {{a.pillL}}"></path>
+    <path class="comete" pathLength="100" d="M0 310 L0 24 A24 24 0 0 1 24 0 L496 0 A24 24 0 0 1 520 24 L520 596 A24 24 0 0 1 496 620 L24 620 A24 24 0 0 1 0 596 Z" style="stroke: #D9783A; animation: {{a.pillC}}"></path>
+  </svg>
+  <svg class="ln" aria-hidden="true" style="left: 396px; top: 152px; width: 472px; height: 600px">
+    <sc-for list="{{fils}}" as="h" hint-placeholder-count="5">
+      <path class="fil" pathLength="100" d="{{h.d}}" style="animation: {{h.a}}"></path>
+    </sc-for>
+  </svg>
+  <div role="group" aria-label="Choisir un service">
+    <sc-for list="{{svcs}}" as="s" hint-placeholder-count="6">
+      <button type="button" class="{{s.cls}}" aria-pressed="{{s.on}}" style="top: {{s.y}}px" onClick="{{s.pick}}" onMouseEnter="{{s.pick}}" onFocus="{{s.pick}}">
+        <span class="k"><span class="w"><span class="o" style="animation: {{s.ak.o}}">{{s.k}}</span><span class="f" aria-hidden="true" style="animation: {{s.ak.f}}">{{s.k}}</span></span></span>
+        <span class="t"><span class="w"><span class="o" style="animation: {{s.at.o}}">{{s.t}}</span><span class="f" aria-hidden="true" style="animation: {{s.at.f}}">{{s.t}}</span></span></span>
+        <span class="d"><span class="w"><span class="o" style="animation: {{s.ad.o}}">{{s.d}}</span><span class="f" aria-hidden="true" style="animation: {{s.ad.f}}">{{s.d}}</span></span></span>
+        <span class="pa"><span class="w"><span class="o" style="animation: {{s.ap.o}}">à partir de</span><span class="f" aria-hidden="true" style="animation: {{s.ap.f}}">à partir de</span></span></span>
+        <span class="px"><span class="w"><span class="o" style="animation: {{s.ax.o}}">{{s.px}}</span><span class="f" aria-hidden="true" style="animation: {{s.ax.f}}">{{s.px}}</span></span></span>
+      </button>
+    </sc-for>
+  </div>
+  <span aria-hidden="true" style="position: absolute; left: 432px; top: {{ind.y}}px; width: {{ind.w}}px; height: 2px; border-radius: 1px; background: #3AA6B5; transition: top .5s cubic-bezier(.45,0,.2,1), width .5s cubic-bezier(.45,0,.2,1) .12s; animation: {{a.indA}}"></span>
+  <p style="position: absolute; left: 396px; top: 782px; margin: 0; font: 500 10.5px 'IBM Plex Mono', monospace; letter-spacing: .08em; text-transform: uppercase; color: #4B4D52">
+    <span class="w"><span class="o" style="animation: {{a.foot.o}}">Prix de départ indicatifs · le devis final suit votre journée</span><span class="f" aria-hidden="true" style="animation: {{a.foot.f}}">Prix de départ indicatifs · le devis final suit votre journée</span></span>
+  </p>
+
+  <img class="photo" src="{{pv.src}}" alt="{{pv.alt}}" style="left: 940px; top: 136px; width: 420px; height: 336px; animation: {{pv.anim}}">
+  <svg class="ln" aria-hidden="true" style="left: 939px; top: 135px; width: 422px; height: 338px">
+    <path pathLength="100" d="M1 1 L421 1 L421 337 L1 337 Z" style="animation: {{pv.tr}}"></path>
+    <path class="comete" pathLength="100" d="M1 1 L421 1 L421 337 L1 337 Z" style="stroke: #3AA6B5; animation: {{pv.com}}"></path>
+  </svg>
+  <p style="position: absolute; left: 940px; top: 500px; margin: 0; display: flex; align-items: center; gap: 12px; font: 500 11px 'IBM Plex Mono', monospace; letter-spacing: .14em; text-transform: uppercase; color: #4B4D52">
+    <span aria-hidden="true" style="display: block; width: 20px; height: 1px; background: #D9783A; animation: {{a.incL}}"></span>
+    <span class="w"><span class="o" style="animation: {{pv.h.o}}">{{pv.head}}</span><span class="f" aria-hidden="true" style="animation: {{pv.h.f}}">{{pv.head}}</span></span>
+  </p>
+  <ul style="position: absolute; left: 940px; top: 530px; width: 420px; margin: 0; padding: 0; list-style: none">
+    <sc-for list="{{pv.inc}}" as="i" hint-placeholder-count="4">
+      <li style="display: flex; align-items: center; gap: 12px; height: 28px; font: 400 14.5px Inter, sans-serif; color: #0D0E10">
+        <span aria-hidden="true" style="display: block; width: 8px; height: 1.5px; background: #0D0E10; animation: {{i.m}}"></span>
+        <span class="w"><span class="o" style="animation: {{i.a.o}}">{{i.t}}</span><span class="f" aria-hidden="true" style="animation: {{i.a.f}}">{{i.t}}</span></span>
+      </li>
+    </sc-for>
+  </ul>
+  <div class="verre" aria-hidden="true" style="left: 940px; top: 668px; width: 320px; height: 48px; opacity: 0; animation: {{a.gB}}"></div>
+  <svg class="ln" aria-hidden="true" style="left: 940px; top: 668px; width: 320px; height: 48px">
+    <path pathLength="100" d="M0 24 A24 24 0 0 1 24 0 L296 0 A24 24 0 0 1 320 24 A24 24 0 0 1 296 48 L24 48 A24 24 0 0 1 0 24" style="animation: {{a.gL}}"></path>
+  </svg>
+  <a href="#" class="btn clair" style="left: 940px; top: 668px; width: 320px; height: 48px; border-radius: 24px">
+    <span class="w"><span class="o" style="animation: {{pv.b.o}}">{{pv.btn}}</span><span class="f" aria-hidden="true" style="animation: {{pv.b.f}}">{{pv.btn}}</span></span>
+    <svg viewBox="0 0 24 24" aria-hidden="true" style="animation: {{a.arr}}"><path d="M5 12 H19 M13 6 L19 12 L13 18"></path></svg>
+  </a>
+  <a href="#" class="lien" style="position: absolute; left: 942px; top: 740px; font: 500 13px Inter, sans-serif; color: #0D0E10; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px">
+    <span class="w"><span class="o" style="animation: {{pv.g.o}}">{{pv.gal}}</span><span class="f" aria-hidden="true" style="animation: {{pv.g.f}}">{{pv.gal}}</span></span>
+  </a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"ombre":{"editor":"enum","options":["Alternance","Diagonale","Studio · latérale","Studio · spot","Studio · cyclo","Studio · strip","Sans"],"default":"Alternance"},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { sel: 0, sw: 0, out: false }; }
+  componentWillUnmount() { clearTimeout(this.t); }
+  choisir(i) {
+    if (this.state.out || i === this.state.sel) return;
+    this.setState({ out: true });
+    clearTimeout(this.t);
+    this.t = setTimeout(() => this.setState({ sel: i, sw: this.state.sw + 1, out: false }), 280);
+  }
+  renderVals() {
+    const K = .62, E = 'cubic-bezier(.45,0,.2,1)';
+    const T = (dl, d) => ({ o: `wIn ${d * K}s ${E} ${(dl * K).toFixed(2)}s both`, f: `wIn ${d * K}s ${E} ${((dl + .25) * K).toFixed(2)}s both` });
+    const R = (dl, d, alt) => { const n = alt ? 'wIn2' : 'wIn'; return { o: `${n} ${d}s ${E} ${dl.toFixed(2)}s both`, f: `${n} ${d}s ${E} ${(dl + .16).toFixed(2)}s both` }; };
+    const O = { o: `wOut .26s ${E} .03s both`, f: `wOut .24s ${E} 0s both` };
+    const PH = [
+      { src: '/_blob/79058532f3d7d37917786298a0ac7945', alt: 'Les mariés devant le château' },
+      { src: '/_blob/6832670aa81d041033100b28a2e4313e', alt: 'Couple enlacé dans un champ' },
+      { src: '/_blob/4e34f55900df112fe7752da33bc917a5', alt: 'Les mariés sur un balcon en fer forgé' },
+      { src: '/_blob/2b6e173fdf036442185ceb85aa49021f', alt: 'Baiser sur la joue' },
+      { src: '/_blob/9b725673bcdd88ed30e17af8444a53f5', alt: 'Couple debout dans un grand champ' }
+    ];
+    const SVC = [
+      { t: 'Mariages', d: 'Des préparatifs à la soirée, toute la journée.', p: 0 },
+      { t: 'Engagement', d: 'Une séance à deux, avant le grand jour.', p: 1 },
+      { t: 'Famille lifestyle', d: 'Chez vous, au rythme de vos habitudes.', p: 3, nb: true },
+      { t: 'Anniversaires', d: 'La fête, les proches, les éclats de rire.', p: 2 },
+      { t: 'Événementiel', d: 'Conférences, lancements, soirées.', p: 4 },
+      { t: 'Culinaire & studio', d: 'Plats, produits, portraits en studio.', p: 0, nb: true }
+    ];
+    const INC = ['[Durée de présence incluse]', '[Nombre de photos livrées]', '[Mode de livraison des photos]', '[Kilomètres de trajet inclus]'];
+    const st = this.state, first = st.sw === 0, alt = st.sw % 2 === 1;
+    const a = {
+      sep: `drawS ${.8 * K}s ${E} 0s both`, logo: T(.3, .8), sig: `wIn ${.5 * K}s ${E} ${1.35 * K}s both`,
+      n0: T(.5, .45), n1: T(.6, .45), n2: T(.7, .45), n3: T(.8, .45), navU: `wIn ${.5 * K}s ${E} ${1.2 * K}s both`,
+      hFl: `habille 1s ease ${.9 * K}s both`, hCta: T(1.3, .45),
+      eyeL: `wIn ${.4 * K}s ${E} ${.6 * K}s both`, eye: T(.75, .6), h1: T(.9, .9), h2: T(1.15, .9),
+      pillL: `drawS ${.9 * K}s ${E} ${1.1 * K}s both`, pill: `habille 1.8s ease-in-out ${2.0 * K}s both`,
+      pillC: `apparait 1.8s ease-in-out 5.2s both, comete 22s linear 5.2s infinite`,
+      indA: `wIn ${.5 * K}s ${E} ${3.2 * K}s both`, foot: T(3.4, .9),
+      dFl: `habille 1.2s ease ${2.9 * K}s both`, dCta: T(3.2, .45), m1: T(3.4, .6), m2: T(3.55, .6),
+      incL: `wIn ${.4 * K}s ${E} ${2.9 * K}s both`,
+      gL: `drawS ${.9 * K}s ${E} ${3.2 * K}s both`, gB: `habille 1.8s ease-in-out ${4.0 * K}s both`, arr: `wIn ${.4 * K}s ${E} ${3.9 * K}s both`
+    };
+    const intro = ['Chaque service part d’un forfait.', 'Vos lieux, vos horaires, vos trajets', 'font le reste : le simulateur calcule', 'le prix exact de votre journée.']
+      .map((t, i) => ({ t, a: T(1.4 + i * .14, .7) }));
+    const fils = [1, 2, 3, 4, 5].map(i => ({ d: `M0 ${i * 100} L472 ${i * 100}`, a: `drawS ${.9 * K}s ${E} ${(1.5 + i * .1) * K}s both` }));
+    const svcs = SVC.map((s, i) => ({
+      t: s.t, d: s.d, k: String(i + 1).padStart(2, '0'), px: '[prix] €', y: 156 + i * 100,
+      on: st.sel === i, cls: st.sel === i ? 'svc on' : 'svc',
+      ak: T(1.7 + i * .12, .3), at: T(1.75 + i * .12, .6), ad: T(1.9 + i * .12, .7), ap: T(2.0 + i * .12, .4), ax: T(2.1 + i * .12, .4),
+      pick: () => this.choisir(i)
+    }));
+    const ind = { y: 156 + st.sel * 100 + 50, w: Math.round(SVC[st.sel].t.length * 11) };
+    const s = SVC[st.sel], ph = PH[s.p];
+    const dl = first ? 2.0 * K : .05;
+    const devN = (s.nb ? 'devNB' : 'dev') + (alt ? '2' : '');
+    const pv = {
+      src: ph.src, alt: ph.alt, head: 'Dans le forfait · ' + s.t, btn: 'Simuler un devis · ' + s.t, gal: 'Voir ses photos dans la galerie',
+      anim: st.out ? `devOut .26s ease-out forwards` : `${devN} 2.8s ease-in-out ${dl.toFixed(2)}s both`,
+      tr: st.out ? 'none' : `${alt ? 'trace2' : 'trace'} 2.6s ${E} ${dl.toFixed(2)}s both`,
+      com: st.out ? `eteint .2s ease forwards` : `apparait 1.8s ease-in-out ${first ? 5.6 : 3.2}s both, comete 16s linear ${first ? 5.6 : 3.2}s infinite`,
+      h: st.out ? O : (first ? T(3.0, .6) : R(.3, .45, alt)),
+      b: st.out ? O : (first ? T(3.7, .55) : R(.5, .45, alt)),
+      g: st.out ? O : (first ? T(4.0, .5) : R(.6, .4, alt)),
+      inc: INC.map((t, i) => ({ t, a: st.out ? O : (first ? T(3.1 + i * .12, .6) : R(.35 + i * .06, .45, alt)),
+        m: first ? `wIn ${.3 * K}s ${E} ${(3.05 + i * .12) * K}s both` : 'none' }))
+    };
+    const oz = this.props.ombre || 'Alternance', alterne = oz === 'Alternance';
+    const OM = [['Diagonale', 'dia'], ['Studio · latérale', 'lat'], ['Studio · spot', 'spot'], ['Studio · cyclo', 'cyc'], ['Studio · strip', 'str']];
+    const om = { on: oz !== 'Sans', cs: OM.map((o, k) => ({ cls: 'om-i ' + o[1], d: alterne || oz === o[0] ? 'block' : 'none',
+      a: alterne ? `alt${k} 70s ease-in-out infinite` : (oz === o[0] ? 'seul 2.5s ease-in-out both' : 'none') })) };
+    return { a, intro, fils, svcs, ind, pv, om };
+  }
+}
+</script>
+</body>
+</html>
