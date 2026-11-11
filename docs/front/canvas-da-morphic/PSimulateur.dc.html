@@ -391,6 +391,7 @@ button.btn{border:0;cursor:pointer;padding:0;background:transparent}
               <input id="sub-mdp" type="password" autocomplete="{{sub.ac}}" placeholder="{{sub.ph}}">
             </div>
             <p class="note" style="margin: 10px 0 0">{{sub.aide}}</p>
+            <p role="alert" style="margin: 8px 0 0; min-height: 18px; display: flex; align-items: center; gap: 8px; font: 400 13px Inter, sans-serif; color: #0D0E10"><sc-if value="{{sub.errOn}}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="display: block; width: 6px; height: 6px; border-radius: 3px; background: #7A1F33"></span>{{sub.err}}</sc-if></p>
           </form>
           <span class="encre" aria-hidden="true" style="position: absolute; left: 440px; top: 360px; width: 360px; height: 48px; border-radius: 24px; opacity: {{sub.encOp}}"></span>
           <button type="button" class="{{sub.btCls}}" aria-disabled="{{sub.busy}}" style="left: 440px; top: 360px; width: 360px; height: 48px; border-radius: 24px" onClick="{{sub.envoyer}}">{{sub.bt}}</button>
@@ -427,7 +428,11 @@ class Component extends DCLogic {
   }
   envoyer() {
     if (this.state.subPh !== 'form') return;
-    this.setState({ subPh: 'loading' }); clearTimeout(this.tS);
+    const m = document.getElementById('sub-mail'), p = document.getElementById('sub-mdp');
+    const mail = m ? String(m.value || '').trim() : '', mdp = p ? String(p.value || '') : '';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)) { this.setState({ subErr: 'Cette adresse email n’est pas valide.' }); return; }
+    if (!mdp) { this.setState({ subErr: this.state.subMode === 'login' ? 'Indiquez votre mot de passe.' : 'Choisissez un mot de passe.' }); return; }
+    this.setState({ subPh: 'loading', subErr: '' }); clearTimeout(this.tS);
     this.tS = setTimeout(() => this.setState({ subPh: 'done' }), 1300);
   }
   S() { return [
@@ -467,7 +472,7 @@ class Component extends DCLogic {
     }
     cfg.opts.forEach(k => out.push({ o: 'Option', t: OPT[k][0], ht: OPT[k][1] }));
     if (s.tech) {
-      if (cfg.lieux.some(z => z.c < 0)) { manque = true; out.push({ o: 'Transport', t: 'Adresse requise', ht: null }); }
+      if (cfg.lieux.some(z => z.c < 0)) { manque = true; out.push({ o: 'Transport', t: 'Départ photographe → lieu à préciser', ht: null }); }
       else {
         const sorted = cfg.lieux.slice().sort((a, b) => a.h - b.h);
         let far = sorted[0]; sorted.forEach(z => { if (D[z.c] > D[far.c]) far = z; });
@@ -524,7 +529,7 @@ class Component extends DCLogic {
       if (s.mode !== 'P3') { rows.push({ y, lab: s.t + ' · en studio, horaire à fixer ensemble', x0: 440, w1: 0, x1: 440, w2: 0, rad: '8px', by: y + 18, dots: [], arc: 'M0 0', aArc: 'none' }); return; }
       const b = band(c, s, 440, 40), known = b.L.filter(z => z.c >= 0);
       let far = null; known.forEach(z => { if (!far || D[z.c] > D[far.c]) far = z; });
-      const tr = known.length < b.L.length ? ' · adresse requise' : far ? ` · → ${CM[far.c]} ${String(D[far.c].toFixed(1)).replace('.', ',')} km` : '';
+      const tr = known.length < b.L.length ? ' · adresse requise' : far ? ` · ${CM[far.c]} ${String(D[far.c].toFixed(1)).replace('.', ',')} km` : '';
       const fx = far ? b.X(far.h) : 0;
       rows.push({ y, by: y + 18, lab: `${s.t} · ${hh(b.st0)} → ${hh(b.st0 + c.dur)}${tr}`, x0: b.x0, w1: b.w1, x1: b.x1, w2: b.w2, rad: b.rad,
         dots: b.L.map(z => ({ x: b.X(z.h) - 5, y: y + 21 })),
@@ -590,7 +595,7 @@ class Component extends DCLogic {
       bt: busy ? 'Soumission…' : (cr ? 'Créer mon compte et soumettre' : 'Me connecter et soumettre'), busy: busy ? 'true' : 'false',
       btCls: busy ? 'btn off' : 'btn', encOp: busy ? 0 : 1, autre: cr ? 'J’ai déjà un compte' : 'Créer un compte',
       recap: rows.map(r => r.lab), ttc: t.ttc,
-      envoyer: () => this.envoyer(), annuler: () => this.fermerSub(), basculer: () => this.setState({ subMode: cr ? 'login' : 'create' }) };
+      envoyer: () => this.envoyer(), annuler: () => this.fermerSub(), basculer: () => this.setState({ subMode: cr ? 'login' : 'create', subErr: '' }), err: this.state.subErr || '', errOn: !!this.state.subErr };
     return { a, cats, srvs, lignes, rows, ticks, lz, sub, vide: !st.lignes.length, nb, t, sug, pan, fond: (st.ph === 'open' || st.sub === 'open') ? `wOut .4s ${E} both` : (again ? `wIn .5s ${E} .05s both` : 'none'),
       promoMsg: { on: st.promo, t: 'Ce code promo n’est pas valable.' }, appliquer: () => this.setState({ promo: true }), om };
   }

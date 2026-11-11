@@ -240,7 +240,7 @@ class Component extends DCLogic {
     const DV = dl => `dev 2.4s ease ${(dl * K).toFixed(2)}s both`;
     const etat = this.props.etat || 'Avec dossiers';
     const liste = etat === 'Avec dossiers', charge = etat === 'Chargement', vide = etat === 'Vide';
-    const ET = { soumis: ['Soumis · en cours d’examen', '#3AA6B5', 1], accepte: ['Accepté · date réservée', '#D9783A', 2], confirme: ['Confirmé', '#7A1F33', 3], realise: ['Réalisé · photos livrées', '#0D0E10', 4] };
+    const ET = { soumis: ['Soumis · en examen', '#3AA6B5', 1], accepte: ['Accepté · date réservée', '#D9783A', 2], confirme: ['Confirmé', '#7A1F33', 3], realise: ['Réalisé · photos livrées', '#0D0E10', 4] };
     const D = [
       { num: '2027-014', srv: 'Mariage', date: '12 juin 2027', e: 'soumis', tot: '1 031,28 €', src: '/_blob/79058532f3d7d37917786298a0ac7945', m: 29.4 },
       { num: '2027-002', srv: 'Reportage événementiel', date: '20 février 2027', e: 'accepte', tot: '486,00 €', src: '/_blob/6832670aa81d041033100b28a2e4313e', m: 25.6 },

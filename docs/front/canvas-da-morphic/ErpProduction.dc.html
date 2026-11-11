@@ -73,7 +73,8 @@ svg.ln{position:absolute;overflow:visible;pointer-events:none}
 .it{display:flex;align-items:center;gap:12px;width:100%;height:36px;padding:0 12px;box-sizing:border-box;border:0;border-radius:12px;background:transparent;color:#0D0E10;cursor:pointer;font:400 14px Inter,sans-serif;text-align:left;transition:background .25s ease}
 .it:hover{background:rgba(13,14,16,.05)}
 .it.on{background:#0D0E10;color:#EEEDE9;box-shadow:0 12px 22px -10px rgba(13,14,16,.55)}
-.it.sub{height:32px;padding-left:38px;font-size:13.5px}
+.it.sub{height:32px;padding-left:30px;font-size:13px}
+.it.sub .ic{width:12px}
 .it .bd{margin-left:auto;min-width:20px;height:20px;padding:0 6px;box-sizing:border-box;border-radius:10px;background:#3AA6B5;color:#FFFFFF;font:500 11px 'IBM Plex Mono',monospace;display:inline-flex;align-items:center;justify-content:center}
 .it .chev{margin-left:auto;width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.8;transition:transform .3s ease}
 .it .chev.ouv{transform:rotate(90deg)}
@@ -98,7 +99,7 @@ svg.ln{position:absolute;overflow:visible;pointer-events:none}
 .puce b{font:500 11px 'IBM Plex Mono',monospace;opacity:.7}
 .champ label{display:block}
 .champ input,.champ textarea{display:block;box-sizing:border-box;width:100%;margin-top:6px;padding:6px 0;border:0;border-bottom:1px solid rgba(13,14,16,.35);border-radius:0;background:transparent;font:400 15px Inter,sans-serif;color:#0D0E10;outline:none;resize:none}
-.champ textarea{height:56px;line-height:1.45}
+.champ textarea{height:56px;line-height:1.45;padding:8px 10px;background:rgba(13,14,16,.035);border-radius:8px 8px 0 0}
 .champ input:focus,.champ textarea:focus{border-bottom:2px solid #3AA6B5}
 .champ [aria-invalid="true"]{border-bottom:2px solid #7A1F33}
 button.btn{border:0;cursor:pointer;padding:0;background:transparent}
@@ -125,9 +126,9 @@ button.btn.encre{background:#0D0E10;color:#EEEDE9}
 .sep{box-shadow:inset 0 -1px 0 rgba(13,14,16,.08)}
 .puce:focus-visible,.tab:focus-visible,.case:focus-visible,.opt:focus-visible,.btn:focus-visible,.x:focus-visible{outline:2px solid #0D0E10;outline-offset:3px}
 
-.err{min-height:20px;margin:6px 0 0;display:flex;align-items:center;gap:8px;font:400 13px Inter,sans-serif;color:#0D0E10}
+.err{min-height:20px;margin:6px 0 10px;display:flex;align-items:center;gap:8px;font:400 13px Inter,sans-serif;color:#0D0E10}
 .err i{display:block;flex:none;width:6px;height:6px;border-radius:3px;background:#7A1F33}
-.champ select{display:block;box-sizing:border-box;width:100%;margin-top:6px;padding:6px 0;border:0;border-bottom:1px solid rgba(13,14,16,.35);border-radius:0;background:transparent;font:400 15px Inter,sans-serif;color:#0D0E10;outline:none}
+.champ select{display:block;box-sizing:border-box;width:100%;margin-top:6px;padding:6px 18px 6px 0;text-overflow:ellipsis;border:0;border-bottom:1px solid rgba(13,14,16,.35);border-radius:0;background:transparent;font:400 15px Inter,sans-serif;color:#0D0E10;outline:none}
 .champ select:focus{border-bottom:2px solid #3AA6B5}
 .flux{display:flex;flex-wrap:wrap;gap:8px}
 .ico{position:absolute;width:26px;height:26px;padding:0;border:0;border-radius:13px;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#0D0E10}
@@ -165,7 +166,7 @@ a.btn.encre{color:#EEEDE9}
     <path pathLength="100" d="M0 24 A24 24 0 0 1 24 0 L216 0 A24 24 0 0 1 240 24 L240 828 A24 24 0 0 1 216 852 L24 852 A24 24 0 0 1 0 828 Z" style="stroke-width: 1px; stroke: rgba(13,14,16,.25); animation: {{a.sideT}}"></path>
   </svg>
   <a href="ErpAtelier.dc.html" class="lien" style="position: absolute; left: 48px; top: 50px; font: 600 20px Inter, sans-serif; letter-spacing: -.01em"><span class="w"><span class="o" style="animation: {{a.logo.o}}">Ernest H.</span><span class="f" aria-hidden="true" style="animation: {{a.logo.f}}">Ernest H.</span></span></a>
-  <span class="mono" style="position: absolute; left: 48px; top: 80px; animation: {{a.sig}}">Atelier · photographe</span>
+  <span class="mono" style="position: absolute; left: 48px; top: 80px; animation: {{a.sideS}}">Atelier · photographe</span>
   <nav aria-label="Menu de l’atelier" style="position: absolute; left: 36px; top: 124px; width: 216px">
     <ul class="menu">
       <sc-for list="{{menu}}" as="i" hint-placeholder-count="11">
@@ -178,8 +179,8 @@ a.btn.encre{color:#EEEDE9}
       </sc-for>
     </ul>
   </nav>
-  <a href="PAccueil.dc.html" class="lien mini" style="position: absolute; left: 48px; top: 800px; animation: {{a.sig}}">Voir le site ↗</a>
-  <a href="#" class="lien mini" style="position: absolute; left: 48px; top: 830px; color: #4B4D52; animation: {{a.sig}}">Se déconnecter</a>
+  <a href="PAccueil.dc.html" class="lien mini" style="position: absolute; left: 48px; top: 800px; animation: {{a.sideS}}">Voir le site ↗</a>
+  <a href="#" class="lien mini" style="position: absolute; left: 48px; top: 830px; color: #4B4D52; animation: {{a.sideS}}">Se déconnecter</a>
   
   <p class="mono" style="position: absolute; left: 304px; top: 52px; margin: 0; display: flex; align-items: center; gap: 12px">
     <span aria-hidden="true" style="display: block; width: 28px; height: 1px; background: #D9783A; animation: {{a.eyeL}}"></span>
@@ -291,6 +292,9 @@ class Base extends DCLogic {
       { k: 'txt', t: 'Textes', p: 'vit' }, { k: 'tem', t: 'Témoignages', p: 'vit' }, { k: 'mis', t: 'Services mis en avant', p: 'vit' },
       { k: 'reg', t: 'Réglages', ic: 'reg', grp: 1 }, { k: 'gen', t: 'Généraux', p: 'reg' }, { k: 'capa', t: 'Capacité', p: 'reg' }, { k: 'ori', t: 'Origines et étiquettes', p: 'reg' }
     ];
+    // Entre deux pages de l’atelier, le menu reste figé : pas de nouvelle entrée animée.
+    const fixe = (() => { try { return /\/Erp\w+\.(dc\.)?html/.test(document.referrer || ''); } catch (e) { return false; } })();
+    const IT = { o: 'wIn 0s both', f: 'wIn 0s both' };
     const top = MP.filter(m => !m.p), nDem = st.reqs ? st.reqs.length : 2;
     const menu = MP.filter(m => !m.p || st.g === m.p).map(m => {
       const sub = !!m.p, on = st.m === m.k, href = m.h || '#';
@@ -298,14 +302,14 @@ class Base extends DCLogic {
       const quick = sub && st.gu, kk = sub ? k + (j + 1) * .4 : k;
       return { href, t: m.t, ic: sub ? 'M9 12 L15 12' : IC[m.ic], badge: m.k === 'dem' ? (nDem || false) : false, grp: !!m.grp,
         cls: 'it' + (on ? ' on' : '') + (sub ? ' sub' : ''), cur: on ? 'page' : 'false', chev: 'chev' + (st.g === m.k ? ' ouv' : ''),
-        ai: quick ? DR(j * .1, .5) : DR(.4 + kk * .05, .6), at: quick ? T(.1 + j * .1, .45) : T(.5 + kk * .05, .5),
+        ai: quick ? DR(j * .1, .5) : fixe ? 'drawS 0s both' : DR(.4 + kk * .05, .6), at: quick ? T(.1 + j * .1, .45) : fixe ? IT : T(.5 + kk * .05, .5),
         go: (e) => {
           if (m.grp) { if (e && e.preventDefault) e.preventDefault(); this.setState({ g: this.state.g === m.k ? null : m.k, gu: true }); }
           else if (href === '#') { if (e && e.preventDefault) e.preventDefault(); this.setState({ m: m.k }); }
         } };
     });
     const a = {
-      sep: DR(0, .8), logo: T(.2, .7), sig: H(.6), side: H(.1), sideT: DR(0, 1),
+      sep: DR(0, .8), logo: fixe ? IT : T(.2, .7), sig: H(.6), side: fixe ? 'habille 0s both' : H(.1), sideT: fixe ? 'drawS 0s both' : DR(0, 1), sideS: fixe ? 'habille 0s both' : H(.6),
       eyeL: `wIn ${(.4 * K).toFixed(2)}s ${E} ${(.6 * K).toFixed(2)}s both`, eye: T(.7, .8), h1: T(.9, .8), h2: T(1.1, 1.1),
       nt: `wIn ${(.9 * K).toFixed(2)}s ${E} ${(1.8 * K).toFixed(2)}s both`, vT: T(1.4, .9),
       t1: T(1.9, .5), t2: T(2.1, .5), l1: DR(2, 1), l2: DR(2.2, 1), p1: H(1.7), p2: H(1.9), p3: H(2.1),
@@ -491,7 +495,7 @@ class Component extends Base {
       al: allDay(st.day).map((e, i) => ({ t: e.t, y: 300 + evDay(st.day).length * 92 + i * 44 })), blk: !!BLK[st.day], blkT: 'Date bloquée · ' + (BLK[st.day] || ''),
       sur: !!SUR[st.day], vide: !evDay(st.day).length && !allDay(st.day).length && !BLK[st.day] };
     const idx = GRID.findIndex(g => g.k === st.day);
-    const P = { mois: st.vue === 'mois', sem: st.vue === 'semaine', jour: st.vue === 'jour', cells, sem, j: jour, cw: String(cw - 6),
+    const P = { vMois: st.vue === 'mois', vSem: st.vue === 'semaine', vJour: st.vue === 'jour', cells, sem, j: jour, cw: String(cw - 6),
       vues: [['mois', 'Mois'], ['semaine', 'Semaine'], ['jour', 'Jour']].map(([k, t]) => chip(st.vue === k, () => this.setState({ vue: k, pop: null }), { t, ck: st.vue === k ? 'true' : 'false' })),
       titre: st.vue === 'mois' ? 'Novembre 2026' : st.vue === 'semaine' ? 'Du ' + wkDays[0].d + ' ' + MOIS[wkDays[0].m] + ' au ' + wkDays[6].d + ' ' + MOIS[wkDays[6].m] : DESC(st.day).replace(/^./, c => c.toUpperCase()),
       prevD: st.vue === 'mois' || (st.vue === 'semaine' ? st.wk === 0 : idx === 0) ? 'true' : 'false',

@@ -145,7 +145,7 @@ button.btn{border:0;cursor:pointer;padding:0;background:transparent}
             <sc-for list="{{d.pas}}" as="p" hint-placeholder-count="4"><i style="display: block; width: 22px; height: 6px; border-radius: 3px; box-sizing: border-box; background: {{p.bg}}; border: 1.2px solid {{p.bd}}"></i></sc-for>
           </span>
           <span style="position: absolute; left: 456px; top: 64px; animation: {{d.ac}}"><span class="etape"><i aria-hidden="true" style="background: {{d.ec}}"></i>{{d.etape}}</span></span>
-          <span style="position: absolute; right: 64px; top: 48px; font: 300 28px Inter, sans-serif; letter-spacing: -.02em; animation: {{d.ac}}">{{d.tot}}</span>
+          <span style="position: absolute; right: 56px; top: 50px; font: 300 24px Inter, sans-serif; letter-spacing: -.02em; animation: {{d.ac}}">{{d.tot}}</span>
           <svg aria-hidden="true" viewBox="0 0 24 24" style="position: absolute; right: 18px; top: 56px; width: 20px; height: 20px; fill: none; stroke: #0D0E10; stroke-width: 1.6; stroke-linecap: round; animation: {{d.ac}}"><path d="M5 12 L19 12 M13 6 L19 12 L13 18"></path></svg>
         </a>
         <svg class="ln" aria-hidden="true" style="left: 560px; top: {{d.yl}}px; width: 800px; height: 2px"><path pathLength="100" d="M0 1 L800 1" style="stroke-width: 1px; stroke: rgba(13,14,16,.22); animation: {{d.al}}"></path></svg>
@@ -236,7 +236,7 @@ class Component extends DCLogic {
     const DV = dl => `dev 2.4s ease ${(dl * K).toFixed(2)}s both`;
     const etat = this.props.etat || 'Avec dossiers';
     const liste = etat === 'Avec dossiers', charge = etat === 'Chargement', vide = etat === 'Vide';
-    const ET = { soumis: ['Soumis · en cours d’examen', '#3AA6B5', 1], accepte: ['Accepté · date réservée', '#D9783A', 2], confirme: ['Confirmé', '#7A1F33', 3], realise: ['Réalisé · photos livrées', '#0D0E10', 4] };
+    const ET = { soumis: ['Soumis · en examen', '#3AA6B5', 1], accepte: ['Accepté · date réservée', '#D9783A', 2], confirme: ['Confirmé', '#7A1F33', 3], realise: ['Réalisé · photos livrées', '#0D0E10', 4] };
     const D = [
       { num: '2027-014', srv: 'Mariage', date: '12 juin 2027', e: 'soumis', tot: '1 031,28 €', src: '/_blob/79058532f3d7d37917786298a0ac7945', m: 29.4 },
       { num: '2027-002', srv: 'Reportage événementiel', date: '20 février 2027', e: 'accepte', tot: '486,00 €', src: '/_blob/6832670aa81d041033100b28a2e4313e', m: 25.6 },
