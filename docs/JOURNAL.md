@@ -219,3 +219,9 @@ Choix figes et ecartes dans `docs/front/premier-impact-design.md`. A peaufiner a
 ### [2026-10-30] FIX — calepin verifie avec les vraies donnees
 **Fichiers :** `src/components/carnet/CarnetPages.tsx`
 **Resume :** Base Supabase restauree par l'utilisateur (elle etait en pause sur l'offre gratuite). Controle refait avec les vraies donnees : 50 combinaisons page × format propres, estimation de deplacement reelle correcte (Namur), aucun devis envoye. La planche de galerie adapte maintenant son nombre de rangees aux photos disponibles (6 au lieu de 9). Contenu encore manquant cote CMS : photos 19H et 23H.
+
+### SESSION 5 — 2026-11-11
+
+### [2026-11-11] DESIGN — DA Morphic calibree (passe 1, intro, dashboard, galerie)
+**Fichiers :** `docs/front/da-morphic-design.md` (nouveau), `docs/front/canvas-da-morphic/` (sources des planches)
+**Resume :** Nouvelle direction artistique basee sur le Morphic-theme, calibree sur le canvas https://claude.ai/artifact/L7CCM7dpQYzQMgQRaGmy4j. Ce depot ne sert plus qu'a calibrer la DA : le front reel sera construit dans PID (Laravel + Blade, jQuery). Passes « Verre de mer » (galets, blobs) et « Epure » abandonnees. Decisions : trace morphique + developpement photo (fondu noir et blanc vers couleur, sans negatif) entremeles ; texte jamais colore, palette cyan / orange / bordeaux sur les traits seulement ; fond blanc avec vignettage CSS ; verre mat sans grain code en CSS ; animations continues apres l'apparition ; superpositions qui decomposent puis redessinent le fond. Pages calibrees : intro collage, dashboard (accroche tournante ecrite par la goutte d'encre, collage a grille recalculee, menus en pastilles de verre), galerie (filtres par service, flux par evenement sans albums, temoignages a la place d'une photo, zoom depuis la vignette). Aucun code applicatif modifie.

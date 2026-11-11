@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Navigation services · pellicule</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+.papier{background-image:url(/_blob/612ef09ea0c09023a971391c52f66ba3);background-size:256px 256px}
+.piste{position:absolute;left:80px;top:96px;display:flex;gap:24px;transition:transform .9s cubic-bezier(.45,0,.2,1)}
+.vue{position:relative;display:block;width:264px;color:#0D0E10;text-decoration:none}
+.vue:focus-visible{outline:2px solid #0D0E10;outline-offset:6px}
+.vue img{display:block;width:264px;height:176px;object-fit:cover;filter:grayscale(1) contrast(1.05);transition:filter 1.2s ease-in-out,box-shadow .6s ease}
+.vue:hover img,.vue:focus-visible img{filter:grayscale(0) contrast(1);box-shadow:0 18px 36px -14px rgba(13,14,16,.32)}
+.vue .k{display:block;margin-top:14px;font:500 11.5px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#4B4D52}
+.vue .l{display:block;margin-top:4px;font:300 22px/1.2 Inter,sans-serif;letter-spacing:-.015em}
+.vue .u{display:block;margin-top:10px;height:2px;width:0;border-radius:1px;background:#3AA6B5;transition:width .45s cubic-bezier(.45,0,.2,1)}
+.vue:hover .u,.vue:focus-visible .u{width:40px}
+.fl{position:absolute;top:24px;width:44px;height:44px;border:0;border-radius:22px;background:transparent;color:#0D0E10;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.fl:hover{background:rgba(13,14,16,.06)}
+.fl:focus-visible{outline:2px solid currentColor;outline-offset:2px}
+.fl:disabled{opacity:.35;cursor:default}
+.fl svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+@media (prefers-reduced-motion: reduce){*{transition-duration:0s !important}}
+</style>
+</helmet>
+<div class="papier" style="position: relative; width: 1440px; height: 420px; overflow: hidden; background-color: #EEEDE9; font-family: Inter, sans-serif">
+  <p style="position: absolute; left: 80px; top: 38px; margin: 0; font: 500 11.5px 'IBM Plex Mono', monospace; letter-spacing: .18em; text-transform: uppercase; color: #4B4D52">Mes services</p>
+  <p style="position: absolute; left: 260px; top: 37px; margin: 0; font: 500 11.5px 'IBM Plex Mono', monospace; letter-spacing: .08em; color: #4B4D52">{{compteur}}</p>
+  <button type="button" class="fl" aria-label="Services précédents" style="right: 136px" onClick="{{prev}}" disabled="{{debut}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 L8 12 L15 19"></path></svg></button>
+  <button type="button" class="fl" aria-label="Services suivants" style="right: 80px" onClick="{{next}}" disabled="{{fin}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5 L16 12 L9 19"></path></svg></button>
+  <nav aria-label="Services" class="piste" style="transform: translateX({{dx}}px)">
+    <sc-for list="{{items}}" as="it" hint-placeholder-count="6">
+      <a href="#" class="vue">
+        <img src="{{it.src}}" alt="{{it.alt}}">
+        <span class="k">{{it.n}}</span><span class="l">{{it.t}}</span><span class="u" aria-hidden="true"></span>
+      </a>
+    </sc-for>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":420}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { o: 0 }; }
+  renderVals() {
+    const S = [
+      ['Mariages', '/_blob/79058532f3d7d37917786298a0ac7945', 'Les mariés devant le château'], ['Engagement', '/_blob/6832670aa81d041033100b28a2e4313e', 'Couple enlacé dans un champ'],
+      ['Famille lifestyle', '/_blob/9b725673bcdd88ed30e17af8444a53f5', 'Couple debout dans un grand champ'], ['Anniversaires', '/_blob/4e34f55900df112fe7752da33bc917a5', 'Couple sur un balcon'],
+      ['Événementiel', '/_blob/2b6e173fdf036442185ceb85aa49021f', 'Baiser sur la joue'], ['Culinaire & studio', '/_blob/6832670aa81d041033100b28a2e4313e', 'Photo provisoire']
+    ];
+    const max = S.length - 4, o = this.state.o;
+    const items = S.map(([t, src, alt], i) => ({ t, src, alt, n: '0' + (i + 1) }));
+    return {
+      items, dx: -o * 288, debut: o === 0, fin: o >= max,
+      compteur: `0${o + 1}–0${o + 4} / 0${S.length}`,
+      prev: () => this.setState({ o: Math.max(0, o - 1) }),
+      next: () => this.setState({ o: Math.min(max, o + 1) })
+    };
+  }
+}
+</script>
+</body>
+</html>

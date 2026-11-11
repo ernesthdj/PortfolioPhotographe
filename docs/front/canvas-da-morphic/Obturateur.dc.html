@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>L'Obturateur</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+.papier{background-image:url(/_blob/612ef09ea0c09023a971391c52f66ba3);background-size:256px 256px}
+.ap{filter:url(#encre)}
+.encre::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(closest-side,rgba(255,255,255,.22),rgba(255,255,255,.07) 45%,rgba(255,255,255,0)) no-repeat;background-size:70% 60%;background-position:18% 12%;mix-blend-mode:screen;animation:lueur 7s cubic-bezier(.45,0,.2,1) infinite alternate}
+@keyframes lueur{0%{background-position:14% 10%}50%{background-position:42% 18%}100%{background-position:72% 14%}}
+svg.ln{position:absolute;left:0;top:0;width:1440px;height:900px;overflow:visible;pointer-events:none}
+.ln path{fill:none;stroke-width:2px;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 102;stroke-dashoffset:101}
+.w{position:relative;display:inline-block;white-space:nowrap}
+.w .o{display:block;color:transparent;-webkit-text-stroke:1px currentColor}
+.w .f{position:absolute;left:0;top:0}
+.pt{position:absolute;width:10px;height:10px;border-radius:50%}
+.encre{box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1.5px 0 rgba(0,0,0,.22)}
+.ph{position:absolute;display:block;object-fit:cover}
+.btn{position:absolute;display:flex;align-items:center;justify-content:center;height:44px;border-radius:22px;text-decoration:none;color:inherit;font:500 14px Inter,sans-serif}
+.btn:focus-visible,.idx a:focus-visible,.rj:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+.idx a{position:absolute;left:940px;width:420px;height:60px;display:flex;align-items:center;gap:22px;color:inherit;text-decoration:none}
+.idx .k{font:500 12.5px 'IBM Plex Mono',monospace;letter-spacing:.02em}
+.idx .l{font:500 17px Inter,sans-serif}
+.ap{position:absolute;box-sizing:border-box;border:2px solid;visibility:hidden;left:80px;top:80px;width:780px;height:740px;border-radius:14px}
+.rj{position:absolute;right:24px;bottom:20px;height:28px;padding:0 12px;border-radius:14px;border:2px solid currentColor;background:transparent;color:inherit;font:500 12px Inter,sans-serif;cursor:pointer}
+@keyframes drawS{from{stroke-dashoffset:101}to{stroke-dashoffset:0}}
+@keyframes undrawS{from{stroke-dashoffset:0}to{stroke-dashoffset:101}}
+@keyframes cir{0%{stroke-dashoffset:101}40%{stroke-dashoffset:0}99%{stroke-dashoffset:0}100%{stroke-dashoffset:101}}
+@keyframes wIn{from{clip-path:inset(-12px 100% -12px 0)}to{clip-path:inset(-12px -12px -12px 0)}}
+@keyframes wOut{from{clip-path:inset(-12px -12px -12px 0)}to{clip-path:inset(-12px 100% -12px 0)}}
+@keyframes rIn{from{clip-path:var(--c0)}to{clip-path:var(--c1)}}
+@keyframes rOut{from{clip-path:var(--c1)}to{clip-path:var(--c0)}}
+@keyframes iris{0%{clip-path:inset(370px 390px 370px 390px round 40px)}35%{clip-path:inset(330px 350px 330px 350px round 40px)}100%{clip-path:inset(0px 0px 0px 0px round 14px)}}
+@keyframes irisOut{from{clip-path:inset(0px 0px 0px 0px round 14px)}to{clip-path:inset(330px 350px 330px 350px round 40px)}}
+@keyframes ap{0%{visibility:hidden;left:430px;top:410px;width:80px;height:80px;border-radius:40px}1%{visibility:visible}100%{visibility:visible;left:80px;top:80px;width:780px;height:740px;border-radius:14px}}
+@keyframes apOut{0%{visibility:visible;left:80px;top:80px;width:780px;height:740px;border-radius:14px}99%{visibility:visible}100%{visibility:hidden;left:430px;top:410px;width:80px;height:80px;border-radius:40px}}
+@keyframes melt{0%{transform:scale(1)}40%{transform:scale(2,.4)}100%{transform:scale(0)}}
+@keyframes reform{from{transform:scale(0)}to{transform:scale(1)}}
+@keyframes dev{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@keyframes devOut{0%{opacity:1;filter:brightness(1) grayscale(0)}100%{opacity:0;filter:brightness(0) grayscale(1)}}
+@keyframes teinteS{0%{stroke:#3AA6B5}50%{stroke:#D9783A}78%{stroke:#7A1F33}100%{stroke:var(--ink)}}
+@media (prefers-reduced-motion: reduce){*{animation-duration:0s !important;animation-delay:0s !important}}
+</style>
+</helmet>
+<div class="papier" style="position: relative; width: 1440px; height: 900px; overflow: hidden; background: {{t.bg}}; color: {{t.ink}}; font-family: Inter, system-ui, sans-serif">
+  <sc-if value="{{pal.band}}" hint-placeholder-val="{{ false }}"><div aria-hidden="true" style="position: absolute; left: 0; top: 0; width: 1440px; height: 10px; animation: {{pal.bandAnim}}"><span style="position: absolute; left: 0; right: 0; top: 0; height: 2px; background: #3AA6B5"></span><span style="position: absolute; left: 0; right: 0; top: 4px; height: 2px; background: #D9783A"></span><span style="position: absolute; left: 0; right: 0; top: 8px; height: 2px; background: #7A1F33"></span></div></sc-if>
+
+
+  <img class="ph" src="/_blob/79058532f3d7d37917786298a0ac7945" alt="Les mariés devant le château, le marié regarde la mariée" style="left: 80px; top: 80px; width: 780px; height: 740px; object-position: 50% 28%; animation: {{a.photo}}">
+  <span class="ap" aria-hidden="true" style="border-color: {{t.ink}}; animation: {{a.ap}}"></span>
+
+  <svg class="ln" aria-hidden="true" style="stroke: {{pal.stroke}}; --ink: {{t.ink}}; animation: {{pal.svgAnim}}"><defs><filter id="encre" x="-2%" y="-2%" width="104%" height="104%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="2" seed="4" result="n"></feTurbulence><feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -0.4 1.12" result="na"></feColorMatrix><feComposite in="SourceGraphic" in2="na" operator="in" result="grain"></feComposite><feGaussianBlur in="SourceAlpha" stdDeviation="0.9" result="b"></feGaussianBlur><feSpecularLighting in="b" surfaceScale="2.2" specularConstant="0.7" specularExponent="22" lighting-color="#ffffff" result="sp"><feDistantLight azimuth="225" elevation="48"></feDistantLight></feSpecularLighting><feComposite in="sp" in2="SourceAlpha" operator="in" result="spi"></feComposite><feComposite in="grain" in2="spi" operator="arithmetic" k1="0" k2="1" k3="0.28" k4="0"></feComposite></filter></defs><g filter="url(#encre)">
+    <path pathLength="100" d="M430 450 A40 40 0 1 1 510 450 A40 40 0 1 1 430 450" style="animation: {{a.cir}}"></path>
+    <path pathLength="100" d="M940 284 L1360 284" style="animation: {{a.r0}}"></path>
+    <path pathLength="100" d="M940 344 L1360 344" style="animation: {{a.r1}}"></path>
+    <path pathLength="100" d="M940 404 L1360 404" style="animation: {{a.r2}}"></path>
+    <path pathLength="100" d="M940 464 L1360 464" style="animation: {{a.r3}}"></path>
+    <path pathLength="100" d="M940 524 L1360 524" style="animation: {{a.r4}}"></path>
+  </g></svg>
+
+  <span class="pt encre" aria-hidden="true" style="background: {{pal.pt}}; left: 465px; top: 445px; animation: {{a.pt}}"></span>
+
+  <a href="#" style="position: absolute; left: 940px; top: 80px; color: inherit; text-decoration: none; font: 600 28px Inter, sans-serif; letter-spacing: -.01em">
+    <span class="w"><span class="o" style="animation: {{a.logo.o}}">Ernest H.</span><span class="f" aria-hidden="true" style="animation: {{a.logo.f}}">Ernest H.</span></span>
+  </a>
+  <span aria-hidden="true" style="position: absolute; left: 80px; top: 116px; width: 28px; height: 2px; border-radius: 1px; background: {{acc.cyS}}; animation: {{acc.sig}}"></span>
+  <p style="position: absolute; left: 940px; top: 124px; margin: 0; font: 400 14px Inter, sans-serif; color: {{t.muted}}">
+    <span class="w"><span class="o" style="animation: {{a.sub.o}}">Photographe de mariage, Belgique</span><span class="f" aria-hidden="true" style="animation: {{a.sub.f}}">Photographe de mariage, Belgique</span></span>
+  </p>
+
+  <nav class="idx" aria-label="Menu principal">
+    <a href="#" style="top: 284px"><span class="k w" style="color: {{t.muted}}"><span class="o" style="animation: {{a.i0.o}}">01</span><span class="f" aria-hidden="true" style="animation: {{a.i0.f}}">01</span></span><span class="l w"><span class="o" style="animation: {{a.i0.o}}">Galerie</span><span class="f" aria-hidden="true" style="animation: {{a.i0.f}}">Galerie</span></span></a>
+    <a href="#" style="top: 344px"><span class="k w" style="color: {{t.muted}}"><span class="o" style="animation: {{a.i1.o}}">02</span><span class="f" aria-hidden="true" style="animation: {{a.i1.f}}">02</span></span><span class="l w"><span class="o" style="animation: {{a.i1.o}}">Devis</span><span class="f" aria-hidden="true" style="animation: {{a.i1.f}}">Devis</span></span></a>
+    <a href="#" style="top: 404px"><span class="k w" style="color: {{t.muted}}"><span class="o" style="animation: {{a.i2.o}}">03</span><span class="f" aria-hidden="true" style="animation: {{a.i2.f}}">03</span></span><span class="l w"><span class="o" style="animation: {{a.i2.o}}">À propos</span><span class="f" aria-hidden="true" style="animation: {{a.i2.f}}">À propos</span></span></a>
+    <a href="#" style="top: 464px"><span class="k w" style="color: {{t.muted}}"><span class="o" style="animation: {{a.i3.o}}">04</span><span class="f" aria-hidden="true" style="animation: {{a.i3.f}}">04</span></span><span class="l w"><span class="o" style="animation: {{a.i3.o}}">Contact</span><span class="f" aria-hidden="true" style="animation: {{a.i3.f}}">Contact</span></span></a>
+  </nav>
+
+  <p style="position: absolute; left: 940px; top: 580px; margin: 0; font: 400 15px/1.6 Inter, sans-serif; color: {{t.muted}}">
+    <span class="w"><span class="o" style="animation: {{a.p1.o}}">Reportages de mariage en lumière naturelle,</span><span class="f" aria-hidden="true" style="animation: {{a.p1.f}}">Reportages de mariage en lumière naturelle,</span></span><br>
+    <span class="w"><span class="o" style="animation: {{a.p2.o}}">sans mise en scène inutile.</span><span class="f" aria-hidden="true" style="animation: {{a.p2.f}}">sans mise en scène inutile.</span></span>
+  </p>
+
+  <span class="encre" aria-hidden="true" style="position: absolute; left: 940px; top: 690px; width: 220px; height: 44px; border-radius: 22px; background: {{acc.boS}}; --c0: inset(0 100% 0 0 round 22px); --c1: inset(0 0 0 0 round 22px); animation: {{a.flaque}}"></span>
+  <a href="#" class="btn" style="left: 940px; top: 690px; width: 220px; color: {{t.on}}">
+    <span class="w"><span class="o" style="animation: {{a.cta.o}}">Demander un devis</span><span class="f" aria-hidden="true" style="animation: {{a.cta.f}}">Demander un devis</span></span>
+  </a>
+
+  <p style="position: absolute; left: 940px; top: 790px; margin: 0; font: 500 12.5px 'IBM Plex Mono', monospace; letter-spacing: .02em; color: {{t.muted}}">
+    <span class="w"><span class="o" style="animation: {{a.foot.o}}">Espace client · Instagram</span><span class="f" aria-hidden="true" style="animation: {{a.foot.f}}">Espace client · Instagram</span></span>
+  </p>
+
+  <button type="button" class="rj" style="color: {{t.muted}}" onClick="{{replay}}">Rejouer</button>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"nuit":{"editor":"boolean","default":false},"palette":{"editor":"enum","options":["Dans l&#39;animation","Fils de couleur","Banderole signature","Sans"],"default":"Dans l&#39;animation"},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { ph: 'in' }; }
+  componentWillUnmount() { clearTimeout(this.tm); }
+  renderVals() {
+    const K = .62, E = 'cubic-bezier(.45,0,.2,1)', on = this.state.ph === 'in';
+    const t = (this.props.nuit ?? false)
+      ? { bg: '#202226', ink: '#D7D8DB', muted: '#9A9DA3', on: '#202226' }
+      : { bg: '#EEEDE9', ink: '#0D0E10', muted: '#4B4D52', on: '#EEEDE9' };
+    const S = (dl, d) => on ? `drawS ${d * K}s ${E} ${dl * K}s both` : `undrawS .22s ${E} .1s both`;
+    const T = (dl, d) => ({
+      o: on ? `wIn ${d * K}s ${E} ${dl * K}s both` : `wOut .2s ${E} .04s both`,
+      f: on ? `wIn ${d * K}s ${E} ${(dl + .25) * K}s both` : `wOut .2s ${E} 0s both`
+    });
+    const a = {
+      pt: on ? `melt ${.4 * K}s ${E} 0s both` : `reform .25s ${E} .7s both`,
+      cir: on ? `cir ${1.0 * K}s ${E} ${.2 * K}s both` : 'none',
+      photo: on ? `iris ${1.7 * K}s ${E} ${.6 * K}s both, dev 3.8s ease-in-out ${.6 * K}s both` : `irisOut .35s ${E} .3s both, devOut .3s ${E} .05s both`,
+      ap: on ? `ap ${1.1 * K}s ${E} ${1.2 * K}s both` : `apOut .35s ${E} .3s both`,
+      logo: T(2.2, .8), sub: T(2.4, .7),
+      r0: S(2.4, .6), r1: S(2.52, .6), r2: S(2.64, .6), r3: S(2.76, .6), r4: S(2.88, .6),
+      i0: T(2.6, .45), i1: T(2.72, .45), i2: T(2.84, .45), i3: T(2.96, .45),
+      p1: T(3.0, .7), p2: T(3.3, .7),
+      flaque: on ? `rIn ${.6 * K}s ${E} ${3.3 * K}s both` : `rOut .22s ${E} .05s both`,
+      cta: T(3.75, .45), foot: T(3.7, .5)
+    };
+    const nuitA = this.props.nuit ?? false;
+    const acc = nuitA
+      ? { or: '#E8A06C', orS: '#E08A4B', cy: '#7CCAD4', cyS: '#5DBAC6', bo: '#E3A1AE', boS: '#B24A60' }
+      : { or: '#A4521B', orS: '#D9783A', cy: '#1A6F7B', cyS: '#3AA6B5', bo: '#7A1F33', boS: '#7A1F33' };
+    acc.sig = on ? `wIn ${.5 * K}s ${E} ${3.25 * K}s both` : `wOut .2s ${E} 0s both`;
+    const pm = this.props.palette ?? "Dans l'animation";
+    const pal = {
+      stroke: pm === 'Fils de couleur' ? '#8A2A3F' : t.ink,
+      svgAnim: pm === "Dans l'animation" && on ? `teinteS ${4.2 * K}s ease-in-out 0s both` : 'none',
+      pt: pm === "Dans l'animation" ? '#7A1F33' : t.ink,
+      band: pm === 'Banderole signature',
+      bandAnim: on ? `wIn ${1.4 * K}s ${E} 0s both` : `wOut .3s ${E} .1s both`
+    };
+    const replay = () => {
+      if (this.tm) return;
+      this.setState({ ph: 'out' });
+      this.tm = setTimeout(() => { this.tm = null; this.setState({ ph: 'in' }); }, 1100);
+    };
+    return { t, a, replay, pal, acc };
+  }
+}
+</script>
+</body>
+</html>

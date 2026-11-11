@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Galerie</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+.vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(118% 100% at 50% 44%,rgba(20,18,16,0) 48%,rgba(20,18,16,.10) 76%,rgba(20,18,16,.27) 100%);box-shadow:inset 0 0 140px rgba(20,18,16,.10)}
+.w{position:relative;display:inline-block;white-space:nowrap}
+.w .o{display:block;color:transparent;-webkit-text-stroke:1px currentColor}
+.w .f{position:absolute;left:0;top:-.24em;padding:.24em .14em .24em 0;color:inherit}
+.verre{position:absolute;border-radius:24px;background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(250,248,244,.86) 55%,rgba(240,237,231,.9) 100%);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 16px 32px -12px rgba(20,18,16,.30),0 4px 10px -3px rgba(20,18,16,.16),inset 0 1px 0 #fff,inset 0 0 0 1px rgba(255,255,255,.6),inset 0 -2px 0 rgba(20,18,16,.06),inset 0 -12px 18px -12px rgba(20,18,16,.10)}
+.verre::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(90% 140% at 22% 0%,rgba(255,255,255,.75),rgba(255,255,255,0) 60%)}
+svg.ln{position:absolute;overflow:visible;pointer-events:none}
+.ln path{fill:none;stroke:#0D0E10;stroke-width:1.5px;shape-rendering:geometricPrecision;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 102;stroke-dashoffset:101}
+.ln path.comete{stroke-dasharray:6 94;stroke-dashoffset:0}
+.nav a,.lien{color:inherit;text-decoration:none}
+.btn{position:absolute;display:flex;align-items:center;justify-content:center;border-radius:20px;text-decoration:none;font:500 14px Inter,sans-serif;color:#EEEDE9}
+.encre{background:#0D0E10;box-shadow:0 20px 34px -10px rgba(13,14,16,.58),0 7px 12px -3px rgba(13,14,16,.32),inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1.5px 0 rgba(0,0,0,.22)}
+.filtre{display:flex;align-items:baseline;justify-content:space-between;width:100%;padding:9px 0;border:0;background:transparent;color:#0D0E10;cursor:pointer;text-align:left;font:300 19px/1.2 Inter,sans-serif;letter-spacing:-.01em}
+.filtre .k{font:500 11px 'IBM Plex Mono',monospace;letter-spacing:.06em;color:#4B4D52}
+.filtre.off{color:#5D5F64}
+.zone{position:absolute;left:372px;top:120px;width:1004px;height:740px;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin}
+.carte{position:absolute;padding:0;border:0;background:transparent;cursor:zoom-in;text-align:left}
+.carte img,.vue img{display:block;width:100%;height:100%;object-fit:cover;box-shadow:0 22px 40px -16px rgba(20,18,16,.34),0 6px 12px -4px rgba(20,18,16,.16)}
+.carte .leg{position:absolute;left:0;top:calc(100% + 10px);display:flex;gap:10px;align-items:baseline;white-space:nowrap}
+.carte .leg .k{font:500 11px 'IBM Plex Mono',monospace;letter-spacing:.06em;color:#4B4D52}
+.carte .leg .t{font:400 14px Inter,sans-serif;color:#0D0E10}
+.carte .u{position:absolute;left:0;top:calc(100% + 32px);height:2px;width:0;border-radius:1px;background:#3AA6B5;transition:width .45s cubic-bezier(.45,0,.2,1)}
+.carte:hover .u,.carte:focus-visible .u{width:36px}
+.vue{position:absolute;padding:0;border:0;background:transparent;cursor:zoom-in}
+.ctl{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px 0 10px;border:0;border-radius:18px;background:transparent;color:#0D0E10;cursor:pointer;font:500 13px Inter,sans-serif}
+.ctl:hover{background:rgba(13,14,16,.06)}
+.ctl svg,.lb-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.lb-btn{position:absolute;width:48px;height:48px;padding:0;border:0;border-radius:24px;background:transparent;color:#0D0E10;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.lb-btn:hover{background:rgba(13,14,16,.06)}
+.filtre:focus-visible,.carte:focus-visible,.vue:focus-visible,.ctl:focus-visible,.lb-btn:focus-visible,.nav a:focus-visible,.btn:focus-visible{outline:2px solid #0D0E10;outline-offset:3px}
+@keyframes drawS{from{stroke-dashoffset:101}to{stroke-dashoffset:0}}
+@keyframes undrawS{from{stroke-dashoffset:0}to{stroke-dashoffset:101}}
+@keyframes trace{0%{stroke-dashoffset:101}50%{stroke-dashoffset:0}65%{stroke-dashoffset:0}100%{stroke-dashoffset:-102}}
+@keyframes trace2{0%{stroke-dashoffset:101}50%{stroke-dashoffset:0}65%{stroke-dashoffset:0}100%{stroke-dashoffset:-102}}
+@keyframes wIn{from{clip-path:inset(-24px 100% -24px 0)}to{clip-path:inset(-24px -24px -24px 0)}}
+@keyframes wIn2{from{clip-path:inset(-24px 100% -24px 0)}to{clip-path:inset(-24px -24px -24px 0)}}
+@keyframes habille{from{opacity:0}to{opacity:1}}
+@keyframes habille2{from{opacity:0}to{opacity:1}}
+@keyframes retourC{from{opacity:0;filter:grayscale(0)}to{opacity:1;filter:grayscale(0)}}
+@keyframes retourNB{from{opacity:0;filter:grayscale(1) contrast(1.05)}to{opacity:1;filter:grayscale(1) contrast(1.05)}}
+@keyframes dev{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@keyframes dev2{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@keyframes devNB{0%{opacity:0;filter:grayscale(1) contrast(1.05)}45%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
+@keyframes devNB2{0%{opacity:0;filter:grayscale(1) contrast(1.05)}45%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
+@keyframes devOut{from{opacity:1}to{opacity:0}}
+@keyframes apparait{from{stroke-opacity:0}to{stroke-opacity:1}}
+@keyframes eteint{from{stroke-opacity:1}to{stroke-opacity:0}}
+@keyframes comete{from{stroke-dashoffset:0}to{stroke-dashoffset:-100}}
+@keyframes lbIn{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+.temoin{position:absolute;margin:0}
+.tirage{position:absolute;inset:0;background:#FBFAF7;box-shadow:0 22px 40px -16px rgba(20,18,16,.34),0 6px 12px -4px rgba(20,18,16,.16),inset 0 0 0 16px #FFFFFF,inset 0 0 0 17px rgba(20,18,16,.10)}
+@keyframes wOut{from{clip-path:inset(-24px -24px -24px 0)}to{clip-path:inset(-24px 100% -24px 0)}}
+@media (prefers-reduced-motion: reduce){*{animation-duration:0s !important;animation-delay:0s !important;transition-duration:0s !important}}
+</style>
+</helmet>
+<div style="position: relative; width: 1440px; height: 900px; overflow: hidden; background: #FFFFFF; color: #0D0E10; font-family: Inter, system-ui, sans-serif">
+  <div class="vignette" aria-hidden="true"></div>
+
+  <svg class="ln" aria-hidden="true" style="left: 0; top: 0; width: 1440px; height: 900px">
+    <path pathLength="100" d="M720 100 L80 100" style="animation: {{a.sep}}"></path>
+    <path pathLength="100" d="M720 100 L1360 100" style="animation: {{a.sep}}"></path>
+  </svg>
+  <a href="#" class="lien" style="position: absolute; left: 80px; top: 38px; font: 600 22px Inter, sans-serif; letter-spacing: -.01em">
+    <span class="w"><span class="o" style="animation: {{a.logo.o}}">Ernest H.</span><span class="f" aria-hidden="true" style="animation: {{a.logo.f}}">Ernest H.</span></span>
+  </a>
+  <span aria-hidden="true" style="position: absolute; left: 80px; top: 70px; width: 28px; height: 2px; border-radius: 1px; background: #3AA6B5; animation: {{a.sig}}"></span>
+  <nav class="nav" aria-label="Menu principal" style="position: absolute; left: 600px; top: 46px; display: flex; gap: 36px; font: 500 14px Inter, sans-serif">
+    <a href="#" aria-current="page" style="position: relative"><span class="w"><span class="o" style="animation: {{a.n0.o}}">Galerie</span><span class="f" aria-hidden="true" style="animation: {{a.n0.f}}">Galerie</span></span><span aria-hidden="true" style="position: absolute; left: 0; right: 0; bottom: -7px; height: 2px; border-radius: 1px; background: #3AA6B5; animation: {{a.navU}}"></span></a>
+    <a href="#"><span class="w"><span class="o" style="animation: {{a.n1.o}}">Services</span><span class="f" aria-hidden="true" style="animation: {{a.n1.f}}">Services</span></span></a>
+    <a href="#"><span class="w"><span class="o" style="animation: {{a.n2.o}}">À propos</span><span class="f" aria-hidden="true" style="animation: {{a.n2.f}}">À propos</span></span></a>
+    <a href="#"><span class="w"><span class="o" style="animation: {{a.n3.o}}">Contact</span><span class="f" aria-hidden="true" style="animation: {{a.n3.f}}">Contact</span></span></a>
+  </nav>
+  <span class="encre" aria-hidden="true" style="position: absolute; left: 1184px; top: 34px; width: 176px; height: 40px; border-radius: 20px; animation: {{a.hFl}}"></span>
+  <a href="#" class="btn" style="left: 1184px; top: 34px; width: 176px; height: 40px">
+    <span class="w"><span class="o" style="animation: {{a.hCta.o}}">Créer mon devis</span><span class="f" aria-hidden="true" style="animation: {{a.hCta.f}}">Créer mon devis</span></span>
+  </a>
+
+  <p style="position: absolute; left: 80px; top: 136px; margin: 0; display: flex; align-items: center; gap: 14px; font: 500 11.5px 'IBM Plex Mono', monospace; letter-spacing: .18em; text-transform: uppercase; color: #4B4D52">
+    <span aria-hidden="true" style="display: block; width: 28px; height: 1px; background: #D9783A; animation: {{a.eyeL}}"></span>
+    <span class="w"><span class="o" style="animation: {{a.eye.o}}">{{txt.eye}}</span><span class="f" aria-hidden="true" style="animation: {{a.eye.f}}">{{txt.eye}}</span></span>
+  </p>
+  <h1 style="position: absolute; left: 78px; top: 164px; margin: 0; font: 300 34px/1.12 Inter, sans-serif; letter-spacing: -.03em; filter: drop-shadow(0 6px 9px rgba(20,18,16,.18))">
+    <span class="w"><span class="o" style="animation: {{a.h1.o}}">{{txt.h1}}</span><span class="f" aria-hidden="true" style="animation: {{a.h1.f}}">{{txt.h1}}</span></span><br>
+    <span class="w"><span class="o" style="animation: {{a.h2.o}}"><i style="font: italic 400 40px/1 'Instrument Serif', serif">{{txt.h2}}</i></span><span class="f" aria-hidden="true" style="animation: {{a.h2.f}}"><i style="font: italic 400 40px/1 'Instrument Serif', serif">{{txt.h2}}</i></span></span>
+  </h1>
+
+  <div class="verre" aria-hidden="true" style="left: 64px; top: 300px; width: 268px; height: 372px; opacity: 0; animation: {{a.pill}}"></div>
+  <svg class="ln" aria-hidden="true" style="left: 64px; top: 300px; width: 268px; height: 372px">
+    <path pathLength="100" d="M0 186 L0 24 A24 24 0 0 1 24 0 L244 0 A24 24 0 0 1 268 24 L268 186" style="animation: {{a.pillL}}"></path>
+    <path pathLength="100" d="M0 186 L0 348 A24 24 0 0 0 24 372 L244 372 A24 24 0 0 0 268 348 L268 186" style="animation: {{a.pillL}}"></path>
+    <path class="comete" pathLength="100" d="M0 186 L0 24 A24 24 0 0 1 24 0 L244 0 A24 24 0 0 1 268 24 L268 348 A24 24 0 0 1 244 372 L24 372 A24 24 0 0 1 0 348 Z" style="stroke: #D9783A; animation: {{a.pillC}}"></path>
+  </svg>
+  <nav aria-label="Filtrer par service" style="position: absolute; left: 88px; top: 316px; width: 220px; display: flex; flex-direction: column">
+    <sc-for list="{{filtres}}" as="f" hint-placeholder-count="7">
+      <button type="button" class="{{f.cls}}" aria-pressed="{{f.on}}" onClick="{{f.pick}}">
+        <span class="w"><span class="o" style="animation: {{f.a.o}}">{{f.t}}</span><span class="f" aria-hidden="true" style="animation: {{f.a.f}}">{{f.t}}</span></span>
+        <span class="k">{{f.n}}</span>
+      </button>
+    </sc-for>
+  </nav>
+  <span aria-hidden="true" style="position: absolute; left: 88px; top: {{ind.y}}px; width: {{ind.w}}px; height: 2px; border-radius: 1px; background: #3AA6B5; transition: top .5s cubic-bezier(.45,0,.2,1), width .5s cubic-bezier(.45,0,.2,1) .12s; animation: {{a.indA}}"></span>
+
+  <div class="zone" data-zone="1" style="overflow-y: {{zoneOv}}; scrollbar-width: {{zoneSb}}">
+    <div style="position: relative; width: 1004px; height: {{zoneH}}px">
+      <sc-for list="{{reperes}}" as="r" hint-placeholder-count="2">
+        <div style="position: absolute; left: 0; top: {{r.y}}px; width: 980px">
+          <p style="margin: 0; display: flex; align-items: baseline; gap: 14px; white-space: nowrap">
+            <span style="font: 500 11px 'IBM Plex Mono', monospace; letter-spacing: .14em; text-transform: uppercase; color: #4B4D52">
+              <span class="w"><span class="o" style="animation: {{r.a.o}}">{{r.tag}}</span><span class="f" aria-hidden="true" style="animation: {{r.a.f}}">{{r.tag}}</span></span>
+            </span>
+            <span style="font: 400 15px Inter, sans-serif; color: #0D0E10">
+              <span class="w"><span class="o" style="animation: {{r.b.o}}">{{r.txt}}</span><span class="f" aria-hidden="true" style="animation: {{r.b.f}}">{{r.txt}}</span></span>
+            </span>
+          </p>
+          <svg class="ln" aria-hidden="true" style="left: 0; top: 30px; width: 980px; height: 2px"><path pathLength="100" d="M0 1 L980 1" style="stroke-width: 1px; animation: {{r.l}}"></path></svg>
+        </div>
+      </sc-for>
+      <sc-for list="{{temoins}}" as="b" hint-placeholder-count="2">
+        <figure class="temoin" style="left: {{b.x}}px; top: {{b.y}}px; width: {{b.w}}px; height: {{b.h}}px">
+          <blockquote style="position: absolute; left: {{b.p}}px; top: {{b.qt}}px; width: {{b.tw}}px; margin: 0; font: italic 400 {{b.fs}}px/1.22 'Instrument Serif', serif; color: #0D0E10; filter: drop-shadow(0 6px 9px rgba(20,18,16,.22)) drop-shadow(0 2px 2px rgba(20,18,16,.14))">
+            <span class="w" style="display: block; white-space: normal; width: {{b.tw}}px"><span class="o" style="animation: {{b.q.o}}">{{b.quote}}</span><span class="f" aria-hidden="true" style="width: {{b.tw}}px; animation: {{b.q.f}}">{{b.quote}}</span></span>
+          </blockquote>
+          <figcaption style="position: absolute; left: {{b.p}}px; bottom: {{b.p}}px; filter: drop-shadow(0 3px 4px rgba(20,18,16,.18)); font: 500 10.5px 'IBM Plex Mono', monospace; letter-spacing: .08em; text-transform: uppercase; color: #4B4D52">
+            <span class="w"><span class="o" style="animation: {{b.c.o}}">{{b.who}}</span><span class="f" aria-hidden="true" style="animation: {{b.c.f}}">{{b.who}}</span></span>
+          </figcaption>
+          <span aria-hidden="true" style="position: absolute; right: {{b.p}}px; bottom: {{b.p}}px; font: 500 10.5px 'IBM Plex Mono', monospace; letter-spacing: .06em; color: #4B4D52">{{b.pos}}</span>
+        </figure>
+      </sc-for>
+      <sc-for list="{{vues}}" as="v" hint-placeholder-count="8">
+        <button type="button" class="vue" aria-label="{{v.label}}" style="left: {{v.x}}px; top: {{v.y}}px; width: {{v.w}}px; height: {{v.h}}px" onClick="{{v.open}}">
+          <img src="{{v.src}}" alt="" style="animation: {{v.anim}}">
+        </button>
+        <svg class="ln" aria-hidden="true" style="left: {{v.sx}}px; top: {{v.sy}}px; width: {{v.sw}}px; height: {{v.sh}}px"><path pathLength="100" d="{{v.d}}" style="animation: {{v.tr}}"></path></svg>
+      </sc-for>
+    </div>
+  </div>
+
+  <span class="encre" aria-hidden="true" style="position: absolute; left: 80px; top: 712px; width: 200px; height: 44px; border-radius: 22px; animation: {{a.dFl}}"></span>
+  <a href="#" class="btn" style="left: 80px; top: 712px; width: 200px; height: 44px; border-radius: 22px">
+    <span class="w"><span class="o" style="animation: {{a.dCta.o}}">Demander un devis</span><span class="f" aria-hidden="true" style="animation: {{a.dCta.f}}">Demander un devis</span></span>
+  </a>
+
+  <sc-if value="{{lb.on}}" hint-placeholder-val="{{ false }}">
+    <div role="dialog" aria-modal="true" aria-label="Photo en grand" style="position: absolute; inset: 0">
+      <img src="{{lb.src}}" alt="{{lb.alt}}" style="position: absolute; left: {{lb.x}}px; top: {{lb.y}}px; width: {{lb.w}}px; height: {{lb.h}}px; object-fit: cover; box-shadow: 0 30px 60px -20px rgba(20,18,16,.38), 0 8px 16px -6px rgba(20,18,16,.18); transition: {{lb.trBox}}; animation: {{lb.anim}}">
+      <svg class="ln" aria-hidden="true" style="left: {{lb.sx}}px; top: {{lb.sy}}px; width: {{lb.sw}}px; height: {{lb.sh}}px"><path pathLength="100" d="{{lb.d}}" style="animation: {{lb.tr}}"></path></svg>
+      <sc-if value="{{lb.ui}}" hint-placeholder-val="{{ true }}">
+        <p style="position: absolute; left: 120px; top: 846px; margin: 0; font: 500 12.5px 'IBM Plex Mono', monospace; letter-spacing: .04em; color: #4B4D52; animation: habille .5s ease .5s both">{{lb.cap}}</p>
+        <p style="position: absolute; left: 640px; top: 846px; width: 160px; margin: 0; text-align: center; font: 500 12.5px 'IBM Plex Mono', monospace; letter-spacing: .04em; color: #4B4D52; animation: habille .5s ease .5s both">{{lb.num}}</p>
+        <button type="button" class="lb-btn" aria-label="Fermer" style="right: 32px; top: 16px" onClick="{{lb.close}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6 L18 18 M18 6 L6 18"></path></svg></button>
+        <button type="button" class="lb-btn" aria-label="Photo précédente" style="left: 44px; top: 416px" onClick="{{lb.prev}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 L8 12 L15 19"></path></svg></button>
+        <button type="button" class="lb-btn" aria-label="Photo suivante" style="right: 44px; top: 416px" onClick="{{lb.next}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5 L16 12 L9 19"></path></svg></button>
+      </sc-if>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { svc: -1, n: 0, lb: null, lbN: 0, lbSt: 'from', lbR: null, tq: 0, tqOut: false, out: false }; }
+  vignetteRect(i) {
+    const z = document.querySelector('[data-zone="1"]'), top = z ? z.scrollTop : 0, r = (this.rects || [])[i];
+    return r ? { x: 372 + r.x, y: 120 + r.y - top, w: r.w, h: r.h } : { x: 720, y: 440, w: 0, h: 0 };
+  }
+  ouvrir(i) {
+    if (this.state.lb !== null) return;
+    clearTimeout(this.tLb);
+    this.setState({ lb: i, lbSt: 'from', lbN: 0, lbR: this.vignetteRect(i) });
+    this.tLb = setTimeout(() => this.setState({ lbSt: 'to' }), 40);
+  }
+  fermer() {
+    if (this.state.lbSt !== 'to') return;
+    this.setState({ lbSt: 'closing', lbR: this.vignetteRect(this.state.lb), n: this.state.n + 1, retour: true });
+    clearTimeout(this.tLb);
+    this.tLb = setTimeout(() => this.setState({ lb: null, lbSt: 'from' }), 760);
+  }
+  componentDidMount() { this.iTq = setInterval(() => { this.setState({ tqOut: true }); this.tTq = setTimeout(() => this.setState({ tq: this.state.tq + 1, tqOut: false }), 700); }, 7500); }
+  componentWillUnmount() { clearInterval(this.iTq); clearTimeout(this.tTq); clearTimeout(this.tNav); clearTimeout(this.tLb); }
+  changer(i) {
+    if (this.state.out || (i === this.state.svc)) return;
+    this.setState({ out: true, lb: null, retour: false });
+    this.tNav = setTimeout(() => this.setState({ svc: i, n: this.state.n + 1, sh: (this.state.sh || 0) + 1, out: false }), 480);
+  }
+  justifie(list, W, rowH, gap, padTop, legende) {
+    const out = []; let y = padTop, row = [], sum = 0;
+    const flush = (last) => {
+      if (!row.length) return;
+      let h = (W - gap * (row.length - 1)) / sum;
+      if (last && h > rowH * 1.25) h = rowH;
+      let x = 0;
+      row.forEach(it => { const w = it.r * h; out.push({ ...it, x: Math.round(x), y: Math.round(y), w: Math.round(w), h: Math.round(h) }); x += w + gap; });
+      y += h + gap + legende; row = []; sum = 0;
+    };
+    list.forEach(it => {
+      const hNo = row.length ? (W - gap * (row.length - 1)) / sum : Infinity;
+      const hWith = (W - gap * row.length) / (sum + it.r);
+      if (hWith < rowH && row.length && Math.abs(hNo - rowH) < Math.abs(hWith - rowH)) { flush(false); row.push(it); sum = it.r; return; }
+      row.push(it); sum += it.r;
+      if (hWith < rowH) flush(false);
+    });
+    flush(true);
+    return { items: out, H: Math.round(y) };
+  }
+  renderVals() {
+    const K = .62, E = 'cubic-bezier(.45,0,.2,1)';
+    const T = (dl, d, alt) => ({ o: `${alt ? 'wIn2' : 'wIn'} ${d * K}s ${E} ${dl * K}s both`, f: `${alt ? 'wIn2' : 'wIn'} ${d * K}s ${E} ${(dl + .25) * K}s both` });
+    const PH = [
+      { src: '/_blob/79058532f3d7d37917786298a0ac7945', alt: 'Les mariés devant le château', r: 2 / 3 },
+      { src: '/_blob/6832670aa81d041033100b28a2e4313e', alt: 'Couple enlacé dans un champ', r: 1400 / 600 },
+      { src: '/_blob/4e34f55900df112fe7752da33bc917a5', alt: 'Les mariés sur un balcon en fer forgé', r: 2 / 3 },
+      { src: '/_blob/2b6e173fdf036442185ceb85aa49021f', alt: 'Baiser sur la joue', r: 2 / 3 },
+      { src: '/_blob/9b725673bcdd88ed30e17af8444a53f5', alt: 'Couple debout dans un grand champ', r: 1400 / 600 }
+    ];
+    const SVC = ['Mariages', 'Engagement', 'Famille lifestyle', 'Anniversaires', 'Événementiel', 'Culinaire & studio'];
+    const EVT = [
+      { svc: 0, tag: 'Mariage · [Lieu] · 2026', txt: '[Une phrase sur la journée]', ph: [0, 1, 2, 3, 4, 2], who: '[Prénoms des mariés]' },
+      { svc: 0, tag: 'Mariage · [Lieu] · 2025', txt: '[Une phrase sur la journée]', ph: [4, 3, 0, 1] },
+      { svc: 1, tag: 'Engagement · [Lieu]', txt: '[Une phrase sur la séance]', ph: [1, 4, 2, 0] },
+      { svc: 2, tag: 'Famille · [Lieu]', txt: '[Une phrase sur la séance]', ph: [3, 4, 0, 1, 2] },
+      { svc: 3, tag: 'Anniversaire · [Lieu]', txt: '[Une phrase sur la fête]', ph: [2, 0, 1, 3] },
+      { svc: 4, tag: 'Événement · [Lieu]', txt: '[Une phrase sur l\'événement]', ph: [1, 2, 3, 4, 0] },
+      { svc: 5, tag: 'Culinaire · [Maison]', txt: '[Une phrase sur le shooting]', ph: [0, 4, 3, 1] }
+    ];
+    const TEM = ['« [Ce que le client a ressenti en découvrant les photos.] »', '« [Un moment qu\'il revit grâce aux images.] »'];
+    const st = this.state, alt = st.n % 2 === 1, first = st.n === 0;
+    const sep = `drawS ${.8 * K}s ${E} 0s both`;
+    const a = {
+      sep, logo: T(.3, .8), sig: `wIn ${.5 * K}s ${E} ${1.35 * K}s both`,
+      n0: T(.5, .45), n1: T(.6, .45), n2: T(.7, .45), n3: T(.8, .45), navU: `wIn ${.5 * K}s ${E} ${1.2 * K}s both`,
+      hFl: `habille 1s ease ${.9 * K}s both`, hCta: T(1.3, .45),
+      eyeL: `wIn ${.4 * K}s ${E} ${.6 * K}s both`, eye: T(.75, .6, alt), h1: T(.9, .9, alt), h2: T(1.15, .9, alt),
+      pillL: `drawS ${.9 * K}s ${E} ${1.1 * K}s both`, pill: `habille 1.8s ease-in-out ${2.0 * K}s both`,
+      pillC: `apparait 1.8s ease-in-out 5s both, comete 20s linear 5s infinite`,
+      indA: `wIn ${.5 * K}s ${E} ${2.6 * K}s both`,
+      dFl: `habille 1.2s ease ${2.6 * K}s both`, dCta: T(3.0, .45)
+    };
+    const txt = st.svc < 0 ? { eye: 'Galerie', h1: 'Tous les', h2: 'instants.' } : { eye: 'Galerie', h1: SVC[st.svc], h2: 'en images.' };
+    const counts = SVC.map((_, i) => EVT.filter(e => e.svc === i).reduce((t, e) => t + e.ph.length, 0));
+    const total = counts.reduce((t, c) => t + c, 0);
+    const filtres = [{ t: 'Tout', i: -1 }].concat(SVC.map((t, i) => ({ t, i }))).map((f, k) => ({
+      t: f.t, n: String(f.i < 0 ? total : counts[f.i]).padStart(2, '0'), on: st.svc === f.i,
+      cls: st.svc === f.i ? 'filtre' : 'filtre off', a: T(1.6 + k * .1, .45),
+      pick: () => this.changer(f.i)
+    }));
+    const fi = st.svc + 1;
+    const ind = { y: Math.round(316 + fi * 41 + 34), w: Math.round(filtres[fi].t.length * 9.2) };
+    const D0 = first ? 1.6 * K : .1;
+    const frame = (w, h) => `M1 1 L${w + 1} 1 L${w + 1} ${h + 1} L1 ${h + 1} Z`;
+    const evts = EVT.filter(e => st.svc < 0 || e.svc === st.svc);
+    const reperes = [], vues = [], flat = [], temoins = [];
+    let y = 6, k = 0;
+    evts.forEach((e, ei) => {
+      const d0 = D0 + ei * .5;
+      reperes.push({ y, tag: e.tag, txt: e.txt,
+        a: { o: `${alt ? 'wIn2' : 'wIn'} .5s ${E} ${d0.toFixed(2)}s both`, f: `${alt ? 'wIn2' : 'wIn'} .5s ${E} ${(d0 + .16).toFixed(2)}s both` },
+        b: { o: `${alt ? 'wIn2' : 'wIn'} .7s ${E} ${(d0 + .2).toFixed(2)}s both`, f: `${alt ? 'wIn2' : 'wIn'} .7s ${E} ${(d0 + .36).toFixed(2)}s both` },
+        l: `drawS .9s ${E} ${(d0 + .1).toFixed(2)}s both` });
+      y += 52;
+      const items = e.ph.map(p => ({ r: PH[p].r, p }));
+      const seed = (ei * 7 + (st.sh || 0) * 3 + 5) % 97;
+      const pos = 1 + (seed % items.length);
+      items.splice(pos, 0, { r: 1.5, temoin: true });
+      const L = this.justifie(items, 980, 220, 14, 0, 0);
+      let j = 0;
+      L.items.forEach((v) => {
+        if (v.temoin) {
+          const tb = d0 + .3 + e.ph.length * .1 + .4, qi = st.tq % TEM.length, qa = st.tq % 2 === 1;
+          const wr = (dl, d) => st.tqOut
+            ? { o: `wOut .35s ${E} .04s both`, f: `wOut .32s ${E} 0s both` }
+            : st.tq === 0
+              ? { o: `${alt ? 'wIn2' : 'wIn'} ${d}s ${E} ${(tb + dl).toFixed(2)}s both`, f: `${alt ? 'wIn2' : 'wIn'} ${d}s ${E} ${(tb + dl + .18).toFixed(2)}s both` }
+              : { o: `${qa ? 'wIn2' : 'wIn'} ${d}s ${E} ${(dl * .5).toFixed(2)}s both`, f: `${qa ? 'wIn2' : 'wIn'} ${d}s ${E} ${(dl * .5 + .18).toFixed(2)}s both` };
+          const pad = Math.round(Math.max(22, v.h * .12)), fs = Math.round(Math.max(17, Math.min(26, v.h * .095)));
+          temoins.push({ x: v.x, y: v.y + y, w: v.w, h: v.h, sw: v.w + 2, sh: v.h + 2, d: frame(v.w, v.h),
+            p: pad, qt: pad, tw: v.w - pad * 2, fs: fs + 3,
+            quote: TEM[qi], who: '— ' + (e.who || '[Prénom du client]'), pos: (qi + 1) + ' / ' + TEM.length,
+            line: `${alt ? 'trace2' : 'trace'} 2.2s ${E} ${tb.toFixed(2)}s both`, fill: `${alt ? 'habille2' : 'habille'} 1.6s ease-in-out ${(tb + .6).toFixed(2)}s both`,
+            mark: `${alt ? 'wIn2' : 'wIn'} .5s ${E} ${(tb + .9).toFixed(2)}s both`, q: wr(1.2, 1.1), c: wr(1.7, .6) });
+          return;
+        }
+        const dl = (d0 + .3 + j * .1).toFixed(2), nb = k % 4 === 2, idx = flat.length;
+        flat.push({ p: v.p, tag: e.tag, x: v.x, y: v.y + y, w: v.w, h: v.h });
+        vues.push({ ...v, nb, y: v.y + y, src: PH[v.p].src, label: 'Agrandir la photo ' + (idx + 1),
+          anim: `${nb ? (alt ? 'devNB2' : 'devNB') : (alt ? 'dev2' : 'dev')} 2.4s ease-in-out ${dl}s both`,
+          tr: `${alt ? 'trace2' : 'trace'} 2s ${E} ${dl}s both`,
+          sx: v.x - 1, sy: v.y + y - 1, sw: v.w + 2, sh: v.h + 2, d: frame(v.w, v.h),
+          open: () => this.ouvrir(idx) });
+        k++; j++;
+      });
+      y += L.H + 36;
+    });
+    const zoneH = Math.max(740, y + 20);
+    const dissolve = st.lb !== null && st.lbSt !== 'closing';
+    if (st.out || dissolve) {
+      const wo = (k2) => ({ o: `wOut .3s ${E} ${(k2 * .02).toFixed(2)}s both`, f: `wOut .28s ${E} ${(k2 * .02).toFixed(2)}s both` });
+      vues.forEach((v, i2) => { v.anim = `devOut .3s ease-out ${(i2 * .02).toFixed(2)}s forwards`; v.tr = 'none'; });
+      reperes.forEach((r, i2) => { r.a = wo(i2); r.b = wo(i2); r.l = 'none'; });
+      temoins.forEach((t, i2) => { t.fill = `devOut .3s ease-out ${(i2 * .03).toFixed(2)}s forwards`; t.q = wo(i2); t.c = wo(i2); t.mark = `wOut .25s ${E} 0s both`; t.line = 'none'; });
+      a.eye = { o: `wOut .3s ${E} .04s both`, f: `wOut .28s ${E} 0s both` }; a.h1 = a.eye; a.h2 = a.eye;
+      if (dissolve) {
+        const wo2 = { o: `wOut .3s ${E} .1s both`, f: `wOut .28s ${E} .06s both` };
+        a.sep = `undrawS .5s ${E} .1s both`; a.pillL = `undrawS .5s ${E} .15s both`; a.pill = `devOut .35s ease-out 0s both`;
+        a.pillC = `eteint .3s ease forwards`; a.indA = `wOut .25s ${E} 0s both`; a.eyeL = `wOut .25s ${E} 0s both`;
+        a.logo = wo2; a.n0 = wo2; a.n1 = wo2; a.n2 = wo2; a.n3 = wo2; a.navU = `wOut .25s ${E} 0s both`; a.sig = `wOut .25s ${E} 0s both`;
+        a.hFl = `devOut .3s ease-out 0s both`; a.hCta = wo2; a.dFl = `devOut .3s ease-out 0s both`; a.dCta = wo2;
+        filtres.forEach(fl => { fl.a = wo2; });
+      }
+    }
+    this.rects = flat.map(f => ({ x: f.x, y: f.y, w: f.w, h: f.h }));
+    let lb = { on: false };
+    if (st.lb !== null && flat[st.lb]) {
+      const f = flat[st.lb], p = PH[f.p], w0 = Math.min(1180, 720 * p.r), h0 = w0 / p.r;
+      const tx = Math.round(720 - w0 / 2), ty = Math.round(440 - h0 / 2), tw = Math.round(w0), th = Math.round(h0);
+      const ph = st.lbSt, big = ph === 'to', R = big ? { x: tx, y: ty, w: tw, h: th } : (st.lbR || { x: tx, y: ty, w: tw, h: th });
+      const a2 = st.lbN % 2 === 1, box = (d, dl) => ['left', 'top', 'width', 'height'].map(k2 => `${k2} ${d}s ${E} ${dl}s`).join(', ');
+      const go = (dd) => { if (st.lbSt === 'to') this.setState({ lb: (st.lb + dd + flat.length) % flat.length, lbN: st.lbN + 1 }); };
+      lb = { on: true, ui: big, src: p.src, alt: p.alt, x: R.x, y: R.y, w: R.w, h: R.h,
+        sx: tx - 1, sy: ty - 1, sw: tw + 2, sh: th + 2, d: frame(tw, th),
+        clip: big ? 'inset(0 0 0 0)' : 'inset(0 0 100% 0)',
+        trFond: ph === 'from' ? 'none' : (big ? `clip-path .75s ${E}` : `clip-path .5s ${E} .2s`),
+        trBox: ph === 'from' ? 'none' : (big ? box(.8, 0) : box(.7, 0)),
+        anim: big && st.lbN > 0 ? `${a2 ? 'dev2' : 'dev'} 2s ease-in-out .1s both` : 'none',
+        tr: big ? `${a2 ? 'trace2' : 'trace'} 1.8s ${E} ${st.lbN > 0 ? .05 : .7}s both` : 'none',
+        cap: f.tag, num: (st.lb + 1) + ' / ' + flat.length,
+        close: () => this.fermer(), prev: () => go(-1), next: () => go(1) };
+    }
+    if (st.retour && !st.out && !dissolve) {
+      const q = (dl) => ({ o: `wIn .35s ${E} ${dl.toFixed(2)}s both`, f: `wIn .35s ${E} ${(dl + .1).toFixed(2)}s both` });
+      vues.forEach((v, i2) => { v.anim = `${v.nb ? 'retourNB' : 'retourC'} .45s ease ${(i2 * .015).toFixed(2)}s both`; v.tr = 'none'; });
+      reperes.forEach(r => { r.a = q(.1); r.b = q(.15); r.l = `drawS .45s ${E} .1s both`; });
+      temoins.forEach(t => { t.q = q(.2); t.c = q(.25); });
+      Object.assign(a, { sep: `drawS .45s ${E} 0s both`, pillL: `drawS .45s ${E} .05s both`, pill: `habille .5s ease .2s both`,
+        pillC: `apparait .9s ease .7s both, comete 20s linear .7s infinite`, indA: `wIn .3s ${E} .3s both`, eyeL: `wIn .3s ${E} .05s both`,
+        logo: q(.05), n0: q(.08), n1: q(.11), n2: q(.14), n3: q(.17), navU: `wIn .3s ${E} .25s both`, sig: `wIn .3s ${E} .25s both`,
+        hFl: `habille .4s ease .1s both`, hCta: q(.15), dFl: `habille .4s ease .2s both`, dCta: q(.25), eye: q(.05), h1: q(.1), h2: q(.15) });
+      filtres.forEach((fl, i2) => { fl.a = q(.1 + i2 * .02); });
+    }
+    const zOpen = st.lb !== null;
+    return { a, txt, filtres, ind, reperes, vues, zoneH, lb, temoins, zoneOv: zOpen ? 'hidden' : 'auto', zoneSb: zOpen ? 'none' : 'thin' };
+  }
+}
+</script>
+</body>
+</html>

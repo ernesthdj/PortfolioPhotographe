@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Navigation services · sommaire</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+.papier{background-image:url(/_blob/612ef09ea0c09023a971391c52f66ba3);background-size:256px 256px}
+.ent{display:flex;align-items:baseline;gap:18px;padding:6px 0;color:#6B6D73;text-decoration:none;transition:color .35s ease}
+.ent.on{color:#0D0E10}
+.ent:focus-visible{outline:2px solid #0D0E10;outline-offset:4px;border-radius:4px}
+.ent .k{width:28px;font:500 11.5px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#4B4D52}
+.ent .l{position:relative;font:300 44px/1.15 Inter,sans-serif;letter-spacing:-.03em}
+.ent .u{position:absolute;left:0;bottom:-2px;height:2px;width:0;border-radius:1px;background:#3AA6B5;transition:width .45s cubic-bezier(.45,0,.2,1)}
+.ent.on .u{width:48px}
+.vis{position:absolute;display:block;object-fit:cover;box-shadow:0 26px 52px -16px rgba(13,14,16,.3)}
+.vis.a{animation:rIn .7s cubic-bezier(.45,0,.2,1) both,dev 1.8s ease-in-out both}
+.vis.b{animation:rIn2 .7s cubic-bezier(.45,0,.2,1) both,dev2 1.8s ease-in-out both}
+@keyframes rIn{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes rIn2{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes dev{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@keyframes dev2{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+.lien{color:#0D0E10;font:500 14px Inter,sans-serif;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px}
+.lien:focus-visible{outline:2px solid currentColor;outline-offset:4px}
+@media (prefers-reduced-motion: reduce){*{animation-duration:0s !important;transition-duration:0s !important}}
+</style>
+</helmet>
+<div class="papier" style="position: relative; width: 1440px; height: 760px; overflow: hidden; background-color: #EEEDE9; font-family: Inter, sans-serif; color: #0D0E10">
+  <p style="position: absolute; left: 80px; top: 64px; margin: 0; font: 500 11.5px 'IBM Plex Mono', monospace; letter-spacing: .18em; text-transform: uppercase; color: #4B4D52">Mes services</p>
+  <nav aria-label="Services" style="position: absolute; left: 80px; top: 112px; display: flex; flex-direction: column">
+    <sc-for list="{{items}}" as="it" hint-placeholder-count="6">
+      <a href="#" class="{{it.cls}}" onMouseEnter="{{it.hov}}" onFocus="{{it.hov}}">
+        <span class="k">{{it.n}}</span><span class="l">{{it.t}}<span class="u" aria-hidden="true"></span></span>
+      </a>
+    </sc-for>
+  </nav>
+  <img class="{{v.cls}}" src="{{v.src}}" alt="{{v.alt}}" style="left: {{v.x}}px; top: {{v.y}}px; width: {{v.w}}px; height: {{v.h}}px">
+  <p style="position: absolute; left: 760px; top: 640px; width: 600px; margin: 0; font: 400 15px/1.6 Inter, sans-serif; color: #4B4D52">{{v.txt}}</p>
+  <a href="#" class="lien" style="position: absolute; left: 760px; top: 690px">Voir la galerie {{v.t}} →</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":760}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { h: 0, n: 0 }; }
+  renderVals() {
+    const S = [
+      { t: 'Mariages', src: '/_blob/79058532f3d7d37917786298a0ac7945', r: 2 / 3, alt: 'Les mariés devant le château', txt: 'De la préparation à la dernière danse, un reportage complet de la journée.' },
+      { t: 'Engagement', src: '/_blob/6832670aa81d041033100b28a2e4313e', r: 1400 / 600, alt: 'Couple enlacé dans un champ', txt: 'Une séance à deux, avant le grand jour, dans un lieu qui vous ressemble.' },
+      { t: 'Famille lifestyle', src: '/_blob/9b725673bcdd88ed30e17af8444a53f5', r: 1400 / 600, alt: 'Couple debout dans un grand champ', txt: 'Des moments simples en famille, sans pose forcée.' },
+      { t: 'Anniversaires', src: '/_blob/4e34f55900df112fe7752da33bc917a5', r: 2 / 3, alt: 'Couple sur un balcon', txt: 'Les rires, les gâteaux et les invités, racontés sur le vif.' },
+      { t: 'Événementiel', src: '/_blob/2b6e173fdf036442185ceb85aa49021f', r: 2 / 3, alt: 'Baiser sur la joue', txt: 'Soirées, lancements et rencontres professionnelles.' },
+      { t: 'Culinaire & studio', src: '/_blob/6832670aa81d041033100b28a2e4313e', r: 1400 / 600, alt: 'Photo provisoire', txt: 'Plats, produits et portraits en studio, lumière maîtrisée.' }
+    ];
+    const h = this.state.h, s = S[h];
+    const w0 = Math.min(600, 500 * s.r), hh = w0 / s.r;
+    const v = { ...s, cls: this.state.n % 2 ? 'vis b' : 'vis a', x: 760, y: Math.round(112 + (500 - hh) / 2), w: Math.round(w0), h: Math.round(hh) };
+    const items = S.map((x, i) => ({
+      t: x.t, n: '0' + (i + 1), cls: i === h ? 'ent on' : 'ent',
+      hov: () => { if (this.state.h !== i) this.setState({ h: i, n: this.state.n + 1 }); }
+    }));
+    return { items, v };
+  }
+}
+</script>
+</body>
+</html>

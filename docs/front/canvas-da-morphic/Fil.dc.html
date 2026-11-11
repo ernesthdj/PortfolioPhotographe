@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Le Fil de la journée</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+.papier{background-image:url(/_blob/612ef09ea0c09023a971391c52f66ba3);background-size:256px 256px}
+.ap{filter:url(#encre)}
+.encre::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(closest-side,rgba(255,255,255,.22),rgba(255,255,255,.07) 45%,rgba(255,255,255,0)) no-repeat;background-size:70% 60%;background-position:18% 12%;mix-blend-mode:screen;animation:lueur 7s cubic-bezier(.45,0,.2,1) infinite alternate}
+@keyframes lueur{0%{background-position:14% 10%}50%{background-position:42% 18%}100%{background-position:72% 14%}}
+svg.ln{position:absolute;left:0;top:0;width:1440px;height:900px;overflow:visible;pointer-events:none}
+.ln path{fill:none;stroke-width:2px;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 102;stroke-dashoffset:101}
+.w{position:relative;display:inline-block;white-space:nowrap}
+.w .o{display:block;color:transparent;-webkit-text-stroke:1px currentColor}
+.w .f{position:absolute;left:0;top:0}
+.pt{position:absolute;width:10px;height:10px;border-radius:50%}
+.encre{box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1.5px 0 rgba(0,0,0,.22)}
+.ph{position:absolute;display:block;object-fit:cover}
+.btn{position:absolute;display:flex;align-items:center;justify-content:center;height:44px;border-radius:22px;text-decoration:none;color:inherit;font:500 14px Inter,sans-serif}
+.btn:focus-visible,.nav a:focus-visible,.rj:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+.nav a{color:inherit;text-decoration:none}
+.hr{position:absolute;top:660px;margin:0;display:flex;flex-direction:column;gap:4px}
+.hr .k{font:500 12.5px 'IBM Plex Mono',monospace;letter-spacing:.02em}
+.hr .l{font:400 14px Inter,sans-serif}
+.rj{position:absolute;right:24px;bottom:20px;height:28px;padding:0 12px;border-radius:14px;border:2px solid currentColor;background:transparent;color:inherit;font:500 12px Inter,sans-serif;cursor:pointer}
+@keyframes drawS{from{stroke-dashoffset:101}to{stroke-dashoffset:0}}
+@keyframes undrawS{from{stroke-dashoffset:0}to{stroke-dashoffset:101}}
+@keyframes wIn{from{clip-path:inset(-12px 100% -12px 0)}to{clip-path:inset(-12px -12px -12px 0)}}
+@keyframes wOut{from{clip-path:inset(-12px -12px -12px 0)}to{clip-path:inset(-12px 100% -12px 0)}}
+@keyframes rIn{from{clip-path:var(--c0)}to{clip-path:var(--c1)}}
+@keyframes rOut{from{clip-path:var(--c1)}to{clip-path:var(--c0)}}
+@keyframes melt{0%{transform:scale(1)}40%{transform:scale(2,.4)}100%{transform:scale(0)}}
+@keyframes reform{from{transform:scale(0)}to{transform:scale(1)}}
+@keyframes dev{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@keyframes devOut{0%{opacity:1;filter:brightness(1) grayscale(0)}100%{opacity:0;filter:brightness(0) grayscale(1)}}
+@keyframes teinteS{0%{stroke:#3AA6B5}50%{stroke:#D9783A}78%{stroke:#7A1F33}100%{stroke:var(--ink)}}
+@media (prefers-reduced-motion: reduce){*{animation-duration:0s !important;animation-delay:0s !important}}
+</style>
+</helmet>
+<div class="papier" style="position: relative; width: 1440px; height: 900px; overflow: hidden; background: {{t.bg}}; color: {{t.ink}}; font-family: Inter, system-ui, sans-serif">
+  <sc-if value="{{pal.band}}" hint-placeholder-val="{{ false }}"><div aria-hidden="true" style="position: absolute; left: 0; top: 0; width: 1440px; height: 10px; animation: {{pal.bandAnim}}"><span style="position: absolute; left: 0; right: 0; top: 0; height: 2px; background: #3AA6B5"></span><span style="position: absolute; left: 0; right: 0; top: 4px; height: 2px; background: #D9783A"></span><span style="position: absolute; left: 0; right: 0; top: 8px; height: 2px; background: #7A1F33"></span></div></sc-if>
+
+
+  <img class="ph" src="/_blob/4e34f55900df112fe7752da33bc917a5" alt="Les mariés enlacés sur un balcon" style="left: 120px; top: 369px; width: 180px; height: 270px; --c0: inset(100% 0 0 0); --c1: inset(0 0 0 0); animation: {{a.p0}}">
+  <img class="ph" src="/_blob/6832670aa81d041033100b28a2e4313e" alt="Couple enlacé dans un champ" style="left: 360px; top: 409px; width: 380px; height: 230px; --c0: inset(100% 0 0 0); --c1: inset(0 0 0 0); animation: {{a.p1}}">
+  <img class="ph" src="/_blob/79058532f3d7d37917786298a0ac7945" alt="Les mariés devant le château" style="left: 800px; top: 339px; width: 200px; height: 300px; object-position: 50% 25%; --c0: inset(100% 0 0 0); --c1: inset(0 0 0 0); animation: {{a.p2}}">
+  <img class="ph" src="/_blob/9b725673bcdd88ed30e17af8444a53f5" alt="Couple debout dans un grand champ" style="left: 1060px; top: 439px; width: 300px; height: 200px; --c0: inset(100% 0 0 0); --c1: inset(0 0 0 0); animation: {{a.p3}}">
+
+  <svg class="ln" aria-hidden="true" style="stroke: {{pal.stroke}}; --ink: {{t.ink}}; animation: {{pal.svgAnim}}"><defs><filter id="encre" x="-2%" y="-2%" width="104%" height="104%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="2" seed="4" result="n"></feTurbulence><feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -0.4 1.12" result="na"></feColorMatrix><feComposite in="SourceGraphic" in2="na" operator="in" result="grain"></feComposite><feGaussianBlur in="SourceAlpha" stdDeviation="0.9" result="b"></feGaussianBlur><feSpecularLighting in="b" surfaceScale="2.2" specularConstant="0.7" specularExponent="22" lighting-color="#ffffff" result="sp"><feDistantLight azimuth="225" elevation="48"></feDistantLight></feSpecularLighting><feComposite in="sp" in2="SourceAlpha" operator="in" result="spi"></feComposite><feComposite in="grain" in2="spi" operator="arithmetic" k1="0" k2="1" k3="0.28" k4="0"></feComposite></filter></defs><g filter="url(#encre)">
+    <path pathLength="100" d="M80 640 L1360 640" style="animation: {{a.line}}"></path>
+    <path pathLength="100" stroke="{{acc.orS}}" d="M120 640 L120 652" style="animation: {{a.t0}}"></path>
+    <path pathLength="100" stroke="{{acc.orS}}" d="M360 640 L360 652" style="animation: {{a.t1}}"></path>
+    <path pathLength="100" stroke="{{acc.orS}}" d="M800 640 L800 652" style="animation: {{a.t2}}"></path>
+    <path pathLength="100" stroke="{{acc.orS}}" d="M1060 640 L1060 652" style="animation: {{a.t3}}"></path>
+    <path pathLength="100" stroke="{{acc.boS}}" d="M1360 782 Q1360 760 1338 760 L1162 760 Q1140 760 1140 782" style="animation: {{a.pill}}"></path>
+    <path pathLength="100" stroke="{{acc.boS}}" d="M1360 782 Q1360 804 1338 804 L1162 804 Q1140 804 1140 782" style="animation: {{a.pill}}"></path>
+  </g></svg>
+
+  <span class="pt encre" aria-hidden="true" style="background: {{pal.pt}}; left: 75px; top: 635px; animation: {{a.pt}}"></span>
+
+  <a href="#" style="position: absolute; left: 80px; top: 42px; color: inherit; text-decoration: none; font: 600 22px Inter, sans-serif; letter-spacing: -.01em">
+    <span class="w"><span class="o" style="animation: {{a.logo.o}}">Ernest H.</span><span class="f" aria-hidden="true" style="animation: {{a.logo.f}}">Ernest H.</span></span>
+  </a>
+  <span aria-hidden="true" style="position: absolute; left: 80px; top: 74px; width: 28px; height: 2px; border-radius: 1px; background: {{acc.cyS}}; animation: {{acc.sig}}"></span>
+  <nav class="nav" aria-label="Menu principal" style="position: absolute; right: 80px; top: 48px; display: flex; gap: 36px; font: 500 14px Inter, sans-serif">
+    <a href="#"><span class="w"><span class="o" style="animation: {{a.n0.o}}">Galerie</span><span class="f" aria-hidden="true" style="animation: {{a.n0.f}}">Galerie</span></span></a>
+    <a href="#"><span class="w"><span class="o" style="animation: {{a.n1.o}}">Devis</span><span class="f" aria-hidden="true" style="animation: {{a.n1.f}}">Devis</span></span></a>
+    <a href="#"><span class="w"><span class="o" style="animation: {{a.n2.o}}">À propos</span><span class="f" aria-hidden="true" style="animation: {{a.n2.f}}">À propos</span></span></a>
+    <a href="#"><span class="w"><span class="o" style="animation: {{a.n3.o}}">Contact</span><span class="f" aria-hidden="true" style="animation: {{a.n3.f}}">Contact</span></span></a>
+  </nav>
+
+  <p style="position: absolute; left: 80px; top: 160px; margin: 0; font: 500 12.5px 'IBM Plex Mono', monospace; letter-spacing: .02em; color: {{t.muted}}">
+    <span class="w"><span class="o" style="animation: {{a.lab.o}}">Le fil de la journée</span><span class="f" aria-hidden="true" style="animation: {{a.lab.f}}">Le fil de la journée</span></span>
+  </p>
+  <h1 style="position: absolute; left: 80px; top: 188px; margin: 0; font: 600 28px Inter, sans-serif; letter-spacing: -.01em">
+    <span class="w"><span class="o" style="animation: {{a.h1.o}}">Une journée racontée d'un seul trait.</span><span class="f" aria-hidden="true" style="animation: {{a.h1.f}}">Une journée racontée d'un seul trait.</span></span>
+  </h1>
+
+  <div class="hr" style="left: 120px"><span class="k w" style="color: {{t.muted}}"><span class="o" style="animation: {{a.h0.o}}">11H</span><span class="f" aria-hidden="true" style="animation: {{a.h0.f}}">11H</span></span><span class="l w"><span class="o" style="animation: {{a.h0.o}}">Les mariés</span><span class="f" aria-hidden="true" style="animation: {{a.h0.f}}">Les mariés</span></span></div>
+  <div class="hr" style="left: 360px"><span class="k w" style="color: {{t.muted}}"><span class="o" style="animation: {{a.h1b.o}}">14H</span><span class="f" aria-hidden="true" style="animation: {{a.h1b.f}}">14H</span></span><span class="l w"><span class="o" style="animation: {{a.h1b.o}}">Séance couple</span><span class="f" aria-hidden="true" style="animation: {{a.h1b.f}}">Séance couple</span></span></div>
+  <div class="hr" style="left: 800px"><span class="k w" style="color: {{t.muted}}"><span class="o" style="animation: {{a.h2.o}}">16H</span><span class="f" aria-hidden="true" style="animation: {{a.h2.f}}">16H</span></span><span class="l w"><span class="o" style="animation: {{a.h2.o}}">Le château</span><span class="f" aria-hidden="true" style="animation: {{a.h2.f}}">Le château</span></span></div>
+  <div class="hr" style="left: 1060px"><span class="k w" style="color: {{t.muted}}"><span class="o" style="animation: {{a.h3.o}}">18H</span><span class="f" aria-hidden="true" style="animation: {{a.h3.f}}">18H</span></span><span class="l w"><span class="o" style="animation: {{a.h3.o}}">Plein air</span><span class="f" aria-hidden="true" style="animation: {{a.h3.f}}">Plein air</span></span></div>
+
+  <p style="position: absolute; left: 80px; top: 772px; margin: 0; font: 500 12.5px 'IBM Plex Mono', monospace; letter-spacing: .02em; color: {{t.muted}}">
+    <span class="w"><span class="o" style="animation: {{a.hint.o}}">Glissez vers la droite pour la suite de la journée →</span><span class="f" aria-hidden="true" style="animation: {{a.hint.f}}">Glissez vers la droite pour la suite de la journée →</span></span>
+  </p>
+  <a href="#" class="btn" style="left: 1140px; top: 760px; width: 220px; color: {{t.ink}}">
+    <span class="w"><span class="o" style="animation: {{a.cta.o}}">Demander un devis</span><span class="f" aria-hidden="true" style="animation: {{a.cta.f}}">Demander un devis</span></span>
+  </a>
+  <p style="position: absolute; left: 80px; top: 828px; margin: 0; font: 500 12.5px 'IBM Plex Mono', monospace; letter-spacing: .02em; color: {{t.muted}}">
+    <span class="w"><span class="o" style="animation: {{a.foot.o}}">Espace client · Instagram</span><span class="f" aria-hidden="true" style="animation: {{a.foot.f}}">Espace client · Instagram</span></span>
+  </p>
+
+  <button type="button" class="rj" style="color: {{t.muted}}" onClick="{{replay}}">Rejouer</button>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"nuit":{"editor":"boolean","default":false},"palette":{"editor":"enum","options":["Dans l&#39;animation","Fils de couleur","Banderole signature","Sans"],"default":"Dans l&#39;animation"},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { ph: 'in' }; }
+  componentWillUnmount() { clearTimeout(this.tm); }
+  renderVals() {
+    const K = .62, E = 'cubic-bezier(.45,0,.2,1)', on = this.state.ph === 'in';
+    const t = (this.props.nuit ?? false)
+      ? { bg: '#202226', ink: '#D7D8DB', muted: '#9A9DA3' }
+      : { bg: '#EEEDE9', ink: '#0D0E10', muted: '#4B4D52' };
+    const S = (dl, d) => on ? `drawS ${d * K}s ${E} ${dl * K}s both` : `undrawS .22s ${E} .1s both`;
+    const F = (dl, d) => on ? `drawS ${d * K}s linear ${dl * K}s both` : `undrawS .35s ${E} .3s both`;
+    const T = (dl, d) => ({
+      o: on ? `wIn ${d * K}s ${E} ${dl * K}s both` : `wOut .2s ${E} .04s both`,
+      f: on ? `wIn ${d * K}s ${E} ${(dl + .25) * K}s both` : `wOut .2s ${E} 0s both`
+    });
+    const R = (dl, d) => on ? `rIn ${d * K}s ${E} ${dl * K}s both, dev 3.2s ease-in-out ${dl * K}s both` : `rOut .25s ${E} .05s both, devOut .25s ${E} 0s both`;
+    const tick = [.1, .4, .95, 1.27];
+    const a = {
+      pt: on ? `melt ${.4 * K}s ${E} 0s both` : `reform .25s ${E} .6s both`,
+      line: F(.1, 1.6),
+      t0: S(tick[0], .2), t1: S(tick[1], .2), t2: S(tick[2], .2), t3: S(tick[3], .2),
+      p0: R(tick[0] + .2, .8), p1: R(tick[1] + .2, .8), p2: R(tick[2] + .2, .8), p3: R(tick[3] + .2, .8),
+      h0: T(tick[0] + .35, .45), h1b: T(tick[1] + .35, .45), h2: T(tick[2] + .35, .45), h3: T(tick[3] + .35, .45),
+      pill: S(1.75, .65), cta: T(2.2, .45),
+      logo: T(1.9, .8),
+      n0: T(2.1, .45), n1: T(2.22, .45), n2: T(2.34, .45), n3: T(2.46, .45),
+      lab: T(2.0, .6), h1: T(2.15, 1.0),
+      hint: T(2.5, .9), foot: T(2.7, .5)
+    };
+    const nuitA = this.props.nuit ?? false;
+    const acc = nuitA
+      ? { or: '#E8A06C', orS: '#E08A4B', cy: '#7CCAD4', cyS: '#5DBAC6', bo: '#E3A1AE', boS: '#B24A60' }
+      : { or: '#A4521B', orS: '#D9783A', cy: '#1A6F7B', cyS: '#3AA6B5', bo: '#7A1F33', boS: '#7A1F33' };
+    acc.sig = on ? `wIn ${.5 * K}s ${E} ${2.95 * K}s both` : `wOut .2s ${E} 0s both`;
+    const pm = this.props.palette ?? "Dans l'animation";
+    const pal = {
+      stroke: pm === 'Fils de couleur' ? '#8A2A3F' : t.ink,
+      svgAnim: pm === "Dans l'animation" && on ? `teinteS ${4.2 * K}s ease-in-out 0s both` : 'none',
+      pt: pm === "Dans l'animation" ? '#7A1F33' : t.ink,
+      band: pm === 'Banderole signature',
+      bandAnim: on ? `wIn ${1.4 * K}s ${E} 0s both` : `wOut .3s ${E} .1s both`
+    };
+    const replay = () => {
+      if (this.tm) return;
+      this.setState({ ph: 'out' });
+      this.tm = setTimeout(() => { this.tm = null; this.setState({ ph: 'in' }); }, 1000);
+    };
+    return { t, a, replay, pal, acc };
+  }
+}
+</script>
+</body>
+</html>

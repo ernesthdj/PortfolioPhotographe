@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Le Révélateur</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+.papier{background-image:url(/_blob/612ef09ea0c09023a971391c52f66ba3);background-size:256px 256px}
+.ap{filter:url(#encre)}
+.encre::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(closest-side,rgba(255,255,255,.22),rgba(255,255,255,.07) 45%,rgba(255,255,255,0)) no-repeat;background-size:70% 60%;background-position:18% 12%;mix-blend-mode:screen;animation:lueur 7s cubic-bezier(.45,0,.2,1) infinite alternate}
+@keyframes lueur{0%{background-position:14% 10%}50%{background-position:42% 18%}100%{background-position:72% 14%}}
+svg.ln{position:absolute;left:0;top:0;width:1440px;height:900px;overflow:visible;pointer-events:none}
+.ln path{fill:none;stroke-width:2px;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 102;stroke-dashoffset:101}
+.w{position:relative;display:inline-block;white-space:nowrap}
+.w .o{display:block;color:transparent;-webkit-text-stroke:1px currentColor}
+.w .f{position:absolute;left:0;top:0}
+.pt{position:absolute;width:10px;height:10px;border-radius:50%}
+.encre{box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1.5px 0 rgba(0,0,0,.22)}
+.ph{position:absolute;display:block;object-fit:cover}
+.btn{position:absolute;display:flex;align-items:center;justify-content:center;height:44px;border-radius:22px;text-decoration:none;color:inherit;font:500 14px Inter,sans-serif}
+.btn:focus-visible,.nav a:focus-visible,.rj:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+.nav a{color:inherit;text-decoration:none}
+.rj{position:absolute;right:24px;bottom:20px;height:28px;padding:0 12px;border-radius:14px;border:2px solid currentColor;background:transparent;color:inherit;font:500 12px Inter,sans-serif;cursor:pointer}
+.scan{position:absolute;left:92px;top:139px;width:1256px;height:2px;border-radius:1px;visibility:hidden}
+@keyframes drawS{from{stroke-dashoffset:101}to{stroke-dashoffset:0}}
+@keyframes undrawS{from{stroke-dashoffset:0}to{stroke-dashoffset:101}}
+@keyframes wIn{from{clip-path:inset(-12px 100% -12px 0)}to{clip-path:inset(-12px -12px -12px 0)}}
+@keyframes wOut{from{clip-path:inset(-12px -12px -12px 0)}to{clip-path:inset(-12px 100% -12px 0)}}
+@keyframes rIn{from{clip-path:var(--c0)}to{clip-path:var(--c1)}}
+@keyframes rOut{from{clip-path:var(--c1)}to{clip-path:var(--c0)}}
+@keyframes melt{0%{transform:scale(1)}40%{transform:scale(2,.4)}100%{transform:scale(0)}}
+@keyframes reform{from{transform:scale(0)}to{transform:scale(1)}}
+@keyframes scan{0%{transform:translateY(0);visibility:hidden;clip-path:inset(0 0 0 0)}1%{visibility:visible}85%{transform:translateY(525px);clip-path:inset(0 0 0 0)}99%{visibility:visible}100%{transform:translateY(525px);clip-path:inset(0 100% 0 0);visibility:hidden}}
+@keyframes dev{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@keyframes devOut{0%{opacity:1;filter:brightness(1) grayscale(0)}100%{opacity:0;filter:brightness(0) grayscale(1)}}
+@keyframes teinteS{0%{stroke:#3AA6B5}50%{stroke:#D9783A}78%{stroke:#7A1F33}100%{stroke:var(--ink)}}
+@media (prefers-reduced-motion: reduce){*{animation-duration:0s !important;animation-delay:0s !important}}
+</style>
+</helmet>
+<div class="papier" style="position: relative; width: 1440px; height: 900px; overflow: hidden; background: {{t.bg}}; color: {{t.ink}}; font-family: Inter, system-ui, sans-serif">
+  <sc-if value="{{pal.band}}" hint-placeholder-val="{{ false }}"><div aria-hidden="true" style="position: absolute; left: 0; top: 0; width: 1440px; height: 10px; animation: {{pal.bandAnim}}"><span style="position: absolute; left: 0; right: 0; top: 0; height: 2px; background: #3AA6B5"></span><span style="position: absolute; left: 0; right: 0; top: 4px; height: 2px; background: #D9783A"></span><span style="position: absolute; left: 0; right: 0; top: 8px; height: 2px; background: #7A1F33"></span></div></sc-if>
+
+
+  <img class="ph" src="/_blob/6832670aa81d041033100b28a2e4313e" alt="Couple enlacé dans un champ, la mariée pose la tête sur l'épaule du marié" style="left: 92px; top: 140px; width: 1256px; height: 525px; box-shadow: 0 24px 48px -12px rgba(13,14,16,.28), 0 6px 14px -4px rgba(13,14,16,.16); --c0: inset(0 0 100% 0); --c1: inset(0 0 0 0); animation: {{a.photo}}">
+
+  <svg class="ln" aria-hidden="true" style="stroke: {{pal.stroke}}; --ink: {{t.ink}}; animation: {{pal.svgAnim}}"><defs><filter id="encre" x="-2%" y="-2%" width="104%" height="104%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="2" seed="4" result="n"></feTurbulence><feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -0.4 1.12" result="na"></feColorMatrix><feComposite in="SourceGraphic" in2="na" operator="in" result="grain"></feComposite><feGaussianBlur in="SourceAlpha" stdDeviation="0.9" result="b"></feGaussianBlur><feSpecularLighting in="b" surfaceScale="2.2" specularConstant="0.7" specularExponent="22" lighting-color="#ffffff" result="sp"><feDistantLight azimuth="225" elevation="48"></feDistantLight></feSpecularLighting><feComposite in="sp" in2="SourceAlpha" operator="in" result="spi"></feComposite><feComposite in="grain" in2="spi" operator="arithmetic" k1="0" k2="1" k3="0.28" k4="0"></feComposite></filter></defs><g filter="url(#encre)">
+    <path pathLength="100" d="M720 128 L94 128 Q80 128 80 142 L80 663 Q80 677 94 677 L720 677" style="animation: {{a.frame}}"></path>
+    <path pathLength="100" d="M720 128 L1346 128 Q1360 128 1360 142 L1360 663 Q1360 677 1346 677 L720 677" style="animation: {{a.frame}}"></path>
+  </g></svg>
+
+  <span class="pt encre" aria-hidden="true" style="background: {{pal.pt}}; left: 715px; top: 123px; animation: {{a.pt}}"></span>
+
+  <p style="position: absolute; left: 80px; top: 88px; margin: 0; font: 500 12.5px 'IBM Plex Mono', monospace; letter-spacing: .02em; color: {{t.muted}}">
+    <span class="w"><span class="o" style="animation: {{a.pl.o}}">Planche 01 · Séance couple</span><span class="f" aria-hidden="true" style="animation: {{a.pl.f}}">Planche 01 · Séance couple</span></span>
+  </p>
+  <p style="position: absolute; left: 1160px; top: 88px; width: 200px; margin: 0; text-align: right; font: 500 12.5px 'IBM Plex Mono', monospace; letter-spacing: .02em; color: {{t.muted}}">
+    <span class="w"><span class="o" style="animation: {{a.num.o}}">01 / 24</span><span class="f" aria-hidden="true" style="animation: {{a.num.f}}">01 / 24</span></span>
+  </p>
+
+  <a href="#" style="position: absolute; left: 80px; top: 716px; color: inherit; text-decoration: none; font: 600 22px Inter, sans-serif; letter-spacing: -.01em">
+    <span class="w"><span class="o" style="animation: {{a.logo.o}}">Ernest H.</span><span class="f" aria-hidden="true" style="animation: {{a.logo.f}}">Ernest H.</span></span>
+  </a>
+  <span aria-hidden="true" style="position: absolute; left: 80px; top: 746px; width: 28px; height: 2px; border-radius: 1px; background: {{acc.cyS}}; animation: {{acc.sig}}"></span>
+  <p style="position: absolute; left: 80px; top: 752px; margin: 0; font: 400 14px Inter, sans-serif; color: {{t.muted}}">
+    <span class="w"><span class="o" style="animation: {{a.sub.o}}">Photographe de mariage, Belgique</span><span class="f" aria-hidden="true" style="animation: {{a.sub.f}}">Photographe de mariage, Belgique</span></span>
+  </p>
+
+  <nav class="nav" aria-label="Menu principal" style="position: absolute; left: 560px; top: 728px; display: flex; gap: 40px; font: 500 14px Inter, sans-serif">
+    <a href="#"><span class="w"><span class="o" style="animation: {{a.n0.o}}">Galerie</span><span class="f" aria-hidden="true" style="animation: {{a.n0.f}}">Galerie</span></span></a>
+    <a href="#"><span class="w"><span class="o" style="animation: {{a.n1.o}}">Devis</span><span class="f" aria-hidden="true" style="animation: {{a.n1.f}}">Devis</span></span></a>
+    <a href="#"><span class="w"><span class="o" style="animation: {{a.n2.o}}">À propos</span><span class="f" aria-hidden="true" style="animation: {{a.n2.f}}">À propos</span></span></a>
+    <a href="#"><span class="w"><span class="o" style="animation: {{a.n3.o}}">Contact</span><span class="f" aria-hidden="true" style="animation: {{a.n3.f}}">Contact</span></span></a>
+  </nav>
+
+  <span class="encre" aria-hidden="true" style="position: absolute; left: 1160px; top: 716px; width: 200px; height: 44px; border-radius: 22px; background: {{acc.boS}}; --c0: inset(0 100% 0 0 round 22px); --c1: inset(0 0 0 0 round 22px); animation: {{a.flaque}}"></span>
+  <a href="#" class="btn" style="left: 1160px; top: 716px; width: 200px; color: {{t.on}}">
+    <span class="w"><span class="o" style="animation: {{a.cta.o}}">Demander un devis</span><span class="f" aria-hidden="true" style="animation: {{a.cta.f}}">Demander un devis</span></span>
+  </a>
+
+  <p style="position: absolute; left: 80px; top: 820px; margin: 0; font: 500 12.5px 'IBM Plex Mono', monospace; letter-spacing: .02em; color: {{t.muted}}">
+    <span class="w"><span class="o" style="animation: {{a.foot.o}}">Espace client · Instagram</span><span class="f" aria-hidden="true" style="animation: {{a.foot.f}}">Espace client · Instagram</span></span>
+  </p>
+
+  <button type="button" class="rj" style="color: {{t.muted}}" onClick="{{replay}}">Rejouer</button>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"nuit":{"editor":"boolean","default":false},"palette":{"editor":"enum","options":["Dans l&#39;animation","Fils de couleur","Banderole signature","Sans"],"default":"Dans l&#39;animation"},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { ph: 'in' }; }
+  componentWillUnmount() { clearTimeout(this.tm); }
+  renderVals() {
+    const K = .62, E = 'cubic-bezier(.45,0,.2,1)', on = this.state.ph === 'in';
+    const t = (this.props.nuit ?? false)
+      ? { bg: '#202226', ink: '#D7D8DB', muted: '#9A9DA3', on: '#202226' }
+      : { bg: '#EEEDE9', ink: '#0D0E10', muted: '#4B4D52', on: '#EEEDE9' };
+    const F = (dl, d) => on ? `drawS ${d * K}s ${E} ${dl * K}s both` : `undrawS .35s ${E} .3s both`;
+    const T = (dl, d) => ({
+      o: on ? `wIn ${d * K}s ${E} ${dl * K}s both` : `wOut .2s ${E} .04s both`,
+      f: on ? `wIn ${d * K}s ${E} ${(dl + .25) * K}s both` : `wOut .2s ${E} 0s both`
+    });
+    const SC = 1.6 * K;
+    const a = {
+      pt: on ? `melt ${.4 * K}s ${E} 0s both` : `reform .25s ${E} .6s both`,
+      frame: F(0, 1.0),
+      photo: on ? `dev 4.2s ease-in-out ${1.0 * K}s both` : `devOut .3s ${E} 0s both`,
+      pl: T(1.0, .7), num: T(1.15, .5),
+      logo: T(2.0, .8), sub: T(2.2, .7),
+      n0: T(2.3, .45), n1: T(2.42, .45), n2: T(2.54, .45), n3: T(2.66, .45),
+      flaque: on ? `rIn ${.6 * K}s ${E} ${2.6 * K}s both` : `rOut .22s ${E} .05s both`,
+      cta: T(3.05, .45), foot: T(3.0, .5)
+    };
+    const nuitA = this.props.nuit ?? false;
+    const acc = nuitA
+      ? { or: '#E8A06C', orS: '#E08A4B', cy: '#7CCAD4', cyS: '#5DBAC6', bo: '#E3A1AE', boS: '#B24A60' }
+      : { or: '#A4521B', orS: '#D9783A', cy: '#1A6F7B', cyS: '#3AA6B5', bo: '#7A1F33', boS: '#7A1F33' };
+    acc.sig = on ? `wIn ${.5 * K}s ${E} ${3.05 * K}s both` : `wOut .2s ${E} 0s both`;
+    const pm = this.props.palette ?? "Dans l'animation";
+    const pal = {
+      stroke: pm === 'Fils de couleur' ? '#8A2A3F' : t.ink,
+      svgAnim: pm === "Dans l'animation" && on ? `teinteS ${4.2 * K}s ease-in-out 0s both` : 'none',
+      pt: pm === "Dans l'animation" ? '#7A1F33' : t.ink,
+      band: pm === 'Banderole signature',
+      bandAnim: on ? `wIn ${1.4 * K}s ${E} 0s both` : `wOut .3s ${E} .1s both`
+    };
+    const replay = () => {
+      if (this.tm) return;
+      this.setState({ ph: 'out' });
+      this.tm = setTimeout(() => { this.tm = null; this.setState({ ph: 'in' }); }, 1000);
+    };
+    return { t, a, replay, pal, acc };
+  }
+}
+</script>
+</body>
+</html>

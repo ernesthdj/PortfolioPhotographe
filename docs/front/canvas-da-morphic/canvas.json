@@ -1,0 +1,245 @@
+{
+  "v": 3,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-11T10:00:00Z"
+  },
+  "title": "Ernest H. — DA Morphic",
+  "launch": {
+    "view": "canvas",
+    "page": "p4"
+  },
+  "pages": [
+    {
+      "id": "p1",
+      "name": "Passe 1 · Morphic"
+    },
+    {
+      "id": "p2",
+      "name": "Passe 2 · Verre de mer"
+    },
+    {
+      "id": "p3",
+      "name": "Intro & dashboard"
+    },
+    {
+      "id": "p4",
+      "name": "Galerie"
+    }
+  ],
+  "boards": {
+    "Main.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "1 · Le Viseur",
+      "is_interactive": true,
+      "page": "p1"
+    },
+    "Revelateur.dc.html": {
+      "x": 1520,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "2 · Le Révélateur",
+      "is_interactive": true,
+      "page": "p1"
+    },
+    "Planche.dc.html": {
+      "x": 3040,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "3 · La Planche-contact",
+      "is_interactive": true,
+      "page": "p1"
+    },
+    "Obturateur.dc.html": {
+      "x": 0,
+      "y": 1020,
+      "w": 1440,
+      "h": 900,
+      "title": "4 · L'Obturateur",
+      "is_interactive": true,
+      "page": "p1"
+    },
+    "Fil.dc.html": {
+      "x": 1520,
+      "y": 1020,
+      "w": 1440,
+      "h": 900,
+      "title": "5 · Le Fil de la journée",
+      "is_interactive": true,
+      "page": "p1"
+    },
+    "Galet.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "A · Le Galet",
+      "is_interactive": true,
+      "page": "p2"
+    },
+    "Greve.dc.html": {
+      "x": 1520,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "B · La Grève",
+      "is_interactive": true,
+      "page": "p2"
+    },
+    "Hublot.dc.html": {
+      "x": 3040,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "C · À travers le verre",
+      "is_interactive": true,
+      "page": "p2"
+    },
+    "Epure.dc.html": {
+      "x": 0,
+      "y": -1180,
+      "w": 1440,
+      "h": 900,
+      "title": "D · Épure (photo au centre)",
+      "is_interactive": true,
+      "page": "p2"
+    },
+    "Intro.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "Intro · collage cinématique → dashboard",
+      "is_interactive": true,
+      "page": "p3"
+    },
+    "Dashboard.dc.html": {
+      "x": 1520,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "Dashboard (seul)",
+      "is_interactive": true,
+      "page": "p3"
+    },
+    "NavSommaire.dc.html": {
+      "x": 0,
+      "y": 1343,
+      "w": 1440,
+      "h": 760,
+      "title": "Nav A · Sommaire (recommandée)",
+      "is_interactive": true,
+      "page": "p3"
+    },
+    "NavIndex.dc.html": {
+      "x": 1520,
+      "y": 1343,
+      "w": 1440,
+      "h": 380,
+      "title": "Nav B · Index générique",
+      "is_interactive": true,
+      "page": "p3"
+    },
+    "NavPellicule.dc.html": {
+      "x": 3040,
+      "y": 1343,
+      "w": 1440,
+      "h": 420,
+      "title": "Nav C · Pellicule",
+      "is_interactive": true,
+      "page": "p3"
+    },
+    "Galerie.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "Galerie · A · Planche filtrée (recommandée)",
+      "is_interactive": true,
+      "page": "p4"
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Revelateur.dc.html",
+    "Planche.dc.html",
+    "Obturateur.dc.html",
+    "Fil.dc.html",
+    "Galet.dc.html",
+    "Greve.dc.html",
+    "Hublot.dc.html",
+    "Epure.dc.html",
+    "Dashboard.dc.html",
+    "Intro.dc.html",
+    "NavSommaire.dc.html",
+    "NavIndex.dc.html",
+    "NavPellicule.dc.html",
+    "Galerie.dc.html"
+  ],
+  "notes": {
+    "titre": {
+      "x": 0,
+      "y": -300,
+      "text": "Ernest H. · DA Morphic : 5 pistes",
+      "kind": "title1",
+      "maxW": 4480,
+      "page": "p1"
+    },
+    "vote": {
+      "x": 3040,
+      "y": 1020,
+      "w": 520,
+      "size": "m",
+      "fill": "gray",
+      "page": "p1",
+      "text": "Le thème reste celui de Morphic : une seule encre grise, des traits de 2 px, Inter et Plex Mono, rien qui apparaisse en fondu. Tout naît d'un point. Les photos sont la seule couleur.\n\nLe lien avec la photo : le mercure a révélé les premières photographies (le daguerréotype). Ici, la matière révèle tes images.\n\nChaque planche change la structure de la page, pas seulement l'habillage. Bouton « Rejouer » en bas à droite, mode nuit dans Tweaks.\n\nNote en commentaire : Garder / Bof / Écarter."
+    },
+    "titre2": {
+      "x": 0,
+      "y": -1480,
+      "text": "Passe 2 · Verre de mer",
+      "kind": "title1",
+      "maxW": 4480,
+      "page": "p2"
+    },
+    "verre": {
+      "x": 0,
+      "y": 1020,
+      "w": 620,
+      "size": "m",
+      "fill": "teal",
+      "page": "p2",
+      "text": "Matière : verre de mer, dépoli et mat, poli par les galets. Rendu par code (relief dépoli calculé et éclairé, caustiques calculées), jamais par IA.\n\nChaque galet floute vraiment ce qu'il recouvre, porte une ombre colorée et projette sa lumière (caustiques) sur le papier.\n\nPalette en touches : cyan, orange, bordeaux, blanc. L'encre carbone reste pour le texte.\n\nMorphique : tout part du point, les contours se tracent puis se rétractent, les galets naissent d'un bord et respirent lentement (Tweaks › respiration).\n\nTitres en Instrument Serif pour l'élégance, Inter et Plex Mono pour l'interface."
+    },
+    "titre3": {
+      "x": 0,
+      "y": -300,
+      "text": "Intro & dashboard",
+      "kind": "title1",
+      "maxW": 2960,
+      "page": "p3"
+    },
+    "titreNav": {
+      "x": 0,
+      "y": 1120,
+      "text": "Navigation des services : 3 variantes",
+      "kind": "title1",
+      "maxW": 4480,
+      "page": "p3"
+    },
+    "titre4": {
+      "x": 0,
+      "y": -300,
+      "text": "Galerie",
+      "kind": "title1",
+      "maxW": 1440,
+      "page": "p4"
+    }
+  },
+  "designSystems": []
+}
