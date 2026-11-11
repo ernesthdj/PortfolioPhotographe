@@ -7,7 +7,7 @@
   "title": "Ernest H. — DA Morphic",
   "launch": {
     "view": "canvas",
-    "page": "p5"
+    "page": "p6"
   },
   "pages": [
     {
@@ -29,6 +29,10 @@
     {
       "id": "p5",
       "name": "Services"
+    },
+    {
+      "id": "p6",
+      "name": "À propos"
     }
   ],
   "boards": {
@@ -193,6 +197,33 @@
       "title": "Services · C · Une fiche par service (retenue)",
       "is_interactive": true,
       "page": "p5"
+    },
+    "AproposPortrait.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "À propos · A · Portrait et récit (retenue)",
+      "is_interactive": true,
+      "page": "p6"
+    },
+    "AproposFil.dc.html": {
+      "x": 1520,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "À propos · B · Le fil du parcours",
+      "is_interactive": true,
+      "page": "p6"
+    },
+    "AproposTemps.dc.html": {
+      "x": 3040,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "À propos · C · Une journée en trois temps",
+      "is_interactive": true,
+      "page": "p6"
     }
   },
   "order": [
@@ -213,7 +244,10 @@
     "Galerie.dc.html",
     "ServicesIndex.dc.html",
     "ServicesEtape.dc.html",
-    "ServicesFiche.dc.html"
+    "ServicesFiche.dc.html",
+    "AproposPortrait.dc.html",
+    "AproposFil.dc.html",
+    "AproposTemps.dc.html"
   ],
   "notes": {
     "titre": {
@@ -281,6 +315,14 @@
       "kind": "title1",
       "maxW": 4480,
       "page": "p5"
+    },
+    "titre6": {
+      "x": 0,
+      "y": -300,
+      "text": "À propos : 3 structures",
+      "kind": "title1",
+      "maxW": 4480,
+      "page": "p6"
     }
   },
   "designSystems": []

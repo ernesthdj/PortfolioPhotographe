@@ -67,10 +67,19 @@ Collage cinématique (≈ 6,5 s) : cadres tracés, photos développées en noir 
 - Alternance sur 70 s, chaque ombre entre et sort **seulement en fondu** et dérive lentement : Diagonale (haut gauche → bas droite, atténuée), Studio latérale, Studio spot, Studio cyclo, Studio strip.
 - Pas de volet glissant ni de rayures (écartés).
 
+### À propos (retenue : A · portrait et récit)
+- Gauche : grand emplacement du portrait (cadre tracé, comète), légende « Ernest H. · photographe & développeur · [Lieu] ».
+- Droite : titre « Un regard *qui ne dérange pas.* », récit (autodidacte, Belgique, lumière du lieu), puis deux lignes plus discrètes qui disent que le site et son simulateur de devis ont été développés par Ernest lui-même.
+- Trois piliers sur filets tracés : Lumière naturelle, L'instant vrai, Retouche discrète.
+- Ligne matériel en clin d'œil : « Sony A7 IV · 24-70 mm GM · Lightroom Classic · et un éditeur de code ».
+- Bouton noir « Me contacter » + lien « ou simuler un devis ». Ombres d'arrière-plan validées.
+- Profil IT présenté discrètement : jamais de section « développeur » à part, seulement ces trois touches.
+
 ## 6. Reste à faire
 
 - [x] Page services (structure C retenue, ombres validées)
-- [ ] Pages : à propos, contact, entrée du générateur de devis.
+- [x] Page à propos (structure A retenue)
+- [ ] Pages : contact, entrée du générateur de devis.
 - [ ] Version smartphone.
 - [ ] Remplacer photos, textes entre crochets et témoignages par les vrais contenus (dans PID).
 - [ ] Mettre à jour `PID/docs/PALETTE.md` et `PID/docs/UI-DESIGN.md` (anciens tons crème et bronze).
