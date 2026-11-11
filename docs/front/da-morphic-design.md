@@ -97,8 +97,14 @@ Collage cinématique (≈ 6,5 s) : cadres tracés, photos développées en noir 
 - Encadré « Modifiable jusqu'au <date limite> » + « + Ajouter au dossier ».
 - Onglets dans une pastille de verre : Devis (figé, frise de la journée, lignes, totaux), Fiches techniques (complète / incomplète, informations manquantes), Demandes, Documents (versions PDF), Parrainage (code + Copier).
 
+### Mes dossiers (retenu : B · registre, E02 de PID)
+- Gauche : titre « Vos dossiers *au même endroit.* », phrase d'aide, bouton noir « Simuler un nouveau devis », compteur « 3 dossiers · 1 en cours d'examen ».
+- Droite : registre à colonnes Dossier / Étape / Total TVAC. Une ligne cliquable par dossier (→ E03) : vignette qui se développe, n°, service, date du premier shooting, jauge de 4 étapes colorée (soumis cyan, accepté orange, confirmé bordeaux, réalisé encre), total, flèche. Lignes séparées par des traits qui se tracent.
+- États : chargement (squelettes qui pulsent, « Chargement de vos dossiers… »), vide (MSG05 « Vous n'avez pas encore de dossier. »).
+- « Supprimer mon compte » (E02.a, UC06.7) : le fond se résorbe, le panneau se trace ; confirmation par mot de passe, « Mot de passe incorrect. » sous le champ (point bordeaux, texte encre), « Suppression… », puis « Votre compte a été supprimé. Vos données personnelles ont été effacées. » et « Retour à l'accueil ».
+
 ### Parcours complet (canvas, page « Parcours complet »)
-- Copies reliées des pages retenues : Intro → Accueil → Galerie, Services, À propos, Contact, Simulateur (+ soumission) → Espace client. Lancer « Play » sur « 1 · Intro ».
+- Copies reliées des pages retenues : Intro → Accueil → Galerie, Services, À propos, Contact, Simulateur (+ soumission) → Espace client, et « Mes dossiers » → registre → dossier. Lancer « Play » sur « 1 · Intro ».
 
 ## 6. Reste à faire
 
@@ -108,7 +114,8 @@ Collage cinématique (≈ 6,5 s) : cadres tracés, photos développées en noir 
 - [x] Simulateur de devis (A + C retenu) et soumission avec création de compte
 - [x] Espace client · dossier (A retenu)
 - [x] Parcours complet relié sur le canvas
-- [ ] Écrans encore non dessinés : Mes dossiers (E02), fiche technique (UC02.3), Ajouter au dossier (E03.f), connexion seule.
+- [x] Mes dossiers (B retenu, avec suppression du compte)
+- [ ] Écrans encore non dessinés : fiche technique (UC02.3), Ajouter au dossier (E03.f), connexion seule.
 - [ ] Version smartphone.
 - [ ] Remplacer photos, textes entre crochets et témoignages par les vrais contenus (dans PID).
 - [ ] Mettre à jour `PID/docs/PALETTE.md` et `PID/docs/UI-DESIGN.md` (anciens tons crème et bronze).

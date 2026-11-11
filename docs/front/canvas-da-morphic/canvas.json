@@ -7,7 +7,7 @@
   "title": "Ernest H. — DA Morphic",
   "launch": {
     "view": "canvas",
-    "page": "p10"
+    "page": "p12"
   },
   "pages": [
     {
@@ -49,6 +49,14 @@
     {
       "id": "p10",
       "name": "Parcours complet"
+    },
+    {
+      "id": "p11",
+      "name": "Mes dossiers"
+    },
+    {
+      "id": "p12",
+      "name": "Atelier (admin)"
     }
   ],
   "boards": {
@@ -393,6 +401,69 @@
       "title": "8 · Espace client · dossier",
       "is_interactive": true,
       "page": "p10"
+    },
+    "DossiersCartes.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "Mes dossiers · A · Planche de cartes (recommandée)",
+      "is_interactive": true,
+      "page": "p11"
+    },
+    "DossiersRegistre.dc.html": {
+      "x": 1520,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "Mes dossiers · B · Registre (retenue)",
+      "is_interactive": true,
+      "page": "p11"
+    },
+    "DossiersFrise.dc.html": {
+      "x": 3040,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "Mes dossiers · C · Frise du temps",
+      "is_interactive": true,
+      "page": "p11"
+    },
+    "PMesDossiers.dc.html": {
+      "x": 0,
+      "y": 2040,
+      "w": 1440,
+      "h": 900,
+      "title": "9 · Mes dossiers",
+      "is_interactive": true,
+      "page": "p10"
+    },
+    "ErpAtelier.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "Atelier · A · Menu latéral + compteurs (recommandée)",
+      "is_interactive": true,
+      "page": "p12"
+    },
+    "ErpTable.dc.html": {
+      "x": 1520,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "Atelier · B · Rail d’icônes + agenda 14 jours",
+      "is_interactive": true,
+      "page": "p12"
+    },
+    "ErpRegie.dc.html": {
+      "x": 3040,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "Atelier · C · Colonnes par étape (régie)",
+      "is_interactive": true,
+      "page": "p12"
     }
   },
   "order": [
@@ -433,7 +504,14 @@
     "PApropos.dc.html",
     "PContact.dc.html",
     "PSimulateur.dc.html",
-    "PDossier.dc.html"
+    "PDossier.dc.html",
+    "DossiersCartes.dc.html",
+    "DossiersRegistre.dc.html",
+    "DossiersFrise.dc.html",
+    "PMesDossiers.dc.html",
+    "ErpAtelier.dc.html",
+    "ErpTable.dc.html",
+    "ErpRegie.dc.html"
   ],
   "notes": {
     "titre": {
@@ -541,6 +619,22 @@
       "kind": "title1",
       "maxW": 5920,
       "page": "p10"
+    },
+    "titre11": {
+      "x": 0,
+      "y": -300,
+      "text": "Mes dossiers : la liste des dossiers du client (E02 de PID)",
+      "kind": "title1",
+      "maxW": 4480,
+      "page": "p11"
+    },
+    "titre12": {
+      "x": 0,
+      "y": -300,
+      "text": "Atelier du photographe : structure et tableau de bord (E10 de PID)",
+      "kind": "title1",
+      "maxW": 4480,
+      "page": "p12"
     }
   },
   "designSystems": []
