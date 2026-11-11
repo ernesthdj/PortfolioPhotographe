@@ -51,6 +51,41 @@ Une page se conçoit sur la **zone visible**, pas sur l'écran complet : sur iPh
 
 Sources : Statcounter Belgique (septembre 2026) pour la part des écrans, profils d'appareils Playwright 1.64.1 pour les zones visibles. Les zones Android autres que Pixel sont estimées avec les 76 px perdus sur Pixel.
 
+### Priorités smartphone (2026-10-30)
+
+Mesures du site de test à 390×664 : photos à 35 % de l'écran (Journée) et 44 % (Galerie), onglets de 32 px de large, texte mini de 8,5 px. Levier principal : la place des photos.
+
+Notes de la sonde « Carnet au pouce » (https://claude.ai/artifact/RaoASezg6Rf4ZiB481VBRa) :
+
+| Variante | Note |
+|---|---|
+| V0 Site de test | Garder |
+| V1 Bord à bord | Garder |
+| V2 Une photo, une page | Écarter |
+| V3 Intercalaires | Bof |
+| V4 Devis toujours à portée | Garder |
+| V5 Trois pages | Garder |
+
+Passe suivante : croisements C1 à C5 de V0, V1, V4 et V5 (même artifact). Le « Garder » sur V0 est interprété comme l'envie d'un carnet visible, à confirmer par les notes.
+
+**Décision du 2026-10-30 :** mentalyas repart du design de la maquette du calepin (https://claude.ai/artifact/9Y4ta1n5Rxav5Wmr6ooWur). Les croisements C1 à C5 n'ont pas été notés.
+
+**Retour du 2026-10-30 :** « plus aéré », le design est « bouché et étouffé par les photos », « un Instagram de mauvaise qualité ». La place des photos n'est donc plus un objectif. Règle retenue : une idée et une photo par écran, de vraies marges, une hiérarchie claire, un seul bouton principal.
+
+**Décision du 2026-10-30 : le carnet est abandonné** (« l'effet carnet m'a saoulé »). Tout ce qui précède sur le calepin, le pli et ses variantes ne sert plus de direction. La branche `feat/calepin` reste en l'état. Nouveau départ avec la planche d'idées https://claude.ai/artifact/HjcNxLo5DcBe92xgNDMLhk, selon la méthode des sondes.
+
+**Nouvelle direction du 2026-10-30 :** mentalyas rejette les cadres et le côté géométrique. Les photos n'ont plus de bord rectangulaire : approches fondues, taches, dévoilement, perspective plus audacieuse. Le choix des photos devient plus technique, ce qui est accepté. Wireframes de parcours : https://claude.ai/artifact/Gtwe4LRFLy5kp31WLWNXnE (non notés). Sonde des matières : Photos sans cadre (approche validée, matière non notée).
+
+**Menu :** structure Mariages, Devis, À propos, Contact, plus Espace client et Instagram en discret. La sonde Menu organique est rejetée.
+
+**Règle du 2026-10-30 :** le fondu et les taches ne concernent que le contour des photos. Pages, menu, boutons, blocs et couleurs forment un système d'interface net, décidé à part. Sonde : Architecture du site (https://claude.ai/artifact/VnQEjw51sZfbLjwWGypRyJ).
+
+Notes de la première passe : Noir et or Garder ; Verre aérien Bof, boutons, blocs et couleurs gardés ; Application Bof, couleurs gardées ; Papier chaud Bof ; Éditorial et Rétro-tech écartés. Deuxième passe : 5 croisements sur la même adresse, non notés. mentalyas a demandé du visuel plutôt que des vignettes : prototype complet en taille réelle, avec les 5 styles commutables : Ernest H. en vrai. Retour : une seule structure déclinée ne suffit pas, il faut de vraies idées de construction de page. Sonde suivante, thème constant : Neuf structures (https://claude.ai/artifact/VHRdz45JzYP46ZghGoc6uq), non notée.
+
+**Méthode à partir du 2026-10-30 :** atelier sur le modèle de la session portfolio-it, un téléphone cliquable et une variante par élément, notée sur 5 : Atelier du site (https://claude.ai/artifact/FuPFr3thbbb51irP2rVYzd), notes dans `notes/site-tour-1`.
+
+**Retour du 2026-10-30 :** les taches sont rejetées (« dégueulasse »). Le bord photo voulu est un simple fondu des bords et des angles sur une photo rectangulaire. Thème clair proposé par défaut, le sombre reste comparable.
+
 ## 2. Comportements
 
 - **Défilement :** la progression suit le doigt avec un léger amorti. Elle garde son élan au relâchement et ne saute jamais par paliers.
