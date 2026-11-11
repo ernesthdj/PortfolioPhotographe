@@ -106,6 +106,15 @@ Collage cinématique (≈ 6,5 s) : cadres tracés, photos développées en noir 
 ### Parcours complet (canvas, page « Parcours complet »)
 - Copies reliées des pages retenues : Intro → Accueil → Galerie, Services, À propos, Contact, Simulateur (+ soumission) → Espace client, et « Mes dossiers » → registre → dossier. Lancer « Play » sur « 1 · Intro ».
 
+### Atelier du photographe (retenu : A · menu latéral, zone ERP E10-E40 de PID)
+- Structure commune : pastille de verre pleine hauteur à gauche (240 px), menu PID complet (03-APP-FLOW §2) : Tableau de bord · Planning · Dossiers · Demandes (badge) · Clients · Production · Argent ▸ · Statistiques · Catalogue ▸ · Réductions · Parrainage · Vitrine ▸ · Réglages ▸. Un seul groupe ouvert à la fois, sous-entrées marquées d'un tiret. Entrée plus rapide que le site public (×0,45).
+- E10 tableau de bord : 3 compteurs (soumis, acceptés, confirmés), « Demandes en attente », « Prochains shootings · 30 jours ». États chargement, vide MSG09, erreur MSG10.
+- E11 dossiers : recherche par numéro ou email, filtres en pastilles par date de shooting et par étape (avec nombres), registre N° / client et email / prestation / shooting / étape / total TVAC, point cyan = demande en attente, 9 lignes par page. Vide : MSG11 + « Effacer les filtres ».
+- E12 dossier (A · onglets retenue ; B pupitre gardée sur le canvas) : « ← Retour à la liste », jauge d'étapes, bouton « Changer l'étape » (grisé « Dossier clos » si refusé, annulé ou réalisé), onglets Devis · Fiche technique · Demandes · Messages · Paiements · Production · Documents. Devis : lignes à prix figés avec « Retirer », totaux HTVA / TVA / TVAC ; à droite demande en attente, état de la fiche, versions PDF.
+- Panneaux (le fond se résorbe, le panneau se trace) : E12.a avant / après côte à côte, « Valider » ou « Refuser… » avec motif obligatoire (message de UC06.2) ; E12.b case « Appliquer des frais de retrait » + montant ; E12.c seules les transitions de R06.8, motif si refus, frais si annulation. Chaque action crée une nouvelle version PDF.
+- Catalogue (E13 à E19, E29) : listes Services / Options (filtre « Afficher les archivés », « Supprimer » confirmé en ligne : supprimé si jamais utilisé, sinon archivé avec le message de UC01.4) ; formulaires Service / Option à deux colonnes (libellé, description, 6 modes de prix P1-P6 avec leurs paramètres et paliers, base HTVA/TVAC, TVA propre ; à droite catégories, fiche reliée, options, transport et date limite propres, ou services qui proposent l'option) avec les messages de UC01.1 ; Catégories éditables en place (UC01.6) ; Types de fiches avec « Dupliquer » (UC02.2) ; Type de fiche : champs ordonnés (flèches haut/bas en plus de la poignée, pour le clavier), obligatoire, types R02.4, groupe répétable ; Modèles de production : étapes ordonnées, Livraison toujours dernière, services reliés avec délai en jours.
+- E24 demandes : la plus ancienne d'abord, « Traiter » ouvre E12.a sur place, « Traitées récemment » dessous.
+
 ## 6. Reste à faire
 
 - [x] Page services (structure C retenue, ombres validées)
@@ -115,6 +124,9 @@ Collage cinématique (≈ 6,5 s) : cadres tracés, photos développées en noir 
 - [x] Espace client · dossier (A retenu)
 - [x] Parcours complet relié sur le canvas
 - [x] Mes dossiers (B retenu, avec suppression du compte)
+- [x] Atelier : structure A, E10, E11, E12 (+ E12.a-c), E24
+- [x] Atelier : catalogue (E13 à E19, E29)
+- [ ] Atelier : Clients, Planning, Production, Argent, Statistiques, Réductions, Parrainage, Vitrine, Réglages.
 - [ ] Écrans encore non dessinés : fiche technique (UC02.3), Ajouter au dossier (E03.f), connexion seule.
 - [ ] Version smartphone.
 - [ ] Remplacer photos, textes entre crochets et témoignages par les vrais contenus (dans PID).

@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Atelier · Option</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+.vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(118% 100% at 50% 44%,rgba(20,18,16,0) 48%,rgba(20,18,16,.10) 76%,rgba(20,18,16,.27) 100%);box-shadow:inset 0 0 140px rgba(20,18,16,.10)}
+.w{position:relative;display:inline-block;white-space:nowrap}
+.w .o{display:block;color:transparent;-webkit-text-stroke:1px currentColor}
+.w .f{position:absolute;left:0;top:-.24em;padding:.24em .14em .24em 0;color:inherit}
+.verre{position:absolute;border-radius:24px;background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(250,248,244,.86) 55%,rgba(240,237,231,.9) 100%);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 16px 32px -12px rgba(20,18,16,.30),0 4px 10px -3px rgba(20,18,16,.16),inset 0 1px 0 #fff,inset 0 0 0 1px rgba(255,255,255,.6),inset 0 -2px 0 rgba(20,18,16,.06),inset 0 -12px 18px -12px rgba(20,18,16,.10)}
+.verre::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(90% 140% at 22% 0%,rgba(255,255,255,.75),rgba(255,255,255,0) 60%)}
+svg.ln{position:absolute;overflow:visible;pointer-events:none}
+.ln path{fill:none;stroke:#0D0E10;stroke-width:1.5px;shape-rendering:geometricPrecision;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 102;stroke-dashoffset:101}
+.ln path.comete{stroke-dasharray:6 94;stroke-dashoffset:0}
+.ln path.fil{stroke-width:1px;stroke:rgba(13,14,16,.2)}
+.nav a,.lien{color:inherit;text-decoration:none}
+.btn{position:absolute;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:20px;text-decoration:none;font:500 14px Inter,sans-serif;color:#EEEDE9}
+.btn.clair{color:#0D0E10}
+.btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.encre{background:#0D0E10;box-shadow:0 20px 34px -10px rgba(13,14,16,.58),0 7px 12px -3px rgba(13,14,16,.32),inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1.5px 0 rgba(0,0,0,.22)}
+.photo{position:absolute;display:block;object-fit:cover;box-shadow:0 22px 40px -16px rgba(20,18,16,.34),0 6px 12px -4px rgba(20,18,16,.16)}
+@keyframes drawS{from{stroke-dashoffset:101}to{stroke-dashoffset:0}}
+@keyframes trace{0%{stroke-dashoffset:101}50%{stroke-dashoffset:0}65%{stroke-dashoffset:0}100%{stroke-dashoffset:-102}}
+@keyframes trace2{0%{stroke-dashoffset:101}50%{stroke-dashoffset:0}65%{stroke-dashoffset:0}100%{stroke-dashoffset:-102}}
+@keyframes wIn{from{clip-path:inset(-24px 100% -24px 0)}to{clip-path:inset(-24px -24px -24px 0)}}
+@keyframes wIn2{from{clip-path:inset(-24px 100% -24px 0)}to{clip-path:inset(-24px -24px -24px 0)}}
+@keyframes wOut{from{clip-path:inset(-24px -24px -24px 0)}to{clip-path:inset(-24px 100% -24px 0)}}
+@keyframes habille{from{opacity:0}to{opacity:1}}
+@keyframes dev{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@keyframes dev2{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@keyframes devNB{0%{opacity:0;filter:grayscale(1) contrast(1.05)}45%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
+@keyframes devNB2{0%{opacity:0;filter:grayscale(1) contrast(1.05)}45%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
+@keyframes devOut{from{opacity:1}to{opacity:0}}
+@keyframes apparait{from{stroke-opacity:0}to{stroke-opacity:1}}
+@keyframes eteint{from{stroke-opacity:1}to{stroke-opacity:0}}
+@keyframes comete{from{stroke-dashoffset:0}to{stroke-dashoffset:-100}}
+.om{position:absolute;inset:-160px;pointer-events:none;overflow:hidden;animation:habille 3.5s ease-in-out 3.6s both}
+.om-i{position:absolute;inset:0;opacity:0}
+.om-i>i{position:absolute;inset:-200px}
+.dia>i{background:linear-gradient(to top right,rgba(20,18,16,0) 28%,rgba(20,18,16,.12) 40%,rgba(20,18,16,.26) 50%,rgba(20,18,16,.12) 60%,rgba(20,18,16,0) 72%);-webkit-mask-image:linear-gradient(to bottom right,#000 10%,rgba(0,0,0,.3) 75%,transparent 95%);mask-image:linear-gradient(to bottom right,#000 10%,rgba(0,0,0,.3) 75%,transparent 95%);filter:blur(14px);animation:glisseA 19s ease-in-out infinite alternate}
+.lat>i{background:linear-gradient(to left,rgba(20,18,16,.30) 0%,rgba(20,18,16,.16) 22%,rgba(20,18,16,0) 52%),linear-gradient(to top,rgba(20,18,16,.12) 0%,rgba(20,18,16,0) 30%);filter:blur(10px);animation:glisseH 23s ease-in-out infinite alternate}
+.spot>i{background:radial-gradient(ellipse 55% 60% at 50% 22%,rgba(20,18,16,0) 30%,rgba(20,18,16,.10) 62%,rgba(20,18,16,.28) 100%);animation:respire 17s ease-in-out infinite alternate}
+.cyc>i{background:linear-gradient(180deg,rgba(20,18,16,.22) 0%,rgba(20,18,16,.06) 34%,rgba(20,18,16,0) 52%,rgba(20,18,16,0) 70%,rgba(20,18,16,.10) 84%,rgba(20,18,16,.20) 100%);filter:blur(8px);animation:glisseV 21s ease-in-out infinite alternate}
+.str>i{background:linear-gradient(to top left,rgba(20,18,16,.20) 0%,rgba(20,18,16,.08) 30%,rgba(20,18,16,0) 44%,rgba(20,18,16,0) 56%,rgba(20,18,16,.08) 70%,rgba(20,18,16,.22) 100%);filter:blur(12px);animation:glisseB 25s ease-in-out infinite alternate}
+@keyframes glisseA{from{transform:translate(-70px,50px)}to{transform:translate(80px,-60px)}}
+@keyframes glisseB{from{transform:translate(70px,40px)}to{transform:translate(-60px,-50px)}}
+@keyframes glisseH{from{transform:translateX(-90px)}to{transform:translateX(60px)}}
+@keyframes glisseV{from{transform:translateY(-50px)}to{transform:translateY(40px)}}
+@keyframes respire{from{transform:translate(-60px,-20px) scale(1)}to{transform:translate(70px,20px) scale(1.06)}}
+@keyframes seul{from{opacity:0}to{opacity:1}}
+@keyframes alt0{0%{opacity:0}5%,15%{opacity:1}20%,100%{opacity:0}}
+@keyframes alt1{0%,20%{opacity:0}25%,35%{opacity:1}40%,100%{opacity:0}}
+@keyframes alt2{0%,40%{opacity:0}45%,55%{opacity:1}60%,100%{opacity:0}}
+@keyframes alt3{0%,60%{opacity:0}65%,75%{opacity:1}80%,100%{opacity:0}}
+@keyframes alt4{0%,80%{opacity:0}85%,95%{opacity:1}100%{opacity:0}}
+@media (prefers-reduced-motion: reduce){*{animation-duration:0s !important;animation-delay:0s !important;transition-duration:0s !important}}
+
+@keyframes sk{0%,100%{opacity:.45}50%{opacity:.9}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(58,166,181,.55)}50%{box-shadow:0 0 0 9px rgba(58,166,181,0)}}
+.mono{font:500 10.5px 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#4B4D52}
+.note{font:400 13px/1.55 Inter,sans-serif;color:#4B4D52}
+.mini{padding:0;border:0;background:transparent;cursor:pointer;font:500 13px Inter,sans-serif;color:#0D0E10;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
+.sk{position:absolute;border-radius:8px;background:rgba(13,14,16,.07);animation:sk 1.6s ease-in-out infinite}
+.menu{list-style:none;margin:0;padding:0}
+.it{display:flex;align-items:center;gap:12px;width:100%;height:36px;padding:0 12px;box-sizing:border-box;border:0;border-radius:12px;background:transparent;color:#0D0E10;cursor:pointer;font:400 14px Inter,sans-serif;text-align:left;transition:background .25s ease}
+.it:hover{background:rgba(13,14,16,.05)}
+.it.on{background:#0D0E10;color:#EEEDE9;box-shadow:0 12px 22px -10px rgba(13,14,16,.55)}
+.it.sub{height:32px;padding-left:38px;font-size:13.5px}
+.it .bd{margin-left:auto;min-width:20px;height:20px;padding:0 6px;box-sizing:border-box;border-radius:10px;background:#3AA6B5;color:#FFFFFF;font:500 11px 'IBM Plex Mono',monospace;display:inline-flex;align-items:center;justify-content:center}
+.it .chev{margin-left:auto;width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.8;transition:transform .3s ease}
+.it .chev.ouv{transform:rotate(90deg)}
+.ic{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.ic path{stroke-dasharray:100 102;stroke-dashoffset:101}
+.rail{position:absolute;left:24px;top:24px;bottom:24px;width:76px;border-radius:24px;overflow:hidden;transition:width .45s cubic-bezier(.45,0,.2,1);z-index:5}
+.rail:hover,.rail:focus-within{width:252px}
+.rail .it{position:relative;height:44px;padding:0 16px 0 28px;gap:18px}
+.rail .lab{white-space:nowrap;clip-path:inset(-4px 100% -4px 0);transition:clip-path .45s cubic-bezier(.45,0,.2,1)}
+.rail:hover .lab,.rail:focus-within .lab{clip-path:inset(-4px -4px -4px 0)}
+.rail .it .bd{position:absolute;left:46px;margin:0;transform:translateY(-12px);min-width:16px;height:16px;font-size:10px}
+.lig{position:absolute;display:block;color:#0D0E10;text-decoration:none;border-radius:12px;transition:background .25s ease}
+.lig:hover{background:rgba(13,14,16,.045)}
+.carte{position:absolute;display:block;color:#0D0E10;text-decoration:none;border-radius:20px;transition:transform .35s cubic-bezier(.45,0,.2,1)}
+.carte:hover{transform:translateY(-3px)}
+.it:focus-visible,.lig:focus-visible,.carte:focus-visible,.mini:focus-visible,.lien:focus-visible{outline:2px solid #0D0E10;outline-offset:3px}
+
+.puce{display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 14px;border:0;border-radius:16px;background:transparent;box-shadow:inset 0 0 0 1px rgba(13,14,16,.18);font:400 13px Inter,sans-serif;color:#0D0E10;cursor:pointer;white-space:nowrap;transition:background .25s ease,color .25s ease}
+.puce:hover{background:rgba(13,14,16,.05)}
+.puce.on{background:#0D0E10;color:#EEEDE9;box-shadow:0 10px 18px -10px rgba(13,14,16,.55)}
+.puce i{display:block;width:7px;height:7px;border-radius:4px}
+.puce b{font:500 11px 'IBM Plex Mono',monospace;opacity:.7}
+.champ label{display:block}
+.champ input,.champ textarea{display:block;box-sizing:border-box;width:100%;margin-top:6px;padding:6px 0;border:0;border-bottom:1px solid rgba(13,14,16,.35);border-radius:0;background:transparent;font:400 15px Inter,sans-serif;color:#0D0E10;outline:none;resize:none}
+.champ textarea{height:56px;line-height:1.45}
+.champ input:focus,.champ textarea:focus{border-bottom:2px solid #3AA6B5}
+.champ [aria-invalid="true"]{border-bottom:2px solid #7A1F33}
+button.btn{border:0;cursor:pointer;padding:0;background:transparent}
+.btn.off{background:transparent;color:#5D5F64;box-shadow:inset 0 0 0 1.5px rgba(13,14,16,.3);cursor:not-allowed}
+.mini.doux{color:#4B4D52}
+.mini[aria-disabled="true"]{color:#9A9CA1;text-decoration:none;cursor:default}
+.etape{display:inline-flex;align-items:center;gap:8px;font:400 13.5px Inter,sans-serif;white-space:nowrap;color:#0D0E10}
+.etape i{display:block;width:8px;height:8px;border-radius:4px}
+.tabs{position:absolute;display:flex;gap:30px}
+.tab{position:relative;height:40px;padding:0;border:0;background:transparent;cursor:pointer;font:400 15px Inter,sans-serif;color:#4B4D52;display:inline-flex;align-items:center;gap:8px}
+.tab.on{color:#0D0E10;font-weight:500}
+.tab.on::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;border-radius:1px;background:#3AA6B5;animation:wIn .45s cubic-bezier(.45,0,.2,1) both}
+.tab .bd{min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;border-radius:9px;background:#3AA6B5;color:#fff;font:500 10.5px 'IBM Plex Mono',monospace;display:inline-flex;align-items:center;justify-content:center}
+.case{position:absolute;display:flex;align-items:center;gap:12px;padding:0;border:0;background:transparent;cursor:pointer;font:400 14.5px Inter,sans-serif;color:#0D0E10}
+.case span{width:20px;height:20px;border-radius:6px;box-shadow:inset 0 0 0 1.5px rgba(13,14,16,.45);display:flex;align-items:center;justify-content:center;transition:background .2s ease}
+.case[aria-checked="true"] span{background:#0D0E10;box-shadow:none}
+.case svg{width:12px;height:12px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.opt{position:absolute;display:block;padding:0;border:0;border-radius:16px;background:transparent;box-shadow:inset 0 0 0 1px rgba(13,14,16,.16);cursor:pointer;text-align:left;color:#0D0E10;transition:box-shadow .25s ease,background .25s ease}
+.opt:hover{background:rgba(13,14,16,.035)}
+.opt.on{box-shadow:inset 0 0 0 2px #0D0E10}
+.x{position:absolute;width:44px;height:44px;padding:0;border:0;border-radius:22px;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.fond{position:absolute;inset:0}
+.sep{box-shadow:inset 0 -1px 0 rgba(13,14,16,.08)}
+.puce:focus-visible,.tab:focus-visible,.case:focus-visible,.opt:focus-visible,.btn:focus-visible,.x:focus-visible{outline:2px solid #0D0E10;outline-offset:3px}
+
+.err{min-height:20px;margin:6px 0 0;display:flex;align-items:center;gap:8px;font:400 13px Inter,sans-serif;color:#0D0E10}
+.err i{display:block;flex:none;width:6px;height:6px;border-radius:3px;background:#7A1F33}
+.champ select{display:block;box-sizing:border-box;width:100%;margin-top:6px;padding:6px 0;border:0;border-bottom:1px solid rgba(13,14,16,.35);border-radius:0;background:transparent;font:400 15px Inter,sans-serif;color:#0D0E10;outline:none}
+.champ select:focus{border-bottom:2px solid #3AA6B5}
+.flux{display:flex;flex-wrap:wrap;gap:8px}
+.ico{position:absolute;width:26px;height:26px;padding:0;border:0;border-radius:13px;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#0D0E10}
+.ico:hover{background:rgba(13,14,16,.06)}
+.ico[aria-disabled="true"]{color:#B5B7BB;cursor:default;background:transparent}
+.ico svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ico:focus-visible{outline:2px solid #0D0E10;outline-offset:2px}
+a.btn.encre{color:#EEEDE9}
+</style>
+</helmet>
+<div style="position: relative; width: 1440px; height: 900px; overflow: hidden; background: #FFFFFF; color: #0D0E10; font-family: Inter, system-ui, sans-serif">
+
+  <sc-if value="{{om.on}}" hint-placeholder-val="{{ true }}">
+    <div class="om" aria-hidden="true">
+      <sc-for list="{{om.cs}}" as="c" hint-placeholder-count="5">
+        <div class="{{c.cls}}" style="display: {{c.d}}; animation: {{c.a}}"><i></i></div>
+      </sc-for>
+    </div>
+  </sc-if>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="fond" style="animation: {{fond}}">
+
+  <div class="verre" aria-hidden="true" style="left: 24px; top: 24px; width: 240px; height: 852px; opacity: 0; animation: {{a.side}}"></div>
+  <svg class="ln" aria-hidden="true" style="left: 24px; top: 24px; width: 240px; height: 852px">
+    <path pathLength="100" d="M0 24 A24 24 0 0 1 24 0 L216 0 A24 24 0 0 1 240 24 L240 828 A24 24 0 0 1 216 852 L24 852 A24 24 0 0 1 0 828 Z" style="stroke-width: 1px; stroke: rgba(13,14,16,.25); animation: {{a.sideT}}"></path>
+  </svg>
+  <a href="ErpAtelier.dc.html" class="lien" style="position: absolute; left: 48px; top: 50px; font: 600 20px Inter, sans-serif; letter-spacing: -.01em"><span class="w"><span class="o" style="animation: {{a.logo.o}}">Ernest H.</span><span class="f" aria-hidden="true" style="animation: {{a.logo.f}}">Ernest H.</span></span></a>
+  <span class="mono" style="position: absolute; left: 48px; top: 80px; animation: {{a.sig}}">Atelier · photographe</span>
+  <nav aria-label="Menu de l’atelier" style="position: absolute; left: 36px; top: 124px; width: 216px">
+    <ul class="menu">
+      <sc-for list="{{menu}}" as="i" hint-placeholder-count="11">
+          <li><a href="{{i.href}}" class="{{i.cls}}" aria-current="{{i.cur}}" onClick="{{i.go}}">
+            <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="100" d="{{i.ic}}" style="animation: {{i.ai}}"></path></svg>
+            <span class="lab"><span class="w"><span class="o" style="animation: {{i.at.o}}">{{i.t}}</span><span class="f" aria-hidden="true" style="animation: {{i.at.f}}">{{i.t}}</span></span></span>
+            <sc-if value="{{i.badge}}" hint-placeholder-val="{{ false }}"><span class="bd" aria-label="{{i.badge}} en attente">{{i.badge}}</span></sc-if>
+            <sc-if value="{{i.grp}}" hint-placeholder-val="{{ false }}"><svg class="{{i.chev}}" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2 L8 6 L4 10"></path></svg></sc-if>
+          </a></li>
+      </sc-for>
+    </ul>
+  </nav>
+  <a href="PAccueil.dc.html" class="lien mini" style="position: absolute; left: 48px; top: 800px; animation: {{a.sig}}">Voir le site ↗</a>
+  <a href="#" class="lien mini" style="position: absolute; left: 48px; top: 830px; color: #4B4D52; animation: {{a.sig}}">Se déconnecter</a>
+  <a href="ErpOptions.dc.html" class="lien mini" style="position: absolute; left: 304px; top: 40px; animation: {{a.sig}}">← Retour aux options</a>
+  <p class="mono" style="position: absolute; left: 304px; top: 78px; margin: 0; display: flex; align-items: center; gap: 12px">
+    <span aria-hidden="true" style="display: block; width: 28px; height: 1px; background: #D9783A; animation: {{a.eyeL}}"></span><span class="w"><span class="o" style="animation: {{a.eye.o}}">Catalogue · option · choisie dans 4 dossiers</span><span class="f" aria-hidden="true" style="animation: {{a.eye.f}}">Catalogue · option · choisie dans 4 dossiers</span></span>
+  </p>
+  <h1 style="position: absolute; left: 302px; top: 100px; margin: 0; font: 300 36px/1.1 Inter, sans-serif; letter-spacing: -.03em; filter: drop-shadow(0 6px 9px rgba(20,18,16,.18))">
+    <span class="w"><span class="o" style="animation: {{a.h1.o}}">Modifier l’option</span><span class="f" aria-hidden="true" style="animation: {{a.h1.f}}">Modifier l’option</span></span> <span class="w"><span class="o" style="animation: {{a.h2.o}}"><i style="font: italic 400 44px/1 'Instrument Serif', serif">Séance couple.</i></span><span class="f" aria-hidden="true" style="animation: {{a.h2.f}}"><i style="font: italic 400 44px/1 'Instrument Serif', serif">Séance couple.</i></span></span>
+  </h1>
+  <p class="note" style="position: absolute; left: 304px; top: 152px; width: 640px; margin: 0; animation: {{a.nt}}">Les changements valent pour les simulations et les dossiers futurs ; les dossiers déjà soumis gardent leurs prix.</p>
+  <span class="encre" aria-hidden="true" style="position: absolute; left: 1156px; top: 72px; width: 220px; height: 48px; border-radius: 24px; opacity: {{G.encOp}}"></span><button type="button" class="{{G.btCls}}" aria-disabled="{{G.busy}}" style="left: 1156px; top: 72px; width: 220px; height: 48px; border-radius: 24px" onClick="{{F.save}}">{{F.bt}}</button>
+  <div style="position: absolute; left: 304px; top: 196px; width: 496px; animation: {{a.p1}}">
+    <div class="champ"><label class="mono" for="lib">Libellé</label><input id="lib" data-m="1" type="text" autocomplete="off" aria-invalid="{{F.eLibI}}" aria-describedby="lib-err"></div>
+    <p id="lib-err" class="err" role="alert"><sc-if value="{{F.eLibOn}}" hint-placeholder-val="{{ false }}"><i aria-hidden="true"></i>{{F.eLib}}</sc-if></p>
+    <div class="champ" style="margin-top: 6px"><label class="mono" for="desc">Description</label><textarea id="desc" data-m="1"></textarea></div>
+    <p class="mono" id="mode-l" style="margin: 22px 0 10px">Mode de prix</p>
+    <div class="flux" role="radiogroup" aria-labelledby="mode-l">
+      <sc-for list="{{F.modes}}" as="p" hint-placeholder-count="6"><button type="button" role="radio" class="{{p.cls}}" aria-checked="{{p.ck}}" onClick="{{p.go}}">{{p.t}}</button></sc-for>
+    </div>
+    <div style="margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px 36px">
+      <sc-for list="{{F.params}}" as="f" hint-placeholder-count="4">
+        <div class="champ"><label class="mono" for="{{f.id}}">{{f.lab}}</label>
+          <sc-if value="{{f.inp}}" hint-placeholder-val="{{ true }}"><input id="{{f.id}}" data-m="1" type="text" inputmode="decimal" autocomplete="off" aria-invalid="{{F.ePI}}" aria-describedby="par-err"></sc-if>
+          <sc-if value="{{f.sel}}" hint-placeholder-val="{{ false }}"><select id="{{f.id}}" data-m="1"><sc-for list="{{f.opts}}" as="o" hint-placeholder-count="3"><option>{{o}}</option></sc-for></select></sc-if>
+        </div>
+      </sc-for>
+    </div>
+    <sc-if value="{{F.p6}}" hint-placeholder-val="{{ false }}">
+      <div class="mono" style="display: grid; grid-template-columns: 1fr 1fr 1.4fr 26px; gap: 16px">
+        <span>De (plats)</span><span>À (plats)</span><span>Prix (€)</span><span></span>
+      </div>
+      <sc-for list="{{F.pal}}" as="p" hint-placeholder-count="2">
+        <div class="champ" style="display: grid; grid-template-columns: 1fr 1fr 1.4fr 26px; gap: 16px; align-items: end">
+          <input id="{{p.de}}" data-m="1" type="text" inputmode="numeric" aria-label="Palier, de" aria-invalid="{{F.ePI}}" aria-describedby="par-err">
+          <input id="{{p.a}}" data-m="1" type="text" inputmode="numeric" aria-label="Palier, à" aria-invalid="{{F.ePI}}" aria-describedby="par-err">
+          <input id="{{p.pp}}" data-m="1" type="text" inputmode="decimal" aria-label="Palier, prix" aria-invalid="{{F.ePI}}" aria-describedby="par-err">
+          <button type="button" class="ico" aria-label="{{p.ariaX}}" aria-disabled="false" style="position: relative" onClick="{{p.x}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7 L17 17 M17 7 L7 17"></path></svg></button>
+        </div>
+      </sc-for>
+      <button type="button" class="mini" style="margin-top: 10px" onClick="{{F.addPal}}">+ Palier</button>
+    </sc-if>
+    <p id="par-err" class="err" role="alert"><sc-if value="{{F.ePOn}}" hint-placeholder-val="{{ false }}"><i aria-hidden="true"></i>{{F.eP}}</sc-if></p>
+    <p class="mono" id="base-l" style="margin: 14px 0 10px">Montants saisis</p>
+    <div class="flux" role="radiogroup" aria-labelledby="base-l">
+      <sc-for list="{{F.bases}}" as="p" hint-placeholder-count="2"><button type="button" role="radio" class="{{p.cls}}" aria-checked="{{p.ck}}" onClick="{{p.go}}">{{p.t}}</button></sc-for>
+      <span class="note" style="align-self: center; margin-left: 8px">le moteur calcule l’autre montant</span>
+    </div>
+    <div style="margin-top: 14px; display: flex; align-items: flex-end; gap: 28px; min-height: 56px">
+      <button type="button" class="case" role="checkbox" aria-checked="{{F.tvaA}}" style="position: relative; margin-bottom: 8px" onClick="{{F.togTva}}"><span aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2 6.5 L5 9 L10 3"></path></svg></span>Taux de TVA propre à cette option</button>
+      <sc-if value="{{F.tvaP}}" hint-placeholder-val="{{ false }}"><div class="champ" style="width: 110px"><label class="mono" for="tva">Taux (%)</label><input id="tva" data-m="1" type="text" inputmode="decimal" aria-invalid="{{F.eTI}}" aria-describedby="tva-err"></div></sc-if>
+    </div>
+    <p id="tva-err" class="err" role="alert"><sc-if value="{{F.eTOn}}" hint-placeholder-val="{{ false }}"><i aria-hidden="true"></i>{{F.eT}}</sc-if></p>
+  </div>
+
+  <div class="verre" aria-hidden="true" style="left: 848px; top: 196px; width: 528px; height: 676px; opacity: 0; animation: {{a.p2}}"></div>
+  <div style="position: absolute; left: 876px; top: 220px; width: 472px; animation: {{a.p2}}">
+    <p class="mono" id="cat-l" style="margin: 0 0 10px">Catégories</p>
+    <div class="flux" role="group" aria-labelledby="cat-l">
+      <sc-for list="{{F.cats}}" as="p" hint-placeholder-count="7"><button type="button" class="{{p.cls}}" aria-pressed="{{p.pr}}" onClick="{{p.go}}">{{p.t}}</button></sc-for>
+    </div>
+    <a href="ErpCategories.dc.html" class="lien mini" style="display: inline-block; margin-top: 10px">Gérer les catégories →</a>
+
+    <p class="mono" style="margin: 28px 0 12px">Services qui la proposent</p>
+    <div style="display: flex; flex-direction: column; gap: 12px">
+      <sc-for list="{{F.svcs}}" as="s" hint-placeholder-count="9"><button type="button" class="case" role="checkbox" aria-checked="{{s.ck}}" style="position: relative" onClick="{{s.go}}"><span aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2 6.5 L5 9 L10 3"></path></svg></span>{{s.t}}</button></sc-for>
+    </div>
+  </div>
+  
+  <sc-if value="{{G.toast}}" hint-placeholder-val="{{ false }}">
+    <p role="{{G.toastR}}" style="position: absolute; left: 848px; top: 136px; width: 528px; margin: 0; display: flex; align-items: flex-start; justify-content: flex-end; gap: 10px; font: 400 13.5px/1.45 Inter, sans-serif; text-align: right; animation: habille .5s ease both">
+      <span aria-hidden="true" style="display: block; flex: none; width: 20px; height: 1px; margin-top: 9px; background: {{G.toastC}}"></span>{{G.toastT}}
+    </p>
+  </sc-if>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"ombre":{"editor":"enum","options":["Alternance","Diagonale","Studio · latérale","Studio · spot","Studio · cyclo","Studio · strip","Sans"],"default":"Alternance"},"tva":{"editor":"enum","options":["Réglée","Non réglée"],"default":"Réglée"},"$preview":{"width":1440,"height":900}}'>
+// Base commune de l'atelier (structure A) : menu PID, rythme d'entrée, ombres.
+const PG = 'e16';
+const PAGE_MENU = { e10: 'bord', e11: 'dos', e12: 'dos', e12b: 'dos', e24: 'dem', e13: 'srv', e14: 'srv', e15: 'opt', e16: 'opt', e17: 'ctg', e18: 'fic', e19: 'fic', e29: 'mod' }[PG] || 'bord';
+const PAGE_GRP = { e13: 'cat', e14: 'cat', e15: 'cat', e16: 'cat', e17: 'cat', e18: 'cat', e19: 'cat', e29: 'cat' }[PG] || null;
+
+class Base extends DCLogic {
+  constructor(p) { super(p); this.state = { m: PAGE_MENU, g: PAGE_GRP, gu: false, n: 0 }; }
+  val(id) { const el = document.getElementById(id); return el ? String(el.value || '').trim() : ''; }
+  core() {
+    const K = .45, E = 'cubic-bezier(.45,0,.2,1)', st = this.state, P = this.props;
+    const T = (dl, d) => ({ o: `wIn ${(d * K).toFixed(2)}s ${E} ${(dl * K).toFixed(2)}s both`, f: `wIn ${(d * K).toFixed(2)}s ${E} ${((dl + .25) * K).toFixed(2)}s both` });
+    const H = dl => `habille 1s ease ${(dl * K).toFixed(2)}s both`;
+    const DR = (dl, d) => `drawS ${(d * K).toFixed(2)}s ${E} ${(dl * K).toFixed(2)}s both`;
+    const etat = P.etat || 'Données';
+    const ok = etat === 'Données', charge = etat === 'Chargement', vide = etat === 'Vide', erreur = etat === 'Erreur';
+    const IC = {
+      bord: 'M4 4 L11 4 L11 11 L4 11 Z M13 4 L20 4 L20 8 L13 8 Z M13 10 L20 10 L20 20 L13 20 Z M4 13 L11 13 L11 20 L4 20 Z',
+      cal: 'M4 6 L20 6 L20 20 L4 20 Z M4 10 L20 10 M8 3 L8 7 M16 3 L16 7',
+      dos: 'M3 7 L3 19 L21 19 L21 9 L11 9 L9 7 Z',
+      dem: 'M4 5 L20 5 L20 16 L10 16 L6 20 L6 16 L4 16 Z',
+      cli: 'M15 8 A3 3 0 1 0 9 8 A3 3 0 1 0 15 8 M5 20 C5 14 19 14 19 20',
+      prod: 'M3 12 A9 9 0 1 0 21 12 A9 9 0 1 0 3 12 M8 12 A4 4 0 1 0 16 12 A4 4 0 1 0 8 12',
+      arg: 'M4 12 A8 8 0 1 0 20 12 A8 8 0 1 0 4 12 M14.5 9 C13 7.5 9.5 8 9.5 10 C9.5 12.5 14.5 11.5 14.5 14 C14.5 16 11 16.5 9.5 15 M12 6.5 L12 17.5',
+      stat: 'M5 20 L5 13 M10 20 L10 8 M15 20 L15 11 M20 20 L20 5',
+      cat: 'M4 12 L12 4 L20 4 L20 12 L12 20 Z M16 8 L16.2 8',
+      red: 'M5 19 L19 5 M8 8 A2 2 0 1 0 4 8 A2 2 0 1 0 8 8 M20 16 A2 2 0 1 0 16 16 A2 2 0 1 0 20 16',
+      par: 'M11 8 A3 3 0 1 0 5 8 A3 3 0 1 0 11 8 M3 20 C3 15 13 15 13 20 M19 8 A3 3 0 1 0 13 8 M14 15 C19 14 21 17 21 20',
+      vit: 'M3 5 L21 5 L21 19 L3 19 Z M3 15 L9 10 L14 14 L17 12 L21 15',
+      reg: 'M15 12 A3 3 0 1 0 9 12 A3 3 0 1 0 15 12 M12 2 L12 5 M12 19 L12 22 M2 12 L5 12 M19 12 L22 12 M5 5 L7 7 M17 17 L19 19 M5 19 L7 17 M17 7 L19 5'
+    };
+    const MP = [
+      { k: 'bord', t: 'Tableau de bord', ic: 'bord', h: 'ErpAtelier.dc.html' }, { k: 'plan', t: 'Planning', ic: 'cal' },
+      { k: 'dos', t: 'Dossiers', ic: 'dos', h: 'ErpDossiers.dc.html' }, { k: 'dem', t: 'Demandes', ic: 'dem', h: 'ErpDemandes.dc.html' },
+      { k: 'cli', t: 'Clients', ic: 'cli' }, { k: 'prod', t: 'Production', ic: 'prod' },
+      { k: 'arg', t: 'Argent', ic: 'arg', grp: 1 }, { k: 'chf', t: 'Chiffres', p: 'arg' }, { k: 'ech', t: 'Échéanciers', p: 'arg' },
+      { k: 'stat', t: 'Statistiques', ic: 'stat' },
+      { k: 'cat', t: 'Catalogue', ic: 'cat', grp: 1 }, { k: 'srv', t: 'Services', p: 'cat', h: 'ErpServices.dc.html' }, { k: 'opt', t: 'Options', p: 'cat', h: 'ErpOptions.dc.html' },
+      { k: 'ctg', t: 'Catégories', p: 'cat', h: 'ErpCategories.dc.html' }, { k: 'fic', t: 'Fiches techniques', p: 'cat', h: 'ErpFiches.dc.html' }, { k: 'mod', t: 'Modèles de production', p: 'cat', h: 'ErpModeles.dc.html' },
+      { k: 'red', t: 'Réductions', ic: 'red' }, { k: 'par', t: 'Parrainage', ic: 'par' },
+      { k: 'vit', t: 'Vitrine', ic: 'vit', grp: 1 }, { k: 'med', t: 'Médiathèque', p: 'vit' }, { k: 'gal', t: 'Galeries', p: 'vit' },
+      { k: 'txt', t: 'Textes', p: 'vit' }, { k: 'tem', t: 'Témoignages', p: 'vit' }, { k: 'mis', t: 'Services mis en avant', p: 'vit' },
+      { k: 'reg', t: 'Réglages', ic: 'reg', grp: 1 }, { k: 'gen', t: 'Généraux', p: 'reg' }, { k: 'capa', t: 'Capacité', p: 'reg' }, { k: 'ori', t: 'Origines et étiquettes', p: 'reg' }
+    ];
+    const top = MP.filter(m => !m.p), nDem = st.reqs ? st.reqs.length : 2;
+    const menu = MP.filter(m => !m.p || st.g === m.p).map(m => {
+      const sub = !!m.p, on = st.m === m.k, href = m.h || '#';
+      const k = sub ? top.indexOf(MP.find(x => x.k === m.p)) : top.indexOf(m), j = sub ? MP.filter(x => x.p === m.p).indexOf(m) : 0;
+      const quick = sub && st.gu, kk = sub ? k + (j + 1) * .4 : k;
+      return { href, t: m.t, ic: sub ? 'M9 12 L15 12' : IC[m.ic], badge: m.k === 'dem' ? (nDem || false) : false, grp: !!m.grp,
+        cls: 'it' + (on ? ' on' : '') + (sub ? ' sub' : ''), cur: on ? 'page' : 'false', chev: 'chev' + (st.g === m.k ? ' ouv' : ''),
+        ai: quick ? DR(j * .1, .5) : DR(.4 + kk * .05, .6), at: quick ? T(.1 + j * .1, .45) : T(.5 + kk * .05, .5),
+        go: (e) => {
+          if (m.grp) { if (e && e.preventDefault) e.preventDefault(); this.setState({ g: this.state.g === m.k ? null : m.k, gu: true }); }
+          else if (href === '#') { if (e && e.preventDefault) e.preventDefault(); this.setState({ m: m.k }); }
+        } };
+    });
+    const a = {
+      sep: DR(0, .8), logo: T(.2, .7), sig: H(.6), side: H(.1), sideT: DR(0, 1),
+      eyeL: `wIn ${(.4 * K).toFixed(2)}s ${E} ${(.6 * K).toFixed(2)}s both`, eye: T(.7, .8), h1: T(.9, .8), h2: T(1.1, 1.1),
+      nt: `wIn ${(.9 * K).toFixed(2)}s ${E} ${(1.8 * K).toFixed(2)}s both`, vT: T(1.4, .9),
+      t1: T(1.9, .5), t2: T(2.1, .5), l1: DR(2, 1), l2: DR(2.2, 1), p1: H(1.7), p2: H(1.9), p3: H(2.1),
+      dn: { o: `wIn .8s ${E} .15s both`, f: `wIn .8s ${E} .3s both` }
+    };
+    const oz = this.props.ombre || 'Alternance', alterne = oz === 'Alternance';
+    const OM = [['Diagonale', 'dia'], ['Studio · latérale', 'lat'], ['Studio · spot', 'spot'], ['Studio · cyclo', 'cyc'], ['Studio · strip', 'str']];
+    const om = { on: oz !== 'Sans', cs: OM.map((o, k) => ({ cls: 'om-i ' + o[1], d: alterne || oz === o[0] ? 'block' : 'none',
+      a: alterne ? `alt${k} 70s ease-in-out infinite` : (oz === o[0] ? 'seul 2.5s ease-in-out both' : 'none') })) };
+
+    return { K, E, T, H, DR, etat, ok, charge, vide, erreur, a, menu, menuR: [], om };
+  }
+}
+
+// Catalogue (PID F01, F02, F09) : E13/E15 listes, E14/E16 formulaires, E17 catégories, E18/E19 types de fiches, E29 modèles de production.
+const n2 = v => { const s = String(v == null ? '' : v).replace(/\s/g, '').replace(',', '.'); if (s === '') return null; return /^-?\d+(\.\d+)?$/.test(s) ? Number(s) : NaN; };
+const OPT_P = PG === 'e15' || PG === 'e16';
+const CATS0 = ['Mariage', 'Famille', 'Portrait', 'Entreprise', 'Événement', 'Culinaire', 'Produit'];
+const MODES = [['P1', 'Forfait'], ['P2', 'Durée'], ['P3', 'Forfait + dépassement'], ['P4', 'Quantité'], ['P5', 'Par personne'], ['P6', 'Paliers']];
+const ARR = ['Aucun', 'Au quart d’heure', 'À la demi-heure', 'À l’heure'];
+const PARAMS = {
+  P1: [['prix', 'Prix (€)']],
+  P2: [['prixU', 'Prix par unité (€)'], ['unite', 'Unité', ['heure', 'demi-journée', 'journée']], ['min', 'Minimum facturé (unités)'], ['arr', 'Arrondi', ARR]],
+  P3: [['forf', 'Forfait (€)'], ['dInc', 'Durée incluse (h)'], ['pDep', 'Prix du dépassement (€ / h)'], ['arr', 'Arrondi du dépassement', ARR]],
+  P4: [['prixU', 'Prix unitaire (€)'], ['qMin', 'Quantité minimum'], ['qMax', 'Quantité maximum'], ['qPas', 'Pas']],
+  P5: [['pInc', 'Personnes incluses'], ['pPers', 'Prix par personne (€)']],
+  P6: []
+};
+const SRV = [
+  { k: 'mar', t: 'Mariage · journée', cats: ['Mariage'], mode: 'P3', px: '650 € · 8 h incluses · 80 € / h en plus', fiche: 'Fiche mariage', used: 6 },
+  { k: 'cer', t: 'Mariage · cérémonie', cats: ['Mariage'], mode: 'P2', px: '95 € / h · minimum 2 h', fiche: 'Fiche mariage', used: 2 },
+  { k: 'bap', t: 'Baptême', cats: ['Famille'], mode: 'P1', px: '320 €', fiche: 'Fiche portrait', used: 3 },
+  { k: 'fam', t: 'Portrait de famille', cats: ['Portrait', 'Famille'], mode: 'P5', px: '4 personnes incluses · 25 € / pers.', fiche: 'Fiche portrait', used: 2 },
+  { k: 'ent', t: 'Portrait d’entreprise', cats: ['Portrait', 'Entreprise'], mode: 'P4', px: '45 € / portrait · de 3 à 40', fiche: 'Fiche portrait', used: 1 },
+  { k: 'rep', t: 'Reportage événementiel', cats: ['Événement', 'Entreprise'], mode: 'P2', px: '110 € / h · minimum 3 h', fiche: 'Fiche reportage', used: 4 },
+  { k: 'cul', t: 'Culinaire · studio', cats: ['Culinaire'], mode: 'P6', px: '3 paliers · de 180 € à 420 €', fiche: 'Fiche culinaire', used: 2 },
+  { k: 'alb', t: 'Album 30 × 30 cm', cats: ['Produit'], mode: 'P1', px: '145 €', fiche: '', used: 1 },
+  { k: 'eng', t: 'Séance engagement', cats: ['Mariage'], mode: 'P1', px: '180 €', fiche: 'Fiche portrait', used: 3, arch: true },
+  { k: 'mini', t: 'Mini-séance de Noël', cats: ['Famille'], mode: 'P1', px: '90 €', fiche: 'Fiche portrait', used: 0 }
+];
+const OPT = [
+  { k: 'cpl', t: 'Séance couple', cats: ['Mariage'], mode: 'P1', px: '120 €', fiche: '2 services', used: 4 },
+  { k: 'exp', t: 'Livraison express', cats: [], mode: 'P1', px: '50 €', fiche: '6 services', used: 5 },
+  { k: 'sec', t: 'Seconde photographe', cats: ['Mariage', 'Événement'], mode: 'P2', px: '60 € / h · minimum 4 h', fiche: '3 services', used: 2 },
+  { k: 'tir', t: 'Tirages 20 × 30', cats: ['Produit'], mode: 'P4', px: '6 € / tirage · de 5 à 100', fiche: '7 services', used: 0 },
+  { k: 'drn', t: 'Vol de drone', cats: ['Événement'], mode: 'P1', px: '150 €', fiche: '2 services', used: 1, arch: true }
+];
+const CAT_L = [
+  { k: 'c1', t: 'Mariage', s: '3 services · 2 options', red: 'Mariage hors saison' }, { k: 'c2', t: 'Famille', s: '3 services' },
+  { k: 'c3', t: 'Portrait', s: '2 services' }, { k: 'c4', t: 'Entreprise', s: '2 services' }, { k: 'c5', t: 'Événement', s: '1 service · 2 options' },
+  { k: 'c6', t: 'Culinaire', s: '1 service' }, { k: 'c7', t: 'Produit', s: '1 service · 1 option' }
+];
+const TYPES = [
+  { k: 't1', t: 'Fiche mariage', n: '11 champs · 1 groupe', svc: 'Mariage · journée, Mariage · cérémonie', mod: '10 nov. 2026' },
+  { k: 't2', t: 'Fiche reportage', n: '8 champs', svc: 'Reportage événementiel', mod: '2 oct. 2026' },
+  { k: 't3', t: 'Fiche portrait', n: '6 champs', svc: 'Baptême, Portrait de famille, Portrait d’entreprise', mod: '28 sept. 2026' },
+  { k: 't4', t: 'Fiche culinaire', n: '7 champs', svc: 'Culinaire · studio', mod: '14 sept. 2026' }
+];
+const TYPES_F = ['texte', 'nombre', 'date', 'heure', 'adresse', 'liste', 'case', 'lien'];
+const CH0 = [
+  { k: 'f1', t: 'Date du mariage', ty: 'date', ob: true }, { k: 'f2', t: 'Heure de la cérémonie', ty: 'heure', ob: true },
+  { k: 'f3', t: 'Lieu', ty: 'groupe répétable', ob: true, sub: 'Nom du lieu · Adresse · Heure d’arrivée · Heure de fin' },
+  { k: 'f4', t: 'Nombre d’invités', ty: 'nombre', ob: false }, { k: 'f5', t: 'Type de cérémonie', ty: 'liste', ob: false, sub: 'civile · religieuse · laïque' },
+  { k: 'f6', t: 'Personnes à photographier en priorité', ty: 'texte', ob: false }, { k: 'f7', t: 'Moments clés', ty: 'texte', ob: false },
+  { k: 'f8', t: 'Contact le jour J', ty: 'texte', ob: true }, { k: 'f9', t: 'Moodboard', ty: 'lien', ob: false },
+  { k: 'f10', t: 'Restrictions du lieu ou du culte', ty: 'texte', ob: false }, { k: 'f11', t: 'Plan de table fourni', ty: 'case', ob: false }
+];
+const SVC_P = [['mar', 'Mariage · journée'], ['cer', 'Mariage · cérémonie'], ['bap', 'Baptême'], ['fam', 'Portrait de famille'], ['ent', 'Portrait d’entreprise'], ['rep', 'Reportage événementiel'], ['cul', 'Culinaire · studio']];
+const MOD0 = [
+  { k: 'm1', t: 'Production mariage', et: ['Tri', 'Retouche', 'Export'], sv: { mar: 42, cer: 42 } },
+  { k: 'm2', t: 'Production reportage', et: ['Tri', 'Retouche légère'], sv: { rep: 10 } },
+  { k: 'm3', t: 'Production portrait', et: ['Tri', 'Retouche'], sv: { bap: 21, fam: 21, ent: 14 } }
+];
+const MEM0 = {
+  e14: { lib: 'Mariage · journée', desc: 'Toute la journée, des préparatifs à l’ouverture du bal. Galerie en ligne livrée sous 6 semaines.',
+    forf: '650,00', dInc: '8', pDep: '80,00', arr: 'À la demi-heure', unite: 'heure', fiche: 'Fiche mariage', tva: '21',
+    km: 'Aller-retour vers le lieu le plus éloigné', seuil: 'Franchise', sKm: '30', pKm: '0,45', dlj: '30', pde1: '1', pa1: '3', pp1: '180,00', pde2: '4', pa2: '6', pp2: '300,00' },
+  e16: { lib: 'Séance couple', desc: 'Une heure à deux, le jour même, avant la soirée.', prix: '120,00', unite: 'heure', arr: 'Aucun', tva: '21' }
+};
+
+class Component extends Base {
+  constructor(p) {
+    super(p);
+    this.mem = Object.assign({}, MEM0[PG] || {});
+    Object.assign(this.state, { toast: null, tErr: false, busy: false, errs: {},
+      list: (OPT_P ? OPT : SRV).map(x => Object.assign({}, x)), arch: false, conf: null,
+      mode: PG === 'e16' ? 'P1' : 'P3', cats: PG === 'e16' ? ['Mariage'] : ['Mariage'], base: 'TVAC', tvaP: false,
+      opts: ['cpl', 'exp'], svcs: ['mar', 'cer'], trp: true, dl: false, pal: [{ k: 1 }, { k: 2 }], pk: 2,
+      catL: CAT_L.map(x => Object.assign({}, x)), ck: 7, edit: null, errN: '', errR: '',
+      types: TYPES.map(x => Object.assign({}, x)), tk: 4,
+      ch: CH0.map(x => Object.assign({}, x)), chk: 11, nt: 'texte', no: false, nm: 'champ', errC: '', errNom: '',
+      mods: MOD0.map(m => ({ k: m.k, t: m.t, et: m.et.slice(), sv: Object.assign({}, m.sv) })), sel: 'm1', mk: 3, errM: '' });
+    if (PG === 'e29') this.memMod('m1');
+  }
+  componentDidMount() { this.tR = setTimeout(() => this.remplir(), 0); }
+  componentWillUnmount() { clearTimeout(this.tR); clearTimeout(this.tS); }
+  ids() { return Array.from(document.querySelectorAll ? document.querySelectorAll('[data-m]') : []); }
+  lire() { this.ids().forEach(el => { if (el.id) this.mem[el.id] = el.value; }); }
+  remplir() { this.ids().forEach(el => { if (el.id) el.value = this.mem[el.id] == null ? '' : this.mem[el.id]; }); }
+  set(patch) { this.lire(); this.setState(patch); clearTimeout(this.tR); this.tR = setTimeout(() => this.remplir(), 0); }
+  later(fn) { this.setState({ busy: true }); clearTimeout(this.tS); this.tS = setTimeout(fn, 900); }
+  memMod(k) { const m = (this.state.mods || MOD0).find(x => x.k === k); this.mem.mnom = m.t; this.mem.net = ''; SVC_P.forEach(([s]) => { this.mem['d-' + s] = m.sv[s] == null ? '' : String(m.sv[s]); }); }
+
+  // E14 / E16
+  enregistrer() {
+    this.lire(); const m = this.mem, st = this.state, errs = {};
+    if (!(m.lib || '').trim()) errs.lib = OPT_P ? 'Le libellé de l’option est obligatoire.' : 'Le libellé du service est obligatoire.';
+    const miss = [], neg = [];
+    if (st.mode === 'P6') {
+      if (!st.pal.length) miss.push('au moins un palier');
+      st.pal.forEach(p => ['pde', 'pa', 'pp'].forEach(f => { const v = n2(m[f + p.k]);
+        if (v === null || isNaN(v)) { if (!miss.includes('les bornes et le prix de chaque palier')) miss.push('les bornes et le prix de chaque palier'); } else if (v < 0) neg.push(f); }));
+    } else PARAMS[st.mode].filter(f => !f[2]).forEach(f => { const v = n2(m[f[0]]);
+      if (v === null || isNaN(v)) miss.push(f[1].replace(/ \(.*\)$/, '').toLowerCase()); else if (v < 0) neg.push(f[0]); });
+    if (miss.length) errs.par = 'Le mode de prix choisi demande : ' + miss.join(', ') + '.';
+    else if (neg.length) errs.par = 'Un montant ne peut pas être négatif.';
+    if (st.tvaP) { const t = n2(m.tva); if (t === null || isNaN(t) || t < 0 || t > 100) errs.tva = 'Un taux de TVA est compris entre 0 et 100 %.'; }
+    else if ((this.props.tva || 'Réglée') === 'Non réglée') errs.tva = 'Aucun taux de TVA n’est défini : saisissez le taux général dans les réglages ou un taux propre à ce service.';
+    if (Object.keys(errs).length) { this.set({ errs, toast: null }); return; }
+    this.set({ errs: {} }); this.later(() => this.set({ busy: false, toast: OPT_P ? 'Option enregistrée.' : 'Service enregistré.', tErr: false }));
+  }
+  // E13 / E15
+  supprimer(k) {
+    const it = this.state.list.find(x => x.k === k); if (!it) return;
+    if (it.used > 0) this.setState({ conf: null, tErr: false, list: this.state.list.map(x => x.k === k ? Object.assign({}, x, { arch: true }) : x),
+      toast: OPT_P ? 'Cette option figure dans des dossiers : elle est archivée, pas supprimée.' : 'Ce service figure dans des dossiers : il est archivé, pas supprimé.' });
+    else this.setState({ conf: null, tErr: false, list: this.state.list.filter(x => x.k !== k), toast: '« ' + it.t + ' » est supprimé' + (OPT_P ? 'e' : '') + ' définitivement.' });
+  }
+  // E17
+  existe(t, sauf) { return this.state.catL.some(c => c.k !== sauf && c.t.toLowerCase() === t.toLowerCase()); }
+  ajouterCat() {
+    const t = this.val('ncat');
+    if (!t) return this.setState({ errN: 'Le libellé de la catégorie est obligatoire.' });
+    if (this.existe(t)) return this.setState({ errN: 'Cette catégorie existe déjà.' });
+    const el = document.getElementById('ncat'); if (el) el.value = '';
+    this.setState({ errN: '', tErr: false, ck: this.state.ck + 1, catL: this.state.catL.concat([{ k: 'c' + (this.state.ck + 1), t, s: 'aucun service pour l’instant' }]), toast: 'Catégorie « ' + t + ' » ajoutée.' });
+  }
+  renommer(k) { const c = this.state.catL.find(x => x.k === k); this.setState({ edit: k, errR: '', conf: null }); clearTimeout(this.tR); this.tR = setTimeout(() => { const el = document.getElementById('ren'); if (el) { el.value = c.t; if (el.focus) el.focus(); } }, 0); }
+  validerRen() {
+    const k = this.state.edit, t = this.val('ren');
+    if (!t) return this.setState({ errR: 'Le libellé de la catégorie est obligatoire.' });
+    if (this.existe(t, k)) return this.setState({ errR: 'Cette catégorie existe déjà.' });
+    this.setState({ edit: null, errR: '', tErr: false, catL: this.state.catL.map(c => c.k === k ? Object.assign({}, c, { t }) : c), toast: 'Catégorie renommée en « ' + t + ' ».' });
+  }
+  supprimerCat(k) {
+    const c = this.state.catL.find(x => x.k === k);
+    if (c.red) return this.setState({ conf: null, tErr: true, toast: 'Cette catégorie est utilisée par une réduction : retirez-la de la réduction d’abord.' });
+    this.setState({ conf: null, tErr: false, catL: this.state.catL.filter(x => x.k !== k), toast: 'Catégorie « ' + c.t + ' » supprimée.' });
+  }
+  // E18 / E19
+  dupliquer(k) {
+    const st = this.state, i = st.types.findIndex(x => x.k === k), c = Object.assign({}, st.types[i], { k: 't' + (st.tk + 1), t: st.types[i].t + ' (copie)', svc: 'aucun service relié', mod: 'aujourd’hui', neuf: true });
+    const types = st.types.slice(); types.splice(i + 1, 0, c);
+    this.setState({ types, tk: st.tk + 1, tErr: false, toast: '« ' + c.t + ' » est créé : modifiez-le sans toucher à l’original.' });
+  }
+  bouger(k, d) { this.set({ ch: this.mv(this.state.ch, k, d) }); }
+  mv(arr, k, d) { const a = arr.slice(), i = a.findIndex(x => (x.k || x) === k), j = i + d; if (j < 0 || j >= a.length) return a; const t = a[i]; a[i] = a[j]; a[j] = t; return a; }
+  ajouterChamp() {
+    this.lire(); const st = this.state, t = (this.mem.nl || '').trim();
+    if (st.nm === 'groupe') {
+      const g = (this.mem.ng || '').trim(); if (!g) return this.set({ errC: 'Le nom du groupe est obligatoire.' });
+      this.mem.ng = ''; return this.set({ errC: '', chk: st.chk + 1, ch: st.ch.concat([{ k: 'f' + (st.chk + 1), t: g, ty: 'groupe répétable', ob: false, sub: 'aucun champ pour l’instant', neuf: true }]), nm: 'champ', toast: 'Groupe « ' + g + ' » ajouté.', tErr: false });
+    }
+    if (!t) return this.set({ errC: 'Le libellé du champ est obligatoire.' });
+    let sub = '';
+    if (st.nt === 'liste') { const vs = String(this.mem.nv || '').split('\n').map(s => s.trim()).filter(Boolean); if (!vs.length) return this.set({ errC: 'Une liste de choix demande au moins une valeur.' }); sub = vs.join(' · '); }
+    this.mem.nl = ''; this.mem.nv = '';
+    this.set({ errC: '', chk: st.chk + 1, ch: st.ch.concat([{ k: 'f' + (st.chk + 1), t, ty: st.nt, ob: st.no, sub, neuf: true }]), toast: 'Champ « ' + t + ' » ajouté en fin de fiche.', tErr: false });
+  }
+  enregistrerType() {
+    this.lire(); const t = (this.mem.nom || '').trim();
+    if (!t) return this.set({ errNom: 'Le nom du type de fiche est obligatoire.', toast: null });
+    if (TYPES.some(x => x.k !== 't1' && x.t.toLowerCase() === t.toLowerCase())) return this.set({ errNom: 'Ce type de fiche existe déjà.', toast: null });
+    this.set({ errNom: '' }); this.later(() => this.set({ busy: false, toast: 'Type de fiche enregistré. Les fiches déjà remplies gardent leurs réponses.', tErr: false }));
+  }
+  // E29
+  modPatch(fn) { const st = this.state; return { mods: st.mods.map(m => m.k === st.sel ? fn(Object.assign({}, m, { et: m.et.slice(), sv: Object.assign({}, m.sv) })) : m) }; }
+  choisirMod(k) { this.lire(); const cur = this.state.mods; this.memMod.call({ state: { mods: cur }, mem: this.mem }, k); this.setState({ sel: k, errM: '', toast: null }); clearTimeout(this.tR); this.tR = setTimeout(() => this.remplir(), 0); }
+  ajouterEtape() { this.lire(); const t = (this.mem.net || '').trim(); if (!t) return this.set({ errM: 'Indiquez le nom de l’étape.' }); this.mem.net = ''; this.set(Object.assign({ errM: '' }, this.modPatch(m => { m.et.push(t); return m; }))); }
+  enregistrerMod() {
+    this.lire(); const st = this.state, m = st.mods.find(x => x.k === st.sel), t = (this.mem.mnom || '').trim();
+    if (!t) return this.set({ errM: 'Le nom du modèle est obligatoire.', toast: null });
+    if (!m.et.length) return this.set({ errM: 'Un modèle de production demande au moins une étape.', toast: null });
+    const bad = Object.keys(m.sv).some(s => { const v = n2(this.mem['d-' + s]); return v === null || isNaN(v) || v < 0 || v % 1; });
+    if (bad) return this.set({ errM: 'Indiquez le délai de livraison en jours entiers pour chaque service relié.', toast: null });
+    this.set(Object.assign({ errM: '' }, this.modPatch(x => { x.t = t; Object.keys(x.sv).forEach(s => { x.sv[s] = n2(this.mem['d-' + s]); }); return x; })));
+    this.later(() => this.set({ busy: false, toast: 'Modèle enregistré. Il s’applique aux shootings qui n’ont pas encore commencé.', tErr: false }));
+  }
+
+  renderVals() {
+    const { E, T, H, DR, etat, ok, charge, vide, erreur, a, menu, menuR, om } = this.core(), st = this.state;
+    const x = {};
+    const chip = (on, go, extra) => Object.assign({ cls: 'puce' + (on ? ' on' : ''), pr: on ? 'true' : 'false', go }, extra || {});
+    const G = { toast: !!st.toast, toastT: st.toast || '', toastC: st.tErr ? '#7A1F33' : '#D9783A', toastR: st.tErr ? 'alert' : 'status',
+      busy: st.busy ? 'true' : 'false', btCls: st.busy ? 'btn off' : 'btn', encOp: st.busy ? 0 : 1 };
+
+    // ── E13 / E15 ──
+    const vis = st.list.filter(r => st.arch || !r.arch);
+    const S = { rows: (vide ? [] : vis).map((r, i) => ({ t: r.t, sub: OPT_P ? 'proposée sur ' + r.fiche : (r.fiche ? r.fiche : 'Produit sans fiche technique'),
+        cats: r.cats.length ? r.cats.join(', ') : 'toutes', mode: MODES.find(m => m[0] === r.mode)[1], px: r.px,
+        stT: r.arch ? 'Archivé' : 'Actif', stC: r.arch ? 'transparent' : '#3AA6B5', stS: r.arch ? 'inset 0 0 0 1.5px #8C8E93' : 'none', col: r.arch ? '#4B4D52' : '#0D0E10',
+        y: 248 + i * 58, ac: H(1.5 + i * .06), act: !r.arch && st.conf !== r.k, conf: st.conf === r.k,
+        aria: 'Modifier ' + r.t, ariaS: 'Supprimer ' + r.t,
+        ask: () => this.setState({ conf: r.k, toast: null }), oui: () => this.supprimer(r.k), non: () => this.setState({ conf: null }) })),
+      ok: ok && vis.length > 0, vide: vide || (ok && vis.length === 0), charge,
+      arch: st.arch ? 'true' : 'false', togArch: () => this.setState({ arch: !st.arch }),
+      cnt: OPT_P ? 'Options · ' + st.list.filter(r => !r.arch).length + ' actives' : 'Services · ' + st.list.filter(r => !r.arch).length + ' actifs',
+      sks: Array.from({ length: 8 }, (_, i) => ({ l: 304, t: 256 + i * 58, w: 1072, h: 40, r: 10 })) };
+
+    // ── E14 / E16 ──
+    const errs = st.errs || {};
+    const F = { modes: MODES.map(([k, t]) => chip(st.mode === k, () => this.set({ mode: k, errs: Object.assign({}, errs, { par: '' }) }), { t, ck: st.mode === k ? 'true' : 'false' })),
+      params: PARAMS[st.mode].map(f => ({ id: f[0], lab: f[1], inp: !f[2], sel: !!f[2], opts: f[2] || [] })),
+      p6: st.mode === 'P6', pal: st.pal.map(p => ({ de: 'pde' + p.k, a: 'pa' + p.k, pp: 'pp' + p.k, ariaX: 'Retirer le palier', x: () => this.set({ pal: this.state.pal.filter(q => q.k !== p.k) }) })),
+      addPal: () => this.set({ pal: st.pal.concat([{ k: st.pk + 1 }]), pk: st.pk + 1 }),
+      cats: CATS0.map(c => chip(st.cats.includes(c), () => this.set({ cats: st.cats.includes(c) ? st.cats.filter(z => z !== c) : st.cats.concat([c]) }), { t: c })),
+      bases: ['HTVA', 'TVAC'].map(b => chip(st.base === b, () => this.set({ base: b }), { t: b, ck: st.base === b ? 'true' : 'false' })),
+      tvaP: st.tvaP, tvaA: st.tvaP ? 'true' : 'false', togTva: () => this.set({ tvaP: !st.tvaP, errs: Object.assign({}, errs, { tva: '' }) }),
+      opts: [['cpl', 'Séance couple'], ['exp', 'Livraison express'], ['sec', 'Seconde photographe'], ['tir', 'Tirages 20 × 30']].map(([k, t]) => chip(st.opts.includes(k), () => this.set({ opts: st.opts.includes(k) ? st.opts.filter(z => z !== k) : st.opts.concat([k]) }), { t })),
+      svcs: SRV.filter(s => !s.arch).map(s => ({ t: s.t, ck: st.svcs.includes(s.k) ? 'true' : 'false',
+        go: () => this.set({ svcs: st.svcs.includes(s.k) ? st.svcs.filter(z => z !== s.k) : st.svcs.concat([s.k]) }) })),
+      trp: st.trp, trpA: st.trp ? 'true' : 'false', togTrp: () => this.set({ trp: !st.trp }),
+      dl: st.dl, dlA: st.dl ? 'true' : 'false', togDl: () => this.set({ dl: !st.dl }),
+      eLib: errs.lib || '', eLibOn: !!errs.lib, eLibI: errs.lib ? 'true' : 'false', eP: errs.par || '', ePOn: !!errs.par, ePI: errs.par ? 'true' : 'false',
+      eT: errs.tva || '', eTOn: !!errs.tva, eTI: errs.tva ? 'true' : 'false',
+      bt: st.busy ? 'Enregistrement…' : 'Enregistrer', save: () => this.enregistrer() };
+
+    // ── E17 ──
+    const C = { rows: st.catL.map((c, i) => ({ t: c.t, s: c.s + (c.red ? ' · réduction « ' + c.red + ' »' : ''), y: 262 + i * 58, ac: H(1.5 + i * .06),
+        lire: st.edit !== c.k && st.conf !== c.k, edit: st.edit === c.k, conf: st.conf === c.k,
+        ren: () => this.renommer(c.k), ask: () => this.setState({ conf: c.k, edit: null, toast: null }), oui: () => this.supprimerCat(c.k), non: () => this.setState({ conf: null }),
+        ariaR: 'Renommer ' + c.t, ariaS: 'Supprimer ' + c.t })),
+      eN: st.errN, eNOn: !!st.errN, eNI: st.errN ? 'true' : 'false', eR: st.errR, eROn: !!st.errR, eRI: st.errR ? 'true' : 'false',
+      add: () => this.ajouterCat(), okR: () => this.validerRen(), noR: () => this.setState({ edit: null, errR: '' }) };
+
+    // ── E18 ──
+    const Y = { rows: st.types.map((t, i) => ({ t: t.t, n: t.n, svc: t.svc, mod: t.mod, y: 248 + i * 64, ac: t.neuf ? 'habille .6s ease both' : H(1.5 + i * .08),
+      bg: t.neuf ? 'rgba(58,166,181,.08)' : 'transparent', aria: 'Modifier ' + t.t, ariaD: 'Dupliquer ' + t.t, dup: () => this.dupliquer(t.k) })) };
+
+    // ── E19 ──
+    const nCh = st.ch.length;
+    const Z = { rows: st.ch.map((c, i) => ({ t: c.t, ty: c.ty, sub: c.sub || '', hasSub: !!c.sub, y: 300 + i * 46, ob: c.ob ? 'true' : 'false',
+        bg: c.neuf ? 'rgba(58,166,181,.08)' : 'transparent', upD: i === 0 ? 'true' : 'false', dnD: i === nCh - 1 ? 'true' : 'false',
+        up: () => this.bouger(c.k, -1), dn: () => this.bouger(c.k, 1), rm: () => this.set({ ch: this.state.ch.filter(z => z.k !== c.k) }),
+        tog: () => this.set({ ch: this.state.ch.map(z => z.k === c.k ? Object.assign({}, z, { ob: !z.ob }) : z) }),
+        ariaU: 'Monter ' + c.t, ariaD: 'Descendre ' + c.t, ariaX: 'Retirer ' + c.t, ariaO: c.t + ' obligatoire' })),
+      addY: 300 + nCh * 46 + 14, cnt: nCh + ' champs', types: TYPES_F.map(t => chip(st.nt === t, () => this.set({ nt: t, errC: '' }), { t, ck: st.nt === t ? 'true' : 'false' })),
+      liste: st.nt === 'liste', adr: st.nt === 'adresse', lien: st.nt === 'lien', no: st.no ? 'true' : 'false', togNo: () => this.set({ no: !st.no }),
+      champ: st.nm === 'champ', groupe: st.nm === 'groupe', mChamp: () => this.set({ nm: 'champ', errC: '' }), mGroupe: () => this.set({ nm: 'groupe', errC: '' }),
+      eC: st.errC, eCOn: !!st.errC, eCI: st.errC ? 'true' : 'false', eNom: st.errNom, eNomOn: !!st.errNom, eNomI: st.errNom ? 'true' : 'false',
+      add: () => this.ajouterChamp(), save: () => this.enregistrerType(), bt: st.busy ? 'Enregistrement…' : 'Enregistrer' };
+
+    // ── E29 ──
+    const md = st.mods.find(m => m.k === st.sel), nEt = md.et.length;
+    const M = { mods: st.mods.map((m, i) => ({ t: m.t, s: (m.et.length + 1) + ' étapes · ' + Object.keys(m.sv).length + ' service' + (Object.keys(m.sv).length > 1 ? 's' : ''),
+        y: 176 + i * 96, on: m.k === st.sel, cur: m.k === st.sel ? 'true' : 'false', sh: m.k === st.sel ? 'inset 0 0 0 2px #0D0E10' : 'none', ac: H(1.5 + i * .1), go: () => this.choisirMod(m.k) })),
+      et: md.et.map((e, i) => ({ t: e, n: String(i + 1), y: 330 + i * 44, upD: i === 0 ? 'true' : 'false', dnD: i === nEt - 1 ? 'true' : 'false',
+        up: () => this.set(this.modPatch(m => { m.et = this.mv(m.et, e, -1); return m; })), dn: () => this.set(this.modPatch(m => { m.et = this.mv(m.et, e, 1); return m; })),
+        rm: () => this.set(this.modPatch(m => { m.et = m.et.filter(z => z !== e); return m; })), ariaU: 'Monter ' + e, ariaD: 'Descendre ' + e, ariaX: 'Retirer ' + e })),
+      livY: 330 + nEt * 44, livN: String(nEt + 1), addY: 330 + (nEt + 1) * 44 + 12,
+      sv: SVC_P.map(([k, t], i) => ({ t, id: 'd-' + k, aria: 'Délai de livraison pour ' + t + ', en jours', ck: md.sv[k] != null ? 'true' : 'false', on: md.sv[k] != null, y: 0,
+        go: () => this.set(this.modPatch(m => { if (m.sv[k] != null) delete m.sv[k]; else { m.sv[k] = 30; this.mem['d-' + k] = '30'; } return m; })) })),
+      eM: st.errM, eMOn: !!st.errM, add: () => this.ajouterEtape(), save: () => this.enregistrerMod(), bt: st.busy ? 'Enregistrement…' : 'Enregistrer le modèle' };
+    M.sv.forEach((s, i) => { s.y = 330 + i * 50; });
+
+    return { a, menu, menuR, ok, charge, vide, erreur, om, x, G, S, F, C, Y, Z, M, fond: 'none' };
+  }
+}
+
+</script>
+</body>
+</html>

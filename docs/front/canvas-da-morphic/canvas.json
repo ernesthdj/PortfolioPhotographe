@@ -7,7 +7,7 @@
   "title": "Ernest H. — DA Morphic",
   "launch": {
     "view": "canvas",
-    "page": "p12"
+    "page": "p14"
   },
   "pages": [
     {
@@ -57,6 +57,14 @@
     {
       "id": "p12",
       "name": "Atelier (admin)"
+    },
+    {
+      "id": "p13",
+      "name": "Atelier · dossiers"
+    },
+    {
+      "id": "p14",
+      "name": "Atelier · catalogue"
     }
   ],
   "boards": {
@@ -443,7 +451,7 @@
       "y": 0,
       "w": 1440,
       "h": 900,
-      "title": "Atelier · A · Menu latéral + compteurs (recommandée)",
+      "title": "Tableau de bord (E10) · A · Menu latéral (retenue)",
       "is_interactive": true,
       "page": "p12"
     },
@@ -464,6 +472,114 @@
       "title": "Atelier · C · Colonnes par étape (régie)",
       "is_interactive": true,
       "page": "p12"
+    },
+    "ErpDossiers.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "1 · Dossiers (E11)",
+      "is_interactive": true,
+      "page": "p13"
+    },
+    "ErpDossier.dc.html": {
+      "x": 1520,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "2 · Dossier (E12) · A · Onglets (retenue) + panneaux E12.a-c",
+      "is_interactive": true,
+      "page": "p13"
+    },
+    "ErpDossierPupitre.dc.html": {
+      "x": 3040,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "2 · Dossier (E12) · B · Pupitre",
+      "is_interactive": true,
+      "page": "p13"
+    },
+    "ErpDemandes.dc.html": {
+      "x": 4560,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "3 · Demandes en attente (E24)",
+      "is_interactive": true,
+      "page": "p13"
+    },
+    "ErpServices.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "1 · Services (E13)",
+      "is_interactive": true,
+      "page": "p14"
+    },
+    "ErpService.dc.html": {
+      "x": 1520,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "2 · Service (E14)",
+      "is_interactive": true,
+      "page": "p14"
+    },
+    "ErpOptions.dc.html": {
+      "x": 3040,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "3 · Options (E15)",
+      "is_interactive": true,
+      "page": "p14"
+    },
+    "ErpOption.dc.html": {
+      "x": 4560,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "4 · Option (E16)",
+      "is_interactive": true,
+      "page": "p14"
+    },
+    "ErpCategories.dc.html": {
+      "x": 0,
+      "y": 1020,
+      "w": 1440,
+      "h": 900,
+      "title": "5 · Catégories (E17)",
+      "is_interactive": true,
+      "page": "p14"
+    },
+    "ErpFiches.dc.html": {
+      "x": 1520,
+      "y": 1020,
+      "w": 1440,
+      "h": 900,
+      "title": "6 · Types de fiches (E18)",
+      "is_interactive": true,
+      "page": "p14"
+    },
+    "ErpFiche.dc.html": {
+      "x": 3040,
+      "y": 1020,
+      "w": 1440,
+      "h": 900,
+      "title": "7 · Type de fiche (E19)",
+      "is_interactive": true,
+      "page": "p14"
+    },
+    "ErpModeles.dc.html": {
+      "x": 4560,
+      "y": 1020,
+      "w": 1440,
+      "h": 900,
+      "title": "8 · Modèles de production (E29)",
+      "is_interactive": true,
+      "page": "p14"
     }
   },
   "order": [
@@ -511,7 +627,19 @@
     "PMesDossiers.dc.html",
     "ErpAtelier.dc.html",
     "ErpTable.dc.html",
-    "ErpRegie.dc.html"
+    "ErpRegie.dc.html",
+    "ErpDossiers.dc.html",
+    "ErpDossier.dc.html",
+    "ErpDossierPupitre.dc.html",
+    "ErpDemandes.dc.html",
+    "ErpServices.dc.html",
+    "ErpService.dc.html",
+    "ErpOptions.dc.html",
+    "ErpOption.dc.html",
+    "ErpCategories.dc.html",
+    "ErpFiches.dc.html",
+    "ErpFiche.dc.html",
+    "ErpModeles.dc.html"
   ],
   "notes": {
     "titre": {
@@ -635,6 +763,22 @@
       "kind": "title1",
       "maxW": 4480,
       "page": "p12"
+    },
+    "titre13": {
+      "x": 0,
+      "y": -300,
+      "text": "Atelier : dossiers, dossier et demandes (structure A)",
+      "kind": "title1",
+      "maxW": 5920,
+      "page": "p13"
+    },
+    "titre14": {
+      "x": 0,
+      "y": -300,
+      "text": "Atelier : catalogue (services, options, catégories, fiches, production)",
+      "kind": "title1",
+      "maxW": 5920,
+      "page": "p14"
     }
   },
   "designSystems": []

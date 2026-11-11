@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Atelier · Dossiers</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+.vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(118% 100% at 50% 44%,rgba(20,18,16,0) 48%,rgba(20,18,16,.10) 76%,rgba(20,18,16,.27) 100%);box-shadow:inset 0 0 140px rgba(20,18,16,.10)}
+.w{position:relative;display:inline-block;white-space:nowrap}
+.w .o{display:block;color:transparent;-webkit-text-stroke:1px currentColor}
+.w .f{position:absolute;left:0;top:-.24em;padding:.24em .14em .24em 0;color:inherit}
+.verre{position:absolute;border-radius:24px;background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(250,248,244,.86) 55%,rgba(240,237,231,.9) 100%);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 16px 32px -12px rgba(20,18,16,.30),0 4px 10px -3px rgba(20,18,16,.16),inset 0 1px 0 #fff,inset 0 0 0 1px rgba(255,255,255,.6),inset 0 -2px 0 rgba(20,18,16,.06),inset 0 -12px 18px -12px rgba(20,18,16,.10)}
+.verre::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(90% 140% at 22% 0%,rgba(255,255,255,.75),rgba(255,255,255,0) 60%)}
+svg.ln{position:absolute;overflow:visible;pointer-events:none}
+.ln path{fill:none;stroke:#0D0E10;stroke-width:1.5px;shape-rendering:geometricPrecision;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 102;stroke-dashoffset:101}
+.ln path.comete{stroke-dasharray:6 94;stroke-dashoffset:0}
+.ln path.fil{stroke-width:1px;stroke:rgba(13,14,16,.2)}
+.nav a,.lien{color:inherit;text-decoration:none}
+.btn{position:absolute;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:20px;text-decoration:none;font:500 14px Inter,sans-serif;color:#EEEDE9}
+.btn.clair{color:#0D0E10}
+.btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.encre{background:#0D0E10;box-shadow:0 20px 34px -10px rgba(13,14,16,.58),0 7px 12px -3px rgba(13,14,16,.32),inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1.5px 0 rgba(0,0,0,.22)}
+.photo{position:absolute;display:block;object-fit:cover;box-shadow:0 22px 40px -16px rgba(20,18,16,.34),0 6px 12px -4px rgba(20,18,16,.16)}
+@keyframes drawS{from{stroke-dashoffset:101}to{stroke-dashoffset:0}}
+@keyframes trace{0%{stroke-dashoffset:101}50%{stroke-dashoffset:0}65%{stroke-dashoffset:0}100%{stroke-dashoffset:-102}}
+@keyframes trace2{0%{stroke-dashoffset:101}50%{stroke-dashoffset:0}65%{stroke-dashoffset:0}100%{stroke-dashoffset:-102}}
+@keyframes wIn{from{clip-path:inset(-24px 100% -24px 0)}to{clip-path:inset(-24px -24px -24px 0)}}
+@keyframes wIn2{from{clip-path:inset(-24px 100% -24px 0)}to{clip-path:inset(-24px -24px -24px 0)}}
+@keyframes wOut{from{clip-path:inset(-24px -24px -24px 0)}to{clip-path:inset(-24px 100% -24px 0)}}
+@keyframes habille{from{opacity:0}to{opacity:1}}
+@keyframes dev{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@keyframes dev2{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@keyframes devNB{0%{opacity:0;filter:grayscale(1) contrast(1.05)}45%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
+@keyframes devNB2{0%{opacity:0;filter:grayscale(1) contrast(1.05)}45%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
+@keyframes devOut{from{opacity:1}to{opacity:0}}
+@keyframes apparait{from{stroke-opacity:0}to{stroke-opacity:1}}
+@keyframes eteint{from{stroke-opacity:1}to{stroke-opacity:0}}
+@keyframes comete{from{stroke-dashoffset:0}to{stroke-dashoffset:-100}}
+.om{position:absolute;inset:-160px;pointer-events:none;overflow:hidden;animation:habille 3.5s ease-in-out 3.6s both}
+.om-i{position:absolute;inset:0;opacity:0}
+.om-i>i{position:absolute;inset:-200px}
+.dia>i{background:linear-gradient(to top right,rgba(20,18,16,0) 28%,rgba(20,18,16,.12) 40%,rgba(20,18,16,.26) 50%,rgba(20,18,16,.12) 60%,rgba(20,18,16,0) 72%);-webkit-mask-image:linear-gradient(to bottom right,#000 10%,rgba(0,0,0,.3) 75%,transparent 95%);mask-image:linear-gradient(to bottom right,#000 10%,rgba(0,0,0,.3) 75%,transparent 95%);filter:blur(14px);animation:glisseA 19s ease-in-out infinite alternate}
+.lat>i{background:linear-gradient(to left,rgba(20,18,16,.30) 0%,rgba(20,18,16,.16) 22%,rgba(20,18,16,0) 52%),linear-gradient(to top,rgba(20,18,16,.12) 0%,rgba(20,18,16,0) 30%);filter:blur(10px);animation:glisseH 23s ease-in-out infinite alternate}
+.spot>i{background:radial-gradient(ellipse 55% 60% at 50% 22%,rgba(20,18,16,0) 30%,rgba(20,18,16,.10) 62%,rgba(20,18,16,.28) 100%);animation:respire 17s ease-in-out infinite alternate}
+.cyc>i{background:linear-gradient(180deg,rgba(20,18,16,.22) 0%,rgba(20,18,16,.06) 34%,rgba(20,18,16,0) 52%,rgba(20,18,16,0) 70%,rgba(20,18,16,.10) 84%,rgba(20,18,16,.20) 100%);filter:blur(8px);animation:glisseV 21s ease-in-out infinite alternate}
+.str>i{background:linear-gradient(to top left,rgba(20,18,16,.20) 0%,rgba(20,18,16,.08) 30%,rgba(20,18,16,0) 44%,rgba(20,18,16,0) 56%,rgba(20,18,16,.08) 70%,rgba(20,18,16,.22) 100%);filter:blur(12px);animation:glisseB 25s ease-in-out infinite alternate}
+@keyframes glisseA{from{transform:translate(-70px,50px)}to{transform:translate(80px,-60px)}}
+@keyframes glisseB{from{transform:translate(70px,40px)}to{transform:translate(-60px,-50px)}}
+@keyframes glisseH{from{transform:translateX(-90px)}to{transform:translateX(60px)}}
+@keyframes glisseV{from{transform:translateY(-50px)}to{transform:translateY(40px)}}
+@keyframes respire{from{transform:translate(-60px,-20px) scale(1)}to{transform:translate(70px,20px) scale(1.06)}}
+@keyframes seul{from{opacity:0}to{opacity:1}}
+@keyframes alt0{0%{opacity:0}5%,15%{opacity:1}20%,100%{opacity:0}}
+@keyframes alt1{0%,20%{opacity:0}25%,35%{opacity:1}40%,100%{opacity:0}}
+@keyframes alt2{0%,40%{opacity:0}45%,55%{opacity:1}60%,100%{opacity:0}}
+@keyframes alt3{0%,60%{opacity:0}65%,75%{opacity:1}80%,100%{opacity:0}}
+@keyframes alt4{0%,80%{opacity:0}85%,95%{opacity:1}100%{opacity:0}}
+@media (prefers-reduced-motion: reduce){*{animation-duration:0s !important;animation-delay:0s !important;transition-duration:0s !important}}
+
+@keyframes sk{0%,100%{opacity:.45}50%{opacity:.9}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(58,166,181,.55)}50%{box-shadow:0 0 0 9px rgba(58,166,181,0)}}
+.mono{font:500 10.5px 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#4B4D52}
+.note{font:400 13px/1.55 Inter,sans-serif;color:#4B4D52}
+.mini{padding:0;border:0;background:transparent;cursor:pointer;font:500 13px Inter,sans-serif;color:#0D0E10;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
+.sk{position:absolute;border-radius:8px;background:rgba(13,14,16,.07);animation:sk 1.6s ease-in-out infinite}
+.menu{list-style:none;margin:0;padding:0}
+.it{display:flex;align-items:center;gap:12px;width:100%;height:36px;padding:0 12px;box-sizing:border-box;border:0;border-radius:12px;background:transparent;color:#0D0E10;cursor:pointer;font:400 14px Inter,sans-serif;text-align:left;transition:background .25s ease}
+.it:hover{background:rgba(13,14,16,.05)}
+.it.on{background:#0D0E10;color:#EEEDE9;box-shadow:0 12px 22px -10px rgba(13,14,16,.55)}
+.it.sub{height:32px;padding-left:38px;font-size:13.5px}
+.it .bd{margin-left:auto;min-width:20px;height:20px;padding:0 6px;box-sizing:border-box;border-radius:10px;background:#3AA6B5;color:#FFFFFF;font:500 11px 'IBM Plex Mono',monospace;display:inline-flex;align-items:center;justify-content:center}
+.it .chev{margin-left:auto;width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.8;transition:transform .3s ease}
+.it .chev.ouv{transform:rotate(90deg)}
+.ic{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.ic path{stroke-dasharray:100 102;stroke-dashoffset:101}
+.rail{position:absolute;left:24px;top:24px;bottom:24px;width:76px;border-radius:24px;overflow:hidden;transition:width .45s cubic-bezier(.45,0,.2,1);z-index:5}
+.rail:hover,.rail:focus-within{width:252px}
+.rail .it{position:relative;height:44px;padding:0 16px 0 28px;gap:18px}
+.rail .lab{white-space:nowrap;clip-path:inset(-4px 100% -4px 0);transition:clip-path .45s cubic-bezier(.45,0,.2,1)}
+.rail:hover .lab,.rail:focus-within .lab{clip-path:inset(-4px -4px -4px 0)}
+.rail .it .bd{position:absolute;left:46px;margin:0;transform:translateY(-12px);min-width:16px;height:16px;font-size:10px}
+.lig{position:absolute;display:block;color:#0D0E10;text-decoration:none;border-radius:12px;transition:background .25s ease}
+.lig:hover{background:rgba(13,14,16,.045)}
+.carte{position:absolute;display:block;color:#0D0E10;text-decoration:none;border-radius:20px;transition:transform .35s cubic-bezier(.45,0,.2,1)}
+.carte:hover{transform:translateY(-3px)}
+.it:focus-visible,.lig:focus-visible,.carte:focus-visible,.mini:focus-visible,.lien:focus-visible{outline:2px solid #0D0E10;outline-offset:3px}
+
+.puce{display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 14px;border:0;border-radius:16px;background:transparent;box-shadow:inset 0 0 0 1px rgba(13,14,16,.18);font:400 13px Inter,sans-serif;color:#0D0E10;cursor:pointer;white-space:nowrap;transition:background .25s ease,color .25s ease}
+.puce:hover{background:rgba(13,14,16,.05)}
+.puce.on{background:#0D0E10;color:#EEEDE9;box-shadow:0 10px 18px -10px rgba(13,14,16,.55)}
+.puce i{display:block;width:7px;height:7px;border-radius:4px}
+.puce b{font:500 11px 'IBM Plex Mono',monospace;opacity:.7}
+.champ label{display:block}
+.champ input,.champ textarea{display:block;box-sizing:border-box;width:100%;margin-top:6px;padding:6px 0;border:0;border-bottom:1px solid rgba(13,14,16,.35);border-radius:0;background:transparent;font:400 15px Inter,sans-serif;color:#0D0E10;outline:none;resize:none}
+.champ textarea{height:56px;line-height:1.45}
+.champ input:focus,.champ textarea:focus{border-bottom:2px solid #3AA6B5}
+.champ [aria-invalid="true"]{border-bottom:2px solid #7A1F33}
+button.btn{border:0;cursor:pointer;padding:0;background:transparent}
+.btn.off{background:transparent;color:#5D5F64;box-shadow:inset 0 0 0 1.5px rgba(13,14,16,.3);cursor:not-allowed}
+.mini.doux{color:#4B4D52}
+.mini[aria-disabled="true"]{color:#9A9CA1;text-decoration:none;cursor:default}
+.etape{display:inline-flex;align-items:center;gap:8px;font:400 13.5px Inter,sans-serif;white-space:nowrap;color:#0D0E10}
+.etape i{display:block;width:8px;height:8px;border-radius:4px}
+.tabs{position:absolute;display:flex;gap:30px}
+.tab{position:relative;height:40px;padding:0;border:0;background:transparent;cursor:pointer;font:400 15px Inter,sans-serif;color:#4B4D52;display:inline-flex;align-items:center;gap:8px}
+.tab.on{color:#0D0E10;font-weight:500}
+.tab.on::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;border-radius:1px;background:#3AA6B5;animation:wIn .45s cubic-bezier(.45,0,.2,1) both}
+.tab .bd{min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;border-radius:9px;background:#3AA6B5;color:#fff;font:500 10.5px 'IBM Plex Mono',monospace;display:inline-flex;align-items:center;justify-content:center}
+.case{position:absolute;display:flex;align-items:center;gap:12px;padding:0;border:0;background:transparent;cursor:pointer;font:400 14.5px Inter,sans-serif;color:#0D0E10}
+.case span{width:20px;height:20px;border-radius:6px;box-shadow:inset 0 0 0 1.5px rgba(13,14,16,.45);display:flex;align-items:center;justify-content:center;transition:background .2s ease}
+.case[aria-checked="true"] span{background:#0D0E10;box-shadow:none}
+.case svg{width:12px;height:12px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.opt{position:absolute;display:block;padding:0;border:0;border-radius:16px;background:transparent;box-shadow:inset 0 0 0 1px rgba(13,14,16,.16);cursor:pointer;text-align:left;color:#0D0E10;transition:box-shadow .25s ease,background .25s ease}
+.opt:hover{background:rgba(13,14,16,.035)}
+.opt.on{box-shadow:inset 0 0 0 2px #0D0E10}
+.x{position:absolute;width:44px;height:44px;padding:0;border:0;border-radius:22px;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.fond{position:absolute;inset:0}
+.sep{box-shadow:inset 0 -1px 0 rgba(13,14,16,.08)}
+.puce:focus-visible,.tab:focus-visible,.case:focus-visible,.opt:focus-visible,.btn:focus-visible,.x:focus-visible{outline:2px solid #0D0E10;outline-offset:3px}
+</style>
+</helmet>
+<div style="position: relative; width: 1440px; height: 900px; overflow: hidden; background: #FFFFFF; color: #0D0E10; font-family: Inter, system-ui, sans-serif">
+
+  <sc-if value="{{om.on}}" hint-placeholder-val="{{ true }}">
+    <div class="om" aria-hidden="true">
+      <sc-for list="{{om.cs}}" as="c" hint-placeholder-count="5">
+        <div class="{{c.cls}}" style="display: {{c.d}}; animation: {{c.a}}"><i></i></div>
+      </sc-for>
+    </div>
+  </sc-if>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="fond" style="animation: {{fond}}">
+
+  <div class="verre" aria-hidden="true" style="left: 24px; top: 24px; width: 240px; height: 852px; opacity: 0; animation: {{a.side}}"></div>
+  <svg class="ln" aria-hidden="true" style="left: 24px; top: 24px; width: 240px; height: 852px">
+    <path pathLength="100" d="M0 24 A24 24 0 0 1 24 0 L216 0 A24 24 0 0 1 240 24 L240 828 A24 24 0 0 1 216 852 L24 852 A24 24 0 0 1 0 828 Z" style="stroke-width: 1px; stroke: rgba(13,14,16,.25); animation: {{a.sideT}}"></path>
+  </svg>
+  <a href="ErpAtelier.dc.html" class="lien" style="position: absolute; left: 48px; top: 50px; font: 600 20px Inter, sans-serif; letter-spacing: -.01em"><span class="w"><span class="o" style="animation: {{a.logo.o}}">Ernest H.</span><span class="f" aria-hidden="true" style="animation: {{a.logo.f}}">Ernest H.</span></span></a>
+  <span class="mono" style="position: absolute; left: 48px; top: 80px; animation: {{a.sig}}">Atelier · photographe</span>
+  <nav aria-label="Menu de l’atelier" style="position: absolute; left: 36px; top: 124px; width: 216px">
+    <ul class="menu">
+      <sc-for list="{{menu}}" as="i" hint-placeholder-count="11">
+          <li><a href="{{i.href}}" class="{{i.cls}}" aria-current="{{i.cur}}" onClick="{{i.go}}">
+            <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="100" d="{{i.ic}}" style="animation: {{i.ai}}"></path></svg>
+            <span class="lab"><span class="w"><span class="o" style="animation: {{i.at.o}}">{{i.t}}</span><span class="f" aria-hidden="true" style="animation: {{i.at.f}}">{{i.t}}</span></span></span>
+            <sc-if value="{{i.badge}}" hint-placeholder-val="{{ false }}"><span class="bd" aria-label="{{i.badge}} en attente">{{i.badge}}</span></sc-if>
+            <sc-if value="{{i.grp}}" hint-placeholder-val="{{ false }}"><svg class="{{i.chev}}" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2 L8 6 L4 10"></path></svg></sc-if>
+          </a></li>
+      </sc-for>
+    </ul>
+  </nav>
+  <a href="PAccueil.dc.html" class="lien mini" style="position: absolute; left: 48px; top: 800px; animation: {{a.sig}}">Voir le site ↗</a>
+  <a href="#" class="lien mini" style="position: absolute; left: 48px; top: 830px; color: #4B4D52; animation: {{a.sig}}">Se déconnecter</a>
+  
+  <p class="mono" style="position: absolute; left: 304px; top: 52px; margin: 0; display: flex; align-items: center; gap: 12px">
+    <span aria-hidden="true" style="display: block; width: 28px; height: 1px; background: #D9783A; animation: {{a.eyeL}}"></span>
+    <span class="w"><span class="o" style="animation: {{a.eye.o}}">Dossiers · 12 en cours · 15 au total</span><span class="f" aria-hidden="true" style="animation: {{a.eye.f}}">Dossiers · 12 en cours · 15 au total</span></span>
+  </p>
+  <h1 style="position: absolute; left: 302px; top: 76px; margin: 0; font: 300 36px/1.1 Inter, sans-serif; letter-spacing: -.03em; filter: drop-shadow(0 6px 9px rgba(20,18,16,.18))">
+    <span class="w"><span class="o" style="animation: {{a.h1.o}}">Tous les dossiers,</span><span class="f" aria-hidden="true" style="animation: {{a.h1.f}}">Tous les dossiers,</span></span> <span class="w"><span class="o" style="animation: {{a.h2.o}}"><i style="font: italic 400 44px/1 'Instrument Serif', serif">du premier devis au jour J.</i></span><span class="f" aria-hidden="true" style="animation: {{a.h2.f}}"><i style="font: italic 400 44px/1 'Instrument Serif', serif">du premier devis au jour J.</i></span></span>
+  </h1>
+  <div class="champ" style="position: absolute; left: 304px; top: 156px; width: 300px; animation: {{a.sig}}">
+    <label class="mono" for="q">Numéro ou email du client</label>
+    <input id="q" type="search" autocomplete="off" placeholder="2027-014 ou nom@example.com">
+  </div>
+  <button type="button" class="mini" style="position: absolute; left: 624px; top: 188px; animation: {{a.sig}}" onClick="{{L.chercher}}">Rechercher</button>
+  <sc-if value="{{L.qOn}}" hint-placeholder-val="{{ false }}"><span class="note" style="position: absolute; left: 720px; top: 186px; max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{L.qT}}</span></sc-if>
+  <div role="group" aria-label="Filtrer par date de shooting" style="position: absolute; right: 64px; top: 180px; display: flex; align-items: center; gap: 8px; animation: {{a.nt}}">
+    <span class="mono" style="margin-right: 6px">Shooting</span>
+    <sc-for list="{{L.puD}}" as="p" hint-placeholder-count="4"><button type="button" class="{{p.cls}}" aria-pressed="{{p.pr}}" onClick="{{p.go}}">{{p.t}}</button></sc-for>
+  </div>
+  <div role="group" aria-label="Filtrer par étape" style="position: absolute; left: 304px; top: 236px; display: flex; gap: 8px; animation: {{a.nt}}">
+    <sc-for list="{{L.puE}}" as="p" hint-placeholder-count="7"><button type="button" class="{{p.cls}}" aria-pressed="{{p.pr}}" onClick="{{p.go}}"><sc-if value="{{p.dot}}" hint-placeholder-val="{{ true }}"><i aria-hidden="true" style="background: {{p.c}}; box-shadow: {{p.sh}}"></i></sc-if>{{p.t}}<b>{{p.n}}</b></button></sc-for>
+  </div>
+  <sc-if value="{{L.ok}}" hint-placeholder-val="{{ true }}">
+    <div class="mono" style="position: absolute; left: 304px; top: 300px; width: 1072px; height: 16px">
+      <span style="position: absolute; left: 0">N°</span><span style="position: absolute; left: 110px">Client</span><span style="position: absolute; left: 370px">Prestation</span>
+      <span style="position: absolute; left: 600px">Shooting</span><span style="position: absolute; left: 740px">Étape</span><span style="position: absolute; right: 84px">Total TVAC</span>
+    </div>
+    <svg class="ln" aria-hidden="true" style="left: 304px; top: 322px; width: 1072px; height: 2px"><path pathLength="100" d="M0 1 L1072 1" style="stroke-width: 1px; stroke: rgba(13,14,16,.25); animation: {{a.l1}}"></path></svg>
+    <sc-for list="{{L.liste}}" as="r" hint-placeholder-count="9">
+      <a href="ErpDossier.dc.html" class="lig sep" aria-label="{{r.aria}}" style="left: 290px; top: {{r.y}}px; width: 1100px; height: 48px; animation: {{r.ac}}">
+        <span class="mono" style="position: absolute; left: 14px; top: 17px; color: #0D0E10">{{r.num}}</span>
+        <span style="position: absolute; left: 124px; top: 5px; font: 400 15px Inter, sans-serif; white-space: nowrap">{{r.cli}}</span>
+        <span class="note" style="position: absolute; left: 124px; top: 25px; font-size: 12px; line-height: 1.4; white-space: nowrap">{{r.mail}}</span>
+        <span style="position: absolute; left: 384px; top: 14px; font: 400 14px Inter, sans-serif; white-space: nowrap">{{r.srv}}</span>
+        <span style="position: absolute; left: 614px; top: 14px; font: 400 14px Inter, sans-serif; white-space: nowrap">{{r.date}}</span>
+        <span class="etape" style="position: absolute; left: 754px; top: 15px"><i aria-hidden="true" style="background: {{r.eC}}; box-shadow: {{r.eS}}"></i>{{r.eL}}</span>
+        <span style="position: absolute; right: 98px; top: 15px; font: 500 13px 'IBM Plex Mono', monospace">{{r.tot}}</span>
+        <sc-if value="{{r.dem}}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" title="Demande en attente" style="position: absolute; right: 34px; top: 19px; width: 10px; height: 10px; border-radius: 5px; background: #3AA6B5; animation: pulse 2.4s ease-in-out 2s infinite"></span></sc-if>
+      </a>
+    </sc-for>
+    <p class="note" style="position: absolute; left: 304px; top: 808px; margin: 0; animation: {{a.p2}}">{{L.info}}</p>
+    <p class="note" style="position: absolute; left: 560px; top: 808px; margin: 0; display: flex; align-items: center; gap: 8px; animation: {{a.p2}}"><span aria-hidden="true" style="display: block; width: 8px; height: 8px; border-radius: 4px; background: #3AA6B5"></span>demande en attente</p>
+    <button type="button" class="mini" aria-disabled="{{L.prevD}}" style="position: absolute; right: 190px; top: 810px; animation: {{a.p2}}" onClick="{{L.prev}}">← Précédente</button>
+    <button type="button" class="mini" aria-disabled="{{L.nextD}}" style="position: absolute; right: 64px; top: 810px; animation: {{a.p2}}" onClick="{{L.next}}">Suivante →</button>
+  </sc-if>
+  <sc-if value="{{L.vide}}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; left: 304px; top: 350px; width: 640px">
+      <p style="margin: 0; font: 300 30px Inter, sans-serif; letter-spacing: -.02em"><span class="w"><span class="o" style="animation: {{a.vT.o}}">Aucun dossier ne correspond aux filtres.</span><span class="f" aria-hidden="true" style="animation: {{a.vT.f}}">Aucun dossier ne correspond aux filtres.</span></span></p>
+      <button type="button" class="mini" style="margin-top: 22px; animation: {{a.nt}}" onClick="{{L.effacer}}">Effacer les filtres</button>
+    </div>
+  </sc-if>
+  <sc-if value="{{L.charge}}" hint-placeholder-val="{{ false }}">
+    <sc-for list="{{L.sks}}" as="s" hint-placeholder-count="9"><span class="sk" style="left: {{s.l}}px; top: {{s.t}}px; width: {{s.w}}px; height: {{s.h}}px; border-radius: {{s.r}}px"></span></sc-for>
+    <p class="mono" role="status" style="position: absolute; left: 304px; top: 808px; margin: 0">Chargement des dossiers…</p>
+  </sc-if>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"ombre":{"editor":"enum","options":["Alternance","Diagonale","Studio · latérale","Studio · spot","Studio · cyclo","Studio · strip","Sans"],"default":"Alternance"},"etat":{"editor":"enum","options":["Données","Chargement","Aucun résultat"],"default":"Données"},"$preview":{"width":1440,"height":900}}'>
+// Base commune de l'atelier (structure A) : menu PID, rythme d'entrée, ombres.
+const PG = 'e11';
+const PAGE_MENU = { e10: 'bord', e11: 'dos', e12: 'dos', e12b: 'dos', e24: 'dem', e13: 'srv', e14: 'srv', e15: 'opt', e16: 'opt', e17: 'ctg', e18: 'fic', e19: 'fic', e29: 'mod' }[PG] || 'bord';
+const PAGE_GRP = { e13: 'cat', e14: 'cat', e15: 'cat', e16: 'cat', e17: 'cat', e18: 'cat', e19: 'cat', e29: 'cat' }[PG] || null;
+
+class Base extends DCLogic {
+  constructor(p) { super(p); this.state = { m: PAGE_MENU, g: PAGE_GRP, gu: false, n: 0 }; }
+  val(id) { const el = document.getElementById(id); return el ? String(el.value || '').trim() : ''; }
+  core() {
+    const K = .45, E = 'cubic-bezier(.45,0,.2,1)', st = this.state, P = this.props;
+    const T = (dl, d) => ({ o: `wIn ${(d * K).toFixed(2)}s ${E} ${(dl * K).toFixed(2)}s both`, f: `wIn ${(d * K).toFixed(2)}s ${E} ${((dl + .25) * K).toFixed(2)}s both` });
+    const H = dl => `habille 1s ease ${(dl * K).toFixed(2)}s both`;
+    const DR = (dl, d) => `drawS ${(d * K).toFixed(2)}s ${E} ${(dl * K).toFixed(2)}s both`;
+    const etat = P.etat || 'Données';
+    const ok = etat === 'Données', charge = etat === 'Chargement', vide = etat === 'Vide', erreur = etat === 'Erreur';
+    const IC = {
+      bord: 'M4 4 L11 4 L11 11 L4 11 Z M13 4 L20 4 L20 8 L13 8 Z M13 10 L20 10 L20 20 L13 20 Z M4 13 L11 13 L11 20 L4 20 Z',
+      cal: 'M4 6 L20 6 L20 20 L4 20 Z M4 10 L20 10 M8 3 L8 7 M16 3 L16 7',
+      dos: 'M3 7 L3 19 L21 19 L21 9 L11 9 L9 7 Z',
+      dem: 'M4 5 L20 5 L20 16 L10 16 L6 20 L6 16 L4 16 Z',
+      cli: 'M15 8 A3 3 0 1 0 9 8 A3 3 0 1 0 15 8 M5 20 C5 14 19 14 19 20',
+      prod: 'M3 12 A9 9 0 1 0 21 12 A9 9 0 1 0 3 12 M8 12 A4 4 0 1 0 16 12 A4 4 0 1 0 8 12',
+      arg: 'M4 12 A8 8 0 1 0 20 12 A8 8 0 1 0 4 12 M14.5 9 C13 7.5 9.5 8 9.5 10 C9.5 12.5 14.5 11.5 14.5 14 C14.5 16 11 16.5 9.5 15 M12 6.5 L12 17.5',
+      stat: 'M5 20 L5 13 M10 20 L10 8 M15 20 L15 11 M20 20 L20 5',
+      cat: 'M4 12 L12 4 L20 4 L20 12 L12 20 Z M16 8 L16.2 8',
+      red: 'M5 19 L19 5 M8 8 A2 2 0 1 0 4 8 A2 2 0 1 0 8 8 M20 16 A2 2 0 1 0 16 16 A2 2 0 1 0 20 16',
+      par: 'M11 8 A3 3 0 1 0 5 8 A3 3 0 1 0 11 8 M3 20 C3 15 13 15 13 20 M19 8 A3 3 0 1 0 13 8 M14 15 C19 14 21 17 21 20',
+      vit: 'M3 5 L21 5 L21 19 L3 19 Z M3 15 L9 10 L14 14 L17 12 L21 15',
+      reg: 'M15 12 A3 3 0 1 0 9 12 A3 3 0 1 0 15 12 M12 2 L12 5 M12 19 L12 22 M2 12 L5 12 M19 12 L22 12 M5 5 L7 7 M17 17 L19 19 M5 19 L7 17 M17 7 L19 5'
+    };
+    const MP = [
+      { k: 'bord', t: 'Tableau de bord', ic: 'bord', h: 'ErpAtelier.dc.html' }, { k: 'plan', t: 'Planning', ic: 'cal' },
+      { k: 'dos', t: 'Dossiers', ic: 'dos', h: 'ErpDossiers.dc.html' }, { k: 'dem', t: 'Demandes', ic: 'dem', h: 'ErpDemandes.dc.html' },
+      { k: 'cli', t: 'Clients', ic: 'cli' }, { k: 'prod', t: 'Production', ic: 'prod' },
+      { k: 'arg', t: 'Argent', ic: 'arg', grp: 1 }, { k: 'chf', t: 'Chiffres', p: 'arg' }, { k: 'ech', t: 'Échéanciers', p: 'arg' },
+      { k: 'stat', t: 'Statistiques', ic: 'stat' },
+      { k: 'cat', t: 'Catalogue', ic: 'cat', grp: 1 }, { k: 'srv', t: 'Services', p: 'cat', h: 'ErpServices.dc.html' }, { k: 'opt', t: 'Options', p: 'cat', h: 'ErpOptions.dc.html' },
+      { k: 'ctg', t: 'Catégories', p: 'cat', h: 'ErpCategories.dc.html' }, { k: 'fic', t: 'Fiches techniques', p: 'cat', h: 'ErpFiches.dc.html' }, { k: 'mod', t: 'Modèles de production', p: 'cat', h: 'ErpModeles.dc.html' },
+      { k: 'red', t: 'Réductions', ic: 'red' }, { k: 'par', t: 'Parrainage', ic: 'par' },
+      { k: 'vit', t: 'Vitrine', ic: 'vit', grp: 1 }, { k: 'med', t: 'Médiathèque', p: 'vit' }, { k: 'gal', t: 'Galeries', p: 'vit' },
+      { k: 'txt', t: 'Textes', p: 'vit' }, { k: 'tem', t: 'Témoignages', p: 'vit' }, { k: 'mis', t: 'Services mis en avant', p: 'vit' },
+      { k: 'reg', t: 'Réglages', ic: 'reg', grp: 1 }, { k: 'gen', t: 'Généraux', p: 'reg' }, { k: 'capa', t: 'Capacité', p: 'reg' }, { k: 'ori', t: 'Origines et étiquettes', p: 'reg' }
+    ];
+    const top = MP.filter(m => !m.p), nDem = st.reqs ? st.reqs.length : 2;
+    const menu = MP.filter(m => !m.p || st.g === m.p).map(m => {
+      const sub = !!m.p, on = st.m === m.k, href = m.h || '#';
+      const k = sub ? top.indexOf(MP.find(x => x.k === m.p)) : top.indexOf(m), j = sub ? MP.filter(x => x.p === m.p).indexOf(m) : 0;
+      const quick = sub && st.gu, kk = sub ? k + (j + 1) * .4 : k;
+      return { href, t: m.t, ic: sub ? 'M9 12 L15 12' : IC[m.ic], badge: m.k === 'dem' ? (nDem || false) : false, grp: !!m.grp,
+        cls: 'it' + (on ? ' on' : '') + (sub ? ' sub' : ''), cur: on ? 'page' : 'false', chev: 'chev' + (st.g === m.k ? ' ouv' : ''),
+        ai: quick ? DR(j * .1, .5) : DR(.4 + kk * .05, .6), at: quick ? T(.1 + j * .1, .45) : T(.5 + kk * .05, .5),
+        go: (e) => {
+          if (m.grp) { if (e && e.preventDefault) e.preventDefault(); this.setState({ g: this.state.g === m.k ? null : m.k, gu: true }); }
+          else if (href === '#') { if (e && e.preventDefault) e.preventDefault(); this.setState({ m: m.k }); }
+        } };
+    });
+    const a = {
+      sep: DR(0, .8), logo: T(.2, .7), sig: H(.6), side: H(.1), sideT: DR(0, 1),
+      eyeL: `wIn ${(.4 * K).toFixed(2)}s ${E} ${(.6 * K).toFixed(2)}s both`, eye: T(.7, .8), h1: T(.9, .8), h2: T(1.1, 1.1),
+      nt: `wIn ${(.9 * K).toFixed(2)}s ${E} ${(1.8 * K).toFixed(2)}s both`, vT: T(1.4, .9),
+      t1: T(1.9, .5), t2: T(2.1, .5), l1: DR(2, 1), l2: DR(2.2, 1), p1: H(1.7), p2: H(1.9), p3: H(2.1),
+      dn: { o: `wIn .8s ${E} .15s both`, f: `wIn .8s ${E} .3s both` }
+    };
+    const oz = this.props.ombre || 'Alternance', alterne = oz === 'Alternance';
+    const OM = [['Diagonale', 'dia'], ['Studio · latérale', 'lat'], ['Studio · spot', 'spot'], ['Studio · cyclo', 'cyc'], ['Studio · strip', 'str']];
+    const om = { on: oz !== 'Sans', cs: OM.map((o, k) => ({ cls: 'om-i ' + o[1], d: alterne || oz === o[0] ? 'block' : 'none',
+      a: alterne ? `alt${k} 70s ease-in-out infinite` : (oz === o[0] ? 'seul 2.5s ease-in-out both' : 'none') })) };
+
+    return { K, E, T, H, DR, etat, ok, charge, vide, erreur, a, menu, menuR: [], om };
+  }
+}
+
+// Logique commune de l'atelier (structure A) : menu PID, E10, E11, E12 (+ E12.a-c), E24.
+const TODAY = 20261111, J30 = 20261211;
+const eur = c => (c / 100).toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' €';
+const tot = ls => { const ht = ls.reduce((s, l) => s + l.ht, 0), tva = Math.round(ht * .21); return { ht, tva, ttc: ht + tva }; };
+const ET = { soumis: ['Soumis', '#3AA6B5'], accepte: ['Accepté', '#D9783A'], confirme: ['Confirmé', '#7A1F33'], realise: ['Réalisé', '#0D0E10'], refuse: ['Refusé', 'transparent'], annule: ['Annulé', 'transparent'] };
+const TR = { soumis: ['accepte', 'refuse', 'annule'], accepte: ['confirme', 'annule'], confirme: ['realise', 'annule'], realise: [], refuse: [], annule: [] };
+const TRL = {
+  accepte: ['Accepter le dossier', 'Les échéances de paiement sont créées (UC10.2).'],
+  refuse: ['Refuser le dossier', 'Un motif est obligatoire : il sera affiché au client.'],
+  confirme: ['Confirmer le dossier', 'Acompte ou contrat reçu.'],
+  realise: ['Clore le dossier', 'Le shooting a eu lieu.'],
+  annule: ['Annuler le dossier', 'Avec ou sans frais d’annulation, au cas par cas.']
+};
+const PROCH = { soumis: 'Accepter ou refuser ce dossier', accepte: 'Confirmer dès l’acompte reçu', confirme: 'Clore après le jour J', realise: 'Dossier clos', refuse: 'Dossier clos', annule: 'Dossier clos' };
+const L0 = [
+  { id: 'mar', t: 'Mariage · journée', d: '8 h de présence · 13:00 – 21:00 · Château de Namur', ht: 65000 },
+  { id: 'cpl', t: 'Option : séance couple', d: '1 h, le jour même, avant la soirée', ht: 12000 },
+  { id: 'exp', t: 'Option : livraison express', d: 'Galerie livrée sous 10 jours', ht: 5000 },
+  { id: 'trp', t: 'Transport', d: 'Départ photographe → Château de Namur : 64 km', ht: 3230 }
+];
+const REQ = {
+  r1: { num: '2027-014', cli: 'Camille D.', type: 'Ajout', titre: 'Ajout : album 30 × 30 cm', sous: 'Demande du 9 nov. 2026 · prix du jour de la demande', quand: 'Demandée le 9 nov. 2026 · il y a 2 jours', c: '#3AA6B5',
+    add: { id: 'alb', t: 'Album 30 × 30 cm', d: '20 pages, couverture lin', ht: 14500 } },
+  r2: { num: '2027-002', cli: 'Studio Lemaire', type: 'Fiche technique', titre: 'Horaire déplacé de 14:00 à 15:30', sous: 'Fiche « Reportage événementiel » · aujourd’hui à 06:12', quand: 'Demandée aujourd’hui à 06:12 · il y a 5 h', c: '#D9783A',
+    avant: [['Heure de début', '14:00'], ['Heure de fin', '19:00'], ['Lieu', 'Tour & Taxis, Bruxelles']],
+    apres: [['Heure de début', '15:30', 1], ['Heure de fin', '20:30', 1], ['Lieu', 'Tour & Taxis, Bruxelles']] }
+};
+const H0 = [
+  { num: '2026-041', cli: 'Famille R.', t: 'Adresse de la cérémonie changée', r: 'Validée le 8 nov.', ok: true },
+  { num: '2027-008', cli: 'Inès & Tom', t: 'Ajout : seconde photographe', r: 'Refusée le 5 nov. · motif : indisponible ce jour-là', ok: false }
+];
+const D15 = [
+  ['2027-014', 'Camille D.', 'camille.d@example.com', 'Mariage', '12 juin 2027', 20270612, 'soumis', 103128, true],
+  ['2027-019', 'Hugo M.', 'hugo.m@example.com', 'Baptême', '4 avr. 2027', 20270404, 'soumis', 41000],
+  ['2027-021', 'Sara K.', 'sara.k@example.com', 'Portrait', '9 janv. 2027', 20270109, 'soumis', 18000],
+  ['2027-002', 'Studio Lemaire', 'contact@studio-lemaire.example', 'Reportage événementiel', '20 févr. 2027', 20270220, 'accepte', 48600, true],
+  ['2026-047', 'Liège Events', 'hello@liege-events.example', 'Reportage événementiel', '6 déc. 2026', 20261206, 'accepte', 62000],
+  ['2027-008', 'Inès & Tom', 'ines.tom@example.com', 'Mariage', '3 juil. 2027', 20270703, 'accepte', 148000],
+  ['2027-011', 'Nora B.', 'nora.b@example.com', 'Portrait de famille', '15 mars 2027', 20270315, 'accepte', 26000],
+  ['2027-005', 'Café Lumen', 'bonjour@cafe-lumen.example', 'Culinaire · studio', '28 janv. 2027', 20270128, 'accepte', 34000],
+  ['2026-041', 'Famille R.', 'famille.r@example.com', 'Baptême', '14 nov. 2026', 20261114, 'confirme', 39000],
+  ['2026-043', 'Ateliers V.', 'rh@ateliers-v.example', 'Portrait d’entreprise', '18 nov. 2026', 20261118, 'confirme', 24000],
+  ['2026-044', 'Maison Ota', 'cuisine@maison-ota.example', 'Culinaire · studio', '22 nov. 2026', 20261122, 'confirme', 32010],
+  ['2026-046', 'Léa & Max', 'lea.max@example.com', 'Mariage', '19 juin 2027', 20270619, 'confirme', 121000],
+  ['2026-031', 'Julien P.', 'julien.p@example.com', 'Reportage événementiel', '17 oct. 2026', 20261017, 'realise', 52000],
+  ['2026-028', 'Amandine V.', 'amandine.v@example.com', 'Portrait', '2 oct. 2026', 20261002, 'refuse', 15000],
+  ['2026-025', 'Brasserie Nord', 'contact@brasserie-nord.example', 'Culinaire · studio', '20 sept. 2026', 20260920, 'annule', 28000]
+].map(r => ({ num: r[0], cli: r[1], mail: r[2], srv: r[3], date: r[4], k: r[5], et: r[6], c: r[7], dem: !!r[8] }));
+const FICHE = [['Lieu de la cérémonie', 'Église Saint-Loup, Namur'], ['Heure de la cérémonie', '13:30'], ['Lieu de la réception', 'Château de Namur'],
+  ['Nombre d’invités', '85'], ['Personnes à photographier en priorité', 'Grands-parents, témoins'], ['Moments clés', 'Discours, ouverture du bal'],
+  ['Contact le jour J', ''], ['Restrictions du lieu ou du culte', ''], ['Plan de table', '']];
+
+class Component extends Base {
+  constructor(p) {
+    super(p);
+    const PM = { 'Traiter la demande': 'dem', 'Retirer une ligne': 'ret', 'Changer l’étape': 'eta' };
+    Object.assign(this.state, { fe: 'tous', fd: 'toutes', q: '', pg: 0,
+      tab: 'devis', etape: 'soumis', motif: '', lignes: L0.map(l => Object.assign({}, l)), pdf: 2,
+      ver: [{ n: 2, d: '10 nov. 2026', ev: 'Fiche technique complétée' }, { n: 1, d: '9 nov. 2026', ev: 'Dossier soumis' }],
+      reqs: ['r1', 'r2'], hist: H0.slice(), dRes: null,
+      pan: PM[(p && p.panneau) || ''] || 'off', req: 'r1', ph: 'form', bz: '', err: '', sel: 'cpl', choix: null, frais: false, cl: false, n: 0, res: null });
+  }
+  open(pan, ex) {
+    const st = this.state; if (st.pan !== 'off' && !st.cl) return; clearTimeout(this.tP);
+    this.setState(Object.assign({ pan, ph: 'form', bz: '', err: '', cl: false, choix: null, frais: false, res: null }, ex || {}));
+  }
+  fermer() {
+    const st = this.state; if (st.pan === 'off' || st.cl || st.ph === 'busy') return; clearTimeout(this.tP);
+    this.setState({ cl: true, n: st.n + 1 }); this.tP = setTimeout(() => this.setState({ pan: 'off', cl: false }), 380);
+  }
+  later(bz, fn) { this.setState({ ph: 'busy', bz, err: '' }); clearTimeout(this.tP); this.tP = setTimeout(fn, 1000); }
+  montant(id) { const v = this.val(id).replace(/\s/g, '').replace(',', '.'); return /^\d{1,5}(\.\d{1,2})?$/.test(v) && Number(v) > 0 ? Math.round(Number(v) * 100) : null; }
+  newVer(ev) { const st = this.state, n = st.pdf + 1; return { pdf: n, ver: [{ n, d: '11 nov. 2026', ev }].concat(st.ver) }; }
+  valider() {
+    const st = this.state; if (st.ph !== 'form') return; const r = REQ[st.req];
+    this.later('val', () => {
+      const s = this.state, up = { ph: 'done', reqs: s.reqs.filter(k => k !== s.req) };
+      if (PG === 'e24') up.hist = [{ num: r.num, cli: r.cli, t: r.titre, r: 'Validée aujourd’hui', ok: true }].concat(s.hist);
+      else { up.dRes = true; if (r.add) { up.lignes = s.lignes.concat([Object.assign({}, r.add)]); } Object.assign(up, this.newVer('Demande validée : ' + r.titre.toLowerCase())); }
+      up.res = { ok: true, t: 'Demande validée.', s: PG === 'e24' ? 'Une nouvelle version PDF du dossier n° ' + r.num + ' est créée.' : 'Nouvelle version PDF : v' + up.pdf + (r.add ? ' · nouveau total ' + eur(tot(up.lignes).ttc) + ' TVAC.' : '.') };
+      this.setState(up);
+    });
+  }
+  refuser() {
+    const st = this.state;
+    if (st.ph === 'form') { this.setState({ ph: 'refus', err: '' }); return; }
+    if (st.ph !== 'refus') return;
+    const m = this.val('motif'); if (!m) { this.setState({ err: 'Indiquez le motif du refus : il sera affiché au client.' }); return; }
+    const r = REQ[st.req];
+    this.later('ref', () => {
+      const s = this.state, up = { ph: 'done', reqs: s.reqs.filter(k => k !== s.req), res: { ok: false, t: 'Demande refusée.', s: 'Le client voit le motif dans son dossier ; rien d’autre ne change.' } };
+      if (PG === 'e24') up.hist = [{ num: r.num, cli: r.cli, t: r.titre, r: 'Refusée aujourd’hui · motif : ' + m, ok: false }].concat(s.hist);
+      else up.dRes = false;
+      this.setState(up);
+    });
+  }
+  retour() { if (this.state.ph === 'refus') this.setState({ ph: 'form', err: '' }); }
+  retirer() {
+    const st = this.state; if (st.ph !== 'form') return; const l = st.lignes.find(x => x.id === st.sel); if (!l) return;
+    let fr = 0; if (st.frais) { fr = this.montant('fr'); if (fr === null) { this.setState({ err: 'Indiquez un montant de frais valide.' }); return; } }
+    this.later('ret', () => {
+      const s = this.state; let lg = s.lignes.filter(x => x.id !== l.id);
+      if (fr) lg = lg.concat([{ id: 'fr' + s.n, t: 'Frais de retrait', d: 'Retrait de « ' + l.t + ' »', ht: fr }]);
+      const up = Object.assign({ ph: 'done', lignes: lg }, this.newVer('Ligne retirée : ' + l.t));
+      up.res = { ok: true, t: 'Ligne retirée.', s: 'Nouvelle version PDF : v' + up.pdf + ' · nouveau total ' + eur(tot(lg).ttc) + ' TVAC.' };
+      this.setState(up);
+    });
+  }
+  changer() {
+    const st = this.state; if (st.ph !== 'form') return;
+    if (!st.choix) { this.setState({ err: 'Choisissez la nouvelle étape.' }); return; }
+    let m = '', fr = 0;
+    if (st.choix === 'refuse') { m = this.val('motif-e'); if (!m) { this.setState({ err: 'Indiquez le motif du refus : il sera affiché au client.' }); return; } }
+    if (st.choix === 'annule' && st.frais) { fr = this.montant('fa'); if (fr === null) { this.setState({ err: 'Indiquez un montant de frais valide.' }); return; } }
+    const c = st.choix;
+    this.later('eta', () => {
+      const s = this.state, up = Object.assign({ ph: 'done', etape: c, motif: m }, this.newVer('Étape : ' + ET[c][0].toLowerCase()));
+      if (fr) up.lignes = s.lignes.concat([{ id: 'fa', t: 'Frais d’annulation', d: 'Appliqués à l’annulation du dossier', ht: fr }]);
+      up.res = { ok: c !== 'refuse' && c !== 'annule', t: 'Le dossier passe à « ' + ET[c][0] + ' ».', s: 'Nouvelle version PDF : v' + up.pdf + '.' + (c === 'accepte' ? ' Les échéances sont créées.' : '') };
+      this.setState(up);
+    });
+  }
+  renderVals() {
+    const { E, T, H, DR, etat, ok, charge, vide, erreur, a, menu, menuR, om } = this.core(), st = this.state;
+
+    // ── E10 (repris du tableau de bord A) ──
+    const cpt = [
+      { lab: 'Soumis', s: 'à examiner', n: '3', c: '#3AA6B5' },
+      { lab: 'Acceptés', s: 'en attente de confirmation', n: '5', c: '#D9783A' },
+      { lab: 'Confirmés', s: 'prêts pour le jour J', n: '4', c: '#7A1F33' }
+    ].map((c, i) => Object.assign(c, { aria: c.n + ' dossiers ' + c.lab.toLowerCase() + ', voir la liste', an: T(1.6 + i * .2, .6), ac: H(1.4 + i * .2), tr: DR(1.2 + i * .2, 1) }));
+    const dem = [
+      { num: '2027-014', cli: 'Camille D.', t: 'Ajout : album 30 × 30 cm', q: 'il y a 2 jours' },
+      { num: '2027-002', cli: 'Studio Lemaire', t: 'Horaire déplacé de 14:00 à 15:30', q: 'il y a 5 h' }
+    ].map((d, i) => Object.assign(d, { aria: 'Demande sur le dossier ' + d.num + ', ' + d.cli + ' : ' + d.t, ac: H(2.2 + i * .2), at: T(2.2 + i * .2, .5) }));
+    const sh = [
+      { j: '14', mo: 'nov.', wd: 'sam.', srv: 'Baptême', lieu: 'Namur', num: '2026-041', h: '10:30', di: 3 },
+      { j: '18', mo: 'nov.', wd: 'mer.', srv: 'Portrait d’entreprise', lieu: 'Bruxelles', num: '2026-043', h: '09:00', di: 7 },
+      { j: '22', mo: 'nov.', wd: 'dim.', srv: 'Culinaire · studio', lieu: 'Bruxelles', num: '2026-044', h: '14:00', di: 11 },
+      { j: '6', mo: 'déc.', wd: 'dim.', srv: 'Reportage événementiel', lieu: 'Liège', num: '2026-047', h: '18:00', di: 25 }
+    ].map((d, i) => Object.assign(d, { aria: d.wd + ' ' + d.j + ' ' + d.mo + ', ' + d.srv + ' à ' + d.lieu + ', dossier ' + d.num, ac: H(2.4 + i * .15), at: T(2.4 + i * .15, .5) }));
+    const x = {};
+
+    // ── E11 Dossiers (liste) ──
+    const q = st.q.toLowerCase();
+    const rows = D15.filter(r => (st.fe === 'tous' || r.et === st.fe)
+      && (st.fd === 'toutes' || (st.fd === '30j' ? r.k >= TODAY && r.k <= J30 : st.fd === 'avenir' ? r.k >= TODAY : r.k < TODAY))
+      && (!q || r.num.includes(q) || r.mail.includes(q)));
+    rows.sort((x, y) => (x.k >= TODAY) !== (y.k >= TODAY) ? (x.k >= TODAY ? -1 : 1) : (x.k >= TODAY ? x.k - y.k : y.k - x.k));
+    const PS = 9, np = Math.max(1, Math.ceil(rows.length / PS)), pg = Math.min(st.pg, np - 1);
+    const clos = k => k === 'refuse' || k === 'annule';
+    const liste = rows.slice(pg * PS, pg * PS + PS).map((r, i) => Object.assign({}, r, { y: 334 + i * 50, tot: eur(r.c), eL: ET[r.et][0], eC: ET[r.et][1],
+      eS: clos(r.et) ? 'inset 0 0 0 1.5px #8C8E93' : 'none', ac: H(1.5 + i * .06),
+      aria: 'Dossier ' + r.num + ', ' + r.cli + ', ' + r.srv + ' le ' + r.date + ', ' + ET[r.et][0].toLowerCase() + ', ' + eur(r.c) + (r.dem ? ', demande en attente' : '') }));
+    const puE = [['tous', 'Tous'], ['soumis', 'Soumis'], ['accepte', 'Acceptés'], ['confirme', 'Confirmés'], ['realise', 'Réalisés'], ['refuse', 'Refusés'], ['annule', 'Annulés']]
+      .map(([k, t]) => ({ t, n: String(k === 'tous' ? D15.length : D15.filter(r => r.et === k).length), c: k === 'tous' ? 'transparent' : ET[k][1],
+        sh: k !== 'tous' && clos(k) ? 'inset 0 0 0 1.5px currentColor' : 'none', dot: k !== 'tous',
+        cls: 'puce' + (st.fe === k ? ' on' : ''), pr: st.fe === k ? 'true' : 'false', go: () => this.setState({ fe: k, pg: 0 }) }));
+    const puD = [['toutes', 'Toutes'], ['30j', '30 prochains jours'], ['avenir', 'À venir'], ['passes', 'Passés']]
+      .map(([k, t]) => ({ t, cls: 'puce' + (st.fd === k ? ' on' : ''), pr: st.fd === k ? 'true' : 'false', go: () => this.setState({ fd: k, pg: 0 }) }));
+    const sansRes = etat === 'Aucun résultat';
+    const L = { liste, puE, puD, charge, ok: ok && rows.length > 0, vide: sansRes || (ok && rows.length === 0),
+      info: 'Page ' + (pg + 1) + ' sur ' + np + ' · ' + rows.length + ' dossier' + (rows.length > 1 ? 's' : ''),
+      prevD: pg > 0 ? 'false' : 'true', nextD: pg < np - 1 ? 'false' : 'true',
+      prev: () => { if (pg > 0) this.setState({ pg: pg - 1 }); }, next: () => { if (pg < np - 1) this.setState({ pg: pg + 1 }); },
+      chercher: () => this.setState({ q: this.val('q'), pg: 0 }),
+      effacer: () => { const el = document.getElementById('q'); if (el) el.value = ''; this.setState({ fe: 'tous', fd: 'toutes', q: '', pg: 0 }); },
+      qOn: !!st.q, qT: 'Recherche : « ' + st.q + ' »',
+      sks: Array.from({ length: 9 }, (_, i) => ({ l: 304, t: 340 + i * 50, w: 1072, h: 34, r: 10 })) };
+
+    // ── E12 Dossier (ERP) ──
+    const B = PG === 'e12b', t0 = tot(st.lignes), closed = TR[st.etape].length === 0;
+    const STEPS = ['soumis', 'accepte', 'confirme', 'realise'], ix = STEPS.indexOf(st.etape);
+    const track = STEPS.map((k, i) => ({ t: ET[k][0], x: 1010 + i * 118, lx: 960 + i * 118, y: 470 + i * 48,
+      bg: ix >= i ? ET[k][1] : '#FFFFFF', bd: ix >= i ? ET[k][1] : 'rgba(13,14,16,.35)', halo: ix === i ? '0 0 0 5px rgba(13,14,16,.08)' : 'none',
+      c: ix === i ? '#0D0E10' : '#4B4D52', dt: i === 0 ? '9 nov. 2026' : (ix >= i ? '11 nov. 2026' : '—'), ac: H(1.2 + i * .12) }));
+    const pend = st.reqs.includes('r1');
+    const lignes = st.lignes.map((l, i) => ({ t: l.t, d: l.d, v: eur(l.ht), y: B ? 452 + i * 62 : 330 + i * 76, can: !closed, ac: H(1.6 + i * .1),
+      aria: 'Retirer la ligne ' + l.t, ret: () => this.open('ret', { sel: l.id }) }));
+    const nDem = pend ? 1 : 0;
+    const TABS = [['devis', 'Devis'], ['fiches', 'Fiche technique'], ['dem', 'Demandes'], ['msg', 'Messages'], ['pay', 'Paiements'], ['prod', 'Production'], ['docs', 'Documents']];
+    const tabs = TABS.map(([k, t]) => ({ t, cls: 'tab' + (st.tab === k ? ' on' : ''), sel: st.tab === k ? 'true' : 'false',
+      bd: k === 'dem' ? (nDem ? String(nDem) : false) : (k === 'msg' ? '1' : false), go: () => this.setState({ tab: k }) }));
+    const fiche = FICHE.map((f, i) => ({ t: f[0], v: f[1] || 'Sans réponse', vide: !f[1], c: f[1] ? '#0D0E10' : '#4B4D52', x: i % 2 ? 860 : 332, y: 340 + Math.floor(i / 2) * 82 }));
+    const dems = [];
+    if (pend) dems.push({ t: REQ.r1.titre, s: 'En attente · demandée le 9 nov. 2026 · +145,00 € HTVA', act: true, c: '#3AA6B5', sh: 'none' });
+    else if (st.dRes !== null) dems.push({ t: REQ.r1.titre, s: st.dRes ? 'Validée aujourd’hui' : 'Refusée aujourd’hui', act: false, c: st.dRes ? '#0D0E10' : 'transparent', sh: st.dRes ? 'none' : 'inset 0 0 0 1.5px #8C8E93' });
+    dems.push({ t: 'Ajout : vol de drone', s: 'Refusée le 10 nov. · motif : vol interdit au-dessus du château', act: false, c: 'transparent', sh: 'inset 0 0 0 1.5px #8C8E93' });
+    dems.forEach((d, i) => { d.y = 340 + i * 84; });
+    const aco = Math.round(t0.ttc * .3);
+    const ech = [{ t: 'Acompte · 30 %', v: eur(aco), s: ix >= 2 ? 'Reçu le 11 nov. 2026' : 'À recevoir avant le 11 déc. 2026', c: ix >= 2 ? '#0D0E10' : '#D9783A' },
+      { t: 'Solde', v: eur(t0.ttc - aco), s: 'Le jour J, 12 juin 2027', c: 'rgba(13,14,16,.35)' }].map((e, i) => Object.assign(e, { y: 344 + i * 84 }));
+    const vers = st.ver.map((v, i) => ({ t: 'Version ' + v.n + (i === 0 ? ' · actuelle' : ''), s: v.d + ' · ' + v.ev, y: 712 + i * 50, yd: 340 + i * 64 }));
+    const secs = [['Fiche technique', 'incomplète'], ['Messages', '1 nouveau'], ['Paiements', ix >= 1 ? '2 échéances' : 'après acceptation'], ['Production', 'après le jour J'], ['Documents', 'v' + st.pdf]]
+      .map((s, i) => ({ t: s[0], s: s[1], y: 682 + i * 36 }));
+    const D = { lignes, tabs, track, fiche, dems, ech, vers: B ? vers.slice(0, 3) : vers.slice(0, 3), versAll: vers.slice(0, 6), secs,
+      ht: eur(t0.ht), tva: eur(t0.tva), ttc: eur(t0.ttc), pdf: String(st.pdf),
+      dP: 'M1010 96 L' + (1010 + Math.max(ix, 0) * 118) + ' 96', dV: 'M1060 470 L1060 ' + (470 + Math.max(ix, 0) * 48), pOn: ix > 0,
+      etL: ET[st.etape][0], etC: ET[st.etape][1], etS: clos(st.etape) ? 'inset 0 0 0 1.5px #8C8E93' : 'none', proch: PROCH[st.etape],
+      motifT: closed && clos(st.etape) ? ' · ' + ET[st.etape][0].toLowerCase() + (st.motif ? ' · motif : ' + st.motif : '') : '',
+      pend, noPend: !pend, closed, chCls: closed ? 'btn off' : 'btn', chOp: closed ? 0 : 1, chD: closed ? 'true' : 'false', chT: closed ? 'Dossier clos' : 'Changer l’étape',
+      changer: () => { if (!closed) this.open('eta'); }, traiter: () => this.open('dem', { req: 'r1' }),
+      tDevis: st.tab === 'devis', tAutre: st.tab !== 'devis', tFiches: st.tab === 'fiches', tDem: st.tab === 'dem', tMsg: st.tab === 'msg',
+      tPay: st.tab === 'pay', tProd: st.tab === 'prod', tDocs: st.tab === 'docs', payOn: ix >= 1, payOff: ix < 1,
+      voirFiche: () => this.setState({ tab: 'fiches' }), nFaire: String((closed ? 0 : 1) + nDem + 1) };
+
+    // ── E24 Demandes en attente ──
+    const items = (vide ? [] : st.reqs).map((k, i) => { const r = REQ[k];
+      return { num: r.num, cli: r.cli, type: r.type, titre: r.titre, quand: r.quand, c: r.c, y: 176 + i * 136, ac: H(1.5 + i * .2),
+        aria: 'Traiter la demande du dossier ' + r.num + ' : ' + r.titre, go: () => this.open('dem', { req: k }) }; });
+    const hy = items.length ? 176 + items.length * 136 + 28 : 360;
+    const Q = { items, n: String(items.length), ok: items.length > 0, vide: items.length === 0, hy, histOn: st.hist.length > 0,
+      hist: st.hist.slice(0, 4).map((h, i) => Object.assign({}, h, { y: hy + 34 + i * 64, c: h.ok ? '#0D0E10' : 'transparent', sh: h.ok ? 'none' : 'inset 0 0 0 1.5px #8C8E93' })) };
+
+    // ── Panneaux E12.a, E12.b, E12.c ──
+    const r = REQ[st.req], cl = st.cl, busy = st.ph === 'busy';
+    const base = PG === 'e24' ? L0 : st.lignes;
+    const row = (t, v, i, mk) => ({ t, v, y: 182 + i * 34, mk: mk ? '#3AA6B5' : 'transparent', fw: mk ? '500' : '400' });
+    const av = r.add ? base.map((l, i) => row(l.t, eur(l.ht), i)) : r.avant.map((f, i) => row(f[0], f[1], i));
+    const ap = r.add ? base.concat([r.add]).map((l, i) => row(l.t, eur(l.ht), i, l.id === r.add.id)) : r.apres.map((f, i) => row(f[0], f[1], i, f[2]));
+    const tA = tot(base), tB = r.add ? tot(base.concat([r.add])) : tA;
+    const ln = st.lignes.find(x => x.id === st.sel) || st.lignes[0] || { t: '', d: '', ht: 0 };
+    const refusVis = st.ph === 'refus' || (busy && st.bz === 'ref');
+    const pan = { on: st.pan !== 'off', dem: st.pan === 'dem', ret: st.pan === 'ret', eta: st.pan === 'eta',
+      form: st.ph !== 'done', done: st.ph === 'done', res: st.res || { t: '', s: '' },
+      resK: st.res ? (st.res.ok ? 'C’est fait' : 'Enregistré') : '', resC: st.res && st.res.ok ? '#D9783A' : '#7A1F33',
+      back: PG === 'e24' ? 'Revenir aux demandes' : 'Revenir au dossier',
+      fl: cl ? 'devOut .3s ease-out forwards' : 'habille .7s ease .35s both', tr: cl ? `undrawS .35s ${E} both` : `drawS .55s ${E} both`,
+      ct: cl ? 'devOut .2s ease-out forwards' : 'habille .45s ease .5s both',
+      err: st.err, errOn: !!st.err, inv: st.err ? 'true' : 'false', busyA: busy ? 'true' : 'false', btCls: busy ? 'btn off' : 'btn', encOp: busy ? 0 : 1,
+      r, av, ap, hasTot: !!r.add, noTot: !r.add, totA: eur(tA.ttc), totB: eur(tB.ttc), diff: r.add ? '+' + eur(tB.ttc - tA.ttc) + ' TVAC' : '',
+      d1: !refusVis, d2: refusVis, refusVis,
+      btV: busy && st.bz === 'val' ? 'Validation…' : 'Valider la demande', btR: busy && st.bz === 'ref' ? 'Refus…' : 'Confirmer le refus',
+      lt: ln.t, ld: ln.d, lv: eur(ln.ht), frais: st.frais, frA: st.frais ? 'true' : 'false',
+      prev: 'Nouveau total sans frais : ' + eur(tot(st.lignes.filter(x => x.id !== ln.id)).ttc) + ' TVAC.',
+      btX: busy ? 'Retrait…' : 'Confirmer le retrait', btE: busy ? 'Enregistrement…' : 'Confirmer',
+      etL: ET[st.etape][0], eRef: st.choix === 'refuse', eAnn: st.choix === 'annule',
+      opts: TR[st.etape].map((k, i) => ({ t: TRL[k][0], s: TRL[k][1], c: ET[k][1], sh: clos(k) ? 'inset 0 0 0 1.5px #8C8E93' : 'none',
+        cls: 'opt' + (st.choix === k ? ' on' : ''), ck: st.choix === k ? 'true' : 'false', y: 140 + i * 70,
+        go: () => this.setState({ choix: k, err: '', frais: false }) })),
+      toggle: () => this.setState({ frais: !this.state.frais, err: '' }),
+      fermer: () => this.fermer(), valider: () => this.valider(), refuser: () => this.refuser(), retour: () => this.retour(),
+      retirer: () => this.retirer(), changer: () => this.changer() };
+    const fond = st.pan !== 'off' && !cl ? `wOut .4s ${E} both` : (st.n ? `wIn .5s ${E} .05s both` : 'none');
+
+    return { a, menu, menuR, cpt, dem, sh, ok, charge, vide, erreur, om, x, L, D, Q, pan, fond };
+  }
+}
+
+</script>
+</body>
+</html>
