@@ -7,7 +7,7 @@
   "title": "Ernest H. — DA Morphic",
   "launch": {
     "view": "canvas",
-    "page": "p14"
+    "page": "p15"
   },
   "pages": [
     {
@@ -65,6 +65,10 @@
     {
       "id": "p14",
       "name": "Atelier · catalogue"
+    },
+    {
+      "id": "p15",
+      "name": "Atelier · clients, planning, production"
     }
   ],
   "boards": {
@@ -580,6 +584,42 @@
       "title": "8 · Modèles de production (E29)",
       "is_interactive": true,
       "page": "p14"
+    },
+    "ErpClients.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "1 · Clients et prospects (E25) + Nouveau client (E26.a)",
+      "is_interactive": true,
+      "page": "p15"
+    },
+    "ErpClient.dc.html": {
+      "x": 1520,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "2 · Fiche client (E26)",
+      "is_interactive": true,
+      "page": "p15"
+    },
+    "ErpPlanning.dc.html": {
+      "x": 3040,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "3 · Planning (E39) · mois, semaine, jour",
+      "is_interactive": true,
+      "page": "p15"
+    },
+    "ErpProduction.dc.html": {
+      "x": 4560,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "4 · Production (E28) + étapes du shooting (E12.f)",
+      "is_interactive": true,
+      "page": "p15"
     }
   },
   "order": [
@@ -639,7 +679,11 @@
     "ErpCategories.dc.html",
     "ErpFiches.dc.html",
     "ErpFiche.dc.html",
-    "ErpModeles.dc.html"
+    "ErpModeles.dc.html",
+    "ErpClients.dc.html",
+    "ErpClient.dc.html",
+    "ErpPlanning.dc.html",
+    "ErpProduction.dc.html"
   ],
   "notes": {
     "titre": {
@@ -779,6 +823,14 @@
       "kind": "title1",
       "maxW": 5920,
       "page": "p14"
+    },
+    "titre15": {
+      "x": 0,
+      "y": -300,
+      "text": "Atelier : clients, planning, production",
+      "kind": "title1",
+      "maxW": 5920,
+      "page": "p15"
     }
   },
   "designSystems": []

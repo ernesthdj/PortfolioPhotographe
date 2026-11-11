@@ -102,6 +102,7 @@ svg.ln{position:absolute;overflow:visible;pointer-events:none}
 .champ input:focus,.champ textarea:focus{border-bottom:2px solid #3AA6B5}
 .champ [aria-invalid="true"]{border-bottom:2px solid #7A1F33}
 button.btn{border:0;cursor:pointer;padding:0;background:transparent}
+button.btn.encre{background:#0D0E10;color:#EEEDE9}
 .btn.off{background:transparent;color:#5D5F64;box-shadow:inset 0 0 0 1.5px rgba(13,14,16,.3);cursor:not-allowed}
 .mini.doux{color:#4B4D52}
 .mini[aria-disabled="true"]{color:#9A9CA1;text-decoration:none;cursor:default}
@@ -112,9 +113,9 @@ button.btn{border:0;cursor:pointer;padding:0;background:transparent}
 .tab.on{color:#0D0E10;font-weight:500}
 .tab.on::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;border-radius:1px;background:#3AA6B5;animation:wIn .45s cubic-bezier(.45,0,.2,1) both}
 .tab .bd{min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;border-radius:9px;background:#3AA6B5;color:#fff;font:500 10.5px 'IBM Plex Mono',monospace;display:inline-flex;align-items:center;justify-content:center}
-.case{position:absolute;display:flex;align-items:center;gap:12px;padding:0;border:0;background:transparent;cursor:pointer;font:400 14.5px Inter,sans-serif;color:#0D0E10}
-.case span{width:20px;height:20px;border-radius:6px;box-shadow:inset 0 0 0 1.5px rgba(13,14,16,.45);display:flex;align-items:center;justify-content:center;transition:background .2s ease}
-.case[aria-checked="true"] span{background:#0D0E10;box-shadow:none}
+.case{position:absolute;display:flex;white-space:nowrap;align-items:center;gap:12px;padding:0;border:0;background:transparent;cursor:pointer;font:400 14.5px Inter,sans-serif;color:#0D0E10}
+.case .bx{width:20px;height:20px;border-radius:6px;box-shadow:inset 0 0 0 1.5px rgba(13,14,16,.45);display:flex;align-items:center;justify-content:center;transition:background .2s ease}
+.case[aria-checked="true"] .bx{background:#0D0E10;box-shadow:none}
 .case svg{width:12px;height:12px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .opt{position:absolute;display:block;padding:0;border:0;border-radius:16px;background:transparent;box-shadow:inset 0 0 0 1px rgba(13,14,16,.16);cursor:pointer;text-align:left;color:#0D0E10;transition:box-shadow .25s ease,background .25s ease}
 .opt:hover{background:rgba(13,14,16,.035)}
@@ -218,11 +219,16 @@ button.btn{border:0;cursor:pointer;padding:0;background:transparent}
 <script type="text/x-dc" data-dc-script data-props='{"ombre":{"editor":"enum","options":["Alternance","Diagonale","Studio · latérale","Studio · spot","Studio · cyclo","Studio · strip","Sans"],"default":"Alternance"},"etat":{"editor":"enum","options":["Données","Chargement","Aucun résultat"],"default":"Données"},"$preview":{"width":1440,"height":900}}'>
 // Base commune de l'atelier (structure A) : menu PID, rythme d'entrée, ombres.
 const PG = 'e11';
-const PAGE_MENU = { e10: 'bord', e11: 'dos', e12: 'dos', e12b: 'dos', e24: 'dem', e13: 'srv', e14: 'srv', e15: 'opt', e16: 'opt', e17: 'ctg', e18: 'fic', e19: 'fic', e29: 'mod' }[PG] || 'bord';
+const PAGE_MENU = { e10: 'bord', e11: 'dos', e12: 'dos', e12b: 'dos', e24: 'dem', e13: 'srv', e14: 'srv', e15: 'opt', e16: 'opt', e17: 'ctg', e18: 'fic', e19: 'fic', e29: 'mod', e25: 'cli', e26: 'cli', e39: 'plan', e28: 'prod' }[PG] || 'bord';
 const PAGE_GRP = { e13: 'cat', e14: 'cat', e15: 'cat', e16: 'cat', e17: 'cat', e18: 'cat', e19: 'cat', e29: 'cat' }[PG] || null;
 
 class Base extends DCLogic {
-  constructor(p) { super(p); this.state = { m: PAGE_MENU, g: PAGE_GRP, gu: false, n: 0 }; }
+  constructor(p) { super(p); this.mem = {}; this.state = { m: PAGE_MENU, g: PAGE_GRP, gu: false, n: 0 }; }
+  ids() { return Array.from(document.querySelectorAll ? document.querySelectorAll('[data-m]') : []); }
+  lire() { this.ids().forEach(el => { if (el.id) this.mem[el.id] = el.type === 'checkbox' ? el.checked : el.value; }); }
+  remplir() { this.ids().forEach(el => { if (el.id) el.value = this.mem[el.id] == null ? '' : this.mem[el.id]; }); }
+  set(patch) { this.lire(); this.setState(patch); clearTimeout(this.tR); this.tR = setTimeout(() => this.remplir(), 0); }
+  componentDidMount() { this.tR = setTimeout(() => this.remplir(), 0); }
   val(id) { const el = document.getElementById(id); return el ? String(el.value || '').trim() : ''; }
   core() {
     const K = .45, E = 'cubic-bezier(.45,0,.2,1)', st = this.state, P = this.props;
@@ -247,9 +253,9 @@ class Base extends DCLogic {
       reg: 'M15 12 A3 3 0 1 0 9 12 A3 3 0 1 0 15 12 M12 2 L12 5 M12 19 L12 22 M2 12 L5 12 M19 12 L22 12 M5 5 L7 7 M17 17 L19 19 M5 19 L7 17 M17 7 L19 5'
     };
     const MP = [
-      { k: 'bord', t: 'Tableau de bord', ic: 'bord', h: 'ErpAtelier.dc.html' }, { k: 'plan', t: 'Planning', ic: 'cal' },
+      { k: 'bord', t: 'Tableau de bord', ic: 'bord', h: 'ErpAtelier.dc.html' }, { k: 'plan', t: 'Planning', ic: 'cal', h: 'ErpPlanning.dc.html' },
       { k: 'dos', t: 'Dossiers', ic: 'dos', h: 'ErpDossiers.dc.html' }, { k: 'dem', t: 'Demandes', ic: 'dem', h: 'ErpDemandes.dc.html' },
-      { k: 'cli', t: 'Clients', ic: 'cli' }, { k: 'prod', t: 'Production', ic: 'prod' },
+      { k: 'cli', t: 'Clients', ic: 'cli', h: 'ErpClients.dc.html' }, { k: 'prod', t: 'Production', ic: 'prod', h: 'ErpProduction.dc.html' },
       { k: 'arg', t: 'Argent', ic: 'arg', grp: 1 }, { k: 'chf', t: 'Chiffres', p: 'arg' }, { k: 'ech', t: 'Échéanciers', p: 'arg' },
       { k: 'stat', t: 'Statistiques', ic: 'stat' },
       { k: 'cat', t: 'Catalogue', ic: 'cat', grp: 1 }, { k: 'srv', t: 'Services', p: 'cat', h: 'ErpServices.dc.html' }, { k: 'opt', t: 'Options', p: 'cat', h: 'ErpOptions.dc.html' },
