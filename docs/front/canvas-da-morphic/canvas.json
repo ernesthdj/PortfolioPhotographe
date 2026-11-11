@@ -7,7 +7,7 @@
   "title": "Ernest H. — DA Morphic",
   "launch": {
     "view": "canvas",
-    "page": "p15"
+    "page": "p16"
   },
   "pages": [
     {
@@ -69,6 +69,10 @@
     {
       "id": "p15",
       "name": "Atelier · clients, planning, production"
+    },
+    {
+      "id": "p16",
+      "name": "Atelier · argent et statistiques"
     }
   ],
   "boards": {
@@ -620,6 +624,33 @@
       "title": "4 · Production (E28) + étapes du shooting (E12.f)",
       "is_interactive": true,
       "page": "p15"
+    },
+    "ErpEcheanciers.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "1 · Modèles d’échéancier (E30)",
+      "is_interactive": true,
+      "page": "p16"
+    },
+    "ErpChiffres.dc.html": {
+      "x": 1520,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "2 · Chiffres (E31)",
+      "is_interactive": true,
+      "page": "p16"
+    },
+    "ErpStats.dc.html": {
+      "x": 3040,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "3 · Statistiques (E32)",
+      "is_interactive": true,
+      "page": "p16"
     }
   },
   "order": [
@@ -683,7 +714,10 @@
     "ErpClients.dc.html",
     "ErpClient.dc.html",
     "ErpPlanning.dc.html",
-    "ErpProduction.dc.html"
+    "ErpProduction.dc.html",
+    "ErpEcheanciers.dc.html",
+    "ErpChiffres.dc.html",
+    "ErpStats.dc.html"
   ],
   "notes": {
     "titre": {
@@ -831,6 +865,14 @@
       "kind": "title1",
       "maxW": 5920,
       "page": "p15"
+    },
+    "titre16": {
+      "x": 0,
+      "y": -300,
+      "text": "Atelier : argent et statistiques",
+      "kind": "title1",
+      "maxW": 4400,
+      "page": "p16"
     }
   },
   "designSystems": []

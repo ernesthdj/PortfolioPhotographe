@@ -117,6 +117,7 @@ Collage cinématique (≈ 6,5 s) : cadres tracés, photos développées en noir 
 - Clients (E25, E26, E26.a) : liste avec filtres client / prospect, étiquette, origine et recherche ; panneau « Nouveau client » (email, nom, devis composé avec le catalogue, « Créer le dossier » ; email connu → « Ce client existe déjà », dossier créé sur son compte) ; fiche avec origine, étiquettes, dossiers, simulations envoyées et consentement, notes privées, journal des échanges (message de UC08.3).
 - Planning (E39) : vues mois, semaine, jour ; shootings colorés par étape (soumis seulement signalé), dates bloquées hachurées, livraisons et paiements en pastilles cerclées, jour « surchargé » ; clic sur un jour libre → « Bloquer cette date », sur un jour occupé → vue jour.
 - Production (E28) : shootings non livrés triés par échéance, « En retard » bordeaux, « Échéance proche » orange ; à droite les étapes du shooting (E12.f) avec « Passer à … », puis lien de livraison https:// et « Livrer » (message de UC09.3).
+- Argent et statistiques (E30, E31, E32) : modèles d’échéancier (échéances en % ou montant fixe, moment en pastilles, jours si avant ou après le shooting, rappels avant et après retard, services reliés, aperçu sur un dossier de 1 000,01 € TVAC, message de UC10.1) ; chiffres (période mois / trimestre / année / dates libres, HTVA ou TVAC, CA signé, CA encaissé, reste à percevoir avec échéances dépassées d’abord, prévisionnel par mois en barres) ; statistiques (4 familles de R11.1 en tableau et graphique, comparaison avec l’an passé, « — » sans données, point cyan = mieux, point orange = moins bien, export CSV, MSG19).
 - E24 demandes : la plus ancienne d'abord, « Traiter » ouvre E12.a sur place, « Traitées récemment » dessous.
 
 ## 6. Reste à faire
@@ -131,7 +132,8 @@ Collage cinématique (≈ 6,5 s) : cadres tracés, photos développées en noir 
 - [x] Atelier : structure A, E10, E11, E12 (+ E12.a-c), E24
 - [x] Atelier : catalogue (E13 à E19, E29)
 - [x] Atelier : clients, planning, production (E25, E26, E26.a, E28, E39)
-- [ ] Atelier : Argent, Statistiques, Réductions, Parrainage, Vitrine, Réglages (dont Origines et étiquettes E27, Capacité E40).
+- [x] Atelier : argent et statistiques (E30, E31, E32)
+- [ ] Atelier : Réductions, Parrainage, Vitrine, Réglages (dont Origines et étiquettes E27, Capacité E40).
 - [ ] Écrans encore non dessinés : fiche technique (UC02.3), Ajouter au dossier (E03.f), connexion seule.
 - [ ] Version smartphone.
 - [ ] Remplacer photos, textes entre crochets et témoignages par les vrais contenus (dans PID).

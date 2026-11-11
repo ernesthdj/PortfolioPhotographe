@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Atelier · Statistiques</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+.vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(118% 100% at 50% 44%,rgba(20,18,16,0) 48%,rgba(20,18,16,.10) 76%,rgba(20,18,16,.27) 100%);box-shadow:inset 0 0 140px rgba(20,18,16,.10)}
+.w{position:relative;display:inline-block;white-space:nowrap}
+.w .o{display:block;color:transparent;-webkit-text-stroke:1px currentColor}
+.w .f{position:absolute;left:0;top:-.24em;padding:.24em .14em .24em 0;color:inherit}
+.verre{position:absolute;border-radius:24px;background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(250,248,244,.86) 55%,rgba(240,237,231,.9) 100%);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 16px 32px -12px rgba(20,18,16,.30),0 4px 10px -3px rgba(20,18,16,.16),inset 0 1px 0 #fff,inset 0 0 0 1px rgba(255,255,255,.6),inset 0 -2px 0 rgba(20,18,16,.06),inset 0 -12px 18px -12px rgba(20,18,16,.10)}
+.verre::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(90% 140% at 22% 0%,rgba(255,255,255,.75),rgba(255,255,255,0) 60%)}
+svg.ln{position:absolute;overflow:visible;pointer-events:none}
+.ln path{fill:none;stroke:#0D0E10;stroke-width:1.5px;shape-rendering:geometricPrecision;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 102;stroke-dashoffset:101}
+.ln path.comete{stroke-dasharray:6 94;stroke-dashoffset:0}
+.ln path.fil{stroke-width:1px;stroke:rgba(13,14,16,.2)}
+.nav a,.lien{color:inherit;text-decoration:none}
+.btn{position:absolute;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:20px;text-decoration:none;font:500 14px Inter,sans-serif;color:#EEEDE9}
+.btn.clair{color:#0D0E10}
+.btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.encre{background:#0D0E10;box-shadow:0 20px 34px -10px rgba(13,14,16,.58),0 7px 12px -3px rgba(13,14,16,.32),inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1.5px 0 rgba(0,0,0,.22)}
+.photo{position:absolute;display:block;object-fit:cover;box-shadow:0 22px 40px -16px rgba(20,18,16,.34),0 6px 12px -4px rgba(20,18,16,.16)}
+@keyframes drawS{from{stroke-dashoffset:101}to{stroke-dashoffset:0}}
+@keyframes trace{0%{stroke-dashoffset:101}50%{stroke-dashoffset:0}65%{stroke-dashoffset:0}100%{stroke-dashoffset:-102}}
+@keyframes trace2{0%{stroke-dashoffset:101}50%{stroke-dashoffset:0}65%{stroke-dashoffset:0}100%{stroke-dashoffset:-102}}
+@keyframes wIn{from{clip-path:inset(-24px 100% -24px 0)}to{clip-path:inset(-24px -24px -24px 0)}}
+@keyframes wIn2{from{clip-path:inset(-24px 100% -24px 0)}to{clip-path:inset(-24px -24px -24px 0)}}
+@keyframes wOut{from{clip-path:inset(-24px -24px -24px 0)}to{clip-path:inset(-24px 100% -24px 0)}}
+@keyframes habille{from{opacity:0}to{opacity:1}}
+@keyframes dev{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@keyframes dev2{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@keyframes devNB{0%{opacity:0;filter:grayscale(1) contrast(1.05)}45%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
+@keyframes devNB2{0%{opacity:0;filter:grayscale(1) contrast(1.05)}45%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
+@keyframes devOut{from{opacity:1}to{opacity:0}}
+@keyframes apparait{from{stroke-opacity:0}to{stroke-opacity:1}}
+@keyframes eteint{from{stroke-opacity:1}to{stroke-opacity:0}}
+@keyframes comete{from{stroke-dashoffset:0}to{stroke-dashoffset:-100}}
+.om{position:absolute;inset:-160px;pointer-events:none;overflow:hidden;animation:habille 3.5s ease-in-out 3.6s both}
+.om-i{position:absolute;inset:0;opacity:0}
+.om-i>i{position:absolute;inset:-200px}
+.dia>i{background:linear-gradient(to top right,rgba(20,18,16,0) 28%,rgba(20,18,16,.12) 40%,rgba(20,18,16,.26) 50%,rgba(20,18,16,.12) 60%,rgba(20,18,16,0) 72%);-webkit-mask-image:linear-gradient(to bottom right,#000 10%,rgba(0,0,0,.3) 75%,transparent 95%);mask-image:linear-gradient(to bottom right,#000 10%,rgba(0,0,0,.3) 75%,transparent 95%);filter:blur(14px);animation:glisseA 19s ease-in-out infinite alternate}
+.lat>i{background:linear-gradient(to left,rgba(20,18,16,.30) 0%,rgba(20,18,16,.16) 22%,rgba(20,18,16,0) 52%),linear-gradient(to top,rgba(20,18,16,.12) 0%,rgba(20,18,16,0) 30%);filter:blur(10px);animation:glisseH 23s ease-in-out infinite alternate}
+.spot>i{background:radial-gradient(ellipse 55% 60% at 50% 22%,rgba(20,18,16,0) 30%,rgba(20,18,16,.10) 62%,rgba(20,18,16,.28) 100%);animation:respire 17s ease-in-out infinite alternate}
+.cyc>i{background:linear-gradient(180deg,rgba(20,18,16,.22) 0%,rgba(20,18,16,.06) 34%,rgba(20,18,16,0) 52%,rgba(20,18,16,0) 70%,rgba(20,18,16,.10) 84%,rgba(20,18,16,.20) 100%);filter:blur(8px);animation:glisseV 21s ease-in-out infinite alternate}
+.str>i{background:linear-gradient(to top left,rgba(20,18,16,.20) 0%,rgba(20,18,16,.08) 30%,rgba(20,18,16,0) 44%,rgba(20,18,16,0) 56%,rgba(20,18,16,.08) 70%,rgba(20,18,16,.22) 100%);filter:blur(12px);animation:glisseB 25s ease-in-out infinite alternate}
+@keyframes glisseA{from{transform:translate(-70px,50px)}to{transform:translate(80px,-60px)}}
+@keyframes glisseB{from{transform:translate(70px,40px)}to{transform:translate(-60px,-50px)}}
+@keyframes glisseH{from{transform:translateX(-90px)}to{transform:translateX(60px)}}
+@keyframes glisseV{from{transform:translateY(-50px)}to{transform:translateY(40px)}}
+@keyframes respire{from{transform:translate(-60px,-20px) scale(1)}to{transform:translate(70px,20px) scale(1.06)}}
+@keyframes seul{from{opacity:0}to{opacity:1}}
+@keyframes alt0{0%{opacity:0}5%,15%{opacity:1}20%,100%{opacity:0}}
+@keyframes alt1{0%,20%{opacity:0}25%,35%{opacity:1}40%,100%{opacity:0}}
+@keyframes alt2{0%,40%{opacity:0}45%,55%{opacity:1}60%,100%{opacity:0}}
+@keyframes alt3{0%,60%{opacity:0}65%,75%{opacity:1}80%,100%{opacity:0}}
+@keyframes alt4{0%,80%{opacity:0}85%,95%{opacity:1}100%{opacity:0}}
+@media (prefers-reduced-motion: reduce){*{animation-duration:0s !important;animation-delay:0s !important;transition-duration:0s !important}}
+
+@keyframes sk{0%,100%{opacity:.45}50%{opacity:.9}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(58,166,181,.55)}50%{box-shadow:0 0 0 9px rgba(58,166,181,0)}}
+.mono{font:500 10.5px 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#4B4D52}
+.note{font:400 13px/1.55 Inter,sans-serif;color:#4B4D52}
+.mini{padding:0;border:0;background:transparent;cursor:pointer;font:500 13px Inter,sans-serif;color:#0D0E10;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
+.sk{position:absolute;border-radius:8px;background:rgba(13,14,16,.07);animation:sk 1.6s ease-in-out infinite}
+.menu{list-style:none;margin:0;padding:0}
+.it{display:flex;align-items:center;gap:12px;width:100%;height:36px;padding:0 12px;box-sizing:border-box;border:0;border-radius:12px;background:transparent;color:#0D0E10;cursor:pointer;font:400 14px Inter,sans-serif;text-align:left;transition:background .25s ease}
+.it:hover{background:rgba(13,14,16,.05)}
+.it.on{background:#0D0E10;color:#EEEDE9;box-shadow:0 12px 22px -10px rgba(13,14,16,.55)}
+.it.sub{height:32px;padding-left:38px;font-size:13.5px}
+.it .bd{margin-left:auto;min-width:20px;height:20px;padding:0 6px;box-sizing:border-box;border-radius:10px;background:#3AA6B5;color:#FFFFFF;font:500 11px 'IBM Plex Mono',monospace;display:inline-flex;align-items:center;justify-content:center}
+.it .chev{margin-left:auto;width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.8;transition:transform .3s ease}
+.it .chev.ouv{transform:rotate(90deg)}
+.ic{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.ic path{stroke-dasharray:100 102;stroke-dashoffset:101}
+.rail{position:absolute;left:24px;top:24px;bottom:24px;width:76px;border-radius:24px;overflow:hidden;transition:width .45s cubic-bezier(.45,0,.2,1);z-index:5}
+.rail:hover,.rail:focus-within{width:252px}
+.rail .it{position:relative;height:44px;padding:0 16px 0 28px;gap:18px}
+.rail .lab{white-space:nowrap;clip-path:inset(-4px 100% -4px 0);transition:clip-path .45s cubic-bezier(.45,0,.2,1)}
+.rail:hover .lab,.rail:focus-within .lab{clip-path:inset(-4px -4px -4px 0)}
+.rail .it .bd{position:absolute;left:46px;margin:0;transform:translateY(-12px);min-width:16px;height:16px;font-size:10px}
+.lig{position:absolute;display:block;color:#0D0E10;text-decoration:none;border-radius:12px;transition:background .25s ease}
+.lig:hover{background:rgba(13,14,16,.045)}
+.carte{position:absolute;display:block;color:#0D0E10;text-decoration:none;border-radius:20px;transition:transform .35s cubic-bezier(.45,0,.2,1)}
+.carte:hover{transform:translateY(-3px)}
+.it:focus-visible,.lig:focus-visible,.carte:focus-visible,.mini:focus-visible,.lien:focus-visible{outline:2px solid #0D0E10;outline-offset:3px}
+
+.puce{display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 14px;border:0;border-radius:16px;background:transparent;box-shadow:inset 0 0 0 1px rgba(13,14,16,.18);font:400 13px Inter,sans-serif;color:#0D0E10;cursor:pointer;white-space:nowrap;transition:background .25s ease,color .25s ease}
+.puce:hover{background:rgba(13,14,16,.05)}
+.puce.on{background:#0D0E10;color:#EEEDE9;box-shadow:0 10px 18px -10px rgba(13,14,16,.55)}
+.puce i{display:block;width:7px;height:7px;border-radius:4px}
+.puce b{font:500 11px 'IBM Plex Mono',monospace;opacity:.7}
+.champ label{display:block}
+.champ input,.champ textarea{display:block;box-sizing:border-box;width:100%;margin-top:6px;padding:6px 0;border:0;border-bottom:1px solid rgba(13,14,16,.35);border-radius:0;background:transparent;font:400 15px Inter,sans-serif;color:#0D0E10;outline:none;resize:none}
+.champ textarea{height:56px;line-height:1.45}
+.champ input:focus,.champ textarea:focus{border-bottom:2px solid #3AA6B5}
+.champ [aria-invalid="true"]{border-bottom:2px solid #7A1F33}
+button.btn{border:0;cursor:pointer;padding:0;background:transparent}
+button.btn.encre{background:#0D0E10;color:#EEEDE9}
+.btn.off{background:transparent;color:#5D5F64;box-shadow:inset 0 0 0 1.5px rgba(13,14,16,.3);cursor:not-allowed}
+.mini.doux{color:#4B4D52}
+.mini[aria-disabled="true"]{color:#9A9CA1;text-decoration:none;cursor:default}
+.etape{display:inline-flex;align-items:center;gap:8px;font:400 13.5px Inter,sans-serif;white-space:nowrap;color:#0D0E10}
+.etape i{display:block;width:8px;height:8px;border-radius:4px}
+.tabs{position:absolute;display:flex;gap:30px}
+.tab{position:relative;height:40px;padding:0;border:0;background:transparent;cursor:pointer;font:400 15px Inter,sans-serif;color:#4B4D52;display:inline-flex;align-items:center;gap:8px}
+.tab.on{color:#0D0E10;font-weight:500}
+.tab.on::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;border-radius:1px;background:#3AA6B5;animation:wIn .45s cubic-bezier(.45,0,.2,1) both}
+.tab .bd{min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;border-radius:9px;background:#3AA6B5;color:#fff;font:500 10.5px 'IBM Plex Mono',monospace;display:inline-flex;align-items:center;justify-content:center}
+.case{position:absolute;display:flex;white-space:nowrap;align-items:center;gap:12px;padding:0;border:0;background:transparent;cursor:pointer;font:400 14.5px Inter,sans-serif;color:#0D0E10}
+.case .bx{width:20px;height:20px;border-radius:6px;box-shadow:inset 0 0 0 1.5px rgba(13,14,16,.45);display:flex;align-items:center;justify-content:center;transition:background .2s ease}
+.case[aria-checked="true"] .bx{background:#0D0E10;box-shadow:none}
+.case svg{width:12px;height:12px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.opt{position:absolute;display:block;padding:0;border:0;border-radius:16px;background:transparent;box-shadow:inset 0 0 0 1px rgba(13,14,16,.16);cursor:pointer;text-align:left;color:#0D0E10;transition:box-shadow .25s ease,background .25s ease}
+.opt:hover{background:rgba(13,14,16,.035)}
+.opt.on{box-shadow:inset 0 0 0 2px #0D0E10}
+.x{position:absolute;width:44px;height:44px;padding:0;border:0;border-radius:22px;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.fond{position:absolute;inset:0}
+.sep{box-shadow:inset 0 -1px 0 rgba(13,14,16,.08)}
+.puce:focus-visible,.tab:focus-visible,.case:focus-visible,.opt:focus-visible,.btn:focus-visible,.x:focus-visible{outline:2px solid #0D0E10;outline-offset:3px}
+
+.err{min-height:20px;margin:6px 0 0;display:flex;align-items:center;gap:8px;font:400 13px Inter,sans-serif;color:#0D0E10}
+.err i{display:block;flex:none;width:6px;height:6px;border-radius:3px;background:#7A1F33}
+.champ select{display:block;box-sizing:border-box;width:100%;margin-top:6px;padding:6px 0;border:0;border-bottom:1px solid rgba(13,14,16,.35);border-radius:0;background:transparent;font:400 15px Inter,sans-serif;color:#0D0E10;outline:none}
+.champ select:focus{border-bottom:2px solid #3AA6B5}
+.flux{display:flex;flex-wrap:wrap;gap:8px}
+.ico{position:absolute;width:26px;height:26px;padding:0;border:0;border-radius:13px;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#0D0E10}
+.ico:hover{background:rgba(13,14,16,.06)}
+.ico[aria-disabled="true"]{color:#B5B7BB;cursor:default;background:transparent}
+.ico svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ico:focus-visible{outline:2px solid #0D0E10;outline-offset:2px}
+a.btn.encre{color:#EEEDE9}
+
+.puce.pt{height:28px;padding:0 11px;font-size:12px}
+.evo{display:inline-flex;align-items:center;gap:6px;font:500 12px 'IBM Plex Mono',monospace;color:#0D0E10;white-space:nowrap}
+.evo i{display:block;width:6px;height:6px;border-radius:3px}
+.cel{position:absolute;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+</style>
+</helmet>
+<div style="position: relative; width: 1440px; height: 900px; overflow: hidden; background: #FFFFFF; color: #0D0E10; font-family: Inter, system-ui, sans-serif">
+
+  <sc-if value="{{om.on}}" hint-placeholder-val="{{ true }}">
+    <div class="om" aria-hidden="true">
+      <sc-for list="{{om.cs}}" as="c" hint-placeholder-count="5">
+        <div class="{{c.cls}}" style="display: {{c.d}}; animation: {{c.a}}"><i></i></div>
+      </sc-for>
+    </div>
+  </sc-if>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="fond" style="animation: {{fond}}">
+
+  <div class="verre" aria-hidden="true" style="left: 24px; top: 24px; width: 240px; height: 852px; opacity: 0; animation: {{a.side}}"></div>
+  <svg class="ln" aria-hidden="true" style="left: 24px; top: 24px; width: 240px; height: 852px">
+    <path pathLength="100" d="M0 24 A24 24 0 0 1 24 0 L216 0 A24 24 0 0 1 240 24 L240 828 A24 24 0 0 1 216 852 L24 852 A24 24 0 0 1 0 828 Z" style="stroke-width: 1px; stroke: rgba(13,14,16,.25); animation: {{a.sideT}}"></path>
+  </svg>
+  <a href="ErpAtelier.dc.html" class="lien" style="position: absolute; left: 48px; top: 50px; font: 600 20px Inter, sans-serif; letter-spacing: -.01em"><span class="w"><span class="o" style="animation: {{a.logo.o}}">Ernest H.</span><span class="f" aria-hidden="true" style="animation: {{a.logo.f}}">Ernest H.</span></span></a>
+  <span class="mono" style="position: absolute; left: 48px; top: 80px; animation: {{a.sig}}">Atelier · photographe</span>
+  <nav aria-label="Menu de l’atelier" style="position: absolute; left: 36px; top: 124px; width: 216px">
+    <ul class="menu">
+      <sc-for list="{{menu}}" as="i" hint-placeholder-count="11">
+          <li><a href="{{i.href}}" class="{{i.cls}}" aria-current="{{i.cur}}" onClick="{{i.go}}">
+            <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="100" d="{{i.ic}}" style="animation: {{i.ai}}"></path></svg>
+            <span class="lab"><span class="w"><span class="o" style="animation: {{i.at.o}}">{{i.t}}</span><span class="f" aria-hidden="true" style="animation: {{i.at.f}}">{{i.t}}</span></span></span>
+            <sc-if value="{{i.badge}}" hint-placeholder-val="{{ false }}"><span class="bd" aria-label="{{i.badge}} en attente">{{i.badge}}</span></sc-if>
+            <sc-if value="{{i.grp}}" hint-placeholder-val="{{ false }}"><svg class="{{i.chev}}" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2 L8 6 L4 10"></path></svg></sc-if>
+          </a></li>
+      </sc-for>
+    </ul>
+  </nav>
+  <a href="PAccueil.dc.html" class="lien mini" style="position: absolute; left: 48px; top: 800px; animation: {{a.sig}}">Voir le site ↗</a>
+  <a href="#" class="lien mini" style="position: absolute; left: 48px; top: 830px; color: #4B4D52; animation: {{a.sig}}">Se déconnecter</a>
+  
+  <p class="mono" style="position: absolute; left: 304px; top: 52px; margin: 0; display: flex; align-items: center; gap: 12px">
+    <span aria-hidden="true" style="display: block; width: 28px; height: 1px; background: #D9783A; animation: {{a.eyeL}}"></span>
+    <span class="w"><span class="o" style="animation: {{a.eye.o}}">Statistiques · comparées à la même période de l’an passé</span><span class="f" aria-hidden="true" style="animation: {{a.eye.f}}">Statistiques · comparées à la même période de l’an passé</span></span>
+  </p>
+  <h1 style="position: absolute; left: 302px; top: 76px; margin: 0; font: 300 36px/1.1 Inter, sans-serif; letter-spacing: -.03em; filter: drop-shadow(0 6px 9px rgba(20,18,16,.18))">
+    <span class="w"><span class="o" style="animation: {{a.h1.o}}">Statistiques,</span><span class="f" aria-hidden="true" style="animation: {{a.h1.f}}">Statistiques,</span></span> <span class="w"><span class="o" style="animation: {{a.h2.o}}"><i style="font: italic 400 44px/1 'Instrument Serif', serif">ce qui se vend, ce qui convertit.</i></span><span class="f" aria-hidden="true" style="animation: {{a.h2.f}}"><i style="font: italic 400 44px/1 'Instrument Serif', serif">ce qui se vend, ce qui convertit.</i></span></span>
+  </h1>
+  <button type="button" class="btn encre" style="left: 1156px; top: 72px; width: 220px; height: 48px; border-radius: 24px; animation: {{a.p1}}" onClick="{{Z.csv}}">Exporter en CSV</button>
+  
+  <sc-if value="{{G.toast}}" hint-placeholder-val="{{ false }}">
+    <p role="{{G.toastR}}" style="position: absolute; left: 848px; top: 136px; width: 528px; margin: 0; display: flex; align-items: flex-start; justify-content: flex-end; gap: 10px; font: 400 13.5px/1.45 Inter, sans-serif; text-align: right; animation: habille .5s ease both">
+      <span aria-hidden="true" style="display: block; flex: none; width: 20px; height: 1px; margin-top: 9px; background: {{G.toastC}}"></span>{{G.toastT}}
+    </p>
+  </sc-if>
+  <div class="flux" role="group" aria-label="Période" style="position: absolute; left: 304px; top: 160px"><sc-for list="{{Z.per}}" as="p" hint-placeholder-count="4"><button type="button" aria-pressed="{{p.pr}}" class="{{p.cls}}" onClick="{{p.go}}">{{p.t}}</button></sc-for></div>
+  <p class="note" style="position: absolute; left: 304px; top: 204px; margin: 0">{{Z.pT}} · comparé à {{Z.cmpT}}</p>
+  <sc-if value="{{Z.ok}}" hint-placeholder-val="{{ true }}">
+    
+    <div class="verre" aria-hidden="true" style="left: 304px; top: 236px; width: 528px; height: 316px; opacity: 0; animation: {{a.p2}}"></div>
+    <p class="mono" style="position: absolute; left: 332px; top: 258px; margin: 0">Ventes · services les plus vendus</p>
+    <sc-for list="{{Z.ventes}}" as="v" hint-placeholder-count="4">
+      <div style="position: absolute; left: 332px; top: {{v.y}}px; margin-top: 18px; width: 472px; height: 26px">
+        <span class="cel" style="left: 0; top: 4px; width: 176px; font: 400 14px Inter, sans-serif">{{v.t}}</span>
+        <span aria-hidden="true" style="position: absolute; left: 184px; top: 6px; width: {{v.w}}px; height: 6px; border-radius: 3px; background: #0D0E10"></span>
+        <span aria-hidden="true" style="position: absolute; left: 184px; top: 15px; width: {{v.wp}}px; height: 4px; border-radius: 2px; box-shadow: inset 0 0 0 1px #8C8E93"></span>
+        <span class="cel" style="left: 306px; top: 5px; width: 108px; text-align: right; font: 500 12px 'IBM Plex Mono', monospace">{{v.n}} · {{v.v}}</span>
+        <span style="position: absolute; right: 0; top: 5px"><span class="evo"><i aria-hidden="true" style="background: {{v.c}}"></i>{{v.e}}</span></span>
+      </div>
+    </sc-for>
+    <p style="position: absolute; left: 332px; top: 430px; margin: 0; font: 400 14px Inter, sans-serif">Panier moyen <b style="font-weight: 500">{{Z.panier}}</b> <span class="note">· {{Z.panierE}}</span></p>
+    <p class="note" style="position: absolute; left: 332px; top: 456px; width: 472px; margin: 0; font-size: 12.5px">Par catégorie : Mariage 58 % · Événement 20 % · Famille 14 % · Portrait 8 %</p>
+    <p class="note" style="position: absolute; left: 332px; top: 500px; margin: 0; font-size: 11.5px">Barre pleine : la période · trait fin : même période en 2025</p>
+
+    
+    <div class="verre" aria-hidden="true" style="left: 848px; top: 236px; width: 528px; height: 316px; opacity: 0; animation: {{a.p2}}"></div>
+    <p class="mono" style="position: absolute; left: 876px; top: 258px; margin: 0">Conversion · de la simulation au dossier confirmé</p>
+    <sc-for list="{{Z.conv}}" as="v" hint-placeholder-count="5">
+      <div style="position: absolute; left: 876px; top: {{v.y}}px; margin-top: 18px; width: 472px; height: 26px">
+        <span class="cel" style="left: 0; top: 4px; width: 116px; font: 400 14px Inter, sans-serif">{{v.t}}</span>
+        <span aria-hidden="true" style="position: absolute; left: 122px; top: 5px; width: {{v.w}}px; height: 14px; border-radius: 4px; background: #0D0E10; opacity: .85"></span>
+        <span class="cel" style="left: 310px; top: 5px; width: 40px; text-align: right; font: 500 12px 'IBM Plex Mono', monospace">{{v.n}}</span>
+        <span class="note" style="position: absolute; left: 360px; top: 4px; font-size: 12px">{{v.taux}}</span>
+        <span style="position: absolute; right: 0; top: 5px"><span class="evo"><i aria-hidden="true" style="background: {{v.c}}"></i>{{v.e}}</span></span>
+      </div>
+    </sc-for>
+    <p class="note" style="position: absolute; left: 876px; top: 464px; width: 472px; margin: 0; font-size: 12.5px">{{Z.motifs}}</p>
+    <p class="note" style="position: absolute; left: 876px; top: 500px; margin: 0; font-size: 11.5px">Simulations comptées sans aucune donnée personnelle</p>
+
+    
+    <div class="verre" aria-hidden="true" style="left: 304px; top: 568px; width: 528px; height: 316px; opacity: 0; animation: {{a.p2}}"></div>
+    <p class="mono" style="position: absolute; left: 332px; top: 590px; margin: 0">Réductions et parrainage</p>
+    <sc-for list="{{Z.red}}" as="v" hint-placeholder-count="2">
+      <div style="position: absolute; left: 332px; top: {{v.y}}px; margin-top: 0; width: 472px; height: 26px">
+        <span class="cel" style="left: 0; top: 4px; width: 260px; font: 400 14px Inter, sans-serif">{{v.t}}</span>
+        <span class="note" style="position: absolute; left: 270px; top: 5px; font-size: 12px">{{v.n}} dossiers</span>
+        <span style="position: absolute; right: 0; top: 5px; font: 500 12px 'IBM Plex Mono', monospace">{{v.v}}</span>
+      </div>
+    </sc-for>
+    <p style="position: absolute; left: 332px; top: 686px; margin: 0; font: 400 14px Inter, sans-serif">Montant accordé <b style="font-weight: 500">{{Z.redTot}}</b> <span class="note">· {{Z.redE}}</span></p>
+    <p style="position: absolute; left: 332px; top: 712px; margin: 0; font: 400 14px Inter, sans-serif">Dossiers venus d’un parrainage <b style="font-weight: 500">{{Z.parr}}</b> <span class="note">· {{Z.parrE}}</span></p>
+    <p class="mono" style="position: absolute; left: 332px; top: 752px; margin: 0">Origine des clients</p>
+    <div role="img" aria-label="Origine des clients : Instagram 38 %, bouche-à-oreille 25 %, Google 19 %, salon 12 %, site 6 %" style="position: absolute; left: 332px; top: 774px; width: 460px; height: 14px">
+      <sc-for list="{{Z.orig}}" as="o" hint-placeholder-count="5"><span style="position: absolute; left: {{o.x}}px; top: 0; width: {{o.w}}px; height: 14px; border-radius: 3px; background: #0D0E10; opacity: {{o.op}}"></span></sc-for>
+    </div>
+    <p class="note" style="position: absolute; left: 332px; top: 798px; width: 472px; margin: 0; font-size: 12px">Instagram 38 % · bouche-à-oreille 25 % · Google 19 % · salon 12 % · site 6 %</p>
+
+    
+    <div class="verre" aria-hidden="true" style="left: 848px; top: 568px; width: 528px; height: 316px; opacity: 0; animation: {{a.p2}}"></div>
+    <p class="mono" style="position: absolute; left: 876px; top: 590px; margin: 0">Transport et production</p>
+    <sc-for list="{{Z.trp}}" as="v" hint-placeholder-count="5">
+      <div style="position: absolute; left: 876px; top: {{v.y}}px; width: 472px; height: 26px">
+        <span class="cel" style="left: 0; top: 4px; width: 230px; font: 400 14px Inter, sans-serif">{{v.t}}</span>
+        <span style="position: absolute; left: 240px; top: 5px; font: 500 12px 'IBM Plex Mono', monospace">{{v.v}}</span>
+        <span style="position: absolute; right: 0; top: 5px"><span class="evo"><i aria-hidden="true" style="background: {{v.c}}"></i>{{v.e}}</span></span>
+      </div>
+    </sc-for>
+    <p class="note" style="position: absolute; left: 876px; top: 800px; width: 472px; margin: 0; font-size: 11.5px">Point cyan : en mieux · point orange : en moins bien · « — » : pas de comparaison possible</p>
+  </sc-if>
+  <sc-if value="{{Z.vide}}" hint-placeholder-val="{{ false }}"><p style="position: absolute; left: 304px; top: 260px; margin: 0; font: 300 30px Inter, sans-serif; letter-spacing: -.02em"><span class="w"><span class="o" style="animation: {{a.vT.o}}">Aucune donnée sur cette période.</span><span class="f" aria-hidden="true" style="animation: {{a.vT.f}}">Aucune donnée sur cette période.</span></span></p></sc-if>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"ombre":{"editor":"enum","options":["Alternance","Diagonale","Studio · latérale","Studio · spot","Studio · cyclo","Studio · strip","Sans"],"default":"Alternance"},"etat":{"editor":"enum","options":["Données","Vide"],"default":"Données"},"comparaison":{"editor":"enum","options":["Avec données","Sans données"],"default":"Avec données"},"$preview":{"width":1440,"height":900}}'>
+// Base commune de l'atelier (structure A) : menu PID, rythme d'entrée, ombres.
+const PG = 'e32';
+const PAGE_MENU = { e10: 'bord', e11: 'dos', e12: 'dos', e12b: 'dos', e24: 'dem', e13: 'srv', e14: 'srv', e15: 'opt', e16: 'opt', e17: 'ctg', e18: 'fic', e19: 'fic', e29: 'mod', e25: 'cli', e26: 'cli', e39: 'plan', e28: 'prod', e30: 'ech', e31: 'chf', e32: 'stat' }[PG] || 'bord';
+const PAGE_GRP = { e13: 'cat', e14: 'cat', e15: 'cat', e16: 'cat', e17: 'cat', e18: 'cat', e19: 'cat', e29: 'cat', e30: 'arg', e31: 'arg' }[PG] || null;
+
+class Base extends DCLogic {
+  constructor(p) { super(p); this.mem = {}; this.state = { m: PAGE_MENU, g: PAGE_GRP, gu: false, n: 0 }; }
+  ids() { return Array.from(document.querySelectorAll ? document.querySelectorAll('[data-m]') : []); }
+  lire() { this.ids().forEach(el => { if (el.id) this.mem[el.id] = el.type === 'checkbox' ? el.checked : el.value; }); }
+  remplir() { this.ids().forEach(el => { if (el.id) el.value = this.mem[el.id] == null ? '' : this.mem[el.id]; }); }
+  set(patch) { this.lire(); this.setState(patch); clearTimeout(this.tR); this.tR = setTimeout(() => this.remplir(), 0); }
+  componentDidMount() { this.tR = setTimeout(() => this.remplir(), 0); }
+  val(id) { const el = document.getElementById(id); return el ? String(el.value || '').trim() : ''; }
+  core() {
+    const K = .45, E = 'cubic-bezier(.45,0,.2,1)', st = this.state, P = this.props;
+    const T = (dl, d) => ({ o: `wIn ${(d * K).toFixed(2)}s ${E} ${(dl * K).toFixed(2)}s both`, f: `wIn ${(d * K).toFixed(2)}s ${E} ${((dl + .25) * K).toFixed(2)}s both` });
+    const H = dl => `habille 1s ease ${(dl * K).toFixed(2)}s both`;
+    const DR = (dl, d) => `drawS ${(d * K).toFixed(2)}s ${E} ${(dl * K).toFixed(2)}s both`;
+    const etat = P.etat || 'Données';
+    const ok = etat === 'Données', charge = etat === 'Chargement', vide = etat === 'Vide', erreur = etat === 'Erreur';
+    const IC = {
+      bord: 'M4 4 L11 4 L11 11 L4 11 Z M13 4 L20 4 L20 8 L13 8 Z M13 10 L20 10 L20 20 L13 20 Z M4 13 L11 13 L11 20 L4 20 Z',
+      cal: 'M4 6 L20 6 L20 20 L4 20 Z M4 10 L20 10 M8 3 L8 7 M16 3 L16 7',
+      dos: 'M3 7 L3 19 L21 19 L21 9 L11 9 L9 7 Z',
+      dem: 'M4 5 L20 5 L20 16 L10 16 L6 20 L6 16 L4 16 Z',
+      cli: 'M15 8 A3 3 0 1 0 9 8 A3 3 0 1 0 15 8 M5 20 C5 14 19 14 19 20',
+      prod: 'M3 12 A9 9 0 1 0 21 12 A9 9 0 1 0 3 12 M8 12 A4 4 0 1 0 16 12 A4 4 0 1 0 8 12',
+      arg: 'M4 12 A8 8 0 1 0 20 12 A8 8 0 1 0 4 12 M14.5 9 C13 7.5 9.5 8 9.5 10 C9.5 12.5 14.5 11.5 14.5 14 C14.5 16 11 16.5 9.5 15 M12 6.5 L12 17.5',
+      stat: 'M5 20 L5 13 M10 20 L10 8 M15 20 L15 11 M20 20 L20 5',
+      cat: 'M4 12 L12 4 L20 4 L20 12 L12 20 Z M16 8 L16.2 8',
+      red: 'M5 19 L19 5 M8 8 A2 2 0 1 0 4 8 A2 2 0 1 0 8 8 M20 16 A2 2 0 1 0 16 16 A2 2 0 1 0 20 16',
+      par: 'M11 8 A3 3 0 1 0 5 8 A3 3 0 1 0 11 8 M3 20 C3 15 13 15 13 20 M19 8 A3 3 0 1 0 13 8 M14 15 C19 14 21 17 21 20',
+      vit: 'M3 5 L21 5 L21 19 L3 19 Z M3 15 L9 10 L14 14 L17 12 L21 15',
+      reg: 'M15 12 A3 3 0 1 0 9 12 A3 3 0 1 0 15 12 M12 2 L12 5 M12 19 L12 22 M2 12 L5 12 M19 12 L22 12 M5 5 L7 7 M17 17 L19 19 M5 19 L7 17 M17 7 L19 5'
+    };
+    const MP = [
+      { k: 'bord', t: 'Tableau de bord', ic: 'bord', h: 'ErpAtelier.dc.html' }, { k: 'plan', t: 'Planning', ic: 'cal', h: 'ErpPlanning.dc.html' },
+      { k: 'dos', t: 'Dossiers', ic: 'dos', h: 'ErpDossiers.dc.html' }, { k: 'dem', t: 'Demandes', ic: 'dem', h: 'ErpDemandes.dc.html' },
+      { k: 'cli', t: 'Clients', ic: 'cli', h: 'ErpClients.dc.html' }, { k: 'prod', t: 'Production', ic: 'prod', h: 'ErpProduction.dc.html' },
+      { k: 'arg', t: 'Argent', ic: 'arg', grp: 1 }, { k: 'chf', t: 'Chiffres', p: 'arg', h: 'ErpChiffres.dc.html' }, { k: 'ech', t: 'Échéanciers', p: 'arg', h: 'ErpEcheanciers.dc.html' },
+      { k: 'stat', t: 'Statistiques', ic: 'stat', h: 'ErpStats.dc.html' },
+      { k: 'cat', t: 'Catalogue', ic: 'cat', grp: 1 }, { k: 'srv', t: 'Services', p: 'cat', h: 'ErpServices.dc.html' }, { k: 'opt', t: 'Options', p: 'cat', h: 'ErpOptions.dc.html' },
+      { k: 'ctg', t: 'Catégories', p: 'cat', h: 'ErpCategories.dc.html' }, { k: 'fic', t: 'Fiches techniques', p: 'cat', h: 'ErpFiches.dc.html' }, { k: 'mod', t: 'Modèles de production', p: 'cat', h: 'ErpModeles.dc.html' },
+      { k: 'red', t: 'Réductions', ic: 'red' }, { k: 'par', t: 'Parrainage', ic: 'par' },
+      { k: 'vit', t: 'Vitrine', ic: 'vit', grp: 1 }, { k: 'med', t: 'Médiathèque', p: 'vit' }, { k: 'gal', t: 'Galeries', p: 'vit' },
+      { k: 'txt', t: 'Textes', p: 'vit' }, { k: 'tem', t: 'Témoignages', p: 'vit' }, { k: 'mis', t: 'Services mis en avant', p: 'vit' },
+      { k: 'reg', t: 'Réglages', ic: 'reg', grp: 1 }, { k: 'gen', t: 'Généraux', p: 'reg' }, { k: 'capa', t: 'Capacité', p: 'reg' }, { k: 'ori', t: 'Origines et étiquettes', p: 'reg' }
+    ];
+    const top = MP.filter(m => !m.p), nDem = st.reqs ? st.reqs.length : 2;
+    const menu = MP.filter(m => !m.p || st.g === m.p).map(m => {
+      const sub = !!m.p, on = st.m === m.k, href = m.h || '#';
+      const k = sub ? top.indexOf(MP.find(x => x.k === m.p)) : top.indexOf(m), j = sub ? MP.filter(x => x.p === m.p).indexOf(m) : 0;
+      const quick = sub && st.gu, kk = sub ? k + (j + 1) * .4 : k;
+      return { href, t: m.t, ic: sub ? 'M9 12 L15 12' : IC[m.ic], badge: m.k === 'dem' ? (nDem || false) : false, grp: !!m.grp,
+        cls: 'it' + (on ? ' on' : '') + (sub ? ' sub' : ''), cur: on ? 'page' : 'false', chev: 'chev' + (st.g === m.k ? ' ouv' : ''),
+        ai: quick ? DR(j * .1, .5) : DR(.4 + kk * .05, .6), at: quick ? T(.1 + j * .1, .45) : T(.5 + kk * .05, .5),
+        go: (e) => {
+          if (m.grp) { if (e && e.preventDefault) e.preventDefault(); this.setState({ g: this.state.g === m.k ? null : m.k, gu: true }); }
+          else if (href === '#') { if (e && e.preventDefault) e.preventDefault(); this.setState({ m: m.k }); }
+        } };
+    });
+    const a = {
+      sep: DR(0, .8), logo: T(.2, .7), sig: H(.6), side: H(.1), sideT: DR(0, 1),
+      eyeL: `wIn ${(.4 * K).toFixed(2)}s ${E} ${(.6 * K).toFixed(2)}s both`, eye: T(.7, .8), h1: T(.9, .8), h2: T(1.1, 1.1),
+      nt: `wIn ${(.9 * K).toFixed(2)}s ${E} ${(1.8 * K).toFixed(2)}s both`, vT: T(1.4, .9),
+      t1: T(1.9, .5), t2: T(2.1, .5), l1: DR(2, 1), l2: DR(2.2, 1), p1: H(1.7), p2: H(1.9), p3: H(2.1),
+      dn: { o: `wIn .8s ${E} .15s both`, f: `wIn .8s ${E} .3s both` }
+    };
+    const oz = this.props.ombre || 'Alternance', alterne = oz === 'Alternance';
+    const OM = [['Diagonale', 'dia'], ['Studio · latérale', 'lat'], ['Studio · spot', 'spot'], ['Studio · cyclo', 'cyc'], ['Studio · strip', 'str']];
+    const om = { on: oz !== 'Sans', cs: OM.map((o, k) => ({ cls: 'om-i ' + o[1], d: alterne || oz === o[0] ? 'block' : 'none',
+      a: alterne ? `alt${k} 70s ease-in-out infinite` : (oz === o[0] ? 'seul 2.5s ease-in-out both' : 'none') })) };
+
+    return { K, E, T, H, DR, etat, ok, charge, vide, erreur, a, menu, menuR: [], om };
+  }
+}
+
+// Argent (F10) et statistiques (F11) : E30 modèles d'échéancier, E31 chiffres, E32 statistiques.
+const eur = c => (c / 100).toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' €';
+const eur0 = c => Math.round(c / 100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' €';
+const n2 = v => { const s = String(v == null ? '' : v).replace(/\s/g, '').replace(',', '.'); if (s === '') return null; return /^-?\d+(\.\d+)?$/.test(s) ? Number(s) : NaN; };
+const MOM = ['À la confirmation', 'Jours avant le shooting', 'Jours après le shooting', 'À la livraison'];
+const SVC_E = [['mar', 'Mariage · journée'], ['cer', 'Mariage · cérémonie'], ['bap', 'Baptême'], ['fam', 'Portrait de famille'], ['ent', 'Portrait d’entreprise'], ['rep', 'Reportage événementiel'], ['cul', 'Culinaire · studio']];
+const ECH0 = [
+  { k: 'e1', t: 'Mariage · acompte et solde', rows: [{ k: 'r1', lib: 'Acompte', md: 'pct', v: '30', mo: 'À la confirmation', j: '' }, { k: 'r2', lib: 'Solde', md: 'pct', v: '70', mo: 'Jours après le shooting', j: '7' }],
+    rap: { av: true, avJ: '3', ap: true, apJ: '3' }, sv: ['mar', 'cer'] },
+  { k: 'e2', t: 'Portrait · paiement unique', rows: [{ k: 'r1', lib: 'Paiement', md: 'pct', v: '100', mo: 'À la livraison', j: '' }],
+    rap: { av: false, avJ: '', ap: true, apJ: '5' }, sv: ['bap', 'fam', 'ent'] },
+  { k: 'e3', t: 'Entreprise · moitié, moitié', rows: [{ k: 'r1', lib: 'Acompte', md: 'pct', v: '50', mo: 'À la confirmation', j: '' }, { k: 'r2', lib: 'Solde', md: 'pct', v: '50', mo: 'À la livraison', j: '' }],
+    rap: { av: true, avJ: '5', ap: true, apJ: '3' }, sv: ['rep', 'cul'] }
+];
+// Chiffres (TVAC, en centimes) par période.
+const PER = { mois: ['Novembre 2026', 284000, 196540, 'Octobre'], trim: ['Sept. – nov. 2026', 962000, 810530, ''], an: ['Année 2026', 3148000, 2790215, ''], libre: ['Du 1 oct. au 11 nov. 2026', 512000, 401320, ''] };
+const RESTE = [
+  { num: '2026-019', cli: 'Thomas & Léa', t: 'Solde', du: '26 sept.', dk: 20260926, v: 112000 },
+  { num: '2026-031', cli: 'Julien P.', t: 'Solde', du: '24 oct.', dk: 20261024, v: 36400 },
+  { num: '2026-047', cli: 'Liège Events', t: 'Acompte', du: '20 nov.', dk: 20261120, v: 18600 },
+  { num: '2027-008', cli: 'Inès & Tom', t: 'Acompte', du: '20 nov.', dk: 20261120, v: 44400 },
+  { num: '2026-041', cli: 'Famille R.', t: 'Solde', du: '3 déc.', dk: 20261203, v: 27300 },
+  { num: '2027-002', cli: 'Studio Lemaire', t: 'Acompte', du: '6 déc.', dk: 20261206, v: 24300 }
+];
+const PREV = [['déc.', 218000], ['janv.', 142000], ['févr.', 98000], ['mars', 64000], ['avr.', 126000], ['mai', 86000], ['juin', 394000], ['juil.', 148000]];
+// Statistiques : valeurs de la période et de la même période de l'an passé (trimestre de référence).
+const FAC = { mois: .34, trim: 1, an: 3.7, libre: .48 };
+const STAT = {
+  ventes: [['Mariage · journée', 6, 390000, 4, 260000], ['Reportage événementiel', 4, 132000, 5, 165000], ['Baptême', 3, 96000, 3, 96000], ['Portrait de famille', 3, 60000, 2, 40000]],
+  panier: [81200, 74400],
+  conv: [['Simulations', 214, 160], ['Prospects', 38, 30], ['Devis soumis', 21, 17], ['Acceptés', 15, 12], ['Confirmés', 12, 10]],
+  motifs: 'Refus : date indisponible (2), budget (1) · Annulation : report du mariage (1)',
+  red: [['Mariage hors saison', 4, 48000], ['Code parrain', 3, 15000]], redTot: [63000, 41000], parr: [3, 1],
+  orig: [['Instagram', 38], ['Bouche-à-oreille', 25], ['Google', 19], ['Salon', 12], ['Site', 6]],
+  trp: [['Km facturés', 412, 388, 'km'], ['Km offerts (seuil)', 360, 300, 'km'], ['Montant du transport', 18540, 17460, 'eur'], ['Délai moyen de livraison', 24, 31, 'j'], ['Livraisons en retard', 2, 4, 'n']]
+};
+
+class Component extends Base {
+  constructor(p) {
+    super(p);
+    Object.assign(this.state, { toast: null, tErr: false, busy: false,
+      mods: ECH0.map(m => ({ k: m.k, t: m.t, rows: m.rows.map(r => Object.assign({}, r)), rap: Object.assign({}, m.rap), sv: m.sv.slice() })), sel: 'e1', rk: 3, errE: '',
+      per: 'trim', base: 'TVAC' });
+    if (PG === 'e30') this.memMod('e1');
+  }
+  memMod(k) { const m = this.state.mods.find(x => x.k === k); this.mem.enom = m.t; m.rows.forEach(r => { this.mem['lib-' + r.k] = r.lib; this.mem['val-' + r.k] = r.v; this.mem['j-' + r.k] = r.j; }); this.mem.avJ = m.rap.avJ; this.mem.apJ = m.rap.apJ; }
+  patch(fn) { const st = this.state; return { mods: st.mods.map(m => m.k === st.sel ? fn(Object.assign({}, m, { rows: m.rows.map(r => Object.assign({}, r)), rap: Object.assign({}, m.rap), sv: m.sv.slice() })) : m) }; }
+  sync() { this.lire(); return this.patch(m => { m.t = this.mem.enom; m.rows.forEach(r => { r.lib = this.mem['lib-' + r.k]; r.v = this.mem['val-' + r.k]; r.j = this.mem['j-' + r.k]; }); m.rap.avJ = this.mem.avJ; m.rap.apJ = this.mem.apJ; return m; }); }
+  choisir(k) { const up = this.sync(); this.memMod.call({ state: { mods: up.mods }, mem: this.mem }, k); this.setState(Object.assign(up, { sel: k, errE: '', toast: null })); clearTimeout(this.tR); this.tR = setTimeout(() => this.remplir(), 0); }
+  enregistrer() {
+    const up = this.sync(), m = up.mods.find(x => x.k === this.state.sel);
+    const pct = m.rows.filter(r => r.md === 'pct').reduce((s, r) => s + (n2(r.v) || 0), 0);
+    if (m.rows.some(r => { const v = n2(r.v); return v === null || isNaN(v) || v < 0; })) return this.set(Object.assign(up, { errE: 'Indiquez un montant ou un pourcentage pour chaque échéance.', toast: null }));
+    if (pct > 100) return this.set(Object.assign(up, { errE: 'La somme des pourcentages dépasse 100 %.', toast: null }));
+    this.set(Object.assign(up, { errE: '', busy: true })); clearTimeout(this.tS);
+    this.tS = setTimeout(() => this.set({ busy: false, toast: 'Modèle enregistré. Il s’applique aux dossiers acceptés à partir de maintenant.', tErr: false }), 900);
+  }
+
+  renderVals() {
+    const { E, T, H, DR, etat, ok, charge, vide, erreur, a, menu, menuR, om } = this.core(), st = this.state;
+    const x = {}, fond = 'none';
+    const chip = (on, go, extra) => Object.assign({ cls: 'puce' + (on ? ' on' : ''), pr: on ? 'true' : 'false', ck: on ? 'true' : 'false', go }, extra || {});
+    const G = { toast: !!st.toast, toastT: st.toast || '', toastC: st.tErr ? '#7A1F33' : '#D9783A', toastR: st.tErr ? 'alert' : 'status',
+      btCls: st.busy ? 'btn off' : 'btn', encOp: st.busy ? 0 : 1, busy: st.busy ? 'true' : 'false', bt: st.busy ? 'Enregistrement…' : 'Enregistrer le modèle' };
+
+    // ── E30 ──
+    const md = st.mods.find(m => m.k === st.sel), nR = md.rows.length;
+    const ex = 100001, pcts = md.rows.map(r => r.md === 'pct' ? n2(r.v) || 0 : 0), fixes = md.rows.map(r => r.md === 'fixe' ? Math.round((n2(r.v) || 0) * 100) : 0);
+    let rest = ex; const parts = md.rows.map((r, i) => { const v = i === nR - 1 ? rest : (r.md === 'pct' ? Math.floor(ex * pcts[i]) / 100 : fixes[i]); const c = Math.round(v); rest -= c; return c; });
+    const sumPct = pcts.reduce((s, v) => s + v, 0);
+    const S = { mods: st.mods.map((m, i) => ({ t: m.t, s: m.rows.length + ' échéance' + (m.rows.length > 1 ? 's' : '') + ' · ' + m.sv.length + ' services', y: 176 + i * 96,
+        cur: m.k === st.sel ? 'true' : 'false', sh: m.k === st.sel ? 'inset 0 0 0 2px #0D0E10' : 'none', ac: H(1.5 + i * .1), go: () => this.choisir(m.k) })),
+      rows: md.rows.map((r, i) => ({ lib: 'lib-' + r.k, val: 'val-' + r.k, j: 'j-' + r.k, n: String(i + 1), y: 330 + i * 100, ariaL: 'Libellé de l’échéance ' + (i + 1), ariaV: 'Valeur de l’échéance ' + (i + 1), ariaJ: 'Nombre de jours, échéance ' + (i + 1),        mos: MOM.map((mo, j) => chip(r.mo === mo, () => this.set(this.patch(m => { m.rows[i].mo = mo; return m; })), { t: ['Confirmation', 'Avant le shooting', 'Après le shooting', 'Livraison'][j] })),
+        dern: i === nR - 1, unit: r.md === 'pct' ? '%' : '€', jOn: /^Jours/.test(r.mo),
+        mds: [['pct', '%'], ['fixe', 'Montant fixe']].map(([k, t]) => chip(r.md === k, () => this.set(this.patch(m => { m.rows[i].md = k; return m; })), { t })),
+        setMo: () => {}, rm: () => this.set(this.patch(m => { m.rows = m.rows.filter(z => z.k !== r.k); return m; })), rmOn: nR > 1, aria: 'Retirer l’échéance ' + (i + 1) })),
+      addY: 330 + nR * 100, addOn: nR < 3, add: () => this.set(Object.assign(this.patch(m => { m.rows.push({ k: 'r' + (st.rk + 1), lib: '', md: 'pct', v: '', mo: 'À la livraison', j: '' }); return m; }), { rk: st.rk + 1 })),
+      apercu: 'Exemple pour un dossier de ' + eur(ex) + ' TVAC : ' + parts.map(eur).join(' + ') + (sumPct < 100 && md.rows.every(r => r.md === 'pct') ? ' (le reste va sur la dernière échéance)' : ''),
+      av: md.rap.av ? 'true' : 'false', avOn: md.rap.av, ap: md.rap.ap ? 'true' : 'false', apOn: md.rap.ap,
+      togAv: () => this.set(this.patch(m => { m.rap.av = !m.rap.av; return m; })), togAp: () => this.set(this.patch(m => { m.rap.ap = !m.rap.ap; return m; })),
+      sv: SVC_E.map(([k, t]) => chip(md.sv.includes(k), () => this.set(this.patch(m => { m.sv = m.sv.includes(k) ? m.sv.filter(z => z !== k) : m.sv.concat([k]); return m; })), { t })),
+      eE: st.errE, eEOn: !!st.errE, save: () => this.enregistrer(), moms: MOM };
+
+    // ── E31 ──
+    const tv = st.base === 'TVAC', cv = c => tv ? c : Math.round(c / 1.21);
+    const p = PER[st.per], resteTot = RESTE.reduce((s, r) => s + r.v, 0), prev3 = PREV.slice(0, 3).reduce((s, m) => s + m[1], 0);
+    const pmax = Math.max.apply(null, PREV.map(m => m[1]));
+    const C = { per: [['mois', 'Mois'], ['trim', 'Trimestre'], ['an', 'Année'], ['libre', 'Dates libres']].map(([k, t]) => chip(st.per === k, () => this.set({ per: k }), { t })),
+      libre: st.per === 'libre', pT: p[0], bases: ['HTVA', 'TVAC'].map(b => chip(st.base === b, () => this.setState({ base: b }), { t: b })),
+      kpi: [['CA signé', cv(p[1]), 'dossiers confirmés et réalisés, par date de confirmation'], ['CA encaissé', cv(p[2]), 'paiements reçus, par date de paiement'],
+        ['Reste à percevoir', cv(resteTot), RESTE.filter(r => r.dk < 20261111).length + ' échéances dépassées'], ['Prévisionnel · 3 mois', cv(prev3), 'échéances de décembre à février']]
+        .map((k, i) => ({ t: k[0], v: eur(k[1]), s: k[2], x: 304 + i * 274, ac: H(1.5 + i * .12), an: T(1.6 + i * .12, .6) })),
+      bars: PREV.map((m, i) => { const h = Math.round(m[1] / pmax * 190); return { t: m[0], v: eur0(cv(m[1])), x: 340 + i * 58, y: 776 - h, h, ac: `drawS 0s linear 0s both`, a2: H(1.9 + i * .06) }; }),
+      reste: RESTE.slice().sort((r, s) => (r.dk < 20261111) === (s.dk < 20261111) ? r.dk - s.dk : (r.dk < 20261111 ? -1 : 1)).map((r, i) => ({
+        num: r.num, cli: r.cli, t: r.t, du: r.du, v: eur(cv(r.v)), y: 488 + i * 58, late: r.dk < 20261111, c: r.dk < 20261111 ? '#7A1F33' : 'transparent', sh: r.dk < 20261111 ? 'none' : 'inset 0 0 0 1.5px #8C8E93',
+        lab: r.dk < 20261111 ? 'dépassée · due le ' + r.du : 'due le ' + r.du, aria: r.t + ' du dossier ' + r.num + ', ' + r.cli + ', ' + eur(cv(r.v)) + (r.dk < 20261111 ? ', dépassée' : ''), ac: H(1.8 + i * .06) })),
+      baseT: tv ? 'TVAC' : 'HTVA', vide };
+
+    // ── E32 ──
+    const f = FAC[st.per], sansCmp = (this.props.comparaison || 'Avec données') === 'Sans données';
+    const ev = (a2, b2) => sansCmp || !b2 ? '—' : a2 === b2 ? '0 %' : ((a2 - b2) / b2 * 100 >= 0 ? '+' : '−') + Math.abs(Math.round((a2 - b2) / b2 * 100)) + ' %';
+    const evC = (a2, b2) => sansCmp || !b2 || a2 === b2 ? 'transparent' : (a2 > b2 ? '#3AA6B5' : '#D9783A');
+    const sc = v => Math.max(0, Math.round(v * f)), scE = v => Math.round(v * f);
+    const vmax = Math.max.apply(null, STAT.ventes.map(r => r[2]));
+    const Z = { per: C.per, pT: p[0], cmpT: sansCmp ? 'pas de données l’an passé' : 'même période 2025', ok: !vide, vide,
+      ventes: STAT.ventes.map((r, i) => ({ t: r[0], n: String(sc(r[1])), v: eur0(scE(r[2])), e: ev(r[2], r[4]), c: evC(r[2], r[4]), y: 268 + i * 30,
+        w: Math.round(r[2] / vmax * 116), wp: sansCmp ? 0 : Math.round(r[4] / vmax * 116) })),
+      panier: eur0(STAT.panier[0]), panierE: ev(STAT.panier[0], STAT.panier[1]),
+      conv: STAT.conv.map((r, i) => ({ t: r[0], n: String(sc(r[1])), e: ev(r[1], r[2]), c: evC(r[1], r[2]), y: 268 + i * 30, w: Math.round(r[1] / STAT.conv[0][1] * 170) + 6,
+        taux: i === 0 ? '' : Math.round(r[1] / STAT.conv[i - 1][1] * 100) + ' %' })),
+      motifs: STAT.motifs,
+      red: STAT.red.map((r, i) => ({ t: r[0], n: String(sc(r[1])), v: '−' + eur0(scE(r[2])), y: 618 + i * 30 })),
+      redTot: '−' + eur0(scE(STAT.redTot[0])), redE: ev(STAT.redTot[0], STAT.redTot[1]), parr: String(sc(STAT.parr[0])), parrE: ev(STAT.parr[0], STAT.parr[1]),
+      orig: (() => { let xx = 0; return STAT.orig.map((o, i) => { const w = Math.round(o[1] * 4.6); const r = { t: o[0], p: o[1] + ' %', x: xx, w: w - 3, op: String(1 - i * .17) }; xx += w; return r; }); })(),
+      trp: STAT.trp.map((r, i) => ({ t: r[0], v: r[3] === 'eur' ? eur(scE(r[1])) : (r[3] === 'km' ? sc(r[1]) + ' km' : r[3] === 'j' ? r[1] + ' jours' : String(sc(r[1]))),
+        e: ev(r[1], r[2]), c: (r[3] === 'j' || r[3] === 'n' || /offerts/.test(r[0])) ? evC(r[2], r[1]) : evC(r[1], r[2]), y: 618 + i * 30 })),
+      csv: () => this.setState({ toast: '4 fichiers CSV prêts : ventes, conversion, réductions et parrainage, transport et production (séparateur point-virgule, virgule décimale).', tErr: false }) };
+
+    return { a, menu, menuR, ok, charge, vide, erreur, om, x, fond, G, S, C, Z };
+  }
+}
+
+</script>
+</body>
+</html>

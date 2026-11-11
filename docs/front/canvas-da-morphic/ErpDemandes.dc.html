@@ -258,8 +258,8 @@ button.btn.encre{background:#0D0E10;color:#EEEDE9}
 <script type="text/x-dc" data-dc-script data-props='{"ombre":{"editor":"enum","options":["Alternance","Diagonale","Studio · latérale","Studio · spot","Studio · cyclo","Studio · strip","Sans"],"default":"Alternance"},"etat":{"editor":"enum","options":["Données","Vide"],"default":"Données"},"$preview":{"width":1440,"height":900}}'>
 // Base commune de l'atelier (structure A) : menu PID, rythme d'entrée, ombres.
 const PG = 'e24';
-const PAGE_MENU = { e10: 'bord', e11: 'dos', e12: 'dos', e12b: 'dos', e24: 'dem', e13: 'srv', e14: 'srv', e15: 'opt', e16: 'opt', e17: 'ctg', e18: 'fic', e19: 'fic', e29: 'mod', e25: 'cli', e26: 'cli', e39: 'plan', e28: 'prod' }[PG] || 'bord';
-const PAGE_GRP = { e13: 'cat', e14: 'cat', e15: 'cat', e16: 'cat', e17: 'cat', e18: 'cat', e19: 'cat', e29: 'cat' }[PG] || null;
+const PAGE_MENU = { e10: 'bord', e11: 'dos', e12: 'dos', e12b: 'dos', e24: 'dem', e13: 'srv', e14: 'srv', e15: 'opt', e16: 'opt', e17: 'ctg', e18: 'fic', e19: 'fic', e29: 'mod', e25: 'cli', e26: 'cli', e39: 'plan', e28: 'prod', e30: 'ech', e31: 'chf', e32: 'stat' }[PG] || 'bord';
+const PAGE_GRP = { e13: 'cat', e14: 'cat', e15: 'cat', e16: 'cat', e17: 'cat', e18: 'cat', e19: 'cat', e29: 'cat', e30: 'arg', e31: 'arg' }[PG] || null;
 
 class Base extends DCLogic {
   constructor(p) { super(p); this.mem = {}; this.state = { m: PAGE_MENU, g: PAGE_GRP, gu: false, n: 0 }; }
@@ -295,8 +295,8 @@ class Base extends DCLogic {
       { k: 'bord', t: 'Tableau de bord', ic: 'bord', h: 'ErpAtelier.dc.html' }, { k: 'plan', t: 'Planning', ic: 'cal', h: 'ErpPlanning.dc.html' },
       { k: 'dos', t: 'Dossiers', ic: 'dos', h: 'ErpDossiers.dc.html' }, { k: 'dem', t: 'Demandes', ic: 'dem', h: 'ErpDemandes.dc.html' },
       { k: 'cli', t: 'Clients', ic: 'cli', h: 'ErpClients.dc.html' }, { k: 'prod', t: 'Production', ic: 'prod', h: 'ErpProduction.dc.html' },
-      { k: 'arg', t: 'Argent', ic: 'arg', grp: 1 }, { k: 'chf', t: 'Chiffres', p: 'arg' }, { k: 'ech', t: 'Échéanciers', p: 'arg' },
-      { k: 'stat', t: 'Statistiques', ic: 'stat' },
+      { k: 'arg', t: 'Argent', ic: 'arg', grp: 1 }, { k: 'chf', t: 'Chiffres', p: 'arg', h: 'ErpChiffres.dc.html' }, { k: 'ech', t: 'Échéanciers', p: 'arg', h: 'ErpEcheanciers.dc.html' },
+      { k: 'stat', t: 'Statistiques', ic: 'stat', h: 'ErpStats.dc.html' },
       { k: 'cat', t: 'Catalogue', ic: 'cat', grp: 1 }, { k: 'srv', t: 'Services', p: 'cat', h: 'ErpServices.dc.html' }, { k: 'opt', t: 'Options', p: 'cat', h: 'ErpOptions.dc.html' },
       { k: 'ctg', t: 'Catégories', p: 'cat', h: 'ErpCategories.dc.html' }, { k: 'fic', t: 'Fiches techniques', p: 'cat', h: 'ErpFiches.dc.html' }, { k: 'mod', t: 'Modèles de production', p: 'cat', h: 'ErpModeles.dc.html' },
       { k: 'red', t: 'Réductions', ic: 'red' }, { k: 'par', t: 'Parrainage', ic: 'par' },
