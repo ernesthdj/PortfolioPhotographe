@@ -1,0 +1,13 @@
+/* ==========================================================================
+   site.css — composants communs du site public et de l'espace client
+   (en-tête, boutons, encre, pastilles). Se charge après base.css.
+   Le CSS propre à une page va dans css/pages/<page>.css.
+   ========================================================================== */
+.nav a,.lien{color:inherit;text-decoration:none}
+.btn{position:absolute;display:flex;align-items:center;justify-content:center;border-radius:24px;text-decoration:none;font:500 14px Inter,sans-serif;color:#EEEDE9}
+.btn.clair{color:#0D0E10}
+button.btn{border:0;padding:0;background:transparent;cursor:pointer}
+.encre{box-shadow:0 20px 34px -10px rgba(13,14,16,.58),0 7px 12px -3px rgba(13,14,16,.32),inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1.5px 0 rgba(0,0,0,.22),inset 0 0 0 .5px rgba(0,0,0,.12);background:#0D0E10}
+.encre::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:1;background:radial-gradient(closest-side,rgba(255,255,255,.22),rgba(255,255,255,.07) 45%,rgba(255,255,255,0) 100%) no-repeat;background-size:70% 60%;background-position:18% 12%;mix-blend-mode:screen;animation:lueur 7s cubic-bezier(.45,0,.2,1) infinite alternate}
+.mono{font:500 11.5px 'IBM Plex Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:#4B4D52}
+.btn:focus-visible,.nav a:focus-visible,.lien:focus-visible{outline:2px solid currentColor;outline-offset:3px}

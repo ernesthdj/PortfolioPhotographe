@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact · Deux portes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/pages/contact.css" data-page-css>
+</head>
+<body class="site" data-module="contact" data-famille="site">
+<div id="ecran">
+  <div id="scene">
+    <div class="vignette" aria-hidden="true"></div>
+    <div class="fond" id="fond">
+      <div id="contenu">
+      <!-- L'en-tête est monté par js/lib/entete.js -->
+      <p class="mono" style="position:absolute;left:80px;top:136px;margin:0;display:flex;align-items:center;gap:14px">
+        <span id="eye-trait" aria-hidden="true" style="display:block;width:28px;height:1px;background:#D9783A"></span>
+        <span class="w" id="eye"></span>
+      </p>
+      <h1 style="position:absolute;left:78px;top:164px;margin:0;font:300 44px/1.1 Inter,sans-serif;letter-spacing:-.03em;filter:drop-shadow(0 6px 9px rgba(20,18,16,.18))">
+        <span class="w" id="h1"></span><br><span class="w" id="h2"></span>
+      </h1>
+      <p style="position:absolute;left:calc(820px + var(--dx));top:196px;width:540px;margin:0;font:400 15px/1.75 Inter,sans-serif;color:#4B4D52">
+        <span class="w" id="in1"></span><br><span class="w" id="in2"></span>
+      </p>
+
+      <!-- Porte 01 : simuler mon devis -->
+      <div class="carte verre" id="carte-g" style="left:80px;width:calc(620px + var(--dx) / 2)">
+        <div class="ph ton-1" id="g-photo" role="img" aria-label="Les mariés devant le château"><span>Photo · mariage</span></div>
+        <span class="k"><span class="w" id="g-k"></span></span>
+        <span class="t"><span class="w" id="g-t"></span></span>
+        <div id="g-lignes" style="display:contents"></div>
+        <span class="encre" id="g-fl" aria-hidden="true" style="position:absolute;left:28px;top:404px;width:220px;height:48px;border-radius:24px"></span>
+        <a href="simulateur.html" class="btn" style="left:28px;top:404px;width:220px;height:48px;border-radius:24px"><span class="w" id="g-b"></span></a>
+      </div>
+      <svg class="ln" aria-hidden="true" id="svg-g" style="left:80px;top:320px;width:calc(620px + var(--dx) / 2);height:480px">
+        <path id="tr-g" pathLength="100" d="M0 24 A24 24 0 0 1 24 0 L596 0 A24 24 0 0 1 620 24 L620 456 A24 24 0 0 1 596 480 L24 480 A24 24 0 0 1 0 456 Z"></path>
+      </svg>
+
+      <!-- Porte 02 : écrire un message (devient le formulaire) -->
+      <div class="carte verre" id="carte-d" style="left:calc(740px + var(--dx) / 2);width:calc(620px + var(--dx) / 2)">
+        <div id="d-ferme">
+          <div class="ph ton-5" id="d-photo" role="img" aria-label="Baiser sur la joue"><span>Photo · portrait</span></div>
+          <span class="k"><span class="w" id="d-k"></span></span>
+          <span class="t"><span class="w" id="d-t"></span></span>
+          <div id="d-lignes" style="display:contents"></div>
+          <button type="button" class="btn" id="ouvrir" style="left:28px;top:404px;width:220px;height:48px;border-radius:24px;color:#0D0E10;box-shadow:inset 0 0 0 1.5px #0D0E10"><span class="w" id="d-b"></span></button>
+        </div>
+        <div id="d-ouvert" hidden>
+          <form aria-label="Écrire un message" style="margin:0" novalidate>
+            <div class="champ" style="left:40px;top:48px;width:calc(360px + var(--dx) * .28);opacity:0;animation:habille .6s ease .60s both"><label for="p-nom">Prénom et nom</label><input id="p-nom" type="text" autocomplete="name" placeholder="Camille Dupont"></div>
+            <div class="champ" style="left:calc(440px + var(--dx) * .28);top:48px;width:calc(360px + var(--dx) * .28);opacity:0;animation:habille .6s ease .70s both"><label for="p-mail">E-mail</label><input id="p-mail" type="email" autocomplete="email" placeholder="camille@exemple.be"></div>
+            <div class="champ" style="left:calc(840px + var(--dx) * .56);top:48px;width:calc(400px + var(--dx) * .44);opacity:0;animation:habille .6s ease .80s both"><label for="p-svc">Type d’événement</label><select id="p-svc"></select></div>
+            <div class="champ" style="left:40px;top:140px;width:calc(1200px + var(--dx));opacity:0;animation:habille .6s ease .90s both"><label for="p-msg">Votre message</label><textarea id="p-msg" rows="6" placeholder="Racontez-moi votre journée, vos lieux, vos envies."></textarea></div>
+            <span class="encre" aria-hidden="true" style="position:absolute;left:40px;top:392px;width:220px;height:48px;border-radius:24px;animation:habille .8s ease .9s both"></span>
+            <button type="button" class="btn" style="left:40px;top:392px;width:220px;height:48px;border-radius:24px"><span class="w" id="f-envoyer"></span></button>
+            <button type="button" class="lien" id="fermer" style="position:absolute;left:292px;top:406px;font:500 14px Inter,sans-serif;color:#0D0E10;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px"><span class="w" id="f-revenir"></span></button>
+          </form>
+        </div>
+      </div>
+      <svg class="ln" aria-hidden="true" id="svg-d" style="left:calc(740px + var(--dx) / 2);top:320px;width:calc(620px + var(--dx) / 2);height:480px">
+        <path id="tr-d" pathLength="100" d="M0 24 A24 24 0 0 1 24 0 L596 0 A24 24 0 0 1 620 24 L620 456 A24 24 0 0 1 596 480 L24 480 A24 24 0 0 1 0 456 Z"></path>
+      </svg>
+
+      <p class="mono" style="position:absolute;left:80px;top:828px;margin:0;font-size:10.5px;letter-spacing:.08em"><span class="w" id="coo"></span></p>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="module" src="js/amorce.js"></script>
+</body>
+</html>

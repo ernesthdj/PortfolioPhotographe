@@ -1,0 +1,135 @@
+/* ==========================================================================
+   base.css — socle commun du site public ET de l'atelier.
+   Scène 1440 x 900 mise à l'échelle par js/lib/scene.js.
+   Contient : scène, vignette, écriture du texte (.w .o .f), verre, traits (.ln),
+   photos / emplacements, ombres d'arrière-plan, keyframes partagées.
+   ========================================================================== */
+
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:#FFFFFF}
+body{font-family:Inter,system-ui,sans-serif;color:#0D0E10;-webkit-font-smoothing:antialiased}
+[hidden]{display:none !important}
+button,input,textarea,select{font:inherit;color:inherit}
+a{color:inherit}
+
+/* --- Scène : 1440 x 900 centrée et mise à l'échelle (sans déformation) --- */
+#ecran{position:fixed;inset:0;overflow:hidden;background:#FFFFFF}
+#scene{--W:1440px;--dx:0px;--gx:0px;--sx:0px;position:absolute;left:50%;top:50%;width:var(--W);height:900px;margin:0;overflow:hidden;background:transparent;color:#0D0E10;transform-origin:center center;transform:translate(-50%,-50%)}
+/* Fond plein fenêtre (persistant) : blanc + vignette + ombres mouvantes, derrière la scène */
+#fenetre{position:fixed;inset:0;overflow:hidden;pointer-events:none;background:#FFFFFF;transition:opacity .4s ease}
+/* photo agrandie du site : le voile blanc de la scène devient le fond de toute la fenêtre */
+body:has(.lb-fond) #fenetre{opacity:0}
+.vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(118% 100% at 50% 44%,rgba(20,18,16,0) 48%,rgba(20,18,16,.10) 76%,rgba(20,18,16,.27) 100%);box-shadow:inset 0 0 140px rgba(20,18,16,.10)}
+.fond{position:absolute;left:0;top:0;width:var(--W);height:900px}
+.abs{position:absolute}
+/* Zone de contenu remplacée par le routeur (js/lib/routeur.js) : même origine que la scène */
+#contenu{position:absolute;left:0;top:0;width:var(--W);height:900px;pointer-events:none}
+/* La zone de contenu couvre toute la scène : elle laisse passer les clics vers l’en-tête et le menu persistants ; seuls ses éléments les captent. */
+#contenu > *{pointer-events:auto}
+#contenu > svg,#contenu > .verre:not(:has(a,button,input,select,textarea)),#contenu > [aria-hidden="true"]{pointer-events:none}
+#contenu .fond{pointer-events:none}
+#contenu .fond > *{pointer-events:auto}
+#contenu .fond > svg,#contenu .fond > .verre:not(:has(a,button,input,select,textarea)),#contenu .fond > [aria-hidden="true"]{pointer-events:none}
+/* Ancrages (mise en page à largeur logique variable, voir js/lib/scene.js) : à poser sur un élément en position absolue */
+.ad{margin-left:var(--dx)}
+.ac{margin-left:calc(var(--dx) / 2)}
+.as{margin-left:var(--sx)}
+
+/* --- Écriture du texte : contour d'abord (.o), remplissage ensuite (.f) --- */
+.w{position:relative;display:inline-block;white-space:nowrap}
+.w .o{display:block;color:transparent;-webkit-text-stroke:1px currentColor}
+.w .f{position:absolute;left:0;top:-.24em;padding:.24em .14em .24em 0;color:inherit}
+/* Site public : reflet doux dans le remplissage (la texture bitmap du canvas n'est pas reprise) */
+body.site .w .f{color:inherit;background-color:currentColor;background-image:radial-gradient(closest-side,rgba(255,255,255,.22),rgba(255,255,255,.07) 45%,rgba(255,255,255,0));background-size:70% 60%;background-repeat:no-repeat;background-position:18% 12%;background-blend-mode:screen;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+
+/* --- Verre : pastille airy, mate, flou 12 px, liseré lumineux, relief, ombre portée --- */
+.verre,.pastille{position:absolute;border-radius:24px;background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(250,248,244,.86) 55%,rgba(240,237,231,.9) 100%);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 16px 32px -12px rgba(20,18,16,.30),0 4px 10px -3px rgba(20,18,16,.16),inset 0 1px 0 #fff,inset 0 0 0 1px rgba(255,255,255,.6),inset 0 -2px 0 rgba(20,18,16,.06),inset 0 -12px 18px -12px rgba(20,18,16,.10)}
+.verre::before,.pastille::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(90% 140% at 22% 0%,rgba(255,255,255,.75),rgba(255,255,255,0) 60%)}
+.pastille{opacity:0;overflow:hidden}
+
+/* --- Traits : 1,5 px, dessinés par stroke-dashoffset (pathLength = 100) --- */
+svg.ln,svg.cad,svg.pp{position:absolute;overflow:visible;pointer-events:none}
+svg.pp{left:0;top:0;width:var(--W);height:900px}
+.ln path,.cad path,.pp path{fill:none;stroke:#0D0E10;stroke-width:1.5px;shape-rendering:geometricPrecision;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 102;stroke-dashoffset:101}
+.ln path.comete,.cad path.comete,.pp path.comete,path.comete{stroke-dasharray:6 94;stroke-dashoffset:0}
+.ln path.fil{stroke-width:1px;stroke:rgba(13,14,16,.2)}
+
+/* --- Photos : emplacements neutres (les photos du canvas ne sont pas accessibles hors canvas) --- */
+.photo,.ph{position:absolute;display:block;overflow:hidden;box-shadow:0 22px 40px -16px rgba(20,18,16,.34),0 6px 12px -4px rgba(20,18,16,.16);--c0:inset(0 100% 0 0);--c1:inset(0 0 0 0)}
+.ph{background:var(--ton,linear-gradient(150deg,#b9b2a6,#7d776d))}
+.ph::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 30% 20%,rgba(255,255,255,.28),rgba(255,255,255,0) 60%),linear-gradient(180deg,rgba(255,255,255,0) 55%,rgba(13,14,16,.28))}
+.ph>span{position:absolute;left:12px;bottom:10px;right:12px;font:500 10.5px 'IBM Plex Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.85);text-shadow:0 1px 2px rgba(13,14,16,.5);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* teintes de placeholder : de quoi voir le « développement » gris -> couleur */
+.ton-1{--ton:linear-gradient(150deg,#d9a98a,#8f5a4a)}
+.ton-2{--ton:linear-gradient(150deg,#9cb7b0,#4f6f6c)}
+.ton-3{--ton:linear-gradient(150deg,#d8c6a0,#8c7448)}
+.ton-4{--ton:linear-gradient(150deg,#aab4cf,#55608a)}
+.ton-5{--ton:linear-gradient(150deg,#c9a7b5,#7d4a63)}
+.ton-6{--ton:linear-gradient(150deg,#b8c79c,#68784a)}
+.ton-7{--ton:linear-gradient(150deg,#e0b98d,#a35f3a)}
+.ton-8{--ton:linear-gradient(150deg,#a9c3d4,#4a6f8c)}
+
+/* --- Ombres d'arrière-plan (dégradés CSS seulement, fondu seulement) --- */
+.om{position:absolute;inset:-160px;pointer-events:none;overflow:hidden;animation:habille 3.5s ease-in-out 3.6s both}
+.om-i{position:absolute;inset:0;opacity:0}
+.om-i>i{position:absolute;inset:-200px}
+.dia>i{background:linear-gradient(to top right,rgba(20,18,16,0) 28%,rgba(20,18,16,.12) 40%,rgba(20,18,16,.26) 50%,rgba(20,18,16,.12) 60%,rgba(20,18,16,0) 72%);-webkit-mask-image:linear-gradient(to bottom right,#000 10%,rgba(0,0,0,.3) 75%,transparent 95%);mask-image:linear-gradient(to bottom right,#000 10%,rgba(0,0,0,.3) 75%,transparent 95%);filter:blur(14px);animation:glisseA 19s ease-in-out infinite alternate}
+.lat>i{background:linear-gradient(to left,rgba(20,18,16,.30) 0%,rgba(20,18,16,.16) 22%,rgba(20,18,16,0) 52%),linear-gradient(to top,rgba(20,18,16,.12) 0%,rgba(20,18,16,0) 30%);filter:blur(10px);animation:glisseH 23s ease-in-out infinite alternate}
+.spot>i{background:radial-gradient(ellipse 55% 60% at 50% 22%,rgba(20,18,16,0) 30%,rgba(20,18,16,.10) 62%,rgba(20,18,16,.28) 100%);animation:respire 17s ease-in-out infinite alternate}
+.cyc>i{background:linear-gradient(180deg,rgba(20,18,16,.22) 0%,rgba(20,18,16,.06) 34%,rgba(20,18,16,0) 52%,rgba(20,18,16,0) 70%,rgba(20,18,16,.10) 84%,rgba(20,18,16,.20) 100%);filter:blur(8px);animation:glisseV 21s ease-in-out infinite alternate}
+.str>i{background:linear-gradient(to top left,rgba(20,18,16,.20) 0%,rgba(20,18,16,.08) 30%,rgba(20,18,16,0) 44%,rgba(20,18,16,0) 56%,rgba(20,18,16,.08) 70%,rgba(20,18,16,.22) 100%);filter:blur(12px);animation:glisseB 25s ease-in-out infinite alternate}
+
+/* --- Keyframes partagées. Les variantes suffixées « 2 » servent à relancer une animation en changeant son nom --- */
+@keyframes drawS{from{stroke-dashoffset:101}to{stroke-dashoffset:0}}
+@keyframes undrawS{from{stroke-dashoffset:0}to{stroke-dashoffset:101}}
+@keyframes retire{from{stroke-dashoffset:0}to{stroke-dashoffset:-102}}
+@keyframes retire2{from{stroke-dashoffset:0}to{stroke-dashoffset:-102}}
+@keyframes trace{0%{stroke-dashoffset:101}50%{stroke-dashoffset:0}65%{stroke-dashoffset:0}100%{stroke-dashoffset:-102}}
+@keyframes trace2{0%{stroke-dashoffset:101}50%{stroke-dashoffset:0}65%{stroke-dashoffset:0}100%{stroke-dashoffset:-102}}
+@keyframes wIn{from{clip-path:inset(-24px 100% -24px 0)}to{clip-path:inset(-24px -24px -24px 0)}}
+@keyframes wIn2{from{clip-path:inset(-24px 100% -24px 0)}to{clip-path:inset(-24px -24px -24px 0)}}
+@keyframes wOut{from{clip-path:inset(-24px -24px -24px 0)}to{clip-path:inset(-24px 100% -24px 0)}}
+@keyframes rIn{from{clip-path:var(--c0)}to{clip-path:var(--c1)}}
+@keyframes rIn2{from{clip-path:var(--c0)}to{clip-path:var(--c1)}}
+@keyframes rOut{from{clip-path:var(--c1)}to{clip-path:var(--c0)}}
+@keyframes habille{from{opacity:0}to{opacity:1}}
+@keyframes deshabille{from{opacity:1}to{opacity:0}}
+@keyframes dev{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@keyframes dev2{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@keyframes devNB{0%{opacity:0;filter:grayscale(1) contrast(1.05)}45%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
+@keyframes devNB2{0%{opacity:0;filter:grayscale(1) contrast(1.05)}45%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
+@keyframes devOut{0%{opacity:1;filter:brightness(1) grayscale(0)}100%{opacity:0;filter:brightness(0) grayscale(1)}}
+@keyframes apparait{from{stroke-opacity:0}to{stroke-opacity:1}}
+@keyframes eteint{from{stroke-opacity:1}to{stroke-opacity:0}}
+@keyframes comete{from{stroke-dashoffset:0}to{stroke-dashoffset:-100}}
+@keyframes cometeR{from{stroke-dashoffset:0}to{stroke-dashoffset:100}}
+@keyframes rebatit{0%{stroke-dashoffset:0}84%{stroke-dashoffset:0}90%{stroke-dashoffset:101}96%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
+@keyframes souffle{0%{width:28px}50%{width:46px}100%{width:28px}}
+@keyframes melt{0%{transform:scale(1)}40%{transform:scale(2.2,.35)}100%{transform:scale(0)}}
+@keyframes melt2{0%{transform:scale(1)}40%{transform:scale(2.2,.35)}100%{transform:scale(0)}}
+@keyframes reform{from{transform:scale(0)}to{transform:scale(1)}}
+@keyframes sk{0%,100%{opacity:.45}50%{opacity:.9}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(58,166,181,.55)}50%{box-shadow:0 0 0 9px rgba(58,166,181,0)}}
+@keyframes cadreFin{to{border-color:transparent}}
+@keyframes cadreFin2{to{border-color:transparent}}
+@keyframes lueur{0%{background-position:14% 10%}50%{background-position:42% 18%}100%{background-position:72% 14%}}
+@keyframes derive2{0%{transform:translate(0,0)}50%{transform:translate(24px,-6px)}100%{transform:translate(-18px,5px)}}
+@keyframes haloIn{from{opacity:0}to{opacity:.85}}
+@keyframes glisseA{from{transform:translate(-70px,50px)}to{transform:translate(80px,-60px)}}
+@keyframes glisseB{from{transform:translate(70px,40px)}to{transform:translate(-60px,-50px)}}
+@keyframes glisseH{from{transform:translateX(-90px)}to{transform:translateX(60px)}}
+@keyframes glisseV{from{transform:translateY(-50px)}to{transform:translateY(40px)}}
+@keyframes respire{from{transform:translate(-60px,-20px) scale(1)}to{transform:translate(70px,20px) scale(1.06)}}
+@keyframes seul{from{opacity:0}to{opacity:1}}
+@keyframes alt0{0%{opacity:0}5%,15%{opacity:1}20%,100%{opacity:0}}
+@keyframes alt1{0%,20%{opacity:0}25%,35%{opacity:1}40%,100%{opacity:0}}
+@keyframes alt2{0%,40%{opacity:0}45%,55%{opacity:1}60%,100%{opacity:0}}
+@keyframes alt3{0%,60%{opacity:0}65%,75%{opacity:1}80%,100%{opacity:0}}
+@keyframes alt4{0%,80%{opacity:0}85%,95%{opacity:1}100%{opacity:0}}
+
+/* --- Accessibilité --- */
+:focus-visible{outline:2px solid #0D0E10;outline-offset:3px}
+/* Titre qui reçoit le focus après une navigation sans rechargement : pas de cadre (il n est pas interactif) */
+#contenu [tabindex="-1"]:focus,#contenu[tabindex="-1"]:focus{outline:none}
+.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+@media (prefers-reduced-motion: reduce){*{animation-duration:0s !important;animation-delay:0s !important;transition-duration:0s !important}}

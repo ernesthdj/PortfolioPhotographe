@@ -7,7 +7,7 @@
   "title": "Ernest H. — DA Morphic",
   "launch": {
     "view": "canvas",
-    "page": "p10"
+    "page": "p18"
   },
   "pages": [
     {
@@ -73,6 +73,14 @@
     {
       "id": "p16",
       "name": "Atelier · argent et statistiques"
+    },
+    {
+      "id": "p17",
+      "name": "Simulateur · horaires et adresses"
+    },
+    {
+      "id": "p18",
+      "name": "Simulateur public · à partir de"
     }
   ],
   "boards": {
@@ -651,6 +659,60 @@
       "title": "3 · Statistiques (E32)",
       "is_interactive": true,
       "page": "p16"
+    },
+    "SimJaugeA.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "A · Ruban de la journée (retenue, reportée dans le simulateur)",
+      "is_interactive": true,
+      "page": "p17"
+    },
+    "SimJaugeB.dc.html": {
+      "x": 1520,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "B · Jauges séparées",
+      "is_interactive": true,
+      "page": "p17"
+    },
+    "SimPublicA.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "A · Frise directe (retenue, reportée dans le simulateur)",
+      "is_interactive": true,
+      "page": "p18"
+    },
+    "SimPublicB.dc.html": {
+      "x": 1520,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "B · Panneau léger",
+      "is_interactive": true,
+      "page": "p18"
+    },
+    "PPreciser.dc.html": {
+      "x": 1520,
+      "y": 2040,
+      "w": 1440,
+      "h": 900,
+      "title": "8 · Préciser ma journée (connecté) → dossier",
+      "is_interactive": true,
+      "page": "p10"
+    },
+    "Preciser.dc.html": {
+      "x": 0,
+      "y": 1020,
+      "w": 1440,
+      "h": 900,
+      "title": "Espace client · Préciser ma journée (après inscription) → Soumettre",
+      "is_interactive": true,
+      "page": "p18"
     }
   },
   "order": [
@@ -717,7 +779,13 @@
     "ErpProduction.dc.html",
     "ErpEcheanciers.dc.html",
     "ErpChiffres.dc.html",
-    "ErpStats.dc.html"
+    "ErpStats.dc.html",
+    "SimJaugeA.dc.html",
+    "SimJaugeB.dc.html",
+    "SimPublicA.dc.html",
+    "SimPublicB.dc.html",
+    "PPreciser.dc.html",
+    "Preciser.dc.html"
   ],
   "notes": {
     "titre": {
@@ -873,6 +941,30 @@
       "kind": "title1",
       "maxW": 4400,
       "page": "p16"
+    },
+    "titre17": {
+      "x": 0,
+      "y": -300,
+      "text": "Simulateur : horaires à la jauge et adresses exactes",
+      "kind": "title1",
+      "maxW": 2960,
+      "page": "p17"
+    },
+    "titre18": {
+      "x": 0,
+      "y": -300,
+      "text": "Simulateur public : prix « à partir de » avec dates, durées et options, sans compte",
+      "kind": "title1",
+      "maxW": 2960,
+      "page": "p18"
+    },
+    "titre18b": {
+      "x": 0,
+      "y": 960,
+      "text": "Après inscription : adresses exactes, lieux et horaires, puis soumission",
+      "kind": "title2",
+      "maxW": 2960,
+      "page": "p18"
     }
   },
   "designSystems": []

@@ -110,6 +110,22 @@ button.btn{border:0;cursor:pointer;padding:0;background:transparent}
 .add:focus-visible,.mini:focus-visible,.step button:focus-visible,.chip:focus-visible,.opt:focus-visible,.btn:focus-visible,.lien:focus-visible{outline:2px solid #0D0E10;outline-offset:3px}
 .rangee{animation:wIn .5s cubic-bezier(.45,0,.2,1) both}
 
+
+.jr{position:absolute;left:0;margin:0;padding:0;background:transparent;pointer-events:none;-webkit-appearance:none;appearance:none;outline:none}
+.jr::-webkit-slider-runnable-track{height:24px;background:transparent;border:0}
+.jr::-moz-range-track{height:24px;background:transparent;border:0}
+.jr::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;pointer-events:auto;width:18px;height:18px;margin-top:3px;border-radius:50%;background:#FFFFFF;border:2px solid #0D0E10;box-shadow:0 4px 10px -4px rgba(13,14,16,.5);cursor:ew-resize}
+.jr::-moz-range-thumb{pointer-events:auto;width:14px;height:14px;border-radius:50%;background:#FFFFFF;border:2px solid #0D0E10;box-shadow:0 4px 10px -4px rgba(13,14,16,.5);cursor:ew-resize}
+.jr.lieu::-webkit-slider-thumb{width:14px;height:14px;margin-top:5px;border-color:#3AA6B5}
+.jr.lieu::-moz-range-thumb{width:10px;height:10px;border-color:#3AA6B5}
+.jr:focus-visible::-webkit-slider-thumb{outline:2px solid #0D0E10;outline-offset:3px}
+.jr:focus-visible::-moz-range-thumb{outline:2px solid #0D0E10;outline-offset:3px}
+.jr.seule{pointer-events:auto;cursor:pointer}
+.adr input{font-size:14.5px}
+.heure{border:0;border-bottom:1px solid rgba(58,166,181,.6);border-radius:0;background:transparent;padding:2px 0;width:92px;font:500 13px 'IBM Plex Mono',monospace;color:#0D0E10;outline:none}
+.heure:focus{border-bottom:2px solid #3AA6B5}
+.dte{border:0;border-bottom:1px solid rgba(13,14,16,.3);border-radius:0;background:transparent;padding:2px 0;font:500 12.5px 'IBM Plex Mono',monospace;color:#0D0E10;outline:none}
+.dte:focus{border-bottom:2px solid #3AA6B5}
 </style>
 </helmet>
 <div style="position: relative; width: 1440px; height: 900px; overflow: hidden; background: #FFFFFF; color: #0D0E10; font-family: Inter, system-ui, sans-serif">
@@ -198,6 +214,10 @@ button.btn{border:0;cursor:pointer;padding:0;background:transparent}
     <p class="mono rangee" style="position: absolute; left: 440px; top: {{r.y}}px; margin: 0; color: #0D0E10; white-space: nowrap">{{r.lab}}</p>
     <span class="bande" aria-hidden="true" style="left: {{r.x0}}px; top: {{r.by}}px; width: {{r.w1}}px; border-radius: {{r.rad}}; background: #0D0E10; box-shadow: 0 10px 16px -8px rgba(13,14,16,.5); animation: wIn .9s cubic-bezier(.45,0,.2,1) .1s both"></span>
     <span class="bande" aria-hidden="true" style="left: {{r.x1}}px; top: {{r.by}}px; width: {{r.w2}}px; border-radius: 0 8px 8px 0; background: rgba(13,14,16,.28); animation: wIn .4s cubic-bezier(.45,0,.2,1) .95s both"></span>
+    <sc-if value="{{r.drag}}" hint-placeholder-val="{{ true }}">
+      <input type="range" class="jr" data-r="{{r.kd}}" min="10" max="23.5" step="0.25" aria-label="{{r.ariaD}}" aria-valuetext="{{r.debT}}" style="left: 431px; top: {{r.ty}}px; width: 578px; height: 24px">
+      <input type="range" class="jr" data-r="{{r.kf}}" min="12" max="24" step="0.25" aria-label="{{r.ariaF}}" aria-valuetext="{{r.finT}}" style="left: 431px; top: {{r.ty}}px; width: 578px; height: 24px">
+    </sc-if>
     <sc-for list="{{r.dots}}" as="d" hint-placeholder-count="2">
       <span aria-hidden="true" style="position: absolute; left: {{d.x}}px; top: {{d.y}}px; width: 10px; height: 10px; box-sizing: border-box; border-radius: 50%; border: 1.5px solid #0D0E10; background: #FFFFFF; transition: left .6s cubic-bezier(.45,0,.2,1); animation: habille .4s ease 1s both"></span>
     </sc-for>
@@ -212,8 +232,17 @@ button.btn{border:0;cursor:pointer;padding:0;background:transparent}
               <span class="{{l.cls}}">{{l.t}}</span>
               <sc-if value="{{l.act}}" hint-placeholder-val="{{ false }}">
                 <span style="display: flex; gap: 16px; margin-top: 4px">
-                  <button type="button" class="mini" onClick="{{l.modifier}}">Modifier</button>
+                  <input type="date" class="dte" data-dt="{{l.gi}}" aria-label="{{l.ariaDt}}">
                   <button type="button" class="mini" onClick="{{l.retirer}}">Retirer</button>
+                </span>
+                <sc-if value="{{l.zOn}}" hint-placeholder-val="{{ true }}">
+                  <span role="radiogroup" aria-label="Zone du shooting" style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 8px">
+                    <span class="mono" style="margin-right: 4px">Zone</span>
+                    <sc-for list="{{l.zones}}" as="c" hint-placeholder-count="7"><button type="button" role="radio" class="{{c.cls}}" aria-checked="{{c.on}}" style="height: 26px; padding: 0 10px; font-size: 12px" onClick="{{c.go}}">{{c.t}}</button></sc-for>
+                  </span>
+                </sc-if>
+                <span style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px">
+                  <sc-for list="{{l.chips}}" as="c" hint-placeholder-count="3"><button type="button" class="{{c.cls}}" aria-pressed="{{c.on}}" style="height: 26px; padding: 0 10px; font-size: 12px" onClick="{{c.go}}">{{c.t}}</button></sc-for>
                 </span>
               </sc-if>
             </span>
@@ -250,13 +279,11 @@ button.btn{border:0;cursor:pointer;padding:0;background:transparent}
   <div class="tot" style="top: 304px; opacity: 0; animation: {{a.tV}}"><span class="l">Total HTVA</span><span class="v">{{t.ht}}</span></div>
   <div class="tot" style="top: 336px; opacity: 0; animation: {{a.tV}}"><span class="l">TVA 21 %</span><span class="v">{{t.tva}}</span></div>
   <svg class="ln" aria-hidden="true" style="left: 1068px; top: 370px; width: 264px; height: 2px"><path pathLength="100" d="M0 1 L264 1" style="stroke-width: 1px; animation: {{a.tVl}}"></path></svg>
-  <p class="mono" style="position: absolute; left: 1068px; top: 388px; margin: 0">Total TVAC{{t.inc}}</p>
+  <p class="mono" style="position: absolute; left: 1068px; top: 388px; margin: 0">À partir de · TVAC</p>
   <p style="position: absolute; left: 1066px; top: 406px; margin: 0; font: 300 40px Inter, sans-serif; letter-spacing: -.02em; filter: drop-shadow(0 6px 9px rgba(20,18,16,.16)); opacity: 0; animation: {{a.tV}}">{{t.ttc}}</p>
-  <sc-if value="{{t.manque}}" hint-placeholder-val="{{ false }}">
-    <p class="note rangee" style="position: absolute; left: 1068px; top: 486px; width: 264px; margin: 0; line-height: 1.5">Indiquez l’adresse de chaque lieu pour obtenir le prix complet.</p>
-  </sc-if>
+  <p class="note" style="position: absolute; left: 1068px; top: 470px; width: 264px; margin: 0; line-height: 1.5; opacity: 0; animation: {{a.tV}}">Déplacement estimé selon la zone choisie. L’adresse exacte se précise dans votre espace, après inscription, avant l’envoi au photographe.</p>
   <span class="encre" aria-hidden="true" style="position: absolute; left: 1068px; top: 580px; width: 264px; height: 48px; border-radius: 24px; opacity: {{t.okOp}}; transition: opacity .5s ease"></span>
-  <button type="button" class="{{t.cls}}" aria-disabled="{{t.dis}}" style="left: 1068px; top: 580px; width: 264px; height: 48px; border-radius: 24px; opacity: 0; animation: {{a.tV}}" onClick="{{t.go}}">Soumettre mon devis</button>
+  <button type="button" class="{{t.cls}}" aria-disabled="{{t.dis}}" style="left: 1068px; top: 580px; width: 264px; height: 48px; border-radius: 24px; opacity: 0; animation: {{a.tV}}" onClick="{{t.go}}">Créer mon compte pour préciser</button>
   <p class="note" style="position: absolute; left: 1040px; top: 684px; width: 320px; margin: 0; line-height: 1.5; opacity: 0; animation: {{a.tV}}">Votre composition reste gardée dans ce navigateur, même après un rechargement.</p>
   </div>
 
@@ -271,40 +298,53 @@ button.btn{border:0;cursor:pointer;padding:0;background:transparent}
         <p style="position: absolute; left: 40px; top: 52px; margin: 0; font: 300 30px Inter, sans-serif; letter-spacing: -.02em">{{pan.svc}}</p>
         <button type="button" class="lb" aria-label="Fermer" style="position: absolute; right: 24px; top: 24px; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 22px; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center" onClick="{{pan.annuler}}"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 18px; height: 18px; fill: none; stroke: #0D0E10; stroke-width: 1.8; stroke-linecap: round"><path d="M6 6 L18 18 M18 6 L6 18"></path></svg></button>
 
-        <div class="blk" style="position: absolute; left: 40px; top: 116px; width: 560px">
-          <span class="mono">{{pan.pLab}}</span>
-          <div class="step">
-            <button type="button" aria-label="Diminuer" onClick="{{pan.moins}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12 H19"></path></svg></button>
-            <span class="n" aria-live="polite">{{pan.pVal}}</span>
-            <button type="button" aria-label="Augmenter" onClick="{{pan.plus}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5 V19 M5 12 H19"></path></svg></button>
-          </div>
-          <p class="note" style="margin: 8px 0 0">{{pan.pNote}}</p>
+        <div class="blk" style="position: absolute; left: 40px; top: 108px; width: 580px">
+          <sc-if value="{{pan.tech}}" hint-placeholder-val="{{ true }}">
+            <span class="mono">La journée · {{pan.j.lab}}</span>
+            <div style="position: relative; width: 560px; height: 84px; margin-top: 16px">
+              <span aria-hidden="true" style="position: absolute; left: 0; width: 560px; top: 11px; height: 1px; background: rgba(13,14,16,.3)"></span>
+              <span class="bande" style="left: {{pan.j.x0}}px; top: 4px; width: {{pan.j.w1}}px; border-radius: {{pan.j.rad}}; background: #0D0E10"></span>
+              <span class="bande" style="left: {{pan.j.x1}}px; top: 4px; width: {{pan.j.w2}}px; border-radius: 0 8px 8px 0; background: rgba(13,14,16,.28)"></span>
+              <sc-for list="{{pan.j.pins}}" as="p" hint-placeholder-count="1">
+                <span aria-hidden="true" style="position: absolute; left: {{p.x}}px; top: -16px; width: 12px; text-align: center; font: 500 9.5px 'IBM Plex Mono', monospace; color: #3AA6B5">{{p.n}}</span>
+                <span aria-hidden="true" style="position: absolute; left: {{p.xl}}px; top: 42px; width: 40px; text-align: center; font: 500 10.5px 'IBM Plex Mono', monospace; color: #3AA6B5">{{p.h}}</span>
+                <input type="range" class="jr lieu" data-j="{{p.k}}" min="6" max="23.5" step="0.25" aria-label="{{p.aria}}" aria-valuetext="{{p.h}}" style="top: -1px; width: 560px; height: 24px">
+              </sc-for>
+              <input type="range" class="jr" data-j="debut" min="6" max="23.5" step="0.25" aria-label="Heure de début" aria-valuetext="{{pan.j.debT}}" style="top: -1px; width: 560px; height: 24px">
+              <input type="range" class="jr" data-j="fin" min="8" max="24" step="0.25" aria-label="Heure de fin" aria-valuetext="{{pan.j.finT}}" style="top: -1px; width: 560px; height: 24px">
+              <span style="position: absolute; left: {{pan.j.xDeb}}px; top: 30px; width: 40px; text-align: center; font: 500 11px 'IBM Plex Mono', monospace; color: #0D0E10">{{pan.j.debT}}</span>
+              <span style="position: absolute; left: {{pan.j.xFin}}px; top: 30px; width: 40px; text-align: center; font: 500 11px 'IBM Plex Mono', monospace; color: #0D0E10">{{pan.j.finT}}</span>
+              <sc-for list="{{pan.j.ticks}}" as="k" hint-placeholder-count="7"><span aria-hidden="true" style="position: absolute; left: {{k.x}}px; top: 62px; width: 32px; text-align: center; font: 500 9.5px 'IBM Plex Mono', monospace; color: #8C8E93">{{k.t}}</span></sc-for>
+            </div>
+            <p class="note" style="margin: 2px 0 0">{{pan.pNote}} Glissez les poignées : début et fin en noir, arrivée à chaque lieu en cyan.</p>
+          </sc-if>
+          <sc-if value="{{pan.studio}}" hint-placeholder-val="{{ false }}">
+            <span class="mono">{{pan.pLab}}</span>
+            <div class="step">
+              <button type="button" aria-label="Diminuer" onClick="{{pan.moins}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12 H19"></path></svg></button>
+              <span class="n" aria-live="polite">{{pan.pVal}}</span>
+              <button type="button" aria-label="Augmenter" onClick="{{pan.plus}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5 V19 M5 12 H19"></path></svg></button>
+            </div>
+            <p class="note" style="margin: 8px 0 0">{{pan.pNote}}</p>
+          </sc-if>
         </div>
 
         <sc-if value="{{pan.tech}}" hint-placeholder-val="{{ true }}">
-          <div class="champ" style="position: absolute; left: 40px; top: 236px; width: 260px">
+          <div class="champ" style="position: absolute; left: 40px; top: 262px; width: 240px">
             <label class="mono" for="sim-date">Date du shooting</label>
             <input id="sim-date" type="date">
           </div>
-          <p class="mono" style="position: absolute; left: 40px; top: 316px; margin: 0">Lieux de la journée · triés par heure</p>
-          <div style="position: absolute; left: 40px; top: 340px; width: 584px; height: 290px; overflow-y: auto; overflow-x: hidden; scrollbar-width: thin">
+          <p class="mono" style="position: absolute; left: 40px; top: 338px; margin: 0">Lieux de la journée · adresse exacte</p>
+          <div style="position: absolute; left: 40px; top: 362px; width: 584px; height: 268px; overflow-y: auto; overflow-x: hidden; scrollbar-width: thin">
           <div style="position: relative; width: 560px; height: {{pan.hLieux}}px">
-          <sc-for list="{{pan.lieux}}" as="z" hint-placeholder-count="2">
+          <sc-for list="{{pan.lieux}}" as="z" hint-placeholder-count="1">
             <div class="rangee" style="position: absolute; left: 0; top: {{z.y}}px; width: 560px">
-              <div style="display: flex; align-items: center; gap: 12px">
-                <span class="mono" style="width: 64px">Lieu {{z.n}}</span>
-                <div class="step" style="margin: 0; gap: 8px">
-                  <button type="button" aria-label="Heure plus tôt" style="width: 30px; height: 30px" onClick="{{z.hm}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12 H19"></path></svg></button>
-                  <span style="min-width: 56px; text-align: center; font: 500 14px 'IBM Plex Mono', monospace">{{z.h}}</span>
-                  <button type="button" aria-label="Heure plus tard" style="width: 30px; height: 30px" onClick="{{z.hp}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5 V19 M5 12 H19"></path></svg></button>
-                </div>
+              <div style="display: flex; align-items: baseline; gap: 12px">
+                <label class="mono" for="{{z.hId}}" style="color: #3AA6B5">Lieu {{z.n}} :</label><input id="{{z.hId}}" class="heure" type="time" step="900" min="06:00" max="23:30" data-heure="{{z.adrI}}" aria-label="{{z.ariaH}}">
                 <sc-if value="{{z.del}}" hint-placeholder-val="{{ false }}"><button type="button" class="mini" style="margin-left: auto" onClick="{{z.retirer}}">Retirer ce lieu</button></sc-if>
               </div>
-              <div role="group" aria-label="Commune" style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px">
-                <sc-for list="{{z.communes}}" as="c" hint-placeholder-count="5">
-                  <button type="button" class="{{c.cls}}" aria-pressed="{{c.on}}" onClick="{{c.pick}}">{{c.t}}</button>
-                </sc-for>
-              </div>
+              <div class="champ adr" style="width: 520px; margin-top: 2px"><input id="{{z.adrId}}" data-adr="{{z.adrI}}" type="text" autocomplete="street-address" placeholder="N° et rue, code postal, commune" aria-label="{{z.aria}}"></div>
+              <p class="note" style="margin: 6px 0 0; display: flex; align-items: center; gap: 8px; font-size: 12px"><span aria-hidden="true" style="display: block; width: 6px; height: 6px; border-radius: 3px; background: {{z.etC}}"></span>{{z.etat}}</p>
             </div>
           </sc-for>
           <sc-if value="{{pan.plusLieu}}" hint-placeholder-val="{{ true }}">
@@ -326,21 +366,6 @@ button.btn{border:0;cursor:pointer;padding:0;background:transparent}
             </button>
           </sc-for>
         </div>
-        <sc-if value="{{pan.mb.on}}" hint-placeholder-val="{{ true }}">
-          <div style="position: absolute; left: 660px; top: 272px; width: 340px">
-            <span class="mono" style="display: block">La journée · {{pan.mb.lab}}</span>
-            <div style="position: relative; height: 40px; margin-top: 8px">
-              <span style="position: absolute; left: 0; right: 0; top: 7px; height: 1px; background: rgba(13,14,16,.3)"></span>
-              <span class="bande" style="left: {{pan.mb.x0}}px; top: 0; width: {{pan.mb.w1}}px; border-radius: {{pan.mb.rad}}; background: #0D0E10"></span>
-              <span class="bande" style="left: {{pan.mb.x1}}px; top: 0; width: {{pan.mb.w2}}px; border-radius: 0 8px 8px 0; background: rgba(13,14,16,.28)"></span>
-              <sc-for list="{{pan.mb.dots}}" as="d" hint-placeholder-count="2">
-                <span aria-hidden="true" style="position: absolute; left: {{d.x}}px; top: 3px; width: 10px; height: 10px; box-sizing: border-box; border-radius: 50%; border: 1.5px solid #0D0E10; background: #FFFFFF; transition: left .6s cubic-bezier(.45,0,.2,1)"></span>
-              </sc-for>
-              <span style="position: absolute; left: 0; top: 22px; font: 500 10px 'IBM Plex Mono', monospace; color: #4B4D52">10:00</span>
-              <span style="position: absolute; right: 0; top: 22px; font: 500 10px 'IBM Plex Mono', monospace; color: #4B4D52">24:00</span>
-            </div>
-          </div>
-        </sc-if>
         <div style="position: absolute; left: 660px; top: 344px; width: 340px">
           <span class="mono" style="display: block; margin-bottom: 10px">Prix de ce service</span>
           <sc-for list="{{pan.prix}}" as="x" hint-placeholder-count="3">
@@ -359,7 +384,7 @@ button.btn{border:0;cursor:pointer;padding:0;background:transparent}
     </div>
   </sc-if>
   <sc-if value="{{sub.on}}" hint-placeholder-val="{{ false }}">
-    <div role="dialog" aria-modal="true" aria-label="Soumettre mon devis">
+    <div role="dialog" aria-modal="true" aria-label="Enregistrer mon brouillon">
       <div class="verre" aria-hidden="true" style="left: 300px; top: 150px; width: 840px; height: 640px; opacity: 0; animation: {{sub.fl}}"></div>
       <svg class="ln" aria-hidden="true" style="left: 300px; top: 150px; width: 840px; height: 640px">
         <path pathLength="100" d="M0 24 A24 24 0 0 1 24 0 L816 0 A24 24 0 0 1 840 24 L840 616 A24 24 0 0 1 816 640 L24 640 A24 24 0 0 1 0 616 Z" style="animation: {{sub.tr}}"></path>
@@ -367,7 +392,7 @@ button.btn{border:0;cursor:pointer;padding:0;background:transparent}
       <div style="position: absolute; left: 300px; top: 150px; width: 840px; height: 640px; opacity: 0; animation: {{sub.ct}}">
         <button type="button" aria-label="Fermer" style="position: absolute; right: 24px; top: 24px; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 22px; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center" onClick="{{sub.annuler}}"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 18px; height: 18px; fill: none; stroke: #0D0E10; stroke-width: 1.8; stroke-linecap: round"><path d="M6 6 L18 18 M18 6 L6 18"></path></svg></button>
         <sc-if value="{{sub.form}}" hint-placeholder-val="{{ true }}">
-          <p class="mono" style="position: absolute; left: 40px; top: 36px; margin: 0">Soumettre mon devis</p>
+          <p class="mono" style="position: absolute; left: 40px; top: 36px; margin: 0">Enregistrer mon brouillon</p>
           <p style="position: absolute; left: 40px; top: 58px; margin: 0; font: 300 30px Inter, sans-serif; letter-spacing: -.02em">{{sub.titre}}</p>
 
           <div style="position: absolute; left: 40px; top: 132px; width: 330px">
@@ -376,9 +401,9 @@ button.btn{border:0;cursor:pointer;padding:0;background:transparent}
               <p style="margin: 0 0 10px; font: 400 13.5px/1.5 Inter, sans-serif; color: #0D0E10">{{r}}</p>
             </sc-for>
             <svg class="ln" aria-hidden="true" style="position: relative; display: block; width: 330px; height: 2px; margin: 14px 0"><path pathLength="100" d="M0 1 L330 1" style="stroke-width: 1px; stroke-dashoffset: 0"></path></svg>
-            <span class="mono" style="display: block">Total TVAC</span>
+            <span class="mono" style="display: block">À partir de · TVAC</span>
             <span style="display: block; margin-top: 4px; font: 300 36px Inter, sans-serif; letter-spacing: -.02em">{{sub.ttc}}</span>
-            <p class="note" style="margin: 18px 0 0; line-height: 1.6">Les prix sont figés à la soumission. Le photographe examine votre dossier puis l’accepte ou vous explique pourquoi il ne peut pas.</p>
+            <p class="note" style="margin: 18px 0 0; line-height: 1.6">Ce prix est une base, déplacement estimé par zone. L’adresse exacte se demande dans votre espace ; rien n’est envoyé au photographe tant que vous n’avez pas soumis.</p>
           </div>
 
           <form aria-label="{{sub.titre}}" style="position: absolute; left: 440px; top: 132px; width: 360px; margin: 0">
@@ -397,13 +422,13 @@ button.btn{border:0;cursor:pointer;padding:0;background:transparent}
           <button type="button" class="{{sub.btCls}}" aria-disabled="{{sub.busy}}" style="left: 440px; top: 360px; width: 360px; height: 48px; border-radius: 24px" onClick="{{sub.envoyer}}">{{sub.bt}}</button>
           <button type="button" class="mini" style="position: absolute; left: 440px; top: 436px; font-size: 14px" onClick="{{sub.basculer}}">{{sub.autre}}</button>
           <button type="button" class="mini" style="position: absolute; left: 440px; top: 472px; font-size: 14px" onClick="{{sub.annuler}}">Annuler</button>
-          <p class="note" style="position: absolute; left: 440px; top: 540px; width: 360px; margin: 0; line-height: 1.6">Votre compte sert seulement à suivre votre dossier. Si vous fermez ce panneau, votre composition reste gardée ici.</p>
+          <p class="note" style="position: absolute; left: 440px; top: 540px; width: 360px; margin: 0; line-height: 1.6">Votre compte sert à préciser puis suivre votre dossier. Si vous fermez ce panneau, votre composition reste gardée ici.</p>
         </sc-if>
         <sc-if value="{{sub.done}}" hint-placeholder-val="{{ false }}">
           <div role="status" style="position: absolute; left: 80px; top: 200px; width: 680px">
-            <p class="mono" style="margin: 0; display: flex; align-items: center; gap: 12px"><span aria-hidden="true" style="display: block; width: 20px; height: 1px; background: #D9783A"></span>Dossier n° 2027-014 · soumis</p>
+            <p class="mono" style="margin: 0; display: flex; align-items: center; gap: 12px"><span aria-hidden="true" style="display: block; width: 20px; height: 1px; background: #D9783A"></span>Brouillon enregistré</p>
             <p style="margin: 18px 0 0; font: italic 400 46px/1.1 'Instrument Serif', serif">
-              <span class="w"><span class="o" style="animation: wIn .9s cubic-bezier(.45,0,.2,1) .1s both">Merci, votre dossier est en cours d’examen.</span><span class="f" aria-hidden="true" style="animation: wIn .9s cubic-bezier(.45,0,.2,1) .26s both">Merci, votre dossier est en cours d’examen.</span></span>
+              <span class="w"><span class="o" style="animation: wIn .9s cubic-bezier(.45,0,.2,1) .1s both">Votre brouillon est enregistré.</span><span class="f" aria-hidden="true" style="animation: wIn .9s cubic-bezier(.45,0,.2,1) .26s both">Votre brouillon est enregistré.</span></span>
             </p>
             <p style="margin: 20px 0 0; font: 400 15px Inter, sans-serif; color: #4B4D52">
               <span class="w"><span class="o" style="animation: wIn .7s cubic-bezier(.45,0,.2,1) .7s both">Ouverture de votre espace client…</span><span class="f" aria-hidden="true" style="animation: wIn .7s cubic-bezier(.45,0,.2,1) .86s both">Ouverture de votre espace client…</span></span>
@@ -415,10 +440,65 @@ button.btn{border:0;cursor:pointer;padding:0;background:transparent}
   </sc-if>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"ombre":{"editor":"enum","options":["Alternance","Diagonale","Studio · latérale","Studio · spot","Studio · cyclo","Studio · strip","Sans"],"default":"Alternance"},"$preview":{"width":1440,"height":900}}'>
+<script type="text/x-dc" data-dc-script data-props='{"ombre":{"editor":"enum","options":["Alternance","Diagonale","Studio · latérale","Studio · spot","Studio · cyclo","Studio · strip","Sans"],"default":"Alternance"},"exemple":{"editor":"enum","options":["Vide","Mariage posé"],"default":"Vide"},"panneau":{"editor":"enum","options":["Fermé","Ouvert sur Mariage"],"default":"Fermé"},"$preview":{"width":1440,"height":900}}'>
 class Component extends DCLogic {
-  constructor(p) { super(p); this.state = { lignes: [], pan: null, ph: 'off', promo: false, n: 0, sub: 'off', subMode: 'create', subPh: 'form' }; }
-  componentWillUnmount() { clearTimeout(this.t); clearTimeout(this.tS); }
+  constructor(p) { super(p); const ouvert = (p && p.panneau || 'Fermé') !== 'Fermé';
+    this.state = { lignes: (p && p.exemple || 'Vide') === 'Vide' ? [] : [{ sid: 'mar', dur: 2, opts: [], lieux: [{ c: -3, h: 14, adr: '' }], date: '', zone: -1 }], pan: ouvert ? { cfg: { sid: 'mar', dur: 2, opts: [], lieux: [{ c: -1, h: 14, adr: '' }] }, idx: null } : null, ph: ouvert ? 'open' : 'off', promo: false, n: 0, sub: 'off', subMode: 'create', subPh: 'form' };
+    if (ouvert) this.tJ = setTimeout(() => this.sync(), 400); this.tR2 = setTimeout(() => this.syncR(), 450); }
+  componentWillUnmount() { clearTimeout(this.t); clearTimeout(this.tS); clearTimeout(this.tJ); document.removeEventListener('input', this.onIn); }
+  componentDidMount() {
+    this.onIn = (e) => {
+      const t = e.target, st = this.state;
+      if (t && t.dataset && (t.dataset.r || t.dataset.dt !== undefined)) {
+        const L = JSON.parse(JSON.stringify(st.lignes));
+        if (t.dataset.dt !== undefined) { const g = L[Number(t.dataset.dt)]; if (g) g.date = t.value; this.setState({ lignes: L }); return; }
+        const i = Number(t.dataset.r.slice(1)), c = L[i]; if (!c || !c.lieux || !c.lieux.length) return;
+        const v = Number(t.value), d0 = Math.min.apply(null, c.lieux.map(z => z.h)), fin = d0 + c.dur;
+        if (t.dataset.r[0] === 'd') { const v2 = Math.max(10, Math.min(fin - 2, v)); c.lieux.forEach(z => { if (z.h === d0 || z.h < v2) z.h = v2; }); c.dur = Math.max(2, Math.min(14, fin - v2)); }
+        else c.dur = Math.max(2, Math.min(14, Math.min(24, v) - d0));
+        this.setState({ lignes: L }); clearTimeout(this.tR2); this.tR2 = setTimeout(() => this.syncR(t), 0); return;
+      }
+      if (!t || !t.dataset || !st.pan || st.ph !== 'open') return;
+      if (t.dataset.j) {
+        const v = Number(t.value), k = t.dataset.j;
+        this.maj(c => {
+          const L = c.lieux, d0 = Math.min.apply(null, L.map(z => z.h));
+          if (k === 'dur') c.dur = Math.max(2, Math.min(14, v));
+          else if (k === 'fin') c.dur = Math.max(2, Math.min(14, v - d0));
+          else if (k === 'debut') { const fin = d0 + c.dur, v2 = Math.max(6, Math.min(fin - 2, v)); L.forEach(z => { if (z.h === d0 || z.h < v2) z.h = v2; }); c.dur = Math.max(2, Math.min(14, fin - v2)); }
+          else if (k[0] === 'l') { L[Number(k.slice(1))].h = v; }
+        }, k);
+      }
+      if (t.dataset.heure !== undefined) { const m = /^(\d{1,2}):(\d{2})/.exec(t.value || ''); if (!m) return; const i = Number(t.dataset.heure), h = Math.max(6, Math.min(23.5, Math.round((Number(m[1]) + Number(m[2]) / 60) * 4) / 4)); this.maj(c => { c.lieux[i].h = h; }, 'heure'); return; }
+      if (t.dataset.adr !== undefined) { const i = Number(t.dataset.adr), v = t.value; this.maj(c => { c.lieux[i].adr = v; c.lieux[i].c = this.ville(v); }, 'adr'); }
+    };
+    document.addEventListener('input', this.onIn);
+  }
+  syncR(sauf) {
+    const L = this.state.lignes;
+    document.querySelectorAll('[data-r]').forEach(el => { if (el === sauf) return; const c = L[Number(el.dataset.r.slice(1))]; if (!c || !c.lieux || !c.lieux.length) return;
+      const d0 = Math.min.apply(null, c.lieux.map(z => z.h)); el.value = el.dataset.r[0] === 'd' ? d0 : d0 + c.dur; });
+    document.querySelectorAll('[data-dt]').forEach(el => { const c = L[Number(el.dataset.dt)]; if (c && el !== document.activeElement) el.value = c.date || ''; });
+  }
+  ville(v) {
+    const s = String(v || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    if (!s.trim()) return -1;
+    const M = [[/bruxelles|brussel|\b1\d{3}\b/, 0], [/namur|\b5\d{3}\b/, 1], [/liege|\b4\d{3}\b/, 2], [/charleroi|\b6\d{3}\b/, 3], [/mons|\b7\d{3}\b/, 4]];
+    for (const [re, i] of M) if (re.test(s)) return i;
+    return -2;
+  }
+  sync(sauf) {
+    const st = this.state; if (!st.pan) return; const c = st.pan.cfg; if (!c.lieux) return;
+    const d0 = c.lieux.length ? Math.min.apply(null, c.lieux.map(z => z.h)) : 14, act = document.activeElement;
+    document.querySelectorAll('[data-j]').forEach(el => {
+      if (el === act && sauf) return; const k = el.dataset.j;
+      el.value = k === 'dur' ? c.dur : k === 'debut' ? d0 : k === 'fin' ? d0 + c.dur : (c.lieux[Number(k.slice(1))] || {}).h;
+    });
+    const hhm = h => String(Math.floor(h)).padStart(2, '0') + ':' + String(Math.round((h % 1) * 60)).padStart(2, '0');
+    document.querySelectorAll('[data-heure]').forEach(el => { const z = c.lieux[Number(el.dataset.heure)]; if (z && el !== act) el.value = hhm(z.h); });
+    if (sauf !== 'adr') document.querySelectorAll('[data-adr]').forEach(el => { const z = c.lieux[Number(el.dataset.adr)]; if (z && el !== act) el.value = z.adr || ''; });
+  }
+
   soumettre() { if (this.state.ph !== 'off' || this.state.sub !== 'off') return; this.setState({ sub: 'open', subPh: 'form', subMode: 'create' }); }
   fermerSub() {
     if (this.state.sub !== 'open' || this.state.subPh === 'loading') return;
@@ -436,7 +516,7 @@ class Component extends DCLogic {
   }
   S() { return [
     { id: 'mar', cat: 0, t: 'Mariage', mode: 'P3', base: 250, incl: 2, extra: 60, tech: true, opts: ['album', 'tir', 'sec'] },
-    { id: 'eng', cat: 0, t: 'Séance engagement', mode: 'P3', base: 180, incl: 1.5, extra: 60, tech: true, opts: ['album', 'tir'] },
+    { id: 'eng', cat: 0, t: 'Séance engagement', mode: 'P3', base: 180, incl: 2, extra: 60, tech: true, opts: ['album', 'tir'] },
     { id: 'fam', cat: 1, t: 'Famille lifestyle', mode: 'P3', base: 220, incl: 2, extra: 60, tech: true, opts: ['album', 'tir'] },
     { id: 'ann', cat: 1, t: 'Anniversaire', mode: 'P3', base: 250, incl: 2, extra: 60, tech: true, opts: ['tir'] },
     { id: 'evt', cat: 2, t: 'Événementiel', mode: 'P3', base: 250, incl: 2, extra: 60, tech: true, opts: ['tir'] },
@@ -444,7 +524,7 @@ class Component extends DCLogic {
   ]; }
   ouvrir(cfg, idx) {
     if (this.state.ph !== 'off') return;
-    this.setState({ pan: { cfg: JSON.parse(JSON.stringify(cfg)), idx }, ph: 'open' });
+    this.setState({ pan: { cfg: JSON.parse(JSON.stringify(cfg)), idx }, ph: 'open' }); clearTimeout(this.tJ); this.tJ = setTimeout(() => this.sync(), 60);
   }
   fermer(garder) {
     if (this.state.ph !== 'open') return;
@@ -455,11 +535,11 @@ class Component extends DCLogic {
     clearTimeout(this.t);
     this.t = setTimeout(() => this.setState({ ph: 'off', pan: null }), 380);
   }
-  maj(f) { const pan = JSON.parse(JSON.stringify(this.state.pan)); f(pan.cfg); this.setState({ pan }); }
+  maj(f, sauf) { const pan = JSON.parse(JSON.stringify(this.state.pan)); f(pan.cfg); this.setState({ pan }); clearTimeout(this.tJ); this.tJ = setTimeout(() => this.sync(sauf), 0); }
   calc(cfg) {
     const OPT = { album: ['Album photo 30×30', 120], tir: ['10 tirages 20×30', 45], sec: ['Second photographe', 300] };
     const s = this.S().find(x => x.id === cfg.sid), r2 = n => Math.round(n * 100 + 1e-9) / 100;
-    const D = [44.8, 12.0, 61.3, 30.5, 58.2], C = ['Bruxelles', 'Namur', 'Liège', 'Charleroi', 'Mons'];
+    const D = [44.8, 12.0, 61.3, 30.5, 58.2, 98.6, 109.4], C = ['Bruxelles', 'Namur', 'Liège', 'Charleroi', 'Mons', 'Anvers', 'Gand'];
     const hm = h => { const H = Math.floor(h), M = Math.round((h - H) * 60); return M ? `${H} h ${String(M).padStart(2, '0')}` : `${H} h`; };
     const out = []; let manque = false;
     if (s.mode === 'P3') {
@@ -471,10 +551,13 @@ class Component extends DCLogic {
     }
     cfg.opts.forEach(k => out.push({ o: 'Option', t: OPT[k][0], ht: OPT[k][1] }));
     if (s.tech) {
-      if (cfg.lieux.some(z => z.c < 0)) { manque = true; out.push({ o: 'Transport', t: 'Départ photographe → lieu à préciser', ht: null }); }
+      if (cfg.lieux.every(z => z.c === -3)) { if (cfg.zone >= 0) { const km = Math.round(D[cfg.zone] * 2 * 10) / 10, fee = r2(Math.max(0, km - 25) * .5);
+        out.push({ o: 'Transport', t: `Déplacement estimé · zone ${C[cfg.zone]}`, ht: fee, sub: fee > 0 ? `environ ${String(km.toFixed(1)).replace('.', ',')} km aller-retour, 25 km offerts, 0,50 € / km` : 'Déplacement offert' }); } }
+      else if (cfg.lieux.some(z => z.c === -1)) { manque = true; out.push({ o: 'Transport', t: 'Départ photographe → lieu à préciser', ht: null }); }
+      else if (!cfg.lieux.some(z => z.c >= 0)) { out.push({ o: 'Transport', t: 'Départ photographe → adresse saisie', ht: 0, sub: 'distance confirmée par le photographe' }); }
       else {
         const sorted = cfg.lieux.slice().sort((a, b) => a.h - b.h);
-        let far = sorted[0]; sorted.forEach(z => { if (D[z.c] > D[far.c]) far = z; });
+        let far = sorted.find(z => z.c >= 0); sorted.forEach(z => { if (z.c >= 0 && D[z.c] > D[far.c]) far = z; });
         const km = Math.round(D[far.c] * 2 * 10) / 10, fee = r2(Math.max(0, km - 25) * .5);
         out.push({ o: 'Transport', t: `Départ photographe → ${C[far.c]} : ${String(D[far.c].toFixed(1)).replace('.', ',')} km`, ht: fee,
           sub: fee > 0 ? `aller-retour ${String(km.toFixed(1)).replace('.', ',')} km, 25 km offerts, 0,50 € / km` : 'Déplacement offert' });
@@ -506,15 +589,15 @@ class Component extends DCLogic {
       cats.push({ t, y, a: T(1.7 + ci * .3, .5) }); y += 26;
       SV.filter(s => s.cat === ci).forEach((s, k) => {
         const dl = 1.8 + ci * .3 + k * .12;
-        const cfg = s.mode === 'P3' ? { sid: s.id, dur: s.incl, opts: [], lieux: [{ c: -1, h: 14 }] } : { sid: s.id, qty: 10, opts: [], lieux: [] };
+        const cfg = s.mode === 'P3' ? { sid: s.id, dur: s.incl, opts: [], lieux: [{ c: -3, h: 14, adr: '' }], date: '' } : { sid: s.id, qty: 10, opts: [], lieux: [] };
         srvs.push({ t: s.t, p: 'dès ' + eur(s.mode === 'P3' ? s.base : s.unit * s.min), y, lab: 'Ajouter ' + s.t + ' au devis',
-          at: T(dl, .6), ap: T(dl + .1, .5), ab: H(dl + .5), ajouter: () => this.ouvrir(cfg, null) });
+          at: T(dl, .6), ap: T(dl + .1, .5), ab: H(dl + .5), ajouter: () => { this.setState({ lignes: this.state.lignes.concat([JSON.parse(JSON.stringify(cfg))]), n: this.state.n + 1 }); clearTimeout(this.tR2); this.tR2 = setTimeout(() => this.syncR(), 30); } });
         y += 60;
       });
       y += 18;
     });
     const res = st.lignes.map(c => this.calc(c));
-    const D = [44.8, 12.0, 61.3, 30.5, 58.2], CM = ['Bruxelles', 'Namur', 'Liège', 'Charleroi', 'Mons'];
+    const D = [44.8, 12.0, 61.3, 30.5, 58.2, 98.6, 109.4], CM = ['Bruxelles', 'Namur', 'Liège', 'Charleroi', 'Mons', 'Anvers', 'Gand'];
     const hh = h => String(Math.floor(h)).padStart(2, '0') + ':' + String(Math.round((h % 1) * 60)).padStart(2, '0');
     const band = (cfg, s, x0, sc) => {
       const L = cfg.lieux.slice().sort((p, q) => p.h - q.h), st0 = L[0].h, inc = Math.min(cfg.dur, s.incl), ov = Math.max(0, cfg.dur - s.incl);
@@ -525,22 +608,27 @@ class Component extends DCLogic {
     const rows = [];
     st.lignes.forEach((c, i) => {
       const s = SV.find(x => x.id === c.sid), y = 334 + i * 60;
-      if (s.mode !== 'P3') { rows.push({ y, lab: s.t + ' · en studio, horaire à fixer ensemble', x0: 440, w1: 0, x1: 440, w2: 0, rad: '8px', by: y + 18, dots: [], arc: 'M0 0', aArc: 'none' }); return; }
-      const b = band(c, s, 440, 40), known = b.L.filter(z => z.c >= 0);
+      if (s.mode !== 'P3') { rows.push({ y, drag: false, lab: s.t + ' · en studio, horaire à fixer ensemble', x0: 440, w1: 0, x1: 440, w2: 0, rad: '8px', by: y + 18, dots: [], arc: 'M0 0', aArc: 'none' }); return; }
+      const b = band(c, s, 440, 40), known = b.L.filter(z => z.c >= 0), manqueL = b.L.some(z => z.c === -1);
       let far = null; known.forEach(z => { if (!far || D[z.c] > D[far.c]) far = z; });
-      const tr = known.length < b.L.length ? ' · adresse requise' : far ? ` · ${CM[far.c]} ${String(D[far.c].toFixed(1)).replace('.', ',')} km` : '';
+      const tr = (c.zone >= 0 && b.L.every(z => z.c === -3)) ? ` · zone ${CM[c.zone]}` : manqueL ? ' · adresse requise' : far ? ` · ${CM[far.c]} ${String(D[far.c].toFixed(1)).replace('.', ',')} km` : '';
       const fx = far ? b.X(far.h) : 0;
-      rows.push({ y, by: y + 18, lab: `${s.t} · ${hh(b.st0)} → ${hh(b.st0 + c.dur)}${tr}`, x0: b.x0, w1: b.w1, x1: b.x1, w2: b.w2, rad: b.rad,
-        dots: b.L.map(z => ({ x: b.X(z.h) - 5, y: y + 21 })),
+      rows.push({ y, by: y + 18, ty: y + 13, drag: true, kd: 'd' + i, kf: 'f' + i, debT: hh(b.st0), finT: hh(b.st0 + c.dur), ariaD: 'Début · ' + s.t, ariaF: 'Fin · ' + s.t, lab: `${s.t} · ${hh(b.st0)} → ${hh(b.st0 + c.dur)}${tr}`, x0: b.x0, w1: b.w1, x1: b.x1, w2: b.w2, rad: b.rad,
+        dots: [],
         arc: far ? `M440 ${y + 36} Q ${Math.round((440 + fx) / 2)} ${y + 58} ${fx} ${y + 36}` : 'M0 0', aArc: far ? `drawS 1.1s ${E} .9s both` : 'none' });
     });
     const ticks = [10, 12, 14, 16, 18, 20, 22, 24].map((h, i) => ({ x: 440 + (h - 10) * 40, t: String(h).padStart(2, '0') + ':00', a: H(1.9 + i * .06) }));
     const lz0 = 334 + Math.max(1, st.lignes.length) * 60 + 16;
     const lignes = []; let ly = 0, k = 0;
     res.forEach((r, gi) => r.lignes.forEach(l => {
-      lignes.push({ o: l.o, t: l.t, cls: 'l', v: l.ht === null ? '—' : eur(l.ht), y: ly, dl: (k * .05).toFixed(2) + 's', act: !!l.act,
+      const OPT2 = { album: ['Album photo 30×30', 120], tir: ['10 tirages 20×30', 45], sec: ['Second photographe', 300] }, cg = st.lignes[gi];
+      lignes.push({ o: l.o, t: l.t, cls: 'l', v: l.ht === null ? '—' : eur(l.ht), y: ly, dl: (k * .05).toFixed(2) + 's', act: !!l.act, gi: String(gi), ariaDt: 'Date du shooting · ' + r.s.t,
+        zones: l.act && r.s.tech ? ['Bruxelles', 'Namur', 'Liège', 'Charleroi', 'Mons', 'Anvers', 'Gand'].map((zt, zi) => ({ t: zt, on: cg.zone === zi ? 'true' : 'false', cls: cg.zone === zi ? 'chip on' : 'chip',
+          go: () => { const L = JSON.parse(JSON.stringify(this.state.lignes)); L[gi].zone = zi; this.setState({ lignes: L }); } })) : [], zOn: !!(l.act && r.s.tech),
+        chips: l.act ? r.s.opts.map(k2 => ({ t: (cg.opts.includes(k2) ? '✓ ' : '+ ') + OPT2[k2][0] + ' · ' + OPT2[k2][1] + ' €', on: cg.opts.includes(k2) ? 'true' : 'false', cls: cg.opts.includes(k2) ? 'chip on' : 'chip',
+          go: () => { const L = JSON.parse(JSON.stringify(this.state.lignes)), o = L[gi].opts; L[gi].opts = o.includes(k2) ? o.filter(x => x !== k2) : o.concat(k2); this.setState({ lignes: L }); } })) : [],
         modifier: () => this.ouvrir(st.lignes[gi], gi), retirer: () => this.setState({ lignes: st.lignes.filter((_, i) => i !== gi), n: st.n + 1 }) });
-      ly += l.act ? 50 : 30; k++;
+      ly += l.act ? (r.s.tech ? 204 : 70) : 30; k++;
       if (l.sub) { lignes.push({ o: '', t: l.sub, cls: 'l s', v: '', y: ly - 6, dl: (k * .05).toFixed(2) + 's', act: false }); ly += 24; }
     }));
     const lz = { y: lz0, h: Math.max(60, 680 - lz0), H: ly + 10 };
@@ -549,7 +637,7 @@ class Component extends DCLogic {
     const t = { ht: eur(ht), tva: eur(tva), ttc: eur(Math.round((ht + tva) * 100) / 100), inc: manque ? ' · incomplet' : '', manque,
       cls: ok ? 'btn' : 'btn off', dis: ok ? 'false' : 'true', okOp: ok ? 1 : 0, go: () => { if (ok) this.soumettre(); } };
     const noAlbum = st.lignes.findIndex(c => { const s = SV.find(x => x.id === c.sid); return s.opts.includes('album') && !c.opts.includes('album'); });
-    const sug = { on: noAlbum >= 0 && st.ph === 'off', t: 'Ajoutez un album : Album photo 30×30', go: () => this.ouvrir(st.lignes[noAlbum], noAlbum) };
+    const sug = { on: noAlbum >= 0 && st.ph === 'off', t: 'Ajoutez un album : Album photo 30×30', go: () => { const L = JSON.parse(JSON.stringify(st.lignes)); L[noAlbum].opts = L[noAlbum].opts.concat('album'); this.setState({ lignes: L }); } };
     let pan = { on: false };
     if (st.pan) {
       const cfg = st.pan.cfg, r = this.calc(cfg), s = r.s, closing = st.ph === 'closing';
@@ -557,21 +645,32 @@ class Component extends DCLogic {
       const OPT = { album: ['Album photo 30×30', 120], tir: ['10 tirages 20×30', 45], sec: ['Second photographe', 300] };
       const C = ['Bruxelles', 'Namur', 'Liège', 'Charleroi', 'Mons'];
       const P3 = s.mode === 'P3';
-      const note = P3 ? (cfg.dur <= .5 ? 'La durée minimale est de 30 min.' : cfg.dur >= 14 ? 'La durée maximale est de 14 h.' : cfg.dur <= s.incl ? `Facturé au forfait : ${hm(s.incl)} incluses.` : 'Au-delà du forfait, chaque demi-heure entamée est facturée.')
+      const note = P3 ? (cfg.dur <= 2 ? 'Durée minimale : 2 h.' : cfg.dur >= 14 ? 'La durée maximale est de 14 h.' : cfg.dur <= s.incl ? `Facturé au forfait : ${hm(s.incl)} incluses.` : 'Au-delà du forfait, chaque demi-heure entamée est facturée.')
         : (cfg.qty <= s.min || cfg.qty >= s.max ? `La quantité est comprise entre ${s.min} et ${s.max}.` : `${s.unit},00 € par plat.`);
       const lieux = (cfg.lieux || []).map((z, i) => ({ n: i + 1, y: i * 92, h: String(Math.floor(z.h)).padStart(2, '0') + ':' + (z.h % 1 ? '30' : '00'), del: i > 0,
         hm: () => this.maj(c => { c.lieux[i].h = Math.max(6, c.lieux[i].h - .5); }), hp: () => this.maj(c => { c.lieux[i].h = Math.min(23.5, c.lieux[i].h + .5); }),
         retirer: () => this.maj(c => { c.lieux.splice(i, 1); }),
         communes: C.map((t2, ci) => ({ t: t2, on: z.c === ci, cls: z.c === ci ? 'chip on' : 'chip', pick: () => this.maj(c => { c.lieux[i].c = ci; }) })) }));
-      pan = { on: true, titre: 'Configurer ' + s.t, svc: s.t, tech: s.tech, studio: !s.tech,
+      const J0 = 6, JW = 560, JX = h => Math.round((Math.min(24, Math.max(J0, h)) - J0) * JW / 18);
+      const d0 = cfg.lieux && cfg.lieux.length ? Math.min.apply(null, cfg.lieux.map(z => z.h)) : 14, incl = P3 ? Math.min(cfg.dur, s.incl) : 0, ov = P3 ? Math.max(0, cfg.dur - s.incl) : 0;
+      const j = { lab: P3 ? hh(d0) + ' → ' + hh(d0 + cfg.dur) + ' · ' + hm(cfg.dur) : '', x0: JX(d0), w1: JX(d0 + incl) - JX(d0), x1: JX(d0 + incl), w2: JX(d0 + incl + ov) - JX(d0 + incl),
+        rad: ov > 0 ? '8px 0 0 8px' : '8px', debT: hh(d0), finT: hh(d0 + cfg.dur), xDeb: JX(d0) - 20, xFin: JX(d0 + cfg.dur) - 20,
+        durT: P3 ? hm(cfg.dur) : '', durPct: P3 ? Math.round((cfg.dur - .5) / 13.5 * 100) : 0,
+        ticks: [6, 9, 12, 15, 18, 21, 24].map(h => ({ x: JX(h) - 16, t: String(h).padStart(2, '0') + ':00' })),
+        pins: (cfg.lieux || []).map((z, i) => ({ k: 'l' + i, n: String(i + 1), x: JX(z.h) - 6, xl: JX(z.h) - 20, aria: 'Heure d’arrivée au lieu ' + (i + 1), h: hh(z.h) })) };
+      const AD = ['Bruxelles · 44,8 km', 'Namur · 12,0 km', 'Liège · 61,3 km', 'Charleroi · 30,5 km', 'Mons · 58,2 km'];
+      lieux.forEach((l, i) => { const z = cfg.lieux[i]; l.adrId = 'adr-' + i; l.adrI = String(i); l.jk = 'l' + i; l.aria = 'Adresse exacte du lieu ' + (i + 1); l.ariaH = 'Heure d’arrivée au lieu ' + (i + 1); l.hT = hh(z.h); l.hId = 'heure-' + i;
+        l.etat = z.c === -1 ? 'Adresse à indiquer pour calculer le transport' : z.c === -2 ? 'Adresse notée · distance confirmée par le photographe' : 'Distance calculée : ' + AD[z.c];
+        l.etC = z.c === -1 ? '#7A1F33' : z.c === -2 ? '#D9783A' : '#3AA6B5'; l.y = i * 86; });
+      pan = { on: true, j, titre: 'Configurer ' + s.t, svc: s.t, tech: s.tech, studio: !s.tech,
         fl: closing ? 'devOut .3s ease-out forwards' : 'habille .7s ease .35s both',
         tr: closing ? `undrawS .35s ${E} both` : `drawS .55s ${E} both`,
         ct: closing ? 'devOut .2s ease-out forwards' : 'habille .45s ease .5s both',
         pLab: P3 ? 'Durée de présence' : 'Nombre de plats', pVal: P3 ? hm(cfg.dur) : String(cfg.qty), pNote: note,
-        moins: () => this.maj(c => { if (P3) c.dur = Math.max(.5, c.dur - .25); else c.qty = Math.max(s.min, c.qty - 1); }),
+        moins: () => this.maj(c => { if (P3) c.dur = Math.max(2, c.dur - .25); else c.qty = Math.max(s.min, c.qty - 1); }),
         plus: () => this.maj(c => { if (P3) c.dur = Math.min(14, c.dur + .25); else c.qty = Math.min(s.max, c.qty + 1); }),
-        lieux, plusLieu: s.tech && cfg.lieux.length < 12, yPlus: cfg.lieux.length * 92, hLieux: cfg.lieux.length * 92 + 36,
-        ajLieu: () => this.maj(c => { c.lieux.push({ c: -1, h: Math.min(23.5, c.lieux[c.lieux.length - 1].h + 2) }); }),
+        lieux, plusLieu: s.tech && cfg.lieux.length < 12, yPlus: cfg.lieux.length * 86, hLieux: cfg.lieux.length * 86 + 36,
+        ajLieu: () => this.maj(c => { c.lieux.push({ c: -1, h: Math.min(23.5, c.lieux[c.lieux.length - 1].h + 2), adr: '' }); }),
         opts: s.opts.map(k2 => ({ t: OPT[k2][0], v: eur(OPT[k2][1]), on: cfg.opts.includes(k2), cls: cfg.opts.includes(k2) ? 'opt on' : 'opt',
           toggle: () => this.maj(c => { c.opts = c.opts.includes(k2) ? c.opts.filter(x => x !== k2) : c.opts.concat(k2); }) })),
         prix: r.lignes.map(l => ({ t: l.t, v: l.ht === null ? 'Adresse requise' : eur(l.ht), c: l.ht === null ? '#4B4D52' : '#0D0E10' })),
@@ -591,7 +690,7 @@ class Component extends DCLogic {
       ct: sClose ? 'devOut .2s ease-out forwards' : 'habille .45s ease .5s both',
       titre: cr ? 'Créez votre compte' : 'Connectez-vous', ac: cr ? 'new-password' : 'current-password', ph: cr ? '8 caractères minimum' : '',
       aide: cr ? 'Un e-mail et un mot de passe suffisent. Rien n’est enregistré si vous arrêtez ici.' : 'Votre dossier sera rattaché à ce compte.',
-      bt: busy ? 'Soumission…' : (cr ? 'Créer mon compte et soumettre' : 'Me connecter et soumettre'), busy: busy ? 'true' : 'false',
+      bt: busy ? 'Enregistrement…' : (cr ? 'Créer mon compte et continuer' : 'Me connecter et continuer'), busy: busy ? 'true' : 'false',
       btCls: busy ? 'btn off' : 'btn', encOp: busy ? 0 : 1, autre: cr ? 'J’ai déjà un compte' : 'Créer un compte',
       recap: rows.map(r => r.lab), ttc: t.ttc,
       envoyer: () => this.envoyer(), annuler: () => this.fermerSub(), basculer: () => this.setState({ subMode: cr ? 'login' : 'create', subErr: '' }), err: this.state.subErr || '', errOn: !!this.state.subErr };

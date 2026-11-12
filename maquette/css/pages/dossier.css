@@ -1,0 +1,21 @@
+/* Espace client · dossier à onglets (E03). */
+.mono{font:500 10.5px 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#4B4D52}
+.note{font:400 13px/1.6 Inter,sans-serif;color:#4B4D52}
+.btn{gap:10px;border-radius:20px}
+.etape{position:absolute;top:300px;width:220px}
+.etape .d{position:absolute;left:0;top:0;width:16px;height:16px;box-sizing:border-box;border-radius:50%;border:1.5px solid rgba(13,14,16,.45);background:#FFFFFF}
+.etape.fait .d,.etape.ici .d{border-color:#0D0E10;background:#0D0E10}
+.etape .t{position:absolute;left:0;top:28px;font:400 15px Inter,sans-serif;color:#5D5F64;white-space:nowrap}
+.etape.ici .t,.etape.fait .t{color:#0D0E10}
+.onglet{position:relative;height:44px;padding:0 18px;border:0;border-radius:22px;background:transparent;color:#5D5F64;cursor:pointer;font:400 14.5px Inter,sans-serif;white-space:nowrap}
+.onglet.on{color:#0D0E10}
+.onglet .u{position:absolute;left:18px;bottom:5px;height:2px;width:0;border-radius:1px;background:#3AA6B5;transition:width .45s cubic-bezier(.45,0,.2,1)}
+.onglet.on .u{width:32px}
+.onglet .nb{margin-left:8px;font:500 10.5px 'IBM Plex Mono',monospace;color:#4B4D52}
+.ligne{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid rgba(13,14,16,.12);font:400 14.5px Inter,sans-serif}
+.ligne .o{width:92px;flex:none}
+.ligne .v{font:500 13px 'IBM Plex Mono',monospace;white-space:nowrap}
+.carte-f{position:absolute;background:rgba(255,255,255,.7);border-radius:20px;box-shadow:0 16px 30px -14px rgba(20,18,16,.3),inset 0 0 0 1px rgba(13,14,16,.08)}
+.mini{padding:0;border:0;background:transparent;cursor:pointer;font:500 13.5px Inter,sans-serif;color:#0D0E10;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
+.onglet:focus-visible,.mini:focus-visible{outline:2px solid #0D0E10;outline-offset:3px}
+.vue{animation:wIn .55s cubic-bezier(.45,0,.2,1) both}

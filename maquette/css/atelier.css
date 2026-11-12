@@ -1,0 +1,63 @@
+/* ==========================================================================
+   atelier.css — composants de l'atelier (menu latéral, liens, puces, champs,
+   onglets, cases, options, panneaux). Repris tels quels du style commun des
+   planches Erp*.dc.html. Se charge après base.css.
+   ========================================================================== */
+
+.nav a,.lien{color:inherit;text-decoration:none}
+.btn{position:absolute;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:20px;text-decoration:none;font:500 14px Inter,sans-serif;color:#EEEDE9}
+.btn.clair{color:#0D0E10}
+.btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.encre{background:#0D0E10;box-shadow:0 20px 34px -10px rgba(13,14,16,.58),0 7px 12px -3px rgba(13,14,16,.32),inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1.5px 0 rgba(0,0,0,.22)}
+.mono{font:500 10.5px 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#4B4D52}
+.note{font:400 13px/1.55 Inter,sans-serif;color:#4B4D52}
+.mini{padding:0;border:0;background:transparent;cursor:pointer;font:500 13px Inter,sans-serif;color:#0D0E10;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
+.sk{position:absolute;border-radius:8px;background:rgba(13,14,16,.07);animation:sk 1.6s ease-in-out infinite}
+.menu{list-style:none;margin:0;padding:0}
+.it{display:flex;align-items:center;gap:12px;width:100%;height:36px;padding:0 12px;box-sizing:border-box;border:0;border-radius:12px;background:transparent;color:#0D0E10;cursor:pointer;font:400 14px Inter,sans-serif;text-align:left;transition:background .25s ease}
+.it:hover{background:rgba(13,14,16,.05)}
+.it.on{background:#0D0E10;color:#EEEDE9;box-shadow:0 12px 22px -10px rgba(13,14,16,.55)}
+.it.sub{height:32px;padding-left:30px;font-size:13px}
+.it.sub .ic{width:12px}
+.it .bd{margin-left:auto;min-width:20px;height:20px;padding:0 6px;box-sizing:border-box;border-radius:10px;background:#3AA6B5;color:#FFFFFF;font:500 11px 'IBM Plex Mono',monospace;display:inline-flex;align-items:center;justify-content:center}
+.it .chev{margin-left:auto;width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.8;transition:transform .3s ease}
+.it .chev.ouv{transform:rotate(90deg)}
+.ic{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.ic path{stroke-dasharray:100 102;stroke-dashoffset:101}
+.lig{position:absolute;display:block;color:#0D0E10;text-decoration:none;border-radius:12px;transition:background .25s ease}
+.lig:hover{background:rgba(13,14,16,.045)}
+.carte{position:absolute;display:block;color:#0D0E10;text-decoration:none;border-radius:20px;transition:transform .35s cubic-bezier(.45,0,.2,1)}
+.carte:hover{transform:translateY(-3px)}
+.puce{display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 14px;border:0;border-radius:16px;background:transparent;box-shadow:inset 0 0 0 1px rgba(13,14,16,.18);font:400 13px Inter,sans-serif;color:#0D0E10;cursor:pointer;white-space:nowrap;transition:background .25s ease,color .25s ease}
+.puce:hover{background:rgba(13,14,16,.05)}
+.puce.on{background:#0D0E10;color:#EEEDE9;box-shadow:0 10px 18px -10px rgba(13,14,16,.55)}
+.puce i{display:block;width:7px;height:7px;border-radius:4px}
+.puce b{font:500 11px 'IBM Plex Mono',monospace;opacity:.7}
+.champ label{display:block}
+.champ input,.champ textarea{display:block;box-sizing:border-box;width:100%;margin-top:6px;padding:6px 0;border:0;border-bottom:1px solid rgba(13,14,16,.35);border-radius:0;background:transparent;font:400 15px Inter,sans-serif;color:#0D0E10;outline:none;resize:none}
+.champ textarea{height:56px;line-height:1.45;padding:8px 10px;background:rgba(13,14,16,.035);border-radius:8px 8px 0 0}
+.champ input:focus,.champ textarea:focus{border-bottom:2px solid #3AA6B5}
+.champ [aria-invalid="true"]{border-bottom:2px solid #7A1F33}
+button.btn{border:0;cursor:pointer;padding:0;background:transparent}
+button.btn.encre{background:#0D0E10;color:#EEEDE9}
+.btn.off{background:transparent;color:#5D5F64;box-shadow:inset 0 0 0 1.5px rgba(13,14,16,.3);cursor:not-allowed}
+.mini.doux{color:#4B4D52}
+.mini[aria-disabled="true"]{color:#9A9CA1;text-decoration:none;cursor:default}
+.etape{display:inline-flex;align-items:center;gap:8px;font:400 13.5px Inter,sans-serif;white-space:nowrap;color:#0D0E10}
+.etape i{display:block;width:8px;height:8px;border-radius:4px}
+.tabs{position:absolute;display:flex;gap:30px}
+.tab{position:relative;height:40px;padding:0;border:0;background:transparent;cursor:pointer;font:400 15px Inter,sans-serif;color:#4B4D52;display:inline-flex;align-items:center;gap:8px}
+.tab.on{color:#0D0E10;font-weight:500}
+.tab.on::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;border-radius:1px;background:#3AA6B5;animation:wIn .45s cubic-bezier(.45,0,.2,1) both}
+.tab .bd{min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;border-radius:9px;background:#3AA6B5;color:#fff;font:500 10.5px 'IBM Plex Mono',monospace;display:inline-flex;align-items:center;justify-content:center}
+.case{position:absolute;display:flex;white-space:nowrap;align-items:center;gap:12px;padding:0;border:0;background:transparent;cursor:pointer;font:400 14.5px Inter,sans-serif;color:#0D0E10}
+.case .bx{width:20px;height:20px;border-radius:6px;box-shadow:inset 0 0 0 1.5px rgba(13,14,16,.45);display:flex;align-items:center;justify-content:center;transition:background .2s ease}
+.case[aria-checked="true"] .bx{background:#0D0E10;box-shadow:none}
+.case svg{width:12px;height:12px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.opt{position:absolute;display:block;padding:0;border:0;border-radius:16px;background:transparent;box-shadow:inset 0 0 0 1px rgba(13,14,16,.16);cursor:pointer;text-align:left;color:#0D0E10;transition:box-shadow .25s ease,background .25s ease}
+.opt:hover{background:rgba(13,14,16,.035)}
+.opt.on{box-shadow:inset 0 0 0 2px #0D0E10}
+.x{position:absolute;width:44px;height:44px;padding:0;border:0;border-radius:22px;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.sep{box-shadow:inset 0 -1px 0 rgba(13,14,16,.08)}
+.it:focus-visible,.lig:focus-visible,.carte:focus-visible,.mini:focus-visible,.lien:focus-visible{outline:2px solid #0D0E10;outline-offset:3px}
+.puce:focus-visible,.tab:focus-visible,.case:focus-visible,.opt:focus-visible,.btn:focus-visible,.x:focus-visible{outline:2px solid #0D0E10;outline-offset:3px}

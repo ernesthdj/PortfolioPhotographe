@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atelier · Type de fiche</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/atelier.css">
+<link rel="stylesheet" href="../css/pages/atelier-catalogue2.css" data-page-css>
+</head>
+<body class="atelier" data-module="atelier-fiche" data-famille="atelier">
+<div id="ecran">
+  <div id="scene">
+    <div class="vignette" aria-hidden="true"></div>
+    <div class="fond" id="fond">
+      <!-- La coque persistante (verre + menu) est ajoutée ici par js/lib/atelier-shell.js ; seul #contenu est remplacé par le routeur -->
+      <div id="contenu">
+
+      <a href="fiches.html" class="lien mini" id="retour" style="position:absolute;left:304px;top:40px">← Retour aux types de fiches</a>
+      <p class="mono" style="position:absolute;left:304px;top:78px;margin:0;display:flex;align-items:center;gap:12px">
+        <span id="eye-trait" aria-hidden="true" style="display:block;width:28px;height:1px;background:#D9783A"></span><span class="w" id="eye"></span>
+      </p>
+      <h1 style="position:absolute;left:302px;top:100px;margin:0;font:300 36px/1.1 Inter,sans-serif;letter-spacing:-.03em;filter:drop-shadow(0 6px 9px rgba(20,18,16,.18))">
+        <span class="w" id="h1"></span> <span class="w" id="h2"></span>
+      </h1>
+      <p class="note" id="intro" style="position:absolute;left:304px;top:152px;width:calc(840px + var(--dx) * 0.5);margin:0">Les fiches encore à remplir suivent cette version ; celles déjà remplies gardent leurs réponses.</p>
+      <span class="encre" id="enregistrer-encre" aria-hidden="true" style="position:absolute;left:calc(1156px + var(--dx));top:72px;width:220px;height:48px;border-radius:24px;opacity:1"></span><button type="button" class="btn" id="enregistrer" aria-disabled="false" style="left:calc(1156px + var(--dx));top:72px;width:220px;height:48px;border-radius:24px">Enregistrer</button>
+
+      <div class="champ" id="nom-champ" style="position:absolute;left:304px;top:190px;width:calc(420px + var(--dx) * 0.5)"><label class="mono" for="nom">Nom du type</label><input id="nom" type="text" autocomplete="off" aria-invalid="false" aria-describedby="nom-err"></div>
+      <div style="position:absolute;left:304px;top:240px;width:calc(600px + var(--dx) * 0.5)"><p id="nom-err" class="err" style="margin:0" role="alert"></p></div>
+      <p class="mono" style="position:absolute;left:304px;top:276px;margin:0">Champs · dans l’ordre du formulaire client</p>
+      <ol aria-label="Champs de la fiche" id="champs" style="list-style:none;margin:0;padding:0"></ol>
+      <button type="button" class="mini" id="plus-champ" style="position:absolute;left:304px">+ Champ</button>
+      <button type="button" class="mini" id="plus-groupe" style="position:absolute;left:392px">+ Groupe répétable</button>
+
+      <div class="verre" id="p2-verre" aria-hidden="true" style="left:calc(960px + var(--dx));top:190px;width:416px;height:682px;opacity:0"></div>
+      <div id="panneau" style="position:absolute;left:calc(988px + var(--dx));top:214px;width:360px">
+        <div id="m-champ">
+          <p class="mono" style="margin:0">Nouveau champ</p>
+          <div class="champ" style="margin-top:14px"><label class="mono" for="nl">Libellé</label><input id="nl" type="text" autocomplete="off" aria-invalid="false" aria-describedby="nc-err"></div>
+          <p class="mono" id="ty-l" style="margin:20px 0 10px">Type</p>
+          <div class="flux" id="types" role="radiogroup" aria-labelledby="ty-l"></div>
+          <div style="margin-top:18px" id="no-bloc"></div>
+          <div id="bloc-liste" hidden><div class="champ" style="margin-top:16px"><label class="mono" for="nv">Valeurs, une par ligne</label><textarea id="nv" style="height:84px" aria-invalid="false" aria-describedby="nc-err"></textarea></div></div>
+          <p class="note" id="bloc-adresse" hidden style="margin:14px 0 0">Seuls les champs adresse servent au calcul du transport.</p>
+          <p class="note" id="bloc-lien" hidden style="margin:14px 0 0">Le client devra saisir une adresse qui commence par https://, par exemple un moodboard.</p>
+          <p id="nc-err" class="err" role="alert"></p>
+          <button type="button" class="btn encre" id="ajouter-champ" style="position:relative;margin-top:10px;width:220px;height:44px;border-radius:22px">Ajouter le champ</button>
+        </div>
+        <div id="m-groupe" hidden>
+          <p class="mono" style="margin:0">Nouveau groupe répétable</p>
+          <p class="note" style="margin:12px 0 0">Un groupe se répète autant de fois que le client en a besoin, par exemple un lieu : nom, adresse, heures.</p>
+          <div class="champ" style="margin-top:16px"><label class="mono" for="ng">Nom du groupe</label><input id="ng" type="text" autocomplete="off" aria-invalid="false" aria-describedby="ng-err"></div>
+          <p id="ng-err" class="err" role="alert"></p>
+          <button type="button" class="btn encre" id="creer-groupe" style="position:relative;margin-top:10px;width:220px;height:44px;border-radius:22px">Créer le groupe</button>
+          <button type="button" class="mini doux" id="retour-champ" style="display:block;margin-top:16px">Ajouter plutôt un champ simple</button>
+        </div>
+      </div>
+      </div><!-- /#contenu -->
+    </div>
+  </div>
+</div>
+<script type="module" src="../js/amorce.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+/* Intro : collage cinématique. Reprend le <style> propre à PIntro.dc.html. */
+.plan{position:absolute;left:0;top:0;width:1440px;height:900px}
+.intro-ln{position:absolute;left:0;top:0;width:1440px;height:900px;overflow:visible;pointer-events:none}
+.intro-ln path{fill:none;stroke:#0D0E10;stroke-width:2px;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 102;stroke-dashoffset:101}
+.pt{position:absolute;width:10px;height:10px;border-radius:50%;background:#7A1F33;box-shadow:inset 0 1px 0 rgba(255,255,255,.14),inset 0 -1.5px 0 rgba(0,0,0,.24)}
+.ctl{position:absolute;height:28px;padding:0 12px;border-radius:14px;border:2px solid currentColor;background:transparent;color:#4B4D52;font:500 12px Inter,sans-serif;cursor:pointer}
+.ctl:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+@keyframes pan{from{transform:translateX(70px)}to{transform:translateX(-150px)}}
+@keyframes teinte{0%{stroke:#3AA6B5}55%{stroke:#D9783A}100%{stroke:#7A1F33}}
+.plan .ph{box-shadow:none}
+@keyframes melt{0%{transform:scale(1)}40%{transform:scale(2,.4)}100%{transform:scale(0)}}

@@ -1,0 +1,11 @@
+/* Page Services (planche « Une fiche par service ») : chapitres, lignes de tarif. */
+.btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.btn{gap:10px;border-radius:20px}
+.chap{display:flex;align-items:baseline;gap:14px;width:100%;height:52px;padding:14px 0 0;box-sizing:border-box;border:0;background:transparent;color:#5D5F64;cursor:pointer;text-align:left;font:300 17px Inter,sans-serif;letter-spacing:-.01em}
+.chap.on{color:#0D0E10}
+.chap .k{font:500 11px 'IBM Plex Mono',monospace;letter-spacing:.06em;color:#4B4D52}
+.chap:focus-visible{outline:2px solid #0D0E10;outline-offset:3px}
+.ligne{position:absolute;left:calc(840px + var(--dx));width:520px;display:flex;justify-content:space-between;align-items:baseline}
+.ligne .l{font:400 15px Inter,sans-serif;color:#0D0E10}
+.ligne .v{font:500 13px 'IBM Plex Mono',monospace;letter-spacing:.04em;color:#0D0E10}
+@keyframes drawS2{from{stroke-dashoffset:101}to{stroke-dashoffset:0}}

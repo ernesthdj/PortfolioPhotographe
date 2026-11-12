@@ -1,0 +1,27 @@
+/* Accueil (et intro, qui le monte à sa fin). Reprend le <style> propre à PAccueil.dc.html. */
+.accueil .btn{color:#0D0E10}
+.btn.encre-cta{color:#FFFFFF}
+.pp path.comete{stroke-dasharray:5 95;stroke-dashoffset:0}
+.phbtn{position:absolute;padding:0;margin:0;border:0;background:transparent;cursor:zoom-in}
+.phbtn:focus-visible{outline:2px solid #0D0E10;outline-offset:4px}
+.lb-fond{position:absolute;inset:0;background-color:#FFFFFF}
+.lb-img{position:absolute;display:block;overflow:hidden;box-shadow:0 30px 60px -20px rgba(20,18,16,.38),0 8px 16px -6px rgba(20,18,16,.18)}
+.lb-cadre{position:absolute;box-sizing:border-box;border:2px solid #0D0E10;pointer-events:none}
+.lb-btn{position:absolute;width:48px;height:48px;padding:0;border:0;border-radius:24px;background:transparent;color:#0D0E10;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.lb-btn:hover{background:rgba(13,14,16,.06)}
+.lb-btn:focus-visible{outline:2px solid currentColor;outline-offset:2px}
+.lb-btn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.svc{position:relative;display:inline-flex;align-items:baseline;gap:8px;flex:none;padding:6px 0 14px;color:#0D0E10;text-decoration:none}
+.svc:focus-visible{outline:2px solid #0D0E10;outline-offset:6px;border-radius:4px}
+.svc .k{font:500 11.5px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#4B4D52}
+.svc .l{font:300 22px/1 Inter,sans-serif;letter-spacing:-.02em;white-space:nowrap}
+.svc .u{position:absolute;left:0;bottom:4px;height:2px;border-radius:1px;background:#3AA6B5;width:0;transition:width .45s cubic-bezier(.45,0,.2,1)}
+.svc.on .u{width:100%}
+.rj{position:absolute;right:24px;bottom:20px;height:28px;padding:0 12px;border-radius:14px;border:2px solid currentColor;background:transparent;color:#4B4D52;font:500 12px Inter,sans-serif;cursor:pointer}
+svg.lbtr{position:absolute;overflow:visible;pointer-events:none}
+.lbtr path{fill:none;stroke:#0D0E10;stroke-width:2px;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 102;stroke-dashoffset:101}
+.tete{position:absolute;background:#0D0E10;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1.5px 0 rgba(0,0,0,.22),0 2px 5px rgba(13,14,16,.22)}
+@keyframes ecrit{0%{left:65px;top:var(--dt);width:10px;height:10px;border-radius:5px}15%{left:77px;top:207px;width:3px;height:var(--H);border-radius:1.5px}85%{left:calc(77px + var(--W));top:207px;width:3px;height:var(--H);border-radius:1.5px}100%{left:calc(78px + var(--W));top:calc(207px + var(--H) / 2);width:0;height:0;border-radius:0}}
+@keyframes ecrit2{0%{left:65px;top:var(--dt);width:10px;height:10px;border-radius:5px}15%{left:77px;top:207px;width:3px;height:var(--H);border-radius:1.5px}85%{left:calc(77px + var(--W));top:207px;width:3px;height:var(--H);border-radius:1.5px}100%{left:calc(78px + var(--W));top:calc(207px + var(--H) / 2);width:0;height:0;border-radius:0}}
+@keyframes resorbe{0%{left:calc(78px + var(--W));top:calc(207px + var(--H) / 2);width:0;height:0;border-radius:0}12%{left:calc(77px + var(--W));top:207px;width:3px;height:var(--H);border-radius:1.5px}85%{left:77px;top:207px;width:3px;height:var(--H);border-radius:1.5px}100%{left:65px;top:var(--dt);width:10px;height:10px;border-radius:5px}}
+#fenetre > .om{display:none}

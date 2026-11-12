@@ -1,0 +1,60 @@
+/* Simulateur de devis (E01) : catalogue, journée, lignes, totaux, panneaux E01.a et E01.b. */
+.mono{font:500 10.5px 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#4B4D52}
+.btn{gap:10px;border-radius:20px}
+.btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.btn.off{background:transparent;color:#5D5F64;box-shadow:inset 0 0 0 1.5px rgba(13,14,16,.3);cursor:not-allowed}
+.cat-h{position:absolute;left:88px}
+.srv{position:absolute;left:88px;width:292px;height:50px;padding:0;border:0;border-radius:10px;background:transparent;color:#0D0E10;cursor:pointer;text-align:left;font-family:Inter,sans-serif;transition:background .25s ease,box-shadow .25s ease}
+.srv:hover{background:rgba(13,14,16,.045);box-shadow:0 0 0 8px rgba(13,14,16,.045)}
+.srv .plus{position:absolute;right:0;top:11px;width:26px;height:26px;border-radius:13px;box-shadow:inset 0 0 0 1.5px #0D0E10;display:flex;align-items:center;justify-content:center;color:#0D0E10;transition:background .25s ease,color .25s ease}
+.srv:hover .plus,.srv:focus-visible .plus{background:#0D0E10;color:#FFFFFF}
+.srv .plus svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.srv:focus-visible{outline:2px solid #0D0E10;outline-offset:6px}
+.srv .t{position:absolute;left:0;top:4px;font:400 15px Inter,sans-serif;color:#0D0E10}
+.srv .p{position:absolute;left:0;top:26px;font:500 11px 'IBM Plex Mono',monospace;letter-spacing:.04em;color:#4B4D52}
+.add svg,.mini svg,.step svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+.tick{position:absolute;top:298px;font:500 10px 'IBM Plex Mono',monospace;color:#4B4D52;transform:translateX(-50%)}
+.bande{position:absolute;height:16px;transition:left .6s cubic-bezier(.45,0,.2,1),width .6s cubic-bezier(.45,0,.2,1)}
+.ligne{position:absolute;left:0;width:calc(556px + var(--dx));display:flex;justify-content:space-between;align-items:baseline}
+.ligne .g{display:flex;gap:14px;align-items:baseline}
+.ligne .o{width:78px;flex:none}
+.ligne .l{font:400 14.5px Inter,sans-serif;color:#0D0E10}
+.ligne .l.s{color:#4B4D52;font-size:13.5px}
+.ligne .v{font:500 13px 'IBM Plex Mono',monospace;color:#0D0E10;white-space:nowrap}
+.mini{padding:0;border:0;background:transparent;cursor:pointer;font:500 12.5px Inter,sans-serif;color:#0D0E10;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
+.tot{position:absolute;left:calc(1068px + var(--dx));width:264px;display:flex;justify-content:space-between;align-items:baseline}
+.tot .l{font:400 14px Inter,sans-serif;color:#4B4D52}
+.tot .v{font:500 14px 'IBM Plex Mono',monospace;color:#0D0E10}
+.champ label,.blk .mono{display:block}
+.champ input{display:block;box-sizing:border-box;width:100%;margin-top:6px;padding:6px 0;border:0;border-bottom:1px solid rgba(13,14,16,.35);border-radius:0;background:transparent;font:400 15px Inter,sans-serif;color:#0D0E10;outline:none}
+.champ input:focus{border-bottom:2px solid #3AA6B5}
+.step{display:inline-flex;align-items:center;gap:14px;margin-top:8px}
+.step button{width:36px;height:36px;padding:0;border:0;border-radius:18px;background:transparent;box-shadow:inset 0 0 0 1.5px #0D0E10;color:#0D0E10;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+.step button:hover{background:rgba(13,14,16,.06)}
+.step .n{min-width:92px;text-align:center;font:300 24px Inter,sans-serif}
+.chip{height:32px;padding:0 14px;border:0;border-radius:16px;background:transparent;box-shadow:inset 0 0 0 1.2px rgba(13,14,16,.5);color:#0D0E10;cursor:pointer;font:400 13px Inter,sans-serif}
+.chip.on{background:#0D0E10;color:#EEEDE9;box-shadow:none}
+.opt{display:flex;align-items:center;justify-content:space-between;width:100%;height:40px;padding:0;border:0;background:transparent;cursor:pointer;text-align:left;font:400 14px Inter,sans-serif;color:#0D0E10}
+.opt .c{display:inline-flex;align-items:center;gap:10px}
+.opt .bx{width:16px;height:16px;box-sizing:border-box;border:1.5px solid #0D0E10;border-radius:4px;display:inline-flex;align-items:center;justify-content:center}
+.opt.on .bx{background:#0D0E10}
+.opt .bx svg{width:11px;height:11px;fill:none;stroke:#FFFFFF;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.opt .v{font:500 12.5px 'IBM Plex Mono',monospace}
+.note{font:400 12.5px Inter,sans-serif;color:#4B4D52}
+.mini:focus-visible,.step button:focus-visible,.chip:focus-visible,.opt:focus-visible{outline:2px solid #0D0E10;outline-offset:3px}
+.rangee{animation:wIn .5s cubic-bezier(.45,0,.2,1) both}
+
+/* Ruban de la journée du panneau « Configurer ce service » : input type=range superposés, pointer-events seulement sur le pouce */
+.jr{position:absolute;left:0;margin:0;padding:0;background:transparent;pointer-events:none;-webkit-appearance:none;appearance:none;outline:none}
+.jr::-webkit-slider-runnable-track{height:24px;background:transparent;border:0}
+.jr::-moz-range-track{height:24px;background:transparent;border:0}
+.jr::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;pointer-events:auto;width:18px;height:18px;margin-top:3px;border-radius:50%;background:#FFFFFF;border:2px solid #0D0E10;box-shadow:0 4px 10px -4px rgba(13,14,16,.5);cursor:ew-resize}
+.jr::-moz-range-thumb{pointer-events:auto;width:14px;height:14px;border-radius:50%;background:#FFFFFF;border:2px solid #0D0E10;box-shadow:0 4px 10px -4px rgba(13,14,16,.5);cursor:ew-resize}
+.jr.lieu::-webkit-slider-thumb{width:14px;height:14px;margin-top:5px;border-color:#3AA6B5}
+.jr.lieu::-moz-range-thumb{width:10px;height:10px;border-color:#3AA6B5}
+.jr:focus-visible::-webkit-slider-thumb{outline:2px solid #0D0E10;outline-offset:3px}
+.jr:focus-visible::-moz-range-thumb{outline:2px solid #0D0E10;outline-offset:3px}
+.jr.seule{pointer-events:auto;cursor:pointer}
+.adr input{font-size:14.5px}
+.heure{border:0;border-bottom:1px solid rgba(58,166,181,.6);border-radius:0;background:transparent;padding:2px 0;width:92px;font:500 13px 'IBM Plex Mono',monospace;color:#0D0E10;outline:none}
+.heure:focus{border-bottom:2px solid #3AA6B5}

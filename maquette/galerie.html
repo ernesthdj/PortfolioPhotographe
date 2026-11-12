@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Galerie · Ernest H.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/pages/galerie.css" data-page-css>
+</head>
+<body class="site galerie" data-module="galerie" data-famille="site">
+<div id="ecran">
+  <div id="scene">
+    <div class="vignette" aria-hidden="true"></div>
+    <div class="fond" id="fond">
+      <!-- L'en-tête persistant est inséré ici par js/lib/entete.js ; seul #contenu est remplacé par le routeur.
+           Filtres, zone des photos et photo agrandie : montés par js/pages/galerie.js -->
+      <div id="contenu"></div>
+    </div>
+  </div>
+</div>
+<script type="module" src="js/amorce.js"></script>
+</body>
+</html>

@@ -103,6 +103,33 @@ Collage cinématique (≈ 6,5 s) : cadres tracés, photos développées en noir 
 - États : chargement (squelettes qui pulsent, « Chargement de vos dossiers… »), vide (MSG05 « Vous n'avez pas encore de dossier. »).
 - « Supprimer mon compte » (E02.a, UC06.7) : le fond se résorbe, le panneau se trace ; confirmation par mot de passe, « Mot de passe incorrect. » sous le champ (point bordeaux, texte encre), « Suppression… », puis « Votre compte a été supprimé. Vos données personnelles ont été effacées. » et « Retour à l'accueil ».
 
+### Simulateur · horaires et adresses (retenu : A · ruban de la journée, 12/11)
+- Le panneau « Configurer ce service » remplace les boutons − / + et les communes cliquables par un ruban de 06:00 à 24:00.
+  - Bande de présence : noire pour le forfait, grise pour le dépassement.
+  - Poignées : début et fin en noir, une par lieu en cyan, avec son numéro au-dessus et son heure dessous.
+  - Le réglage se fait à la souris ou au clavier, et le prix change pendant le glisser.
+- La poignée de début est indépendante : la fin reste fixe et la durée s'ajuste.
+- Chaque lieu a un champ « Lieu n : » où l'on tape l'heure (synchronisée avec sa poignée), un champ d'adresse exacte et un état :
+  - bordeaux : adresse à indiquer ;
+  - cyan : distance calculée ;
+  - orange : adresse notée, distance confirmée par le photographe.
+- Dans PID, il faudra un vrai géocodage pour les kilomètres. La maquette ne reconnaît que la commune ou le code postal.
+
+### Simulateur public (retenu : A · frise directe, 12/11)
+- Sans compte, le visiteur fixe seulement :
+  - les heures, en glissant le début et la fin sur la frise du devis ;
+  - la date ;
+  - la **zone** (Bruxelles, Namur, Liège, Charleroi, Mons, Anvers, Gand), jamais l'adresse ;
+  - les options, en pastilles.
+- Le prix affiché est « À partir de · TVAC », avec un déplacement estimé selon la zone.
+- Le bouton « Créer mon compte pour préciser » enregistre un brouillon, sans rien envoyer au photographe.
+- Durée minimale de 2 h partout. La séance engagement passe à 2 h incluses.
+- Après inscription, l'écran connecté « Préciser ma journée » reprend le brouillon.
+  - Le ruban validé (adresses exactes, lieux, heures) s'ouvre par « Préciser lieux et horaires ».
+  - Le prix devient complet, avec le déplacement réel.
+  - « Soumettre au photographe » reste bloqué tant qu'une adresse manque.
+- Doc PID à mettre à jour : dans E01, les lieux et adresses ne se demandent plus avant la soumission, et le brouillon est conservé côté serveur après inscription.
+
 ### Parcours complet (canvas, page « Parcours complet »)
 - Copies reliées des pages retenues : Intro → Accueil → Galerie, Services, À propos, Contact, Simulateur (+ soumission) → Espace client, et « Mes dossiers » → registre → dossier. Lancer « Play » sur « 1 · Intro ».
 

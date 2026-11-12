@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atelier · Fiche client</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/atelier.css">
+<link rel="stylesheet" href="../css/pages/atelier-clients.css" data-page-css>
+</head>
+<body class="atelier" data-module="atelier-client" data-famille="atelier">
+<div id="ecran">
+  <div id="scene">
+    <div class="vignette" aria-hidden="true"></div>
+    <div class="fond" id="fond">
+      <!-- La coque persistante (verre + menu) est ajoutée ici par js/lib/atelier-shell.js ; seul #contenu est remplacé par le routeur -->
+      <div id="contenu">
+
+      <a href="clients.html" class="lien mini" id="retour" style="position:absolute;left:304px;top:40px">← Retour aux clients</a>
+      <p class="mono" style="position:absolute;left:304px;top:78px;margin:0;display:flex;align-items:center;gap:12px">
+        <span id="eye-trait" aria-hidden="true" style="display:block;width:28px;height:1px;background:#D9783A"></span><span class="w" id="eye"></span>
+      </p>
+      <h1 style="position:absolute;left:302px;top:100px;margin:0;font:300 36px/1.1 Inter,sans-serif;letter-spacing:-.03em;filter:drop-shadow(0 6px 9px rgba(20,18,16,.18))">
+        <span class="w" id="h1"></span> <span class="w" id="h2"></span>
+      </h1>
+      <p class="note" id="contact" style="position:absolute;left:304px;top:152px;width:840px;margin:0"></p>
+
+      <p id="toast" hidden style="position:absolute;left:calc(848px + var(--dx) * .5);top:136px;width:calc(528px + var(--dx) * .5);margin:0;display:flex;align-items:flex-start;justify-content:flex-end;gap:10px;font:400 13.5px/1.45 Inter,sans-serif;text-align:right;animation:habille .5s ease both">
+        <span aria-hidden="true" style="display:block;flex:none;width:20px;height:1px;margin-top:9px;background:#D9783A" id="toast-trait"></span><span id="toast-t"></span>
+      </p>
+
+      <div id="col1" style="position:absolute;left:304px;top:196px;width:calc(500px + var(--dx) * .5)">
+        <p class="mono" id="org-l" style="margin:0 0 10px">Origine</p>
+        <div class="flux" id="f-orig" role="radiogroup" aria-labelledby="org-l"></div>
+        <p class="mono" id="tag-l" style="margin:24px 0 10px">Étiquettes</p>
+        <div class="flux" id="f-tags" role="group" aria-labelledby="tag-l"></div>
+        <a href="#" class="lien mini" id="gerer" style="display:inline-block;margin-top:10px">Gérer les origines et étiquettes →</a>
+        <p class="mono" style="margin:30px 0 4px">Dossiers</p>
+        <div id="dossiers"></div>
+        <p class="mono" style="margin:30px 0 4px">Simulations envoyées</p>
+        <div style="display:flex;align-items:center;gap:16px;height:56px;box-shadow:inset 0 -1px 0 rgba(13,14,16,.08)">
+          <span style="flex:1;display:flex;flex-direction:column"><span style="font:400 15px Inter,sans-serif" id="sim-t"></span><span class="note" style="font-size:12px;line-height:1.3">Reçue par email quand elle était prospect</span></span>
+          <span style="font:500 13px 'IBM Plex Mono',monospace" id="sim-v"></span>
+        </div>
+        <p class="note" style="margin:14px 0 0;font-size:12.5px">Consentement donné le 7 nov. 2026 en cochant la case du simulateur.</p>
+      </div>
+
+      <div class="verre" id="col2-verre" aria-hidden="true" style="left:calc(848px + var(--dx) * .5);top:196px;width:calc(528px + var(--dx) * .5);height:676px;opacity:0"></div>
+      <div id="col2" style="position:absolute;left:calc(876px + var(--dx) * .5);top:218px;width:calc(472px + var(--dx) * .5)">
+        <p class="mono" style="margin:0">Notes privées · jamais visibles du client</p>
+        <div class="champ"><textarea id="np" aria-label="Notes privées" style="height:62px"></textarea></div>
+        <button type="button" class="mini" id="note" style="margin-top:8px">Enregistrer la note</button>
+        <p class="mono" style="margin:24px 0 8px">Journal des échanges</p>
+        <div style="display:flex;gap:20px;align-items:flex-end">
+          <div class="champ" style="width:150px"><label class="mono" for="jd">Date</label><input id="jd" type="date"></div>
+          <div class="flux" id="f-canal" role="radiogroup" aria-label="Canal"></div>
+        </div>
+        <div class="champ" style="margin-top:10px"><label class="mono" for="jrs">Résumé</label><textarea id="jrs" style="height:44px" aria-invalid="false" aria-describedby="jrs-err"></textarea></div>
+        <p id="jrs-err" class="err" role="alert"></p>
+        <button type="button" class="btn encre" id="ajouter" style="position:relative;width:200px;height:40px;border-radius:20px">+ Ajouter l’échange</button>
+        <div id="journal"></div>
+      </div>
+      </div><!-- /#contenu -->
+    </div>
+  </div>
+</div>
+<script type="module" src="../js/amorce.js"></script>
+</body>
+</html>

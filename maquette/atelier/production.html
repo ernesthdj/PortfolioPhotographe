@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atelier · Production</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/atelier.css">
+<link rel="stylesheet" href="../css/pages/production.css" data-page-css>
+</head>
+<body class="atelier" data-module="atelier-production" data-famille="atelier">
+<div id="ecran">
+  <div id="scene">
+    <div class="vignette" aria-hidden="true"></div>
+    <div class="fond" id="fond">
+      <!-- La coque persistante (verre + menu) est ajoutée ici par js/lib/atelier-shell.js ; seul #contenu est remplacé par le routeur -->
+      <div id="contenu">
+      <p class="mono" style="position:absolute;left:304px;top:52px;margin:0;display:flex;align-items:center;gap:12px">
+        <span id="eye-trait" aria-hidden="true" style="display:block;width:28px;height:1px;background:#D9783A"></span>
+        <span class="w" id="eye"></span>
+      </p>
+      <h1 style="position:absolute;left:302px;top:76px;margin:0;font:300 36px/1.1 Inter,sans-serif;letter-spacing:-.03em;filter:drop-shadow(0 6px 9px rgba(20,18,16,.18))">
+        <span class="w" id="h1"></span> <span class="w" id="h2"></span>
+      </h1>
+
+      <div id="liste" role="listbox" aria-label="Shootings en production"></div>
+      <p id="vide" hidden style="position:absolute;left:304px;top:200px;margin:0;font:300 30px Inter,sans-serif;letter-spacing:-.02em"><span class="w" id="vide-t"></span></p>
+
+      <!-- Détail du shooting sélectionné (E12.f) -->
+      <div id="detail" hidden style="position:absolute;left:var(--dx);top:0;width:1440px;height:900px;pointer-events:none">
+        <div class="verre" id="d-verre" aria-hidden="true" style="left:900px;top:176px;width:476px;height:696px;opacity:0"></div>
+        <p class="mono" id="d-num" style="position:absolute;left:928px;top:200px;margin:0"></p>
+        <p id="d-cli" style="position:absolute;left:928px;top:222px;margin:0;font:300 26px Inter,sans-serif;letter-spacing:-.02em"></p>
+        <p class="note" id="d-s" style="position:absolute;left:928px;top:258px;width:420px;margin:0;font-size:13px"></p>
+        <svg class="ln" aria-hidden="true" style="left:0;top:0;width:1440px;height:900px">
+          <path id="d-trait-a" pathLength="100" style="stroke-width:1px;stroke:rgba(13,14,16,.22)"></path>
+          <path id="d-trait-v" pathLength="100" style="stroke-width:2px"></path>
+        </svg>
+        <ol id="d-etapes" aria-label="Étapes de production" style="list-style:none;margin:0;padding:0"></ol>
+        <div id="d-suivante" hidden>
+          <span class="encre" aria-hidden="true" id="d-suiv-enc" style="position:absolute;left:928px;width:300px;height:44px;border-radius:22px;opacity:1"></span>
+          <button type="button" class="btn" id="d-suiv-btn" aria-disabled="false" style="left:928px;width:300px;height:44px;border-radius:22px"></button>
+        </div>
+        <div id="d-livrer" hidden style="position:absolute;left:928px;width:420px">
+          <div class="champ"><label class="mono" for="lien">Lien de livraison</label><input id="lien" type="url" autocomplete="off" placeholder="https://" aria-invalid="false" aria-describedby="lien-err"></div>
+          <p id="lien-err" class="err" role="alert"></p>
+          <button type="button" class="btn encre" id="d-livrer-btn" style="position:relative;margin-top:6px;width:200px;height:44px;border-radius:22px">Livrer</button>
+          <p class="note" style="margin:12px 0 0;font-size:12.5px">Aucune photo n’est stockée ici : le client reçoit le lien par email.</p>
+        </div>
+        <a href="dossier.html" class="lien mini" id="d-ouvrir" style="position:absolute;left:928px;top:834px">Ouvrir le dossier →</a>
+      </div>
+
+      <p id="toast" hidden style="position:absolute;left:304px;top:834px;width:calc(572px + var(--dx));margin:0;display:flex;align-items:flex-start;justify-content:flex-start;gap:10px;font:400 13.5px/1.45 Inter,sans-serif;text-align:left;animation:habille .5s ease both">
+        <span id="toast-trait" aria-hidden="true" style="display:block;flex:none;width:20px;height:1px;margin-top:9px;background:#D9783A"></span><span id="toast-t"></span>
+      </p>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="module" src="../js/amorce.js"></script>
+</body>
+</html>

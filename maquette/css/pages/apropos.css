@@ -1,0 +1,7 @@
+/* Page À propos (A · portrait et récit) */
+.portrait{position:absolute;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#F1EFEB,#E6E3DD);box-shadow:0 22px 40px -16px rgba(20,18,16,.34),0 6px 12px -4px rgba(20,18,16,.16);font:500 11px 'IBM Plex Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:#4B4D52}
+.pil{position:absolute;top:486px;width:220px}
+.pil .k{display:block;font:500 11px 'IBM Plex Mono',monospace;letter-spacing:.06em;color:#4B4D52}
+.pil .t{display:block;margin-top:8px;font:400 17px Inter,sans-serif;color:#0D0E10}
+.pil .d{display:block;margin-top:8px;font:400 13.5px/1.6 Inter,sans-serif;color:#4B4D52}
+.btn{gap:10px;border-radius:20px}

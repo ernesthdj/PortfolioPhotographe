@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atelier · Types de fiches</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/atelier.css">
+<link rel="stylesheet" href="../css/pages/atelier-catalogue2.css" data-page-css>
+</head>
+<body class="atelier" data-module="atelier-fiches" data-famille="atelier">
+<div id="ecran">
+  <div id="scene">
+    <div class="vignette" aria-hidden="true"></div>
+    <div class="fond" id="fond">
+      <!-- La coque persistante (verre + menu) est ajoutée ici par js/lib/atelier-shell.js ; seul #contenu est remplacé par le routeur -->
+      <div id="contenu">
+
+      <p class="mono" style="position:absolute;left:304px;top:52px;margin:0;display:flex;align-items:center;gap:12px">
+        <span id="eye-trait" aria-hidden="true" style="display:block;width:28px;height:1px;background:#D9783A"></span>
+        <span class="w" id="eye"></span>
+      </p>
+      <h1 style="position:absolute;left:302px;top:76px;margin:0;font:300 36px/1.1 Inter,sans-serif;letter-spacing:-.03em;filter:drop-shadow(0 6px 9px rgba(20,18,16,.18))">
+        <span class="w" id="h1"></span> <span class="w" id="h2"></span>
+      </h1>
+      <a href="fiche.html" class="btn encre" id="nouveau" style="left:calc(1156px + var(--dx));top:72px;width:220px;height:48px;border-radius:24px">+ Nouveau type</a>
+      <div class="mono" style="position:absolute;left:304px;top:200px;width:calc(1072px + var(--dx));height:16px">
+        <span style="position:absolute;left:0">Nom</span><span style="position:absolute;left:calc(286px + var(--dx) * 0.25)">Champs</span>
+        <span style="position:absolute;left:calc(446px + var(--dx) * 0.35)">Services reliés</span><span style="position:absolute;left:calc(856px + var(--dx) * 0.8)">Modifié</span>
+      </div>
+      <svg class="ln" aria-hidden="true" viewBox="0 0 1072 2" preserveAspectRatio="none" style="left:304px;top:222px;width:calc(1072px + var(--dx));height:2px"><path id="l1" pathLength="100" d="M0 1 L1072 1" style="stroke-width:1px;stroke:rgba(13,14,16,.25)"></path></svg>
+      <div id="lignes" style="display:contents"></div>
+      </div><!-- /#contenu -->
+    </div>
+  </div>
+</div>
+<script type="module" src="../js/amorce.js"></script>
+</body>
+</html>

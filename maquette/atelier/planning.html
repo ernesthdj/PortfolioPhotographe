@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atelier · Planning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/atelier.css">
+<link rel="stylesheet" href="../css/pages/planning.css" data-page-css>
+</head>
+<body class="atelier" data-module="atelier-planning" data-famille="atelier">
+<div id="ecran">
+  <div id="scene">
+    <div class="vignette" aria-hidden="true"></div>
+    <div class="fond" id="fond">
+      <!-- La coque persistante (verre + menu) est ajoutée ici par js/lib/atelier-shell.js ; seul #contenu est remplacé par le routeur -->
+      <div id="contenu">
+      <p class="mono" style="position:absolute;left:304px;top:52px;margin:0;display:flex;align-items:center;gap:12px">
+        <span id="eye-trait" aria-hidden="true" style="display:block;width:28px;height:1px;background:#D9783A"></span>
+        <span class="w" id="eye"></span>
+      </p>
+      <h1 style="position:absolute;left:302px;top:76px;margin:0;font:300 36px/1.1 Inter,sans-serif;letter-spacing:-.03em;filter:drop-shadow(0 6px 9px rgba(20,18,16,.18))">
+        <span class="w" id="h1"></span> <span class="w" id="h2"></span>
+      </h1>
+      <div class="flux" id="vues" role="radiogroup" aria-label="Vue" style="position:absolute;right:64px;top:84px"></div>
+      <button type="button" class="ico" id="prec" aria-label="Période précédente" aria-disabled="true" style="left:304px;top:168px"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6 L9 12 L15 18"></path></svg></button>
+      <button type="button" class="ico" id="suiv" aria-label="Période suivante" aria-disabled="true" style="left:334px;top:168px"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6 L15 12 L9 18"></path></svg></button>
+      <p id="titre" aria-live="polite" style="position:absolute;left:372px;top:166px;margin:0;font:300 22px Inter,sans-serif;letter-spacing:-.01em"></p>
+      <div class="flux" id="legende" style="position:absolute;right:64px;top:172px;gap:16px">
+        <span class="etape" style="font-size:12px;color:#4B4D52"><i aria-hidden="true" style="background:transparent;box-shadow:inset 0 0 0 1.5px #3AA6B5"></i>soumis, signalé</span><span class="etape" style="font-size:12px;color:#4B4D52"><i aria-hidden="true" style="background:#D9783A;box-shadow:none"></i>accepté</span><span class="etape" style="font-size:12px;color:#4B4D52"><i aria-hidden="true" style="background:#7A1F33;box-shadow:none"></i>confirmé</span>
+        <span class="etape" style="font-size:12px;color:#4B4D52"><i aria-hidden="true" style="background:transparent;box-shadow:inset 0 0 0 1.5px #0D0E10"></i>livraison</span><span class="etape" style="font-size:12px;color:#4B4D52"><i aria-hidden="true" style="background:transparent;box-shadow:inset 0 0 0 1.5px #D9783A"></i>paiement</span>
+        <span class="etape" style="font-size:12px;color:#4B4D52"><i aria-hidden="true" style="background:repeating-linear-gradient(135deg,rgba(13,14,16,.35) 0 2px,transparent 2px 4px);box-shadow:none;border-radius:2px"></i>bloqué</span>
+      </div>
+
+      <!-- Vue mois -->
+      <div id="vue-mois">
+        <div class="mono" aria-hidden="true" style="position:absolute;left:304px;top:214px;width:calc(1072px + var(--dx));display:grid;grid-template-columns:repeat(7,1fr)">
+          <span style="padding-left:10px">lun.</span><span style="padding-left:10px">mar.</span><span style="padding-left:10px">mer.</span><span style="padding-left:10px">jeu.</span><span style="padding-left:10px">ven.</span><span style="padding-left:10px">sam.</span><span style="padding-left:10px">dim.</span>
+        </div>
+        <div id="cases" style="display:contents"></div>
+        <div id="pop" hidden>
+          <div class="verre" id="pop-verre" aria-hidden="true" style="width:290px;height:116px;animation:habille .3s ease both"></div>
+          <div role="dialog" id="pop-dlg" aria-label="Jour libre" style="position:absolute;width:290px;height:116px;animation:habille .3s ease both">
+            <p id="pop-t" style="position:absolute;left:20px;top:18px;margin:0;font:500 15px Inter,sans-serif"></p>
+            <p class="note" style="position:absolute;left:20px;top:42px;margin:0;font-size:12.5px">Libre · aucun shooting ni échéance</p>
+            <a href="#" class="lien mini" style="position:absolute;left:20px;top:78px">Bloquer cette date →</a>
+            <button type="button" class="mini doux" id="pop-f" style="position:absolute;right:20px;top:78px">Fermer</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vue semaine -->
+      <div id="vue-semaine" hidden></div>
+
+      <!-- Vue jour -->
+      <div id="vue-jour" hidden></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="module" src="../js/amorce.js"></script>
+</body>
+</html>

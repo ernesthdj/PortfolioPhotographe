@@ -107,7 +107,7 @@ svg.ln{position:absolute;overflow:visible;pointer-events:none}
     <sc-for list="{{filtres}}" as="f" hint-placeholder-count="7">
       <button type="button" class="{{f.cls}}" aria-pressed="{{f.on}}" onClick="{{f.pick}}">
         <span class="w"><span class="o" style="animation: {{f.a.o}}">{{f.t}}</span><span class="f" aria-hidden="true" style="animation: {{f.a.f}}">{{f.t}}</span></span>
-        <span class="k">{{f.n}}</span>
+        <span class="k" style="display: inline-block; animation: {{f.ak}}">{{f.n}}</span>
       </button>
     </sc-for>
   </nav>
@@ -252,7 +252,7 @@ class Component extends DCLogic {
     const total = counts.reduce((t, c) => t + c, 0);
     const filtres = [{ t: 'Tout', i: -1 }].concat(SVC.map((t, i) => ({ t, i }))).map((f, k) => ({
       t: f.t, n: String(f.i < 0 ? total : counts[f.i]).padStart(2, '0'), on: st.svc === f.i,
-      cls: st.svc === f.i ? 'filtre' : 'filtre off', a: T(1.6 + k * .1, .45),
+      cls: st.svc === f.i ? 'filtre' : 'filtre off', a: T(1.6 + k * .1, .45), ak: T(1.85 + k * .1, .35).o,
       pick: () => this.changer(f.i)
     }));
     const fi = st.svc + 1;
@@ -316,7 +316,7 @@ class Component extends DCLogic {
         a.pillC = `eteint .3s ease forwards`; a.indA = `wOut .25s ${E} 0s both`; a.eyeL = `wOut .25s ${E} 0s both`;
         a.logo = wo2; a.n0 = wo2; a.n1 = wo2; a.n2 = wo2; a.n3 = wo2; a.navU = `wOut .25s ${E} 0s both`; a.sig = `wOut .25s ${E} 0s both`;
         a.hFl = `devOut .3s ease-out 0s both`; a.hCta = wo2; a.dFl = `devOut .3s ease-out 0s both`; a.dCta = wo2;
-        filtres.forEach(fl => { fl.a = wo2; });
+        filtres.forEach(fl => { fl.a = wo2; fl.ak = `wOut .25s ${E} 0s both`; });
       }
     }
     this.rects = flat.map(f => ({ x: f.x, y: f.y, w: f.w, h: f.h }));
@@ -346,7 +346,7 @@ class Component extends DCLogic {
         pillC: `apparait .9s ease .7s both, comete 20s linear .7s infinite`, indA: `wIn .3s ${E} .3s both`, eyeL: `wIn .3s ${E} .05s both`,
         logo: q(.05), n0: q(.08), n1: q(.11), n2: q(.14), n3: q(.17), navU: `wIn .3s ${E} .25s both`, sig: `wIn .3s ${E} .25s both`,
         hFl: `habille .4s ease .1s both`, hCta: q(.15), dFl: `habille .4s ease .2s both`, dCta: q(.25), eye: q(.05), h1: q(.1), h2: q(.15) });
-      filtres.forEach((fl, i2) => { fl.a = q(.1 + i2 * .02); });
+      filtres.forEach((fl, i2) => { fl.a = q(.1 + i2 * .02); fl.ak = q(.25 + i2 * .02).o; });
     }
     const zOpen = st.lb !== null;
     return { a, txt, filtres, ind, reperes, vues, zoneH, lb, temoins, zoneOv: zOpen ? 'hidden' : 'auto', zoneSb: zOpen ? 'none' : 'thin' };

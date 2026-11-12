@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mes dossiers · Ernest H.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/pages/mes-dossiers.css" data-page-css>
+</head>
+<body class="site" data-module="mes-dossiers" data-famille="site">
+<div id="ecran">
+  <div id="scene">
+    <div class="vignette" aria-hidden="true"></div>
+    <div class="fond" id="fond">
+    <div id="contenu">
+    <div class="fond" id="page">
+      <p class="mono" style="position:absolute;left:80px;top:128px;margin:0;display:flex;align-items:center;gap:12px">
+        <span id="eye-trait" aria-hidden="true" style="display:block;width:28px;height:1px;background:#D9783A"></span>
+        <span class="w" id="eye"></span>
+      </p>
+      <h1 style="position:absolute;left:78px;top:152px;width:420px;margin:0;font:300 44px/1.1 Inter,sans-serif;letter-spacing:-.03em;filter:drop-shadow(0 6px 9px rgba(20,18,16,.18))">
+        <span class="w" id="h1"></span><br>
+        <span class="w" id="h2"></span>
+      </h1>
+      <p class="note" id="aide" style="position:absolute;left:80px;top:296px;width:380px;margin:0;font-size:14px">Ouvrez un dossier pour suivre son examen, compléter la fiche du jour J ou télécharger vos documents.</p>
+      <span class="encre" id="cta-fl" aria-hidden="true" style="position:absolute;left:80px;top:390px;width:260px;height:48px;border-radius:24px"></span>
+      <a href="simulateur.html" class="btn" style="left:80px;top:390px;width:260px;height:48px;border-radius:24px"><span class="w" id="cta-t"></span></a>
+
+      <!-- État « Avec dossiers » -->
+      <div id="vue-liste">
+        <p class="mono" id="compteur" style="position:absolute;left:80px;top:486px;margin:0"></p>
+        <p class="mono" id="entete-reg" style="position:absolute;left:560px;top:140px;margin:0;display:flex;width:calc(800px + var(--dx))"><span style="width:calc(440px + var(--dx))">Dossier</span><span style="width:220px">Étape</span><span style="flex:1;text-align:right">Total TVAC</span></p>
+        <svg class="ln" aria-hidden="true" style="left:560px;top:166px;width:calc(800px + var(--dx));height:2px"><path id="reg-trait" class="reg-l" pathLength="100" d="M0 1 L800 1" style="stroke-width:1px"></path></svg>
+        <div id="rangs" style="display:contents"></div>
+        <p class="note" id="fin" style="position:absolute;left:560px;top:640px;width:560px;margin:0">Un dossier réalisé reste consultable ici. Après le délai de conservation, ses données personnelles sont effacées.</p>
+      </div>
+
+      <!-- État « Chargement » -->
+      <div id="vue-charge" hidden>
+        <div id="squelettes" style="display:contents"></div>
+        <p class="mono" role="status" style="position:absolute;left:560px;top:640px;margin:0">Chargement de vos dossiers…</p>
+      </div>
+
+      <!-- État « Vide » (MSG05) -->
+      <div id="vue-vide" hidden>
+        <p style="position:absolute;left:560px;top:190px;width:700px;margin:0;font:300 30px Inter,sans-serif;letter-spacing:-.02em"><span class="w" id="vide-t"></span></p>
+        <p class="note" id="vide-n" style="position:absolute;left:560px;top:244px;width:560px;margin:0;font-size:14px">Le bouton « Simuler un nouveau devis » ouvre le simulateur. Votre dossier apparaîtra ici dès la soumission.</p>
+      </div>
+
+      <button type="button" class="mini doux" id="ouvrir-sup" style="position:absolute;left:80px;top:830px">Supprimer mon compte</button>
+    </div>
+
+    <!-- Panneau E02.a : suppression du compte (UC06.7) -->
+    <div id="sup" role="dialog" aria-modal="true" aria-labelledby="sup-t" hidden>
+      <div class="verre" id="sup-verre" aria-hidden="true" style="left:calc(420px + var(--dx) / 2);top:210px;width:600px;height:480px;opacity:0"></div>
+      <svg class="ln" aria-hidden="true" style="left:calc(420px + var(--dx) / 2);top:210px;width:600px;height:480px">
+        <path id="sup-trait" pathLength="100" d="M0 24 A24 24 0 0 1 24 0 L576 0 A24 24 0 0 1 600 24 L600 456 A24 24 0 0 1 576 480 L24 480 A24 24 0 0 1 0 456 Z"></path>
+      </svg>
+      <div id="sup-ct" style="position:absolute;left:calc(420px + var(--dx) / 2);top:210px;width:600px;height:480px;opacity:0">
+        <div id="sup-form">
+          <button type="button" id="sup-x" aria-label="Fermer" style="position:absolute;right:22px;top:22px;width:44px;height:44px;padding:0;border:0;border-radius:22px;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" aria-hidden="true" style="width:18px;height:18px;fill:none;stroke:#0D0E10;stroke-width:1.8;stroke-linecap:round"><path d="M6 6 L18 18 M18 6 L6 18"></path></svg></button>
+          <p class="mono" style="position:absolute;left:40px;top:38px;margin:0;display:flex;align-items:center;gap:10px"><span aria-hidden="true" style="display:block;width:8px;height:8px;border-radius:4px;background:#7A1F33"></span>Supprimer mon compte</p>
+          <p id="sup-t" style="position:absolute;left:40px;top:62px;margin:0;font:300 30px Inter,sans-serif;letter-spacing:-.02em">Cette action est définitive.</p>
+          <p class="note" style="position:absolute;left:40px;top:116px;width:500px;margin:0">Votre compte et vos dossiers sont anonymisés : nom, e-mail, téléphone et adresses sont effacés. Les montants restent dans la comptabilité du photographe, sans lien avec vous.</p>
+          <div class="champ" style="position:absolute;left:40px;top:214px;width:360px">
+            <label class="mono" for="sup-mdp">Votre mot de passe, pour confirmer</label>
+            <input id="sup-mdp" type="password" autocomplete="off" aria-invalid="false" aria-describedby="sup-err">
+          </div>
+          <p id="sup-err" role="alert" style="position:absolute;left:40px;top:286px;margin:0;display:flex;align-items:center;gap:8px;font:400 13px Inter,sans-serif;color:#0D0E10"><span id="sup-err-d" hidden aria-hidden="true" style="display:block;width:6px;height:6px;border-radius:3px;background:#7A1F33"></span><span id="sup-err-t"></span></p>
+          <span class="encre" id="sup-enc" aria-hidden="true" style="position:absolute;left:40px;top:350px;width:280px;height:48px;border-radius:24px"></span>
+          <button type="button" class="btn" id="sup-ok" aria-disabled="false" style="left:40px;top:350px;width:280px;height:48px;border-radius:24px">Confirmer la suppression</button>
+          <button type="button" class="mini" id="sup-non" style="position:absolute;left:352px;top:365px">Annuler</button>
+          <p class="note" style="position:absolute;left:40px;top:420px;width:520px;margin:0;font-size:12.5px">Pour garder une trace, téléchargez d’abord vos PDF depuis chaque dossier.</p>
+        </div>
+        <div id="sup-done" hidden role="status" style="position:absolute;left:40px;top:120px;width:520px">
+          <p class="mono" style="margin:0;display:flex;align-items:center;gap:12px"><span aria-hidden="true" style="display:block;width:20px;height:1px;background:#D9783A"></span>Compte supprimé</p>
+          <p style="margin:18px 0 0;font:italic 400 40px/1.15 'Instrument Serif',serif"><span class="w" id="done-1"></span></p>
+          <p style="margin:16px 0 0;font:400 15px Inter,sans-serif;color:#4B4D52"><span class="w" id="done-2"></span></p>
+          <a href="accueil.html" class="lien mini" id="done-l" style="display:inline-block;margin-top:34px;font-size:14px">Retour à l’accueil</a>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div><!-- /#contenu /#fond -->
+  </div>
+</div>
+<script type="module" src="js/amorce.js"></script>
+</body>
+</html>

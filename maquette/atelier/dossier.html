@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atelier · Dossier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/atelier.css">
+<link rel="stylesheet" href="../css/pages/atelier-dossier.css" data-page-css>
+</head>
+<body class="atelier" data-module="atelier-dossier" data-famille="atelier">
+<div id="ecran">
+  <div id="scene">
+    <div class="vignette" aria-hidden="true"></div>
+    <div class="fond" id="fond">
+      <!-- La coque (verre + menu) est ajoutée ici par js/lib/atelier-shell.js ; les panneaux sont ajoutés à la scène par atelier-dossier-logique.js -->
+      <div id="contenu">
+      <a href="dossiers.html" class="lien mini" data-anim="sig" style="position:absolute;left:304px;top:40px">← Retour à la liste</a>
+
+      <p class="mono" style="position:absolute;left:304px;top:78px;margin:0;display:flex;align-items:center;gap:12px">
+        <span aria-hidden="true" data-anim="eyeL" style="display:block;width:28px;height:1px;background:#D9783A"></span><span class="w" data-anim="eye" id="eye"></span>
+      </p>
+      <h1 style="position:absolute;left:302px;top:100px;margin:0;font:300 36px/1.1 Inter,sans-serif;letter-spacing:-.03em;filter:drop-shadow(0 6px 9px rgba(20,18,16,.18))">
+        <span class="w" data-anim="h1" id="h1"></span> <span class="w" data-anim="h2" id="h2"></span>
+      </h1>
+      <p class="note" id="note" data-anim="nt" style="position:absolute;left:304px;top:152px;margin:0"></p>
+
+      <svg class="ln" aria-hidden="true" viewBox="0 0 354 4" style="left:calc(970px + var(--dx)*1);top:94px;width:354px;height:4px">
+        <path pathLength="100" d="M0 2 L354 2" data-anim="l1" style="stroke-width:1px;stroke:rgba(13,14,16,.22)"></path>
+        <path id="progres" pathLength="100" d="M0 2 L0 2" data-anim="l2" style="stroke-width:2px"></path>
+      </svg>
+      <ol aria-label="Étapes du dossier" id="etapes" style="list-style:none;margin:0;padding:0"></ol>
+      <span data-anim="p1"><span class="encre" id="chg-enc" aria-hidden="true" style="position:absolute;left:calc(1156px + var(--dx)*1);top:142px;width:220px;height:44px;border-radius:22px"></span><button type="button" class="btn" id="chg" style="left:calc(1156px + var(--dx)*1);top:142px;width:220px;height:44px;border-radius:22px">Changer l’étape</button></span>
+      <div class="tabs" role="tablist" aria-label="Sections du dossier" id="onglets" data-anim="nt" style="left:304px;top:206px"></div>
+      <svg class="ln" aria-hidden="true" viewBox="0 0 1072 2" preserveAspectRatio="none" style="left:304px;top:246px;width:calc(1072px + var(--dx)*1);height:2px"><path pathLength="100" d="M0 1 L1072 1" data-anim="l1" style="stroke-width:1px;stroke:rgba(13,14,16,.18)"></path></svg>
+
+      <!-- Onglet Devis -->
+      <div id="v-devis">
+        <div class="verre" aria-hidden="true" data-anim="p1" style="left:304px;top:272px;width:calc(700px + var(--dx)*1);height:600px;opacity:0"></div>
+        <p class="mono" style="position:absolute;left:332px;top:296px;margin:0"><span class="w" data-anim="t1">Lignes du devis · prix figés</span></p>
+        <div id="lignes" style="display:contents"></div>
+        <div data-anim="p2" style="position:absolute;left:332px;top:770px;width:calc(644px + var(--dx)*1);height:80px">
+          <span class="note" style="position:absolute;left:0;top:0">Total HTVA</span><span id="t-ht" style="position:absolute;right:92px;top:2px;font:500 13px 'IBM Plex Mono',monospace"></span>
+          <span class="note" style="position:absolute;left:0;top:22px">TVA 21 %</span><span id="t-tva" style="position:absolute;right:92px;top:24px;font:500 13px 'IBM Plex Mono',monospace"></span>
+          <span style="position:absolute;left:0;top:52px;font:500 15px Inter,sans-serif">Total TVAC</span><span id="t-ttc" style="position:absolute;right:92px;top:44px;font:300 26px Inter,sans-serif;letter-spacing:-.02em"></span>
+        </div>
+        <div class="verre" aria-hidden="true" data-anim="p2" style="left:calc(1028px + var(--dx)*1);top:272px;width:348px;height:190px;opacity:0"></div>
+        <p class="mono" style="position:absolute;left:calc(1052px + var(--dx)*1);top:296px;margin:0;display:flex;align-items:center;gap:10px"><i aria-hidden="true" style="display:block;width:8px;height:8px;border-radius:4px;background:#3AA6B5;animation:pulse 2.4s ease-in-out 2s infinite"></i><span class="w" data-anim="t2">Demande en attente</span></p>
+        <div id="pend" style="display:contents">
+          <span id="pend-titre" data-anim="p2" style="position:absolute;left:calc(1052px + var(--dx)*1);top:322px;font:400 16px Inter,sans-serif;white-space:nowrap"></span>
+          <span class="note" id="pend-note" data-anim="p2" style="position:absolute;left:calc(1052px + var(--dx)*1);top:348px"></span>
+          <span data-anim="p3"><span class="encre" aria-hidden="true" style="position:absolute;left:calc(1052px + var(--dx)*1);top:384px;width:200px;height:44px;border-radius:22px"></span><button type="button" class="btn" id="traiter" style="left:calc(1052px + var(--dx)*1);top:384px;width:200px;height:44px;border-radius:22px">Traiter la demande</button></span>
+        </div>
+        <p class="note" id="nopend" hidden style="position:absolute;left:calc(1052px + var(--dx)*1);top:324px;margin:0;width:300px">Aucune demande en attente.</p>
+        <div class="verre" aria-hidden="true" data-anim="p3" style="left:calc(1028px + var(--dx)*1);top:486px;width:348px;height:150px;opacity:0"></div>
+        <p class="mono" style="position:absolute;left:calc(1052px + var(--dx)*1);top:510px;margin:0">Fiche technique</p>
+        <span data-anim="p3" style="position:absolute;left:calc(1052px + var(--dx)*1);top:534px;font:400 16px Inter,sans-serif">Fiche mariage</span>
+        <span class="etape" data-anim="p3" style="position:absolute;left:calc(1052px + var(--dx)*1);top:562px"><i aria-hidden="true" style="background:transparent;box-shadow:inset 0 0 0 1.5px #D9783A"></i>incomplète · 3 champs sans réponse</span>
+        <button type="button" class="mini" id="voir-fiche" data-anim="p3" style="position:absolute;left:calc(1052px + var(--dx)*1);top:598px">Voir les réponses</button>
+        <div class="verre" aria-hidden="true" data-anim="p3" style="left:calc(1028px + var(--dx)*1);top:660px;width:348px;height:212px;opacity:0"></div>
+        <p class="mono" style="position:absolute;left:calc(1052px + var(--dx)*1);top:684px;margin:0">Versions PDF</p>
+        <div id="vers" style="display:contents"></div>
+      </div>
+
+      <!-- Autres onglets : même verre large, contenu selon l'onglet -->
+      <div id="v-autre" hidden>
+        <div class="verre" aria-hidden="true" style="left:304px;top:272px;width:calc(1072px + var(--dx)*1);height:600px;opacity:0;animation:habille .5s ease both"></div>
+
+        <div id="v-fiches" hidden>
+          <p class="mono" style="position:absolute;left:332px;top:300px;margin:0">Fiche mariage · 9 champs · 3 sans réponse · réponses du client</p>
+          <div id="fiche" style="display:contents"></div>
+        </div>
+
+        <div id="v-dem" hidden>
+          <p class="mono" style="position:absolute;left:332px;top:300px;margin:0">Demandes du dossier</p>
+          <div id="dems" style="display:contents"></div>
+        </div>
+
+        <div id="v-msg" hidden>
+          <p class="mono" style="position:absolute;left:332px;top:300px;margin:0">Messages avec Camille D.</p>
+          <div style="position:absolute;left:332px;top:336px;width:520px;padding:16px 20px;box-sizing:border-box;border-radius:18px 18px 18px 4px;background:rgba(13,14,16,.05)">
+            <p class="mono" style="margin:0">Camille D. · 9 nov. 2026 · 18:42</p>
+            <p style="margin:8px 0 0;font:400 15px/1.5 Inter,sans-serif">Bonjour ! Nous aimerions ajouter 10 tirages 20 × 30. Est-ce possible avec les photos de la journée ?</p>
+          </div>
+          <div style="position:absolute;left:calc(828px + var(--dx)*1);top:470px;width:520px;padding:16px 20px;box-sizing:border-box;border-radius:18px 18px 4px 18px;background:#0D0E10;color:#EEEDE9">
+            <p class="mono" style="margin:0;color:rgba(238,237,233,.7)">Vous · 10 nov. 2026 · 09:15</p>
+            <p style="margin:8px 0 0;font:400 15px/1.5 Inter,sans-serif">Bonjour Camille, oui bien sûr. Faites la demande depuis votre dossier, je la valide dans la journée.</p>
+          </div>
+          <div class="champ" style="position:absolute;left:332px;top:720px;width:calc(760px + var(--dx)*1)">
+            <label class="mono" for="msg">Votre message</label>
+            <textarea id="msg"></textarea>
+          </div>
+          <span class="encre" aria-hidden="true" style="position:absolute;left:calc(1124px + var(--dx)*1);top:760px;width:200px;height:44px;border-radius:22px"></span><button type="button" class="btn" aria-disabled="false" style="left:calc(1124px + var(--dx)*1);top:760px;width:200px;height:44px;border-radius:22px">Envoyer</button>
+        </div>
+
+        <div id="v-pay" hidden>
+          <p class="mono" style="position:absolute;left:332px;top:300px;margin:0">Échéances</p>
+          <p class="note" id="pay-off" style="position:absolute;left:332px;top:336px;width:640px;margin:0;font-size:15px">Les échéances sont créées quand le dossier passe à « accepté ».</p>
+          <div id="ech" style="display:contents"></div>
+        </div>
+
+        <div id="v-prod" hidden>
+          <p class="mono" style="position:absolute;left:332px;top:300px;margin:0">Production</p>
+          <p class="note" style="position:absolute;left:332px;top:336px;width:640px;margin:0;font-size:15px">La production commence après le shooting du 12 juin 2027 : tri, retouche, puis livraison par lien.</p>
+        </div>
+
+        <div id="v-docs" hidden>
+          <p class="mono" style="position:absolute;left:332px;top:300px;margin:0">Versions PDF · une par changement, jamais modifiées</p>
+          <div id="docs" style="display:contents"></div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="module" src="../js/amorce.js"></script>
+</body>
+</html>

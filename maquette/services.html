@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Services · Une fiche par service</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/pages/services.css" data-page-css>
+</head>
+<body class="site" data-module="services" data-famille="site">
+<div id="ecran">
+  <div id="scene">
+    <div class="vignette" aria-hidden="true"></div>
+    <div class="fond" id="fond">
+      <div id="contenu">
+      <!-- L'en-tête est monté par js/lib/entete.js -->
+      <p class="mono" style="position:absolute;left:80px;top:136px;margin:0;display:flex;align-items:center;gap:14px">
+        <span id="eye-trait" aria-hidden="true" style="display:block;width:28px;height:1px;background:#D9783A"></span>
+        <span class="w" id="eye"></span>
+      </p>
+      <div class="verre" id="pill-verre" aria-hidden="true" style="left:64px;top:172px;width:228px;height:356px;opacity:0"></div>
+      <svg class="ln" aria-hidden="true" style="left:64px;top:172px;width:228px;height:356px">
+        <path class="pill-l" pathLength="100" d="M0 178 L0 24 A24 24 0 0 1 24 0 L204 0 A24 24 0 0 1 228 24 L228 178"></path>
+        <path class="pill-l" pathLength="100" d="M0 178 L0 332 A24 24 0 0 0 24 356 L204 356 A24 24 0 0 0 228 332 L228 178"></path>
+        <path class="comete" id="pill-c" pathLength="100" d="M0 178 L0 24 A24 24 0 0 1 24 0 L204 0 A24 24 0 0 1 228 24 L228 332 A24 24 0 0 1 204 356 L24 356 A24 24 0 0 1 0 332 Z" style="stroke:#D9783A"></path>
+      </svg>
+      <nav aria-label="Choisir un service" id="chaps" style="position:absolute;left:88px;top:194px;width:184px;display:flex;flex-direction:column"></nav>
+      <span id="ind" aria-hidden="true" style="position:absolute;left:117px;top:0;width:0;height:2px;border-radius:1px;background:#3AA6B5;transition:top .5s cubic-bezier(.45,0,.2,1),width .5s cubic-bezier(.45,0,.2,1) .12s"></span>
+      <p style="position:absolute;left:82px;top:560px;margin:0;font:500 10.5px/1.9 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#4B4D52">
+        <span class="w" id="r1"></span><br><span class="w" id="r2"></span>
+      </p>
+
+      <div class="ph" id="photo" role="img" style="left:calc(332px + var(--sx));top:136px;width:calc(452px + var(--gx));height:640px"><span></span></div>
+      <svg class="ln" aria-hidden="true" style="left:calc(331px + var(--sx));top:135px;width:calc(454px + var(--gx));height:642px">
+        <path id="cadre" pathLength="100" d="M1 1 L453 1 L453 641 L1 641 Z"></path>
+        <path class="comete" id="cadre-c" pathLength="100" d="M1 1 L453 1 L453 641 L1 641 Z" style="stroke:#3AA6B5"></path>
+      </svg>
+
+      <p style="position:absolute;left:calc(840px + var(--dx));top:136px;margin:0;display:flex;align-items:center;gap:12px;font:500 11px 'IBM Plex Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:#4B4D52">
+        <span id="ch-trait" aria-hidden="true" style="display:block;width:20px;height:1px;background:#D9783A"></span>
+        <span class="w" id="ch"></span>
+      </p>
+      <h1 style="position:absolute;left:calc(838px + var(--dx));top:166px;margin:0;font:300 44px/1.1 Inter,sans-serif;letter-spacing:-.03em;filter:drop-shadow(0 6px 9px rgba(20,18,16,.18))">
+        <span class="w" id="t"></span><br><span class="w" id="i"></span>
+      </h1>
+      <p style="position:absolute;left:calc(840px + var(--dx));top:290px;width:520px;margin:0;font:400 15px/1.7 Inter,sans-serif;color:#4B4D52"><span class="w" id="d"></span></p>
+      <div id="lignes" style="display:contents"></div>
+      <svg class="ln" aria-hidden="true" id="fils" style="left:calc(840px + var(--dx));top:0;width:520px;height:900px"></svg>
+
+      <div class="verre" id="ex-verre" aria-hidden="true" style="left:calc(840px + var(--dx));top:518px;width:520px;height:152px;opacity:0"></div>
+      <svg class="ln" aria-hidden="true" style="left:calc(840px + var(--dx));top:518px;width:520px;height:152px">
+        <path class="ex-l" pathLength="100" d="M0 76 L0 24 A24 24 0 0 1 24 0 L496 0 A24 24 0 0 1 520 24 L520 76"></path>
+        <path class="ex-l" pathLength="100" d="M0 76 L0 128 A24 24 0 0 0 24 152 L496 152 A24 24 0 0 0 520 128 L520 76"></path>
+      </svg>
+      <p style="position:absolute;left:calc(868px + var(--dx));top:542px;margin:0;font:500 10.5px 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#4B4D52"><span class="w" id="ex-t"></span></p>
+      <p style="position:absolute;left:calc(868px + var(--dx));top:572px;margin:0;font:400 15px Inter,sans-serif;color:#0D0E10"><span class="w" id="ex"></span></p>
+      <p style="position:absolute;left:calc(868px + var(--dx));top:606px;margin:0;display:flex;align-items:baseline;gap:14px">
+        <span style="font:300 32px Inter,sans-serif;letter-spacing:-.02em"><span class="w" id="tot"></span></span>
+        <span style="font:500 10.5px 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#4B4D52"><span class="w" id="cal"></span></span>
+      </p>
+
+      <span class="encre" id="d-fl" aria-hidden="true" style="position:absolute;left:calc(840px + var(--dx));top:712px;width:240px;height:48px;border-radius:24px"></span>
+      <a href="simulateur.html" class="btn" style="left:calc(840px + var(--dx));top:712px;width:240px;height:48px;border-radius:24px">
+        <span class="w" id="d-cta"></span>
+        <svg viewBox="0 0 24 24" aria-hidden="true" id="d-arr"><path d="M5 12 H19 M13 6 L19 12 L13 18"></path></svg>
+      </a>
+      <a href="galerie.html" class="lien" style="position:absolute;left:calc(1108px + var(--dx));top:727px;font:500 13px Inter,sans-serif;color:#0D0E10;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px"><span class="w" id="g"></span></a>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="module" src="js/amorce.js"></script>
+</body>
+</html>

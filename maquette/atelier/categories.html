@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atelier · Catégories</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/atelier.css">
+<link rel="stylesheet" href="../css/pages/atelier-catalogue2.css" data-page-css>
+</head>
+<body class="atelier" data-module="atelier-categories" data-famille="atelier">
+<div id="ecran">
+  <div id="scene">
+    <div class="vignette" aria-hidden="true"></div>
+    <div class="fond" id="fond">
+      <!-- La coque persistante (verre + menu) est ajoutée ici par js/lib/atelier-shell.js ; seul #contenu est remplacé par le routeur -->
+      <div id="contenu">
+
+      <p class="mono" style="position:absolute;left:304px;top:52px;margin:0;display:flex;align-items:center;gap:12px">
+        <span id="eye-trait" aria-hidden="true" style="display:block;width:28px;height:1px;background:#D9783A"></span>
+        <span class="w" id="eye"></span>
+      </p>
+      <h1 style="position:absolute;left:302px;top:76px;margin:0;font:300 36px/1.1 Inter,sans-serif;letter-spacing:-.03em;filter:drop-shadow(0 6px 9px rgba(20,18,16,.18))">
+        <span class="w" id="h1"></span> <span class="w" id="h2"></span>
+      </h1>
+
+      <div class="champ" id="ncat-champ" style="position:absolute;left:304px;top:166px;width:calc(380px + var(--dx))">
+        <label class="mono" for="ncat">Nouvelle catégorie</label>
+        <input id="ncat" type="text" autocomplete="off" aria-invalid="false" aria-describedby="ncat-err">
+      </div>
+      <span id="ajouter-bloc">
+        <span class="encre" aria-hidden="true" style="position:absolute;left:calc(712px + var(--dx));top:172px;width:150px;height:44px;border-radius:22px;opacity:1"></span>
+        <button type="button" class="btn" id="ajouter" aria-disabled="false" style="left:calc(712px + var(--dx));top:172px;width:150px;height:44px;border-radius:22px">Ajouter</button>
+      </span>
+      <div style="position:absolute;left:304px;top:230px;width:calc(576px + var(--dx))"><p id="ncat-err" class="err" role="alert"></p></div>
+
+      <div id="lignes" style="display:contents"></div>
+
+      <div class="verre" id="aide-verre" aria-hidden="true" style="left:calc(920px + var(--dx));top:166px;width:456px;height:268px;opacity:0"></div>
+      <div id="aide" style="position:absolute;left:calc(948px + var(--dx));top:190px;width:400px">
+        <p class="mono" style="margin:0">À quoi elles servent</p>
+        <p style="margin:12px 0 0;font:400 15px/1.55 Inter,sans-serif">Elles rangent services et options dans le simulateur, et une réduction peut viser une catégorie entière.</p>
+        <p class="note" style="margin:12px 0 0">Un service ou une option peut en avoir plusieurs. Une catégorie visée par une réduction active ne se supprime pas : retirez-la d’abord de la réduction.</p>
+      </div>
+      </div><!-- /#contenu -->
+    </div>
+  </div>
+</div>
+<script type="module" src="../js/amorce.js"></script>
+</body>
+</html>

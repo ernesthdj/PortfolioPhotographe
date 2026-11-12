@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<title>Atelier · Option</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/atelier.css">
+<link rel="stylesheet" href="../css/pages/atelier-catalogue.css" data-page-css>
+</head>
+<body class="atelier" data-module="atelier-option" data-famille="atelier">
+<div id="ecran">
+  <div id="scene">
+    <div class="vignette" aria-hidden="true"></div>
+    <div class="fond" id="fond">
+      <!-- La coque persistante (verre + menu) est ajoutée ici par js/lib/atelier-shell.js ; seul #contenu est remplacé par le routeur -->
+      <div id="contenu">
+      <a href="options.html" class="lien mini" id="retour" style="position:absolute;left:304px;top:40px">← Retour aux options</a>
+      <p class="mono" style="position:absolute;left:304px;top:78px;margin:0;display:flex;align-items:center;gap:12px">
+        <span id="eye-trait" aria-hidden="true" style="display:block;width:28px;height:1px;background:#D9783A"></span><span class="w" id="eye"></span>
+      </p>
+      <h1 style="position:absolute;left:302px;top:100px;margin:0;font:300 36px/1.1 Inter,sans-serif;letter-spacing:-.03em;filter:drop-shadow(0 6px 9px rgba(20,18,16,.18))">
+        <span class="w" id="h1"></span> <span class="w" id="h2"></span>
+      </h1>
+      <p class="note" id="nt" style="position:absolute;left:304px;top:152px;width:840px;margin:0">Les changements valent pour les simulations et les dossiers futurs ; les dossiers déjà soumis gardent leurs prix.</p>
+      <span class="encre" id="enc" aria-hidden="true" style="position:absolute;left:calc(1156px + var(--dx));top:72px;width:220px;height:48px;border-radius:24px"></span><button type="button" class="btn" id="save" aria-disabled="false" style="left:calc(1156px + var(--dx));top:72px;width:220px;height:48px;border-radius:24px">Enregistrer</button>
+
+      <div id="col1" style="position:absolute;left:304px;top:196px;width:calc(496px + var(--dx) * .7)">
+        <div class="champ"><label class="mono" for="lib">Libellé</label><input id="lib" data-m="1" type="text" autocomplete="off" aria-invalid="false" aria-describedby="lib-err"></div>
+        <p id="lib-err" class="err" role="alert"></p>
+        <div class="champ" style="margin-top:6px"><label class="mono" for="desc">Description</label><textarea id="desc" data-m="1"></textarea></div>
+        <p class="mono" id="mode-l" style="margin:22px 0 10px">Mode de prix</p>
+        <div class="flux" id="modes" role="radiogroup" aria-labelledby="mode-l"></div>
+        <div id="params" style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px 36px"></div>
+        <div id="p6" hidden>
+          <div class="mono" style="display:grid;grid-template-columns:1fr 1fr 1.4fr 26px;gap:16px"><span>De (plats)</span><span>À (plats)</span><span>Prix (€)</span><span></span></div>
+          <div id="pal" style="display:contents"></div>
+          <button type="button" class="mini" id="add-pal" style="margin-top:10px">+ Palier</button>
+        </div>
+        <p id="par-err" class="err" role="alert"></p>
+        <p class="mono" id="base-l" style="margin:14px 0 10px">Montants saisis</p>
+        <div class="flux" role="radiogroup" aria-labelledby="base-l">
+          <span id="bases" style="display:contents"></span>
+          <span class="note" style="align-self:center;margin-left:8px">le moteur calcule l’autre montant</span>
+        </div>
+        <div style="margin-top:14px;display:flex;align-items:flex-end;gap:28px;min-height:56px">
+          <button type="button" class="case" role="checkbox" aria-checked="false" id="tva-case" style="position:relative;margin-bottom:8px"><span class="bx" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2 6.5 L5 9 L10 3"></path></svg></span>Taux de TVA propre à cette option</button>
+          <div class="champ" id="tva-bloc" hidden style="width:110px"><label class="mono" for="tva">Taux (%)</label><input id="tva" data-m="1" type="text" inputmode="decimal" aria-invalid="false" aria-describedby="tva-err"></div>
+        </div>
+        <p id="tva-err" class="err" role="alert"></p>
+      </div>
+      <div class="verre" id="p2-verre" aria-hidden="true" style="left:calc(848px + var(--dx) * .7);top:196px;width:calc(528px + var(--dx) * .3);height:676px;opacity:0"></div>
+      <div id="col2" style="position:absolute;left:calc(876px + var(--dx) * .7);top:220px;width:calc(472px + var(--dx) * .3)">
+        <p class="mono" id="cat-l" style="margin:0 0 10px">Catégories</p>
+        <div class="flux" id="cats" role="group" aria-labelledby="cat-l"></div>
+        <a href="categories.html" class="lien mini" style="display:inline-block;margin-top:10px">Gérer les catégories →</a>
+        <p class="mono" style="margin:28px 0 12px">Services qui la proposent</p>
+        <div id="svcs" style="display:flex;flex-direction:column;gap:12px"></div>
+      </div>
+
+      <p id="toast" hidden style="position:absolute;left:calc(848px + var(--dx) * .7);top:136px;width:calc(528px + var(--dx) * .3);margin:0;display:flex;align-items:flex-start;justify-content:flex-end;gap:10px;font:400 13.5px/1.45 Inter,sans-serif;text-align:right;animation:habille .5s ease both"></p>
+      </div><!-- /#contenu -->
+    </div>
+  </div>
+</div>
+<script type="module" src="../js/amorce.js"></script>
+</body>
+</html>
