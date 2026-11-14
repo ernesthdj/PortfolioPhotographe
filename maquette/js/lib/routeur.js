@@ -48,6 +48,21 @@ async function changerStyles(doc, url) {
   anciens.filter((l) => !voulus.includes(l.href)).forEach((l) => l.remove());
 }
 
+/** Réchauffe le cache des feuilles de style de la page suivante, sans toucher à celles de la page courante. */
+function prechargerStyles(doc, url) {
+  const presents = new Set([...document.querySelectorAll('link')].map((l) => l.href));
+  doc.querySelectorAll('link[data-page-css]').forEach((l) => {
+    const h = new URL(l.getAttribute('href'), url).href;
+    if (presents.has(h)) return;
+    const p = document.createElement('link');
+    p.rel = 'preload'; p.as = 'style'; p.href = h;
+    document.head.append(p);
+    setTimeout(() => p.remove(), 4000);
+  });
+}
+
+const FONDU = [{ opacity: 1, filter: 'none' }, { opacity: 1, filter: 'grayscale(1) contrast(1.05)', offset: .4 }, { opacity: 0, filter: 'grayscale(1) brightness(1.6)' }];
+
 export async function aller(url, { push = true } = {}) {
   const id = ++sequence;
   let doc;
@@ -57,21 +72,28 @@ export async function aller(url, { push = true } = {}) {
   if (!cible || doc.body.dataset.famille !== famille || !doc.body.dataset.module) return classique(url);
 
   const contenu = document.getElementById('contenu');
-  // 1. fin de la page courante
+  // les éléments propres à la page (pastille du menu, etc.) s'effacent avec le contenu
+  const sortants = [contenu, document.getElementById('sous-entete')].filter(Boolean);
+  // 1. pendant le fondu, le module et les styles de la page suivante se préparent : rien de la page courante n'est touché
+  const moduleP = moduleDe(doc.body.dataset.module);
+  moduleP.catch(() => {});
+  prechargerStyles(doc, url);
+  // 2. la page courante reste intacte et se décolore puis s'efface vers le blanc (développement photo à l'envers, 0,32 s)
+  if (!reduit()) {
+    sortants.forEach((n) => n.animate(FONDU, { duration: 320, easing: 'ease-in', fill: 'forwards' }));
+    await attendre(340); if (id !== sequence) return;
+  }
+  let mod;
+  try { mod = await moduleP; } catch (e) { return classique(url); }
+  if (id !== sequence) return;
+  // 3. fin de la page courante, puis styles et contenu de la suivante (tout dans le même battement : aucun état intermédiaire visible)
   const ancien = courant; courant = null;
   if (ancien && ancien.module && typeof ancien.module.destroy === 'function') { try { ancien.module.destroy(); } catch (e) { /* page déjà défaite */ } }
   figerEntete();
-  // 2. le contenu sortant se décolore puis s'efface vers le blanc (développement photo à l'envers, 0,32 s)
-  if (!reduit()) {
-    contenu.animate([{ opacity: 1, filter: 'none' }, { opacity: 1, filter: 'grayscale(1) contrast(1.05)', offset: .4 }, { opacity: 0, filter: 'grayscale(1) brightness(1.6)' }],
-      { duration: 320, easing: 'ease-in', fill: 'forwards' });
-    await attendre(340); if (id !== sequence) return;
-  }
-  // 3. styles propres à la page, puis contenu
   await changerStyles(doc, url);
   if (id !== sequence) return;
   contenu.replaceChildren(...[...cible.childNodes].map((n) => document.importNode(n, true)));
-  contenu.getAnimations().forEach((an) => an.cancel());
+  sortants.forEach((n) => n.getAnimations().forEach((an) => an.cancel()));
   contenu.style.animation = '';
   document.title = doc.title;
   document.body.dataset.module = doc.body.dataset.module;
@@ -79,7 +101,6 @@ export async function aller(url, { push = true } = {}) {
   window.scrollTo(0, 0);
   // 4. page suivante
   try {
-    const mod = await moduleDe(doc.body.dataset.module);
     courant = { nom: doc.body.dataset.module, module: mod };
     await mod.init(contenu);
   } catch (e) { return classique(url); }
