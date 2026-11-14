@@ -4,7 +4,8 @@
 .pp path.comete{stroke-dasharray:5 95;stroke-dashoffset:0}
 .phbtn{position:absolute;padding:0;margin:0;border:0;background:transparent;cursor:zoom-in}
 .phbtn:focus-visible{outline:2px solid #0D0E10;outline-offset:4px}
-.lb-fond{position:absolute;inset:0;background-color:#FFFFFF}
+/* plus de voile blanc : le fond de la page se décompose par traits ; ce calque vide sert seulement à masquer le fond de fenêtre */
+.lb-fond{position:absolute;inset:0;background-color:transparent;pointer-events:none}
 .lb-img{position:absolute;display:block;overflow:hidden;box-shadow:0 30px 60px -20px rgba(20,18,16,.38),0 8px 16px -6px rgba(20,18,16,.18)}
 .lb-cadre{position:absolute;box-sizing:border-box;border:2px solid #0D0E10;pointer-events:none}
 .lb-btn{position:absolute;width:48px;height:48px;padding:0;border:0;border-radius:24px;background:transparent;color:#0D0E10;cursor:pointer;display:flex;align-items:center;justify-content:center}
@@ -15,8 +16,6 @@
 .svc:focus-visible{outline:2px solid #0D0E10;outline-offset:6px;border-radius:4px}
 .svc .k{font:500 11.5px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#4B4D52}
 .svc .l{font:300 22px/1 Inter,sans-serif;letter-spacing:-.02em;white-space:nowrap}
-.svc .u{position:absolute;left:0;bottom:4px;height:2px;border-radius:1px;background:#3AA6B5;width:0;transition:width .45s cubic-bezier(.45,0,.2,1)}
-.svc.on .u{width:100%}
 .rj{position:absolute;right:24px;bottom:20px;height:28px;padding:0 12px;border-radius:14px;border:2px solid currentColor;background:transparent;color:#4B4D52;font:500 12px Inter,sans-serif;cursor:pointer}
 svg.lbtr{position:absolute;overflow:visible;pointer-events:none}
 .lbtr path{fill:none;stroke:#0D0E10;stroke-width:2px;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 102;stroke-dashoffset:101}

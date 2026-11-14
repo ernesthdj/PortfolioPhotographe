@@ -5,6 +5,8 @@ import { rythme, E } from '../lib/anim.js';
 import { el, svg, mot, ecrire, animer, liste } from '../lib/dom.js';
 import { monterEntete, majEntete, enteteMontee } from '../lib/entete.js';
 import { creerVie } from '../lib/vie.js';
+import { creerSurligneur } from '../lib/surligneur.js';
+import { monterVagabond } from '../lib/vagabond.js';
 import { PHOTOS } from '../../data/photos-site.js';
 
 const SVG_PATH = (d, extra) => svg('path', { pathLength: '100', d, ...(extra || {}) });
@@ -81,10 +83,10 @@ function majEmplacement(n, p, cls) {
  */
 export function monterAccueil(hote, { seul = true, retard = 0, vignette: avecVignette = false } = {}) {
   const vie = creerVie(), dejaLa = enteteMontee();
-  const D = seul ? 0 : retard, K = .62, R = rythme(K);
+  const D = seul ? 0 : retard, R = rythme(.62);
   let vivant = true, rejoue = false;
-  const S = { ph: 'in', lbI: null, lbSt: 'from', lbN: 0, navI: -1, navH: null, svc: 0, svcN: 0, svcFade: false, heroI: 0, heroN: 0, heroOut: false };
-  const tm = {}; let navW = null, prevI = -1, mctx = null, rj = null;
+  const S = { ph: 'in', lbI: null, lbSt: 'from', lbN: 0, fast: false, navI: -1, navH: null, svc: 0, svcN: 0, svcFade: false, heroI: 0, heroN: 0, heroOut: false };
+  const tm = {}; let navW = null, mctx = null, rj = null;
 
   // ---------- construction du décor statique ----------
   hote.classList.add('accueil');
@@ -114,8 +116,16 @@ export function monterAccueil(hote, { seul = true, retard = 0, vignette: avecVig
   ent.ctaA.classList.add('encre-cta');
   vie.aFaire(() => { ent.ctaA.classList.remove('encre-cta'); ent.fl.style.removeProperty('--c0'); ent.fl.style.removeProperty('--c1'); ent.nav.style.width = ''; });
   ent.fl.style.setProperty('--c0', 'inset(0 100% 0 0 round 20px)'); ent.fl.style.setProperty('--c1', 'inset(0 0 0 0 round 20px)');
-  const indic = el('span', { 'aria-hidden': 'true', style: 'position:absolute;bottom:-7px;height:2px;border-radius:1px' });
+  const indic = el('span', { 'aria-hidden': 'true' });
   ent.nav.append(indic); vie.noeud(indic);
+  const fonduComete = (c) => (actif) => { c.style.transition = 'opacity .2s linear'; c.style.opacity = actif ? '0' : '1'; };
+  const surfNav = creerSurligneur(vie, indic, {
+    geo: (i) => { const m = mesures(); return { x: m.x[i], w: m.w[i] }; },
+    couleur: (i) => COUL[Math.max(i, 0)],
+    cy: () => ent.nav.offsetHeight + 6,
+    origine: () => ({ x: ent.nav.offsetLeft, y: ent.nav.offsetTop }),
+    comete: () => pp.nLoop, onActif: fonduComete(pp.nLoop)
+  });
   const navLiens = Array.from(ent.nav.querySelectorAll('a'));
   navLiens.forEach((l, i) => {
     const sur = () => { S.navH = i; render(); }, hors = () => { S.navH = null; render(); };
@@ -141,7 +151,18 @@ export function monterAccueil(hote, { seul = true, retard = 0, vignette: avecVig
   const scrollP = el('p', { style: "position:absolute;right:80px;top:812px;margin:0;font:500 12.5px 'IBM Plex Mono',monospace;letter-spacing:.02em;color:#4B4D52" }, scrollW);
   const hits = el('div', { style: 'display:contents' });
   const lbHote = el('div', { style: 'display:contents' });
-  hote.append(tete, hero, galA, devA, tcP, svP, svcNav, footP, scrollP, hits, lbHote);
+  // surligneur des services : hors de la liste (liste() exige un parent dédié), positionné d'après la mesure réelle des liens
+  const svcU = el('span', { 'aria-hidden': 'true' });
+  const surfSvc = creerSurligneur(vie, svcU, {
+    geo: (i) => { const a = svcNav.children[i]; return a && a.offsetWidth ? { x: 80 + a.offsetLeft, w: a.offsetWidth } : null; },
+    couleur: () => '#3AA6B5',
+    cy: () => { const a = svcNav.children[0]; return (a ? 650 + a.offsetTop + a.offsetHeight - 6 : 0) + 1; },
+    origine: () => ({ x: 0, y: 0 }),
+    comete: () => pp.sLoop, onActif: fonduComete(pp.sLoop)
+  });
+  const vag = monterVagabond(vie, hote);
+  vie.ecouter(svcNav, 'mouseleave', () => surfSvc.aller(null));
+  hote.append(tete, hero, galA, devA, tcP, svP, svcNav, svcU, footP, scrollP, hits, lbHote);
   if (seul) {
     rj = el('button', { type: 'button', class: 'rj', on: { click: () => replay() } }, 'Rejouer');
     hote.append(rj);
@@ -162,29 +183,30 @@ export function monterAccueil(hote, { seul = true, retard = 0, vignette: avecVig
   // ---------- actions ----------
   const choisir = (i) => {
     if (S.svc === i && !S.svcFade) return;
+    surfSvc.aller(i);
     vie.clearTimeout(tm.svc); S.svcFade = true; render();
     tm.svc = vie.timeout(() => { S.svc = i; S.svcN += 1; S.svcFade = false; render(); }, 300);
   };
   const ouvrir = (i) => {
     if (S.lbI !== null) return;
-    vie.clearTimeout(tm.lb); S.lbI = i; S.lbSt = 'from'; S.lbN = 0; render();
+    vie.clearTimeout(tm.lb); S.lbI = i; S.lbSt = 'from'; S.lbN = 0; S.ph = 'out'; vag.masquer(true); render();
     tm.lb = vie.timeout(() => { S.lbSt = 'to'; render(); }, 40);
   };
   const fermer = () => {
     if (S.lbSt !== 'to') return;
-    S.lbSt = 'closing'; render(); vie.clearTimeout(tm.lb);
-    tm.lb = vie.timeout(() => { S.lbI = null; S.lbSt = 'from'; render(); }, 820);
+    S.lbSt = 'closing'; S.ph = 'in'; S.fast = true; render(); vie.clearTimeout(tm.lb);
+    tm.lb = vie.timeout(() => { S.lbI = null; S.lbSt = 'from'; vag.masquer(false); render(); }, 820);
   };
   const aller = (d, n) => { if (S.lbSt !== 'to') return; S.lbI = (S.lbI + d + n) % n; S.lbN += 1; render(); };
   const replay = () => {
     if (tm.replay) return;
-    S.ph = 'out'; rejoue = true; render();
+    S.ph = 'out'; S.fast = false; rejoue = true; render();
     tm.replay = vie.timeout(() => { tm.replay = null; S.ph = 'in'; render(); }, 1000);
   };
 
   // ---------- rendu ----------
   function render() {
-    const on = S.ph === 'in';
+    const on = S.ph === 'in', fast = S.fast, K = fast ? .2 : .62;
     const at = (dl) => (D + dl * K).toFixed(2);
     const Sx = (dl, d) => on ? `drawS ${d * K}s ${E} ${at(dl)}s both` : `undrawS .22s ${E} .1s both`;
     const F = (dl, d) => on ? `drawS ${d * K}s ${E} ${at(dl)}s both` : `undrawS .35s ${E} .3s both`;
@@ -193,7 +215,7 @@ export function monterAccueil(hote, { seul = true, retard = 0, vignette: avecVig
       o: on ? `wIn ${d * K}s ${E} ${at(dl)}s both` : `wOut .2s ${E} .04s both`,
       f: on ? `wIn ${d * K}s ${E} ${at(dl + .25)}s both` : `wOut .2s ${E} 0s both`
     });
-    const P = (dl, nb) => on ? `${nb ? 'devNB' : 'dev'} 3.2s ease-in-out ${at(dl)}s both` : `devOut .25s ${E} 0s both`;
+    const P = (dl, nb) => on ? (fast ? `${nb ? 'devFastNB' : 'devFast'} .5s ease ${at(dl)}s both` : `${nb ? 'devNB' : 'dev'} 3.2s ease-in-out ${at(dl)}s both`) : `devOut .25s ${E} 0s both`;
     const Rr = (dl, d) => on ? `rIn ${d * K}s ${E} ${at(dl)}s both` : `rOut .22s ${E} .05s both`;
     const a = {
       sep: F(0, .8), logo: T(.3, .8), sig: on ? `wIn ${.5 * K}s ${E} ${at(1.35)}s both` : `wOut .2s ${E} 0s both`,
@@ -241,20 +263,15 @@ export function monterAccueil(hote, { seul = true, retard = 0, vignette: avecVig
     liste(hits, PH, (h, i) => i, (h, i) => el('button', { type: 'button', class: 'phbtn', on: { click: () => ouvrir(i) } }),
       (b, h) => { b.setAttribute('aria-label', 'Agrandir : ' + h.p.alt); Object.assign(b.style, { left: h.x + 'px', top: h.y + 'px', width: h.w + 'px', height: h.h + 'px' }); });
 
-    // -- indicateur liquide du menu --
+    // -- surligneur du menu : rien au repos, comète -> boule -> ligne au survol --
     const m = mesures();
-    const curN = S.navH !== null ? S.navH : S.navI, forward = curN >= prevI; prevI = curN;
-    const lead = `.42s ${E} 0s`, follow = `.42s ${E} .14s`;
     ent.nav.style.width = m.total + 'px';
-    indic.style.left = (curN < 0 ? 0 : m.x[curN]) + 'px';
-    indic.style.right = (curN < 0 ? m.total : m.total - (m.x[curN] + m.w[curN])) + 'px';
-    indic.style.background = COUL[Math.max(curN, 0)];
-    indic.style.transition = forward ? `right ${lead}, left ${follow}, background-color .6s ease` : `left ${lead}, right ${follow}, background-color .6s ease`;
+    surfNav.aller(S.navH); surfNav.peindre();
 
     // -- vie continue (après l'apparition) --
-    const go = (D + 4.6).toFixed(2);
+    const CB = fast ? 1.2 : 4.6, go = (D + CB).toFixed(2);
     const live = (base, extra) => on ? `${base}, ${extra}` : base;
-    const com = (name, dur, dl) => on ? `apparait 1.8s ease-in-out ${(D + 4.6 + dl).toFixed(2)}s both, ${name} ${dur}s linear ${(D + 4.6 + dl).toFixed(2)}s infinite` : 'eteint .01s linear 0s both';
+    const com = (name, dur, dl) => on ? `apparait 1.8s ease-in-out ${(D + CB + dl).toFixed(2)}s both, ${name} ${dur}s linear ${(D + CB + dl).toFixed(2)}s infinite` : 'eteint .01s linear 0s both';
     const viv = {
       sep: live(a.sep, `rebatit 15s ${E} ${go}s infinite`),
       lb1: live(a.lb1, `rebatit 19s ${E} ${(D + 7.1).toFixed(2)}s infinite`),
@@ -271,7 +288,7 @@ export function monterAccueil(hote, { seul = true, retard = 0, vignette: avecVig
     // -- pastilles et traits du menu / des services --
     const nx = 600 - 26 + dx / 2, nw = m.total + 52, ny = 30, r = 24, x2 = nx + nw;
     Object.assign(pNav.style, { left: nx + 'px', width: nw + 'px' });
-    const fillN = on ? `habille 1.8s ease-in-out ${at(1.0)}s both` : 'deshabille .25s ease 0s both';
+    const fillN = on ? `habille ${fast ? .6 : 1.8}s ease-in-out ${at(1.0)}s both` : 'deshabille .25s ease 0s both';
     animer(pNav, fillN);
     // barre des services : pastille et traits étirés sur toute la largeur utile
     pSvc.style.width = (1312 + dx) + 'px';
@@ -279,8 +296,8 @@ export function monterAccueil(hote, { seul = true, retard = 0, vignette: avecVig
     pp.sTop.setAttribute('d', `M64 654 L64 620 A24 24 0 0 1 88 596 L${xs} 596 A24 24 0 0 1 ${xe} 620 L${xe} 654`);
     pp.sBot.setAttribute('d', `M64 654 L64 688 A24 24 0 0 0 88 712 L${xs} 712 A24 24 0 0 0 ${xe} 688 L${xe} 654`);
     pp.sLoop.setAttribute('d', `M64 654 L64 620 A24 24 0 0 1 88 596 L${xs} 596 A24 24 0 0 1 ${xe} 620 L${xe} 688 A24 24 0 0 1 ${xs} 712 L88 712 A24 24 0 0 1 64 688 Z`);
-    animer(pSvc, on ? `habille 1.8s ease-in-out ${at(2.5)}s both` : 'deshabille .25s ease 0s both');
-    animer(pGal, on ? `habille 1.6s ease-in-out ${at(2.6)}s both` : 'deshabille .25s ease 0s both');
+    animer(pSvc, on ? `habille ${fast ? .6 : 1.8}s ease-in-out ${at(2.5)}s both` : 'deshabille .25s ease 0s both');
+    animer(pGal, on ? `habille ${fast ? .6 : 1.6}s ease-in-out ${at(2.6)}s both` : 'deshabille .25s ease 0s both');
     pp.nTop.setAttribute('d', `M${nx} ${ny + r} A${r} ${r} 0 0 1 ${nx + r} ${ny} L${x2 - r} ${ny} A${r} ${r} 0 0 1 ${x2} ${ny + r}`);
     pp.nBot.setAttribute('d', `M${nx} ${ny + r} A${r} ${r} 0 0 0 ${nx + r} ${ny + 2 * r} L${x2 - r} ${ny + 2 * r} A${r} ${r} 0 0 0 ${x2} ${ny + r}`);
     pp.nLoop.setAttribute('d', `M${nx} ${ny + r} A${r} ${r} 0 0 1 ${nx + r} ${ny} L${x2 - r} ${ny} A${r} ${r} 0 0 1 ${x2 - r} ${ny + 2 * r} L${nx + r} ${ny + 2 * r} A${r} ${r} 0 0 1 ${nx} ${ny + r} Z`);
@@ -298,7 +315,7 @@ export function monterAccueil(hote, { seul = true, retard = 0, vignette: avecVig
       return { o: `wIn ${(d * .9).toFixed(2)}s ${E} ${t0.toFixed(2)}s both`, f: `wIn ${(d * .9).toFixed(2)}s ${E} ${(t0 + .18).toFixed(2)}s both` };
     };
     const Wt = Math.round(Math.max(...hs.lines.map((ln, i) => hs.ind[i] + mesure(ln[0], hs.font) + mesure(ln[1], hs.em))) + 4);
-    const Ht = Math.round(hs.lh * hs.lines.length), DW = 1.7, DR = .9, w0 = first ? D + .9 * K : .1;
+    const Ht = Math.round(hs.lh * hs.lines.length), DW = fast ? .7 : 1.7, DR = fast ? .45 : .9, w0 = first ? D + .9 * K : .1;
     const dot = !on || hout ? `resorbe ${DR}s ${E} 0s both` : `${S.heroN % 2 ? 'ecrit2' : 'ecrit'} ${DW}s ${E} ${w0.toFixed(2)}s both`;
     const lineAnim = () => {
       if (!on || hout) return { o: `wOut ${(DR * .73).toFixed(2)}s ${E} ${(DR * .12).toFixed(2)}s both`, f: `wOut ${(DR * .7).toFixed(2)}s ${E} ${(DR * .1).toFixed(2)}s both` };
@@ -333,13 +350,15 @@ export function monterAccueil(hote, { seul = true, retard = 0, vignette: avecVig
     liste(svcNav, SERVICES, (x, i) => i, (x, i) => {
       const k = el('span', { class: 'k w' }), l = el('span', { class: 'l w' });
       ecrire(k, '0' + (i + 1)); ecrire(l, x.t);
-      const lien = el('a', { href: 'services.html', class: 'svc' }, k, l, el('span', { class: 'u', 'aria-hidden': 'true' }));
+      const lien = el('a', { href: 'services.html', class: 'svc' }, k, l);
       lien.addEventListener('mouseenter', () => choisir(i)); lien.addEventListener('focus', () => choisir(i));
       return lien;
     }, (lien, x, i) => {
       lien.className = i === S.svc ? 'svc on' : 'svc';
       animer(lien.children[0], T(2.2 + i * .1, .4)); animer(lien.children[1], T(2.3 + i * .1, .45));
     });
+
+    surfSvc.peindre();
 
     renderLb(PH, dx);
   }
@@ -382,10 +401,8 @@ export function monterAccueil(hote, { seul = true, retard = 0, vignette: avecVig
     const L = lbEls;
     majEmplacement(L.img, ph, 'lb-img');
     Object.assign(L.img.style, { left: tx + 'px', top: ty + 'px', width: tw + 'px', height: th + 'px' });
-    animer(L.img, st === 'closing' ? `devOut .22s ${E} 0s forwards` : (growing ? `${alt ? 'dev2' : 'dev'} 2.2s ease-in-out ${S.lbN ? .3 : .5}s both` : 'devOut .01s linear 0s forwards'));
+    animer(L.img, st === 'closing' ? `devOut .22s ${E} 0s forwards` : (growing ? `${alt ? 'dev2' : 'dev'} 2.2s ease-in-out ${S.lbN ? .3 : .1}s both` : 'devOut .01s linear 0s forwards'));
     L.numP.style.left = `calc(670px + var(--dx) / 2)`;
-    L.fond.style.transition = st === 'from' ? 'none' : (growing ? `clip-path .8s ${E}` : `clip-path .55s ${E} .2s`);
-    L.fond.style.clipPath = growing ? 'inset(0 0 0 0)' : 'inset(0 0 100% 0)';
     L.cadre.style.transition = st === 'from' ? 'none' : (growing ? box(.75, 0) : box(.6, .12));
     Object.assign(L.cadre.style, { left: (rect.x - 1) + 'px', top: (rect.y - 1) + 'px', width: (rect.w + 2) + 'px', height: (rect.h + 2) + 'px' });
     animer(L.cadre, growing ? `${alt ? 'cadreFin2' : 'cadreFin'} .01s linear .82s forwards` : 'none');
@@ -397,16 +414,14 @@ export function monterAccueil(hote, { seul = true, retard = 0, vignette: avecVig
   }
 
   // ---------- cycles (menu, accroche) ----------
-  tm.nav = vie.timeout(() => {
-    S.navI = 0; render();
-    tm.iNav = vie.interval(() => { if (S.navH === null) { S.navI = (S.navI + 1) % 4; render(); } }, 2800);
-  }, (D + 4.4) * 1000);
   tm.hero = vie.timeout(() => {
     tm.iHero = vie.interval(() => {
+      if (S.lbI !== null || S.ph !== 'in') return;
       S.heroOut = true; render();
       tm.hero2 = vie.timeout(() => { S.heroI = (S.heroI + 1) % 5; S.heroN += 1; S.heroOut = false; render(); }, 1000);
     }, 8000);
   }, (D + 4) * 1000);
+  vag.demarrer((D + 4.6) * 1000);
   vie.ecouter(window, 'scene:resize', () => render());
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (vivant) { navW = null; render(); } });
 

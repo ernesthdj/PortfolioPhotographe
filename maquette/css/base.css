@@ -101,6 +101,13 @@ svg.pp{left:0;top:0;width:var(--W);height:900px}
 @keyframes devOut{0%{opacity:1;filter:brightness(1) grayscale(0)}100%{opacity:0;filter:brightness(0) grayscale(1)}}
 @keyframes apparait{from{stroke-opacity:0}to{stroke-opacity:1}}
 @keyframes eteint{from{stroke-opacity:1}to{stroke-opacity:0}}
+@keyframes hlIn{from{opacity:0}to{opacity:1}}
+/* retour rapide du fond après le zoom photo : la photo revient en fondu dans son état final */
+@keyframes devFast{0%{opacity:0;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@keyframes devFastNB{0%{opacity:0;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
+/* trait vagabond d'arrière-plan (js/lib/vagabond.js) : sous les photos et le texte */
+svg.wd{position:absolute;left:0;top:0;width:var(--W);height:900px;overflow:visible;pointer-events:none;transition:opacity .35s}
+.wd path{fill:none;stroke-width:2px;stroke-linecap:round;stroke-dasharray:0 101;stroke-opacity:0;stroke-dashoffset:0}
 @keyframes comete{from{stroke-dashoffset:0}to{stroke-dashoffset:-100}}
 @keyframes cometeR{from{stroke-dashoffset:0}to{stroke-dashoffset:100}}
 @keyframes rebatit{0%{stroke-dashoffset:0}84%{stroke-dashoffset:0}90%{stroke-dashoffset:101}96%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}

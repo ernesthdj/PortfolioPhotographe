@@ -5,7 +5,7 @@
 //   - history.pushState + popstate (Retour / Avancer), titre mis à jour, focus sur le titre principal, scroll en haut
 //   - chaque module de page expose init(racine) et destroy() ; le routeur appelle destroy() de l'ancienne page
 //     puis init() de la nouvelle
-//   - transition : le contenu sortant se résorbe (clip wOut rapide), le nouveau joue ses animations d'entrée
+//   - transition : le contenu sortant se décolore et s'efface vers le blanc (fondu 0,32 s), le nouveau se dessine en morphing
 //   - préchargement au survol / focus (cache en mémoire)
 //   - autre famille de pages (site <-> atelier <-> intro) ou erreur de fetch : navigation classique
 // Sans JavaScript, les liens restent de vrais liens.
@@ -61,12 +61,17 @@ export async function aller(url, { push = true } = {}) {
   const ancien = courant; courant = null;
   if (ancien && ancien.module && typeof ancien.module.destroy === 'function') { try { ancien.module.destroy(); } catch (e) { /* page déjà défaite */ } }
   figerEntete();
-  // 2. le contenu sortant se résorbe
-  if (!reduit()) { contenu.style.animation = `wOut .22s ${E} forwards`; await attendre(230); if (id !== sequence) return; }
+  // 2. le contenu sortant se décolore puis s'efface vers le blanc (développement photo à l'envers, 0,32 s)
+  if (!reduit()) {
+    contenu.animate([{ opacity: 1, filter: 'none' }, { opacity: 1, filter: 'grayscale(1) contrast(1.05)', offset: .4 }, { opacity: 0, filter: 'grayscale(1) brightness(1.6)' }],
+      { duration: 320, easing: 'ease-in', fill: 'forwards' });
+    await attendre(340); if (id !== sequence) return;
+  }
   // 3. styles propres à la page, puis contenu
   await changerStyles(doc, url);
   if (id !== sequence) return;
   contenu.replaceChildren(...[...cible.childNodes].map((n) => document.importNode(n, true)));
+  contenu.getAnimations().forEach((an) => an.cancel());
   contenu.style.animation = '';
   document.title = doc.title;
   document.body.dataset.module = doc.body.dataset.module;
