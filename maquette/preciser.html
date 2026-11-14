@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Préciser ma journée · Ernest H.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/pages/preciser.css" data-page-css>
+</head>
+<body class="site" data-module="preciser" data-famille="site">
+<div id="ecran">
+  <div id="scene">
+    <div class="vignette" aria-hidden="true"></div>
+
+    <div class="fond" id="fond">
+    <div id="contenu">
+    <div class="fond" id="page">
+      <p style="position:absolute;left:80px;top:128px;margin:0;display:flex;align-items:center;gap:14px;font:500 11.5px 'IBM Plex Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:#4B4D52">
+        <span id="eye-trait" aria-hidden="true" style="display:block;width:28px;height:1px;background:#D9783A"></span>
+        <span class="w" id="eye"></span>
+      </p>
+      <h1 style="position:absolute;left:78px;top:154px;margin:0;font:300 40px/1.1 Inter,sans-serif;letter-spacing:-.03em;filter:drop-shadow(0 6px 9px rgba(20,18,16,.18))">
+        <span class="w" id="h1"></span>
+        <span class="w" id="h2"></span>
+      </h1>
+      <p class="mono" style="position:absolute;left:calc(820px + var(--dx));top:176px;margin:0"><span class="w" id="sub"></span></p>
+
+      <!-- Colonne gauche : catalogue -->
+      <div class="verre" id="pill" aria-hidden="true" style="left:64px;top:240px;width:340px;height:600px;opacity:0"></div>
+      <svg class="ln" aria-hidden="true" style="left:64px;top:240px;width:340px;height:600px">
+        <path class="pill-l" pathLength="100" d="M0 300 L0 24 A24 24 0 0 1 24 0 L316 0 A24 24 0 0 1 340 24 L340 300"></path>
+        <path class="pill-l" pathLength="100" d="M0 300 L0 576 A24 24 0 0 0 24 600 L316 600 A24 24 0 0 0 340 576 L340 300"></path>
+        <path id="pill-c" class="comete" pathLength="100" d="M0 300 L0 24 A24 24 0 0 1 24 0 L316 0 A24 24 0 0 1 340 24 L340 576 A24 24 0 0 1 316 600 L24 600 A24 24 0 0 1 0 576 Z" style="stroke:#D9783A"></path>
+      </svg>
+      <p class="mono" style="position:absolute;left:88px;top:262px;margin:0"><span class="w" id="cat-t"></span></p>
+      <div id="cats" style="display:contents"></div>
+      <div id="srvs" style="display:contents"></div>
+
+      <!-- Centre : la journée et les lignes de prix -->
+      <p class="mono" style="position:absolute;left:440px;top:262px;margin:0"><span class="w" id="dev-t"></span></p>
+      <svg class="ln" aria-hidden="true" style="left:440px;top:290px;width:calc(560px + var(--dx));height:2px"><path id="dev-l" class="geo-l" pathLength="100" d="M0 1 L560 1" style="stroke-width:1px"></path></svg>
+      <p id="msg-vide" style="position:absolute;left:440px;top:350px;margin:0;font:italic 400 26px 'Instrument Serif',serif;color:#4B4D52"><span class="w" id="msg2"></span></p>
+      <div id="ticks" style="display:contents"></div>
+      <svg class="ln" aria-hidden="true" style="left:0;top:0;width:var(--W);height:900px">
+        <path id="axe" pathLength="100" d="M440 320 L1000 320" style="stroke-width:1px;stroke:rgba(13,14,16,.4)"></path>
+        <g id="arcs"></g>
+      </svg>
+      <div id="rows" style="display:contents"></div>
+      <div id="lz" style="position:absolute;left:440px;width:calc(572px + var(--dx));overflow-y:auto;overflow-x:hidden;scrollbar-width:thin">
+        <div id="lz-in" style="position:relative"></div>
+      </div>
+      <p id="sug" class="rangee" hidden style="position:absolute;left:440px;top:690px;margin:0;display:flex;align-items:center;gap:12px">
+        <span aria-hidden="true" style="display:block;width:20px;height:1px;background:#D9783A"></span>
+        <span class="mono">Suggestion</span>
+        <button type="button" class="mini" id="sug-b">Ajoutez un album : Album photo 30×30</button>
+      </p>
+      <div class="champ" id="promo" style="position:absolute;left:440px;top:736px;width:300px;opacity:0">
+        <label class="mono" for="sim-code">Code promo ou de parrainage</label>
+        <input id="sim-code" type="text" maxlength="40" autocomplete="off" placeholder="EX-2026">
+      </div>
+      <button type="button" class="mini" id="appliquer" style="position:absolute;left:764px;top:770px;opacity:0">Appliquer</button>
+      <p class="note rangee" id="promo-msg" role="status" hidden style="position:absolute;left:440px;top:806px;margin:0">Ce code promo n’est pas valable.</p>
+
+      <!-- Colonne droite : totaux -->
+      <div class="verre" id="tot-verre" aria-hidden="true" style="left:calc(1040px + var(--dx));top:240px;width:320px;height:420px;opacity:0"></div>
+      <svg class="ln" aria-hidden="true" style="left:calc(1040px + var(--dx));top:240px;width:320px;height:420px">
+        <path class="tot-l" pathLength="100" d="M0 210 L0 24 A24 24 0 0 1 24 0 L296 0 A24 24 0 0 1 320 24 L320 210"></path>
+        <path class="tot-l" pathLength="100" d="M0 210 L0 396 A24 24 0 0 0 24 420 L296 420 A24 24 0 0 0 320 396 L320 210"></path>
+      </svg>
+      <p class="mono" style="position:absolute;left:calc(1068px + var(--dx));top:266px;margin:0"><span class="w" id="tot-t"></span></p>
+      <div class="tot tv" style="top:304px;opacity:0"><span class="l">Total HTVA</span><span class="v" id="t-ht"></span></div>
+      <div class="tot tv" style="top:336px;opacity:0"><span class="l">TVA 21 %</span><span class="v" id="t-tva"></span></div>
+      <svg class="ln" aria-hidden="true" style="left:calc(1068px + var(--dx));top:370px;width:264px;height:2px"><path id="tvl" pathLength="100" d="M0 1 L264 1" style="stroke-width:1px"></path></svg>
+      <p class="mono" id="t-lab" style="position:absolute;left:calc(1068px + var(--dx));top:388px;margin:0">Total TVAC</p>
+      <p class="tv" id="t-ttc" style="position:absolute;left:calc(1066px + var(--dx));top:406px;margin:0;font:300 40px Inter,sans-serif;letter-spacing:-.02em;filter:drop-shadow(0 6px 9px rgba(20,18,16,.16));opacity:0"></p>
+      <p class="note rangee" id="t-manque" hidden style="position:absolute;left:calc(1068px + var(--dx));top:486px;width:264px;margin:0;line-height:1.5">Indiquez l’adresse exacte de chaque lieu : le déplacement réel remplace l’estimation par zone.</p>
+      <span class="encre" id="soum-enc" aria-hidden="true" style="position:absolute;left:calc(1068px + var(--dx));top:580px;width:264px;height:48px;border-radius:24px;transition:opacity .5s ease"></span>
+      <button type="button" class="btn tv" id="soumettre" aria-disabled="true" style="left:calc(1068px + var(--dx));top:580px;width:264px;height:48px;border-radius:24px;opacity:0">Soumettre au photographe</button>
+      <p class="note tv" style="position:absolute;left:calc(1040px + var(--dx));top:684px;width:320px;margin:0;line-height:1.5;opacity:0">Brouillon gardé dans votre espace. Rien n’est envoyé avant « Soumettre ».</p>
+    </div>
+
+    <!-- Panneau E01.a : configurer ce service -->
+    <div id="pan" role="dialog" aria-modal="true" hidden>
+      <div class="verre" id="pan-verre" aria-hidden="true" style="left:calc(200px + var(--dx) / 2);top:128px;width:1040px;height:720px;opacity:0"></div>
+      <svg class="ln" aria-hidden="true" style="left:calc(200px + var(--dx) / 2);top:128px;width:1040px;height:720px">
+        <path id="pan-trait" pathLength="100" d="M0 24 A24 24 0 0 1 24 0 L1016 0 A24 24 0 0 1 1040 24 L1040 696 A24 24 0 0 1 1016 720 L24 720 A24 24 0 0 1 0 696 Z"></path>
+      </svg>
+      <div id="pan-ct" style="position:absolute;left:calc(200px + var(--dx) / 2);top:128px;width:1040px;height:720px;opacity:0">
+        <p class="mono" style="position:absolute;left:40px;top:32px;margin:0">Préciser ce service · lieux et horaires</p>
+        <p id="pan-svc" style="position:absolute;left:40px;top:52px;margin:0;font:300 30px Inter,sans-serif;letter-spacing:-.02em"></p>
+        <button type="button" id="pan-x" aria-label="Fermer" style="position:absolute;right:24px;top:24px;width:44px;height:44px;padding:0;border:0;border-radius:22px;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" aria-hidden="true" style="width:18px;height:18px;fill:none;stroke:#0D0E10;stroke-width:1.8;stroke-linecap:round"><path d="M6 6 L18 18 M18 6 L6 18"></path></svg></button>
+
+        <div id="pan-ruban" class="blk" style="position:absolute;left:40px;top:108px;width:580px">
+          <span class="mono" id="pan-jlab"></span>
+          <div style="position:relative;width:560px;height:84px;margin-top:16px">
+            <span aria-hidden="true" style="position:absolute;left:0;width:560px;top:11px;height:1px;background:rgba(13,14,16,.3)"></span>
+            <span class="bande" id="jr-b1" style="top:4px;background:#0D0E10"></span>
+            <span class="bande" id="jr-b2" style="top:4px;border-radius:0 8px 8px 0;background:rgba(13,14,16,.28)"></span>
+            <div id="jr-pins" style="display:contents"></div>
+            <input type="range" class="jr" id="jr-debut" min="6" max="23.5" step="0.25" aria-label="Heure de début" style="top:-1px;width:560px;height:24px">
+            <input type="range" class="jr" id="jr-fin" min="8" max="24" step="0.25" aria-label="Heure de fin" style="top:-1px;width:560px;height:24px">
+            <span id="jr-deb" style="position:absolute;top:30px;width:40px;text-align:center;font:500 11px 'IBM Plex Mono',monospace;color:#0D0E10"></span>
+            <span id="jr-finh" style="position:absolute;top:30px;width:40px;text-align:center;font:500 11px 'IBM Plex Mono',monospace;color:#0D0E10"></span>
+            <div id="jr-ticks" style="display:contents"></div>
+          </div>
+          <p class="note" id="pan-jnote" style="margin:2px 0 0"></p>
+        </div>
+        <div id="pan-studio-blk" class="blk" hidden style="position:absolute;left:40px;top:108px;width:580px">
+          <span class="mono" id="pan-plab"></span>
+          <div class="step">
+            <button type="button" id="pan-moins" aria-label="Diminuer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12 H19"></path></svg></button>
+            <span class="n" id="pan-pval" aria-live="polite"></span>
+            <button type="button" id="pan-plus" aria-label="Augmenter"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5 V19 M5 12 H19"></path></svg></button>
+          </div>
+          <p class="note" id="pan-pnote" style="margin:8px 0 0"></p>
+        </div>
+
+        <div id="pan-tech">
+          <div class="champ" style="position:absolute;left:40px;top:262px;width:240px">
+            <label class="mono" for="sim-date">Date du shooting</label>
+            <input id="sim-date" type="date">
+          </div>
+          <p class="mono" style="position:absolute;left:40px;top:338px;margin:0">Lieux de la journée · adresse exacte</p>
+          <div style="position:absolute;left:40px;top:362px;width:584px;height:268px;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin">
+            <div id="pan-lieux" style="position:relative;width:560px">
+              <button type="button" class="mini" id="pan-ajlieu" style="position:absolute;left:0">+ Ajouter un lieu</button>
+            </div>
+          </div>
+        </div>
+        <p class="note" id="pan-studio" hidden style="position:absolute;left:40px;top:240px;width:520px;margin:0;line-height:1.6">Ce service se fait en studio : pas de date ni de lieu à indiquer ici, nous les fixons ensemble après votre demande.</p>
+
+        <div style="position:absolute;left:660px;top:116px;width:340px">
+          <span class="mono" style="display:block;margin-bottom:6px">Options</span>
+          <div id="pan-opts"></div>
+        </div>
+        <div style="position:absolute;left:660px;top:344px;width:340px">
+          <span class="mono" style="display:block;margin-bottom:10px">Prix de ce service</span>
+          <div id="pan-prix"></div>
+          <svg class="ln" aria-hidden="true" style="position:relative;display:block;width:340px;height:2px;margin:6px 0"><path pathLength="100" d="M0 1 L340 1" style="stroke-width:1px;stroke-dashoffset:0"></path></svg>
+          <div style="display:flex;justify-content:space-between;align-items:baseline"><span class="mono">Sous-total HTVA</span><span id="pan-st" style="font:300 26px Inter,sans-serif"></span></div>
+        </div>
+
+        <span class="encre" aria-hidden="true" style="position:absolute;left:660px;top:640px;width:220px;height:48px;border-radius:24px"></span>
+        <button type="button" class="btn" id="pan-ok" style="left:660px;top:640px;width:220px;height:48px;border-radius:24px"></button>
+        <button type="button" class="mini" id="pan-non" style="position:absolute;left:904px;top:655px;font-size:14px">Annuler</button>
+      </div>
+    </div>
+
+    <!-- Panneau E01.b : soumettre mon devis -->
+    <div id="sub-pan" role="dialog" aria-modal="true" aria-label="Soumettre mon devis" hidden>
+      <div class="verre" id="sub-verre" aria-hidden="true" style="left:calc(300px + var(--dx) / 2);top:150px;width:840px;height:640px;opacity:0"></div>
+      <svg class="ln" aria-hidden="true" style="left:calc(300px + var(--dx) / 2);top:150px;width:840px;height:640px">
+        <path id="sub-trait" pathLength="100" d="M0 24 A24 24 0 0 1 24 0 L816 0 A24 24 0 0 1 840 24 L840 616 A24 24 0 0 1 816 640 L24 640 A24 24 0 0 1 0 616 Z"></path>
+      </svg>
+      <div id="sub-ct" style="position:absolute;left:calc(300px + var(--dx) / 2);top:150px;width:840px;height:640px;opacity:0">
+        <button type="button" id="sub-x" aria-label="Fermer" style="position:absolute;right:24px;top:24px;width:44px;height:44px;padding:0;border:0;border-radius:22px;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" aria-hidden="true" style="width:18px;height:18px;fill:none;stroke:#0D0E10;stroke-width:1.8;stroke-linecap:round"><path d="M6 6 L18 18 M18 6 L6 18"></path></svg></button>
+        <div id="sub-form">
+          <p class="mono" style="position:absolute;left:40px;top:36px;margin:0">Soumettre mon devis</p>
+          <p id="sub-titre" style="position:absolute;left:40px;top:58px;margin:0;font:300 30px Inter,sans-serif;letter-spacing:-.02em"></p>
+
+          <div style="position:absolute;left:40px;top:132px;width:330px">
+            <span class="mono" style="display:block;margin-bottom:12px">Votre devis</span>
+            <div id="sub-recap"></div>
+            <svg class="ln" aria-hidden="true" style="position:relative;display:block;width:330px;height:2px;margin:14px 0"><path pathLength="100" d="M0 1 L330 1" style="stroke-width:1px;stroke-dashoffset:0"></path></svg>
+            <span class="mono" style="display:block">Total TVAC</span>
+            <span id="sub-ttc" style="display:block;margin-top:4px;font:300 36px Inter,sans-serif;letter-spacing:-.02em"></span>
+            <p class="note" style="margin:18px 0 0;line-height:1.6">Les prix sont figés à la soumission. Le photographe examine votre dossier puis l’accepte ou vous explique pourquoi il ne peut pas.</p>
+          </div>
+
+          <form id="sub-f" novalidate style="position:absolute;left:440px;top:132px;width:360px;margin:0">
+            <div class="champ" style="position:relative;width:360px">
+              <label class="mono" for="sub-mail">E-mail</label>
+              <input id="sub-mail" type="email" autocomplete="email" placeholder="camille@exemple.be">
+            </div>
+            <div class="champ" style="position:relative;width:360px;margin-top:26px">
+              <label class="mono" for="sub-mdp">Mot de passe</label>
+              <input id="sub-mdp" type="password" placeholder="8 caractères minimum">
+            </div>
+            <p class="note" id="sub-aide" style="margin:10px 0 0"></p>
+            <p role="alert" style="margin:8px 0 0;min-height:18px;display:flex;align-items:center;gap:8px;font:400 13px Inter,sans-serif;color:#0D0E10"><span id="sub-err-d" hidden aria-hidden="true" style="display:block;width:6px;height:6px;border-radius:3px;background:#7A1F33"></span><span id="sub-err"></span></p>
+          </form>
+          <span class="encre" id="sub-enc" aria-hidden="true" style="position:absolute;left:440px;top:360px;width:360px;height:48px;border-radius:24px"></span>
+          <button type="button" class="btn" id="sub-ok" aria-disabled="false" style="left:440px;top:360px;width:360px;height:48px;border-radius:24px"></button>
+          <button type="button" class="mini" id="sub-autre" style="position:absolute;left:440px;top:436px;font-size:14px"></button>
+          <button type="button" class="mini" id="sub-non" style="position:absolute;left:440px;top:472px;font-size:14px">Annuler</button>
+          <p class="note" style="position:absolute;left:440px;top:540px;width:360px;margin:0;line-height:1.6">Votre compte sert seulement à suivre votre dossier. Si vous fermez ce panneau, votre composition reste gardée ici.</p>
+        </div>
+        <div id="sub-done" hidden role="status" style="position:absolute;left:80px;top:200px;width:680px">
+          <p class="mono" style="margin:0;display:flex;align-items:center;gap:12px"><span aria-hidden="true" style="display:block;width:20px;height:1px;background:#D9783A"></span>Dossier n° 2027-014 · soumis</p>
+          <p style="margin:18px 0 0;font:italic 400 46px/1.1 'Instrument Serif',serif"><span class="w" id="done-1"></span></p>
+          <p style="margin:20px 0 0;font:400 15px Inter,sans-serif;color:#4B4D52"><span class="w" id="done-2"></span></p>
+          <a href="dossier.html" class="btn" id="done-l" style="position:relative;display:inline-flex;margin-top:28px;width:240px;height:48px;border-radius:24px;background:#0D0E10;box-shadow:0 20px 34px -10px rgba(13,14,16,.58)">Voir mon dossier</a>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div><!-- /#contenu /#fond -->
+  </div>
+</div>
+<script type="module" src="js/amorce.js"></script>
+</body>
+</html>

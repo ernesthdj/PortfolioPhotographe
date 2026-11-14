@@ -15,6 +15,7 @@ import { param } from '../lib/params.js';
 import { CATEGORIES, SERVICES, OPTIONS, KM, COMMUNES, hm, virgule, service, calculer } from '../../data/tarifs.js';
 import { mesures } from '../lib/scene.js';
 import { creerVie } from '../lib/vie.js';
+import { lireBrouillonPublic, sauverBrouillonPublic, viderPrecision } from '../lib/brouillon.js';
 
 let vie = null;
 
@@ -32,24 +33,11 @@ export function init() {
   }
 
   // ------------------------------------------------------------------ état (équivalent du state de la planche)
-  const CLE = 'maquette.simulateur.public';
   const EXEMPLE = [{ sid: 'mar', dur: 2, opts: [], lieux: [{ c: -3, h: 14, adr: '' }], date: '', zone: -1 }];
   const exemple = param('exemple', ['Vide', 'Mariage posé'], 'Vide');
+  const sauver = () => sauverBrouillonPublic(st.lignes);   // « Votre composition reste gardée dans ce navigateur » : sessionStorage, jamais de mot de passe
 
-  function lireSauvegarde() {          // « Votre composition reste gardée dans ce navigateur » : sessionStorage, jamais de mot de passe
-    try {
-      const v = JSON.parse(sessionStorage.getItem(CLE) || '[]');
-      if (!Array.isArray(v)) return [];
-      return v.filter((c) => c && service(c.sid) && Array.isArray(c.opts) && c.opts.every((k) => OPTIONS[k]) && Array.isArray(c.lieux)
-        && (c.dur === undefined || Number.isFinite(c.dur)) && (c.qty === undefined || Number.isFinite(c.qty)))
-        .map((c) => ({ sid: c.sid, dur: c.dur, qty: c.qty, opts: c.opts,
-          lieux: c.lieux.map((z) => ({ c: -3, h: Number.isFinite(z.h) ? z.h : 14, adr: '' })),
-          date: typeof c.date === 'string' ? c.date.slice(0, 10) : '', zone: Number.isInteger(c.zone) && c.zone >= -1 && c.zone < COMMUNES.length ? c.zone : -1 }));
-    } catch (e) { return []; }
-  }
-  function sauver() { try { sessionStorage.setItem(CLE, JSON.stringify(st.lignes)); } catch (e) { /* stockage indisponible : sans effet */ } }
-
-  const st = { lignes: exemple === 'Vide' ? lireSauvegarde() : JSON.parse(JSON.stringify(EXEMPLE)), promo: false, n: 0, sub: 'off', subMode: 'create', subPh: 'form', subErr: '' };
+  const st = { lignes: exemple === 'Vide' ? lireBrouillonPublic() : JSON.parse(JSON.stringify(EXEMPLE)), promo: false, n: 0, sub: 'off', subMode: 'create', subPh: 'form', subErr: '' };
   let tS = 0;
 
   function soumettre() {
@@ -70,13 +58,14 @@ export function init() {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)) { st.subErr = 'Cette adresse email n’est pas valide.'; rendre(); return; }
     if (!mdp) { st.subErr = st.subMode === 'login' ? 'Indiquez votre mot de passe.' : 'Choisissez un mot de passe.'; rendre(); return; }
     $('#sub-mdp').value = '';       // rien n'est conservé ni envoyé
+    viderPrecision();               // « Préciser ma journée » repart de ce brouillon
     st.subPh = 'loading'; st.subErr = ''; rendre();
     vie.clearTimeout(tS);
     tS = vie.timeout(() => {
       st.subPh = 'done'; rendre();
       const O = (dl, d) => `wIn ${d}s ${E} ${dl}s both`;
       ecrire($('#done-1'), 'Votre brouillon est enregistré.'); animer($('#done-1'), { o: O(.1, .9), f: O(.26, .9) });
-      ecrire($('#done-2'), 'Ouverture de votre espace client…'); animer($('#done-2'), { o: O(.7, .7), f: O(.86, .7) });
+      ecrire($('#done-2'), 'Précisez maintenant vos lieux et vos horaires dans votre espace client.'); animer($('#done-2'), { o: O(.7, .7), f: O(.86, .7) });
       animer($('#done-l'), 'habille .6s ease 1.2s both');
     }, 1300);
   }

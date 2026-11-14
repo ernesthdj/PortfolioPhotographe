@@ -92,6 +92,6 @@ maquette/
 Conventions : `sc-if` des planches devient l'attribut `hidden` ; `sc-for` devient `liste()` (mise à jour par clés, sans relancer les animations) ; les calculs de `renderVals` sont des fonctions lisibles par page. Tout texte saisi puis réaffiché passe par `textContent`.
 Pour la reprise dans PID (Laravel + Blade + jQuery) : `css/` se recopie tel quel, chaque module `js/pages/` correspond à une vue Blade, `data/` à ce que fournira le contrôleur.
 
-`reserve/precision-journee/` : code du panneau « Configurer ce service » (ruban de la journée + adresses exactes), retiré de la page publique et gardé pour l'écran connecté « Préciser ma journée » (non traduit, en attente de validation).
+`reserve/precision-journee/` : code du panneau « Configurer ce service » (ruban de la journée + adresses exactes), retiré de la page publique et gardé comme source de la page « Préciser ma journée » (`preciser.html`, traduite le 14/11).
 
 Écarts avec le canvas et données harmonisées : `docs/front/maquette-ecarts.md`.

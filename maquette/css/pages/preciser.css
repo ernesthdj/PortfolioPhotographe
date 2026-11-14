@@ -1,0 +1,3 @@
+/* Espace client · Préciser ma journée : mêmes composants que le simulateur (catalogue, journée, lignes, totaux,
+   panneaux verre, ruban à poignées, champs heure et adresse). Tout vient de simulateur.css ; rien de propre à cette page. */
+@import url("simulateur.css");
