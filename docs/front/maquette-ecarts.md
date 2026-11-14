@@ -314,3 +314,17 @@ Règle : tout en CSS `calc(Npx + var(--dx) * f)` ; aucun recalcul JS. À dx = 0 
 
 - À 1440×900, les sept pastilles de zone passaient à la ligne et la dernière pastille d'option chevauchait la ligne « forfait, 2 h incluses » (défaut présent sur la planche elle-même).
 - Corrigé des deux côtés : hauteur d'une ligne de prestation avec lieux 168 → 204 (SimMix.dc.html / SimPublicA.dc.html et js/pages/simulateur.js).
+
+## Comètes morphiques (12/11) — ANNULÉ : l’effet concerne seulement les lignes animées du fond, pas les comètes des cadres ; comètes revenues au tour continu
+
+- Les comètes (petits traits qui parcourent en continu le contour des pastilles de verre) ne tournent plus en boucle : le trait s'étire, se résorbe en boule (4 px), la boule glisse, puis se redilate en trait dans l'autre sens, six fois par tour.
+- Couleur : la couleur propre de chaque comète, sauf un segment sur trois en bordeaux puis en encre (les quatre couleurs de la palette apparaissent).
+- Une seule définition des deux côtés : canvas (tpl/morphe.js, appliqué aux 56 planches et à parts.json) et maquette (css/base.css). La couleur propre passe de `stroke` à `color` (lue par currentColor).
+
+## Portage du 14/11 : surligneur, trait vagabond, zoom photo, transition entre pages (canvas v131 -> maquette)
+
+- **Surligneur** (`js/lib/surligneur.js`, réécrit) : au repos rien n'est surligné, seule la comète tourne ; au survol la comète se fond en boule à sa position, glisse sous l'élément et se redilate en ligne (la ligne se contracte pendant le trajet, sans pause) ; à la sortie elle reste 2,5 s puis rejoint la comète. Menu du haut et ligne des services. Le balayage automatique du menu (toutes les 2,8 s) est supprimé.
+- **Trait vagabond** (`js/lib/vagabond.js`, nouveau) : un seul trait d'arrière-plan, axes X/Y uniquement, opacité 0,4, derrière photos et texte ; part d'un point, se dessine, se résorbe vers son extrémité, le point glisse ou réapparaît ailleurs, couleur et axe aléatoires. Démarre après l'intro (4,6 s), masqué pendant le zoom photo. Remplace les trois traits diagonaux du canvas.
+- **Zoom photo** (`js/pages/accueil.js`) : plus de voile blanc ; l'ouverture passe la page en état `out` (le fond se décompose par traits), la fermeture la redessine en rythme rapide (K = 0,2, photos en fondu direct, sans rejouer le développement). L'accroche tournante est figée pendant le zoom (sinon le nouveau texte apparaissait un instant derrière).
+- **Transition entre pages** (`js/lib/routeur.js`) : le contenu sortant se décolore puis s'efface vers le blanc en 0,32 s avant que la page suivante se dessine. Écart assumé avec le canvas : l'en-tête persistant ne s'efface pas (seul `#contenu` s'efface), conformément à la règle « menu figé entre deux pages ».
+- **Non vérifié dans un navigateur** (aucun serveur local lancé) : seule la syntaxe des modules a été contrôlée. À regarder en priorité : position de départ de la boule sur la comète, hauteur de la ligne sous les services, fondu du contenu au changement de page.
