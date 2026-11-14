@@ -17,7 +17,6 @@
 //   });
 //   surf.aller(i | null);  // élément visé (null = retour au repos après le délai) ; idempotent
 //   surf.peindre();        // à rappeler à chaque rendu (la géométrie peut avoir changé)
-const E = 'cubic-bezier(.45,0,.2,1)';
 const RESSORT = 'cubic-bezier(.34,1.45,.64,1)';
 const VOYAGE = 'cubic-bezier(.4,0,.2,1)';
 const FORME = ['width', 'height', 'border-radius', 'box-shadow'];

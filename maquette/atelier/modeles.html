@@ -17,7 +17,7 @@
     <div class="vignette" aria-hidden="true"></div>
     <div class="fond" id="fond">
       <!-- La coque persistante (verre + menu) est ajoutée ici par js/lib/atelier-shell.js ; seul #contenu est remplacé par le routeur -->
-      <div id="contenu">
+      <div id="contenu" role="main">
 
       <p class="mono" style="position:absolute;left:304px;top:52px;margin:0;display:flex;align-items:center;gap:12px">
         <span id="eye-trait" aria-hidden="true" style="display:block;width:28px;height:1px;background:#D9783A"></span>
@@ -26,7 +26,7 @@
       <h1 style="position:absolute;left:302px;top:76px;margin:0;font:300 36px/1.1 Inter,sans-serif;letter-spacing:-.03em;filter:drop-shadow(0 6px 9px rgba(20,18,16,.18))">
         <span class="w" id="h1"></span> <span class="w" id="h2"></span>
       </h1>
-      <a href="#" class="btn encre" id="nouveau" style="left:calc(1156px + var(--dx));top:72px;width:220px;height:48px;border-radius:24px">+ Nouveau modèle</a>
+      <a role="link" tabindex="0" aria-disabled="true" title="Bientôt disponible" class="btn encre" id="nouveau" style="left:calc(1156px + var(--dx));top:72px;width:220px;height:48px;border-radius:24px">+ Nouveau modèle</a>
       <div id="modeles" style="display:contents"></div>
 
       <div class="verre" id="p2-verre" aria-hidden="true" style="left:628px;top:176px;width:calc(748px + var(--dx));height:696px;opacity:0"></div>

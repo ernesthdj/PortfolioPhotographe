@@ -2,7 +2,6 @@
 const SVGNS = 'http://www.w3.org/2000/svg';
 
 export const $ = (s, r = document) => r.querySelector(s);
-export const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 
 function poser(n, attrs) {
   for (const [k, v] of Object.entries(attrs || {})) {

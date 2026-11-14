@@ -61,7 +61,7 @@ function render() {
   animer(tcMot, Tm(4.5, .7));
   hote.hidden = S.fin;
   accueilHote.hidden = !S.fin;
-  if (S.fin && !accueil) accueil = monterAccueil(accueilHote, { seul: false, retard: 0, vignette: true });
+  if (S.fin && !accueil) accueil = monterAccueil(accueilHote, { seul: false, retard: 0 });
   if (!S.fin && accueil) { accueil.detruire(); demonterEntete(); accueil = null; }
 }
 

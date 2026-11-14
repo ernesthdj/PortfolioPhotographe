@@ -11,7 +11,6 @@
 // Sans JavaScript, les liens restent de vrais liens.
 import { figerEntete } from './entete.js';
 
-const E = 'cubic-bezier(.45,0,.2,1)';
 const cache = new Map();                 // URL absolue sans ancre -> Promise<Document>
 const dossierPages = new URL('../pages/', import.meta.url);
 let courant = null;                      // { nom, module }
@@ -20,7 +19,14 @@ let sequence = 0;
 
 const reduit = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const attendre = (ms) => new Promise((r) => setTimeout(r, ms));
-const cle = (url) => { const u = new URL(url, window.location.href); u.hash = ''; return u.href; };
+// Avec cleanUrls (Vercel, `serve`), la page courante a une URL propre (/galerie) : on charge et on affiche alors l'URL propre
+// de la cible, pour ne pas passer par une redirection ni montrer /galerie.html. Sans cleanUrls (python -m http.server), rien ne change.
+function propre(url) {
+  const u = new URL(url, window.location.href);
+  if (!window.location.pathname.endsWith('.html') && u.pathname.endsWith('.html') && !u.pathname.endsWith('/index.html')) u.pathname = u.pathname.slice(0, -5);
+  return u;
+}
+const cle = (url) => { const u = propre(url); u.hash = ''; return u.href; };
 const classique = (url) => { window.location.assign(url); };
 
 function recuperer(url) {
@@ -33,7 +39,12 @@ function recuperer(url) {
   return cache.get(k).catch((e) => { cache.delete(k); throw e; });
 }
 
-function moduleDe(nom) { return import(new URL(nom + '.js', dossierPages).href); }
+/** Un nom de module de page ne contient que des minuscules, chiffres et tirets : jamais de chemin (défense en profondeur). */
+export const nomModuleValide = (nom) => /^[a-z0-9-]+$/.test(nom || '');
+function moduleDe(nom) {
+  if (!nomModuleValide(nom)) return Promise.reject(new Error('Nom de module invalide'));
+  return import(new URL(nom + '.js', dossierPages).href);
+}
 
 async function changerStyles(doc, url) {
   const voulus = [...doc.querySelectorAll('link[data-page-css]')].map((l) => new URL(l.getAttribute('href'), url).href);
@@ -97,7 +108,7 @@ export async function aller(url, { push = true } = {}) {
   contenu.style.animation = '';
   document.title = doc.title;
   document.body.dataset.module = doc.body.dataset.module;
-  if (push) { if (cle(url) === cle(window.location.href) && !new URL(url, window.location.href).hash) history.replaceState({}, '', url); else history.pushState({}, '', url); }
+  if (push) { if (cle(url) === cle(window.location.href) && !new URL(url, window.location.href).hash) history.replaceState({}, '', propre(url).href); else history.pushState({}, '', propre(url).href); }
   window.scrollTo(0, 0);
   // 4. page suivante
   try {

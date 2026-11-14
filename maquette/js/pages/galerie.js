@@ -1,9 +1,10 @@
 // Galerie : filtres par service, flux de photos justifié groupé par événement, témoignage qui défile,
 // photo agrandie (le fond se décompose, retour rapide). Traduit PGalerie.dc.html.
-import { rythme, E } from '../lib/anim.js';
+import { E } from '../lib/anim.js';
 import { el, svg, mot, ecrire, animer, liste } from '../lib/dom.js';
 import { monterEntete, majEntete, enteteMontee } from '../lib/entete.js';
 import { creerVie } from '../lib/vie.js';
+import { memoriserFocus, clavierModale } from '../lib/modale.js';
 import { PHOTOS } from '../../data/photos-site.js';
 
 let vie = null;
@@ -11,7 +12,7 @@ let vie = null;
 export function init(racine) {
 vie = creerVie();
 const dejaLa = enteteMontee();
-const K = .62, R = rythme(K);
+const K = .62;
 const FIGE = { o: 'wIn 0s both', f: 'wIn 0s both' };
 // En-tête persistant : quand on arrive d'une autre page, il ne rejoue pas son entrée (sauf pendant la photo agrandie).
 function enteteAnim(a, dissolve) {
@@ -58,7 +59,7 @@ function justifie(list, W, rowH, gap, padTop, legende) {  // W = largeur utile d
 
 // ---- état --------------------------------------------------------------------------------------------------
 const S = { svc: -1, n: 0, lb: null, lbN: 0, lbSt: 'from', lbR: null, tq: 0, tqOut: false, out: false, retour: false, sh: 0 };
-let rects = [], tLb, tNav, tTq;
+let rects = [], tLb, rendreFocus = null;   // rendreFocus : rend le focus à la vignette cliquée à la fermeture de la photo agrandie
 const set = (patch) => { Object.assign(S, patch); render(); };
 
 // ---- décor statique ----------------------------------------------------------------------------------------
@@ -90,20 +91,21 @@ const vignetteRect = (i) => {
 };
 function ouvrir(i) {
   if (S.lb !== null) return;
+  rendreFocus = memoriserFocus();
   vie.clearTimeout(tLb); set({ lb: i, lbSt: 'from', lbN: 0, lbR: vignetteRect(i) });
   tLb = vie.timeout(() => set({ lbSt: 'to' }), 40);
 }
 function fermer() {
   if (S.lbSt !== 'to') return;
   set({ lbSt: 'closing', lbR: vignetteRect(S.lb), n: S.n + 1, retour: true });
-  vie.clearTimeout(tLb); tLb = vie.timeout(() => set({ lb: null, lbSt: 'from' }), 760);
+  vie.clearTimeout(tLb); tLb = vie.timeout(() => { set({ lb: null, lbSt: 'from' }); if (rendreFocus) rendreFocus(); rendreFocus = null; }, 760);
 }
 function changer(i) {
   if (S.out || i === S.svc) return;
   set({ out: true, lb: null, retour: false });
-  tNav = vie.timeout(() => set({ svc: i, n: S.n + 1, sh: S.sh + 1, out: false }), 480);
+  vie.timeout(() => set({ svc: i, n: S.n + 1, sh: S.sh + 1, out: false }), 480);
 }
-vie.interval(() => { set({ tqOut: true }); tTq = vie.timeout(() => set({ tq: S.tq + 1, tqOut: false }), 700); }, 7500);
+vie.interval(() => { set({ tqOut: true }); vie.timeout(() => set({ tq: S.tq + 1, tqOut: false }), 700); }, 7500);
 
 // ---- helpers de rendu --------------------------------------------------------------------------------------
 function setMot(w, texte, anim, fabrique) {
@@ -262,7 +264,7 @@ function render() {
     const [b, s] = n.children, ph = b.firstElementChild, p = PHOTOS[v.p];
     b.setAttribute('aria-label', v.label);
     Object.assign(b.style, { left: v.x + 'px', top: v.y + 'px', width: v.w + 'px', height: v.h + 'px' });
-    ph.className = 'ph ton-' + p.ton; ph.firstElementChild.textContent = p.label;
+    ph.className = 'ph ton-' + p.ton; ph.firstElementChild.textContent = p.label; ph.title = p.label;   // légende tronquée par une ellipse : texte complet au survol
     animer(ph, v.anim);
     Object.assign(s.style, { left: (v.x - 1) + 'px', top: (v.y - 1) + 'px', width: (v.w + 2) + 'px', height: (v.h + 2) + 'px' });
     s.firstElementChild.setAttribute('d', frame(v.w, v.h)); animer(s.firstElementChild, v.tr);
@@ -311,6 +313,12 @@ function renderLb(flat, dx) {
 }
 
 vie.ecouter(window, 'scene:resize', () => render());
+vie.ecouter(document, 'keydown', (e) => {
+  if (S.lb === null || !lbEls) return;
+  const nodes = lbEls.ui && lbEls.ui.nodes;
+  if (e.key === 'ArrowLeft') { if (nodes) nodes[3].click(); } else if (e.key === 'ArrowRight') { if (nodes) nodes[4].click(); }
+  else clavierModale(e, lbEls.racine, fermer);
+});
   render();
 }
 

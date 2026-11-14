@@ -1,10 +1,11 @@
 // Accueil (dashboard public). Traduit PAccueil.dc.html : en-tête à indicateur liquide, accroche tournante
 // écrite par la goutte d'encre, collage justifié qui change selon le service survolé, ligne des services,
 // photo agrandie. Monté par accueil.html (avec bouton « Rejouer ») et par l'intro (index.html, sans bouton).
-import { rythme, E } from '../lib/anim.js';
+import { E } from '../lib/anim.js';
 import { el, svg, mot, ecrire, animer, liste } from '../lib/dom.js';
 import { monterEntete, majEntete, enteteMontee } from '../lib/entete.js';
 import { creerVie } from '../lib/vie.js';
+import { memoriserFocus, clavierModale } from '../lib/modale.js';
 import { creerSurligneur } from '../lib/surligneur.js';
 import { monterVagabond } from '../lib/vagabond.js';
 import { PHOTOS } from '../../data/photos-site.js';
@@ -81,17 +82,16 @@ function majEmplacement(n, p, cls) {
  * @param {HTMLElement} hote conteneur 1440x900 (position absolute, inset 0)
  * @param {{seul?: boolean, retard?: number}} opt seul : planche autonome (bouton « Rejouer ») ; retard : décalage en secondes
  */
-export function monterAccueil(hote, { seul = true, retard = 0, vignette: avecVignette = false } = {}) {
+export function monterAccueil(hote, { seul = true, retard = 0 } = {}) {
   const vie = creerVie(), dejaLa = enteteMontee();
-  const D = seul ? 0 : retard, R = rythme(.62);
+  const D = seul ? 0 : retard;
   let vivant = true, rejoue = false;
-  const S = { ph: 'in', lbI: null, lbSt: 'from', lbN: 0, fast: false, navI: -1, navH: null, svc: 0, svcN: 0, svcFade: false, heroI: 0, heroN: 0, heroOut: false };
+  const S = { ph: 'in', lbI: null, lbSt: 'from', lbN: 0, fast: false, navH: null, svc: 0, svcN: 0, svcFade: false, heroI: 0, heroN: 0, heroOut: false };
   const tm = {}; let navW = null, mctx = null, rj = null;
 
   // ---------- construction du décor statique ----------
   hote.classList.add('accueil');
   vie.aFaire(() => hote.classList.remove('accueil'));
-  const vignette = el('div', { class: 'vignette', 'aria-hidden': 'true' });
   const pNav = el('div', { class: 'pastille', 'aria-hidden': 'true', style: 'top:30px;height:48px' });
   const pGal = el('div', { class: 'pastille', 'aria-hidden': 'true', style: 'left:80px;top:488px;width:200px;height:48px' });
   const pSvc = el('div', { class: 'pastille', 'aria-hidden': 'true', style: 'left:64px;top:596px;width:1312px;height:116px' });
@@ -106,7 +106,6 @@ export function monterAccueil(hote, { seul = true, retard = 0, vignette: avecVig
   const lb1 = SVG_PATH('M80 148 L580 148', { style: 'stroke-width:1px' }), lb2 = SVG_PATH('M80 566 L580 566', { style: 'stroke-width:1px' });
   const pillT = SVG_PATH('M80 512 Q80 488 104 488 L256 488 Q280 488 280 512'), pillB = SVG_PATH('M80 512 Q80 536 104 536 L256 536 Q280 536 280 512');
   const svgLn = svg('svg', { class: 'ln', 'aria-hidden': 'true', style: 'left:0;top:0;width:1440px;height:900px' }, lb1, lb2, pillT, pillB);
-  // la vignette est désormais le calque plein fenêtre (js/lib/scene.js) : rien à ajouter ici
   hote.append(pGal, pSvc, svgPP, mosaique, svgLn);
 
   const a0 = { sep: 'none', logo: { o: '', f: '' }, sig: 'none', n0: { o: '', f: '' }, n1: { o: '', f: '' }, n2: { o: '', f: '' }, n3: { o: '', f: '' }, hFl: 'none', hCta: { o: '', f: '' }, navU: 'none' };
@@ -187,15 +186,17 @@ export function monterAccueil(hote, { seul = true, retard = 0, vignette: avecVig
     vie.clearTimeout(tm.svc); S.svcFade = true; render();
     tm.svc = vie.timeout(() => { S.svc = i; S.svcN += 1; S.svcFade = false; render(); }, 300);
   };
+  let rendreFocus = null;      // rend le focus à la photo cliquée quand la photo agrandie se ferme
   const ouvrir = (i) => {
     if (S.lbI !== null) return;
+    rendreFocus = memoriserFocus();
     vie.clearTimeout(tm.lb); S.lbI = i; S.lbSt = 'from'; S.lbN = 0; S.ph = 'out'; vag.masquer(true); render();
     tm.lb = vie.timeout(() => { S.lbSt = 'to'; render(); }, 40);
   };
   const fermer = () => {
     if (S.lbSt !== 'to') return;
     S.lbSt = 'closing'; S.ph = 'in'; S.fast = true; render(); vie.clearTimeout(tm.lb);
-    tm.lb = vie.timeout(() => { S.lbI = null; S.lbSt = 'from'; vag.masquer(false); render(); }, 820);
+    tm.lb = vie.timeout(() => { S.lbI = null; S.lbSt = 'from'; vag.masquer(false); render(); if (rendreFocus) rendreFocus(); rendreFocus = null; }, 820);
   };
   const aller = (d, n) => { if (S.lbSt !== 'to') return; S.lbI = (S.lbI + d + n) % n; S.lbN += 1; render(); };
   const replay = () => {
@@ -423,6 +424,11 @@ export function monterAccueil(hote, { seul = true, retard = 0, vignette: avecVig
   }, (D + 4) * 1000);
   vag.demarrer((D + 4.6) * 1000);
   vie.ecouter(window, 'scene:resize', () => render());
+  vie.ecouter(document, 'keydown', (e) => {
+    if (!lbEls || S.lbI === null) return;
+    if (e.key === 'ArrowLeft') lbEls.prev.click(); else if (e.key === 'ArrowRight') lbEls.next.click();
+    else clavierModale(e, lbEls.racine, fermer);
+  });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (vivant) { navW = null; render(); } });
 
   render();

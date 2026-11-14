@@ -3,6 +3,7 @@
 import { monterAtelier } from '../lib/atelier-shell.js';
 import { $, el, svg, ecrire, animer, liste, voir, texte } from '../lib/dom.js';
 import { creerVie } from '../lib/vie.js';
+import { memoriserFocus, clavierModale } from '../lib/modale.js';
 import { param } from '../lib/params.js';
 import { eurC } from '../lib/format.js';
 import { CLIENTS, ORIGINES, ETIQUETTES, resumeDossiers } from '../../data/clients.js';
@@ -147,18 +148,20 @@ export function init() {
     animer($('#fond'), f);
   }
 
-  let tP = 0;
+  let tP = 0, rendreFocus = null;      // rendreFocus : rend le focus au bouton « Nouveau client » à la fermeture
   function ouvrir() {
     if (st.pan !== 'off') return;
     champM.value = ''; champN.value = '';
     Object.assign(st, { pan: 'on', ph: 'form', cl: false, lignes: [], errE: '', errN: '', errL: '', res: null });
+    rendreFocus = memoriserFocus();
     rendrePanneau();
+    $('#pn-x').focus({ preventScroll: true });
   }
   function fermer() {
     if (st.pan === 'off' || st.cl || st.ph === 'busy') return;
     vie.clearTimeout(tP);
     st.cl = true; st.n += 1; rendrePanneau();
-    tP = vie.timeout(() => { st.pan = 'off'; st.cl = false; rendrePanneau(); }, 380);
+    tP = vie.timeout(() => { st.pan = 'off'; st.cl = false; rendrePanneau(); if (rendreFocus) rendreFocus(); rendreFocus = null; }, 380);
   }
   function creer() {
     if (st.ph !== 'form') return;
@@ -175,6 +178,7 @@ export function init() {
   $('#pn-annuler').addEventListener('click', fermer);
   $('#pn-fermer').addEventListener('click', fermer);
   $('#pn-creer').addEventListener('click', creer);
+  vie.ecouter(document, 'keydown', (e) => { if (st.pan !== 'off' && !st.cl) clavierModale(e, $('#pn-dialog'), fermer); });
 
   // ------------------------------------------------------------------ rendu
   function rendre() { rendrePuces(); rendreListe(); }

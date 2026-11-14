@@ -19,13 +19,13 @@ export function monterVagabond(vie, hote) {
   const trait = svg('path', { pathLength: '100', d: 'M0 0 L0 0' });
   const calque = svg('svg', { class: 'wd', 'aria-hidden': 'true' }, trait);
   hote.prepend(calque);
-  let actif = false, couleur = null, axe = Math.random() < 0.5 ? 'x' : 'y', pos = null, tPas = null;
+  let actif = false, couleur = null, axe = Math.random() < 0.5 ? 'x' : 'y', pos = null;
   vie.noeud(calque);
   vie.aFaire(() => { actif = false; trait.getAnimations().forEach((a) => a.cancel()); });
 
   const largeur = () => (window.__scene ? window.__scene.W : 1440);
   const hasard = () => ({ x: alea(70, largeur() - 70), y: alea(60, 840) });
-  const plus = (ms, fn) => { tPas = vie.timeout(() => { if (actif) fn(); }, ms); };
+  const plus = (ms, fn) => { vie.timeout(() => { if (actif) fn(); }, ms); };
 
   function cycle() {
     do { couleur = COULEURS[Math.floor(Math.random() * COULEURS.length)]; } while (couleur === trait._c);

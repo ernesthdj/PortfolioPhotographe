@@ -7,7 +7,7 @@ import { eurC } from '../lib/format.js';
 import { ETAPES, TRANSITIONS, LIGNES_014, DATES_014, LIEU_014 } from '../../data/dossiers.js';
 import { REQ } from '../../data/demandes.js';
 import { posf, larg } from '../lib/scene.js';
-import { monterPanneaux, preparer, totaux, clos, PROCH } from './atelier-dossier-logique.js';
+import { monterPanneaux, preparer, totaux, clos } from './atelier-dossier-logique.js';
 import { creerVie } from '../lib/vie.js';
 
 let vie = null, fondPage = null;
@@ -116,18 +116,18 @@ export function init() {
     const n = el('div', { style: `position:absolute;left:${posf(1052, 1)};width:300px;height:44px` },
       el('span', { class: 't', style: 'position:absolute;left:0;top:0;font:400 14.5px Inter,sans-serif;white-space:nowrap' }),
       el('span', { class: 'note s', style: 'position:absolute;left:0;top:20px;width:230px;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis' }),
-      el('a', { href: '#', class: 'lien mini', style: 'position:absolute;right:0;top:2px', on: { click: (e) => e.preventDefault() } }, 'Ouvrir ↗'));
+      el('a', { role: 'link', tabindex: '0', 'aria-disabled': 'true', title: 'Bientôt disponible', class: 'lien mini', style: 'position:absolute;right:0;top:2px', on: { click: (e) => e.preventDefault() } }, 'Ouvrir ↗'));
     animer(n, a.p3);
     return n;
   }
-  const majVersion = (n, v, i) => { n.style.top = (712 + i * 50) + 'px'; texte(n.querySelector('.t'), 'Version ' + v.n + (i === 0 ? ' · actuelle' : '')); texte(n.querySelector('.s'), v.d + ' · ' + v.ev); };
+  const majVersion = (n, v, i) => { n.style.top = (712 + i * 50) + 'px'; texte(n.querySelector('.t'), 'Version ' + v.n + (i === 0 ? ' · actuelle' : '')); const s = n.querySelector('.s'); texte(s, v.d + ' · ' + v.ev); s.title = s.textContent; };
 
   function ligneDoc() {
     return el('div', { class: 'sep', style: `position:absolute;left:332px;width:${larg(1016, 1)};height:54px` },
       el('span', { class: 't', style: 'position:absolute;left:0;top:4px;font:400 16px Inter,sans-serif' }),
       el('span', { class: 'note s', style: 'position:absolute;left:0;top:26px;font-size:12.5px' }),
-      el('a', { href: '#', class: 'lien mini', style: 'position:absolute;right:120px;top:8px', on: { click: (e) => e.preventDefault() } }, 'Ouvrir ↗'),
-      el('a', { href: '#', class: 'lien mini', style: 'position:absolute;right:0;top:8px', on: { click: (e) => e.preventDefault() } }, 'Télécharger'));
+      el('a', { role: 'link', tabindex: '0', 'aria-disabled': 'true', title: 'Bientôt disponible', class: 'lien mini', style: 'position:absolute;right:120px;top:8px', on: { click: (e) => e.preventDefault() } }, 'Ouvrir ↗'),
+      el('a', { role: 'link', tabindex: '0', 'aria-disabled': 'true', title: 'Bientôt disponible', class: 'lien mini', style: 'position:absolute;right:0;top:8px', on: { click: (e) => e.preventDefault() } }, 'Télécharger'));
   }
   const majDoc = (n, v, i) => { n.style.top = (340 + i * 64) + 'px'; texte(n.querySelector('.t'), 'Version ' + v.n + (i === 0 ? ' · actuelle' : '')); texte(n.querySelector('.s'), v.d + ' · ' + v.ev); };
 

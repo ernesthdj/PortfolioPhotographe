@@ -12,7 +12,4 @@
 .filtre:focus-visible,.vue:focus-visible,.lb-btn:focus-visible{outline:2px solid #0D0E10;outline-offset:3px}
 .lb-img{position:absolute;overflow:hidden;box-shadow:0 30px 60px -20px rgba(20,18,16,.38),0 8px 16px -6px rgba(20,18,16,.18)}
 .temoin{position:absolute;margin:0}
-@keyframes habille2{from{opacity:0}to{opacity:1}}
-@keyframes retourC{from{opacity:0;filter:grayscale(0)}to{opacity:1;filter:grayscale(0)}}
-@keyframes retourNB{from{opacity:0;filter:grayscale(1) contrast(1.05)}to{opacity:1;filter:grayscale(1) contrast(1.05)}}
 #fenetre > .om{display:none}

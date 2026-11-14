@@ -22,6 +22,12 @@ export const COMMUNES = ['Bruxelles', 'Namur', 'Liège', 'Charleroi', 'Mons', 'A
 /** Communes reconnues dans une adresse saisie (écran connecté) : les cinq premières ; Anvers et Gand ne se choisissent que par zone. */
 export const NB_COMMUNES_ADRESSE = 5;
 export const KM_OFFERTS = 25, PRIX_KM = 0.5;
+/** Durée d'une prestation facturée à l'heure : minimum 2 h (règle commerciale), maximum 14 h (ruban de la journée). */
+export const DUREE_MIN = 2, DUREE_MAX = 14;
+/** Distance aller-retour depuis le photographe (km, arrondie au dixième) vers la commune d'indice i. */
+export const kmAllerRetour = (i) => Math.round(KM[i] * 2 * 10) / 10;
+/** Règle du déplacement telle qu'affichée dans les libellés (« 25 km offerts, 0,50 € / km »), dérivée des constantes. */
+const REGLE_KM = () => `${KM_OFFERTS} km offerts, ${PRIX_KM.toFixed(2).replace('.', ',')} € / km`;
 
 export const r2 = (n) => Math.round(n * 100 + 1e-9) / 100;
 export const hm = (h) => { const H = Math.floor(h), M = Math.round((h - H) * 60); return M ? `${H} h ${String(M).padStart(2, '0')}` : `${H} h`; };
@@ -37,7 +43,7 @@ export function calculer(cfg) {
   if (s.mode === 'P3') {
     const over = Math.max(0, cfg.dur - s.incl), bill = Math.ceil(over * 2 - 1e-9) / 2;
     out.push({ o: 'Service', t: `${s.t} · ${hm(cfg.dur)}`, ht: r2(s.base + bill * s.extra), act: true,
-      sub: bill > 0 ? `${hm(s.incl)} incluses, ${hm(bill)} en plus à ${s.extra} € / h` : `forfait, ${hm(s.incl)} incluses` });
+      sub: bill > 0 ? `${hm(s.incl)} incluses, ${hm(over)} en plus${bill - over > 1e-9 ? `, facturées ${hm(bill)}` : ''} à ${s.extra} € / h` : `forfait, ${hm(s.incl)} incluses` });
   } else {
     out.push({ o: 'Service', t: `${s.t} · ${cfg.qty} plats`, ht: r2(cfg.qty * s.unit), act: true, sub: `${s.unit},00 € par plat` });
   }
@@ -46,9 +52,9 @@ export function calculer(cfg) {
     if (cfg.lieux.length && cfg.lieux.every((z) => z.c === -3)) {
       // page publique, sans compte : jamais d'adresse exacte, seulement une ZONE (déplacement estimé)
       if (cfg.zone >= 0) {
-        const km = Math.round(KM[cfg.zone] * 2 * 10) / 10, fee = r2(Math.max(0, km - KM_OFFERTS) * PRIX_KM);
+        const km = kmAllerRetour(cfg.zone), fee = r2(Math.max(0, km - KM_OFFERTS) * PRIX_KM);
         out.push({ o: 'Transport', t: `Déplacement estimé · zone ${COMMUNES[cfg.zone]}`, ht: fee,
-          sub: fee > 0 ? `environ ${virgule(km)} km aller-retour, 25 km offerts, 0,50 € / km` : 'Déplacement offert' });
+          sub: fee > 0 ? `environ ${virgule(km)} km aller-retour, ${REGLE_KM()}` : 'Déplacement offert' });
       }
     } else if (cfg.lieux.some((z) => z.c === -1)) { manque = true; out.push({ o: 'Transport', t: 'Départ photographe → lieu à préciser', ht: null }); }
     else if (!cfg.lieux.some((z) => z.c >= 0)) {
@@ -57,9 +63,9 @@ export function calculer(cfg) {
     } else {
       const tri = cfg.lieux.slice().sort((a, b) => a.h - b.h);
       let loin = tri.find((z) => z.c >= 0); tri.forEach((z) => { if (z.c >= 0 && KM[z.c] > KM[loin.c]) loin = z; });
-      const km = Math.round(KM[loin.c] * 2 * 10) / 10, fee = r2(Math.max(0, km - KM_OFFERTS) * PRIX_KM);
+      const km = kmAllerRetour(loin.c), fee = r2(Math.max(0, km - KM_OFFERTS) * PRIX_KM);
       out.push({ o: 'Transport', t: `Départ photographe → ${COMMUNES[loin.c]} : ${virgule(KM[loin.c])} km`, ht: fee,
-        sub: fee > 0 ? `aller-retour ${virgule(km)} km, 25 km offerts, 0,50 € / km` : 'Déplacement offert' });
+        sub: fee > 0 ? `aller-retour ${virgule(km)} km, ${REGLE_KM()}` : 'Déplacement offert' });
     }
   }
   return { s, lignes: out, manque, ht: r2(out.reduce((t, l) => t + (l.ht || 0), 0)) };

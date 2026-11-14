@@ -26,8 +26,8 @@ const IC = {
   reg: 'M15 12 A3 3 0 1 0 9 12 A3 3 0 1 0 15 12 M12 2 L12 5 M12 19 L12 22 M2 12 L5 12 M19 12 L22 12 M5 5 L7 7 M17 17 L19 19 M5 19 L7 17 M17 7 L19 5'
 };
 
-// h : page de l'atelier correspondante (absent = planche exclue ou non dessinée -> href="#", sans effet)
-export const MP = [
+// h : page de l'atelier correspondante (absent = planche exclue ou non dessinée -> entrée désactivée : aria-disabled, grisée, sans lien)
+const MP = [
   { k: 'bord', t: 'Tableau de bord', ic: 'bord', h: 'tableau-de-bord.html' }, { k: 'plan', t: 'Planning', ic: 'cal', h: 'planning.html' },
   { k: 'dos', t: 'Dossiers', ic: 'dos', h: 'dossiers.html' }, { k: 'dem', t: 'Demandes', ic: 'dem', h: 'demandes.html' },
   { k: 'cli', t: 'Clients', ic: 'cli', h: 'clients.html' }, { k: 'prod', t: 'Production', ic: 'prod', h: 'production.html' },
@@ -42,7 +42,7 @@ export const MP = [
 ];
 
 // Entrée du menu mise en évidence, selon la page (PAGE_MENU des planches) ; groupe ouvert au départ.
-export const PAGES = {
+const PAGES = {
   'tableau-de-bord': { menu: 'bord' }, dossiers: { menu: 'dos' }, dossier: { menu: 'dos' }, demandes: { menu: 'dem' },
   services: { menu: 'srv', groupe: 'cat' }, service: { menu: 'srv', groupe: 'cat' }, options: { menu: 'opt', groupe: 'cat' }, option: { menu: 'opt', groupe: 'cat' },
   categories: { menu: 'ctg', groupe: 'cat' }, fiches: { menu: 'fic', groupe: 'cat' }, fiche: { menu: 'fic', groupe: 'cat' }, modeles: { menu: 'mod', groupe: 'cat' },
@@ -107,7 +107,7 @@ function monterCoque(fond, cfg, opt, { a, T, DR, IT }) {
   const ul = el('ul', { class: 'menu' });
   const nav = el('nav', { 'aria-label': 'Menu de l’atelier', style: 'position:absolute;left:36px;top:124px;width:216px' }, ul);
   const site = el('a', { href: '../accueil.html', class: 'lien mini', style: 'position:absolute;left:48px;top:800px' }, 'Voir le site ↗');
-  const quitter = el('a', { href: '#', class: 'lien mini', style: 'position:absolute;left:48px;top:830px;color:#4B4D52', on: { click: (e) => e.preventDefault() } }, 'Se déconnecter');
+  const quitter = el('a', { role: 'link', 'aria-disabled': 'true', tabindex: '0', title: 'Bientôt disponible', class: 'lien mini', style: 'position:absolute;left:48px;top:830px;color:#4B4D52', on: { click: (e) => e.preventDefault() } }, 'Se déconnecter');
   fond.insertBefore(el('div', { id: 'coque-atelier', style: 'display:contents' }, verre, traits, logo, sous, nav, site, quitter), fond.querySelector('#contenu'));
   animer(verre, a.side); animer(contour, a.sideT); animer(logoMot, a.logo); animer(sous, a.sideS); animer(site, a.sideS); animer(quitter, a.sideS);
 
@@ -121,13 +121,14 @@ function monterCoque(fond, cfg, opt, { a, T, DR, IT }) {
     ctx.apres = true;
   };
   const creerEntree = (m) => {
-    const sub = !!m.p, href = m.h || '#';
+    const sub = !!m.p, href = m.h || '#', mort = !m.h && !m.grp;   // mort : page non dessinée, entrée désactivée (ni lien ni clic)
     const k = sub ? tops.indexOf(MP.find((x) => x.k === m.p)) : tops.indexOf(m);
     const j = sub ? MP.filter((x) => x.p === m.p).indexOf(m) : 0;
     const quick = sub && (st.gu || ctx.apres), kk = sub ? k + (j + 1) * .4 : k;
     const tracePath = svg('path', { pathLength: '100', d: sub ? 'M9 12 L15 12' : IC[m.ic] });
     const lab = mot(m.t);
-    const a1 = el('a', { href, 'aria-current': 'false', on: { click: (e) => allerVers(e, m, href) } },
+    const a1 = el('a', mort ? { role: 'link', 'aria-disabled': 'true', tabindex: '0', title: 'Bientôt disponible', 'aria-current': 'false', on: { click: (e) => e.preventDefault() } }
+      : { href, 'aria-current': 'false', on: { click: (e) => allerVers(e, m, href) } },
       svg('svg', { class: 'ic', viewBox: '0 0 24 24', 'aria-hidden': 'true' }, tracePath),
       el('span', { class: 'lab' }, lab));
     animer(tracePath, quick ? DR(j * .1, .5) : DR(.4 + kk * .05, .6));
@@ -140,7 +141,7 @@ function monterCoque(fond, cfg, opt, { a, T, DR, IT }) {
     const a1 = li.firstElementChild, sub = !!m.p, on = st.m === m.k;
     a1.className = 'it' + (on ? ' on' : '') + (sub ? ' sub' : '');
     a1.setAttribute('aria-current', on ? 'page' : 'false');
-    if (m.grp) a1.querySelector('.chev').setAttribute('class', 'chev' + (st.g === m.k ? ' ouv' : ''));
+    if (m.grp) { a1.querySelector('.chev').setAttribute('class', 'chev' + (st.g === m.k ? ' ouv' : '')); a1.setAttribute('aria-expanded', st.g === m.k ? 'true' : 'false'); }
     if (m.k === 'dem') {
       const bd = a1.querySelector('.bd');
       bd.hidden = !st.nDem;
@@ -149,7 +150,6 @@ function monterCoque(fond, cfg, opt, { a, T, DR, IT }) {
   };
   const allerVers = (e, m, href) => {
     if (m.grp) { e.preventDefault(); st.g = st.g === m.k ? null : m.k; st.gu = true; dessiner(); }
-    else if (href === '#') { e.preventDefault(); st.m = m.k; dessiner(); }
   };
   ctx.dessiner = dessiner;
   dessiner();

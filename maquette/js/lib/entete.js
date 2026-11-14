@@ -52,7 +52,7 @@ export function monterEntete(_parent, { actif = null, cta = 'Créer mon devis', 
 
   const filets = () => { const W = window.__scene ? window.__scene.W : 1440; traits.querySelectorAll('path')[0].setAttribute('d', `M${W / 2} 100 L80 100`); traits.querySelectorAll('path')[1].setAttribute('d', `M${W / 2} 100 L${W - 80} 100`); };
   filets(); window.addEventListener('scene:resize', filets);
-  refs = { parent, sous, traits: traits.querySelectorAll('path'), logo, sig, mots, soul, liens, fl, ctaMot, ctaA, nav, dossiers, ctaTexte: cta };
+  refs = { parent, filets, sous, traits: traits.querySelectorAll('path'), logo, sig, mots, soul, liens, fl, ctaMot, ctaA, nav, dossiers, ctaTexte: cta };
   mettreAJour(actif, cta, avecDossiers);
   majEntete(refs, a);
   return refs;
@@ -92,7 +92,7 @@ export function enteteMontee() { return !!(refs && refs.parent.isConnected); }
 
 /** Table d'animations standard de l'en-tête pour un rythme R = rythme(K). */
 export function animationsEntete(R) {
-  const { T, H, DR, E, K } = R;
+  const { T, DR, E, K } = R;
   return {
     sep: DR(0, .8), logo: T(.3, .8), sig: `wIn ${.5 * K}s ${E} ${1.35 * K}s both`,
     n0: T(.5, .45), n1: T(.6, .45), n2: T(.7, .45), n3: T(.8, .45), n4: T(.9, .45),
@@ -103,6 +103,7 @@ export function animationsEntete(R) {
 /** Retire l'en-tête (intro rejouée : l'accueil est démonté puis remonté avec une entrée complète). */
 export function demonterEntete() {
   if (!refs) return;
+  window.removeEventListener('scene:resize', refs.filets);
   [refs.sous, refs.traits[0].ownerSVGElement, refs.logo.closest('a'), refs.sig, refs.nav, refs.dossiers, refs.fl, refs.ctaA].forEach((n) => n && n.remove());
   refs = null;
 }

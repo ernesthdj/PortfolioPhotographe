@@ -9,5 +9,5 @@ export function param(nom, valides, defaut) {
   return trouve === undefined ? defaut : trouve;
 }
 
-export const OMBRES = ['Alternance', 'Diagonale', 'Studio · latérale', 'Studio · spot', 'Studio · cyclo', 'Studio · strip', 'Sans'];
+const OMBRES = ['Alternance', 'Diagonale', 'Studio · latérale', 'Studio · spot', 'Studio · cyclo', 'Studio · strip', 'Sans'];
 export const ombreParam = () => param('ombre', OMBRES, 'Alternance');

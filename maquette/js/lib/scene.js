@@ -48,7 +48,7 @@ export function monterScene() {
  * derrière la scène : aucune coupure visible quelle que soit la proportion de la fenêtre.
  * Les <div class="vignette"> écrits dans le HTML des pages sont retirés au profit de ce calque.
  */
-export function montrerFenetre() {
+function montrerFenetre() {
   let f = document.getElementById('fenetre');
   if (!f) {
     f = document.createElement('div');

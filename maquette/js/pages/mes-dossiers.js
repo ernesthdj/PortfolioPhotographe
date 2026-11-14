@@ -8,6 +8,7 @@ import { eurC } from '../lib/format.js';
 import { DOSSIERS, CLIENT_CONNECTE } from '../../data/dossiers.js';
 import { mesures } from '../lib/scene.js';
 import { creerVie } from '../lib/vie.js';
+import { memoriserFocus, clavierModale } from '../lib/modale.js';
 
 let vie = null;
 
@@ -108,17 +109,20 @@ export function init() {
     bouton.textContent = busy ? 'Suppression…' : 'Confirmer la suppression';
     $('#sup-enc').style.opacity = busy ? '0' : '1';
   }
+  let rendreFocus = null;      // rend le focus à « Supprimer mon compte » à la fermeture
   function ouvrirSup() {
     if (sup.phase !== 'off') return;
     Object.assign(sup, { phase: 'open', ph: 'form', err: false });
     champ.value = '';
+    rendreFocus = memoriserFocus();
     rendreSup();
+    $('#sup-x').focus({ preventScroll: true });
   }
   function fermerSup() {
     if (sup.phase !== 'open' || sup.ph !== 'form') return;
     sup.phase = 'closing'; sup.n += 1; rendreSup();
     vie.clearTimeout(tS);
-    tS = vie.timeout(() => { sup.phase = 'off'; sup.err = false; rendreSup(); }, 380);
+    tS = vie.timeout(() => { sup.phase = 'off'; sup.err = false; rendreSup(); if (rendreFocus) rendreFocus(); rendreFocus = null; }, 380);
   }
   function confirmerSup() {
     if (sup.ph !== 'form') return;
@@ -144,6 +148,7 @@ export function init() {
   // Registre pleine largeur : la géométrie des filets suit la largeur de la scène.
   const filets = () => document.querySelectorAll('#contenu .reg-l').forEach((p) => p.setAttribute('d', `M0 1 L${800 + mesures.dx} 1`));
   filets();
+  vie.ecouter(document, 'keydown', (e) => { if (sup.phase === 'open') clavierModale(e, $('#sup'), fermerSup); });
   vie.ecouter(window, 'scene:resize', filets);
 }
 

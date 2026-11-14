@@ -1,4 +1,4 @@
-// Espace client · Préciser ma journée. Traduit PPreciser.dc.html (reprend le code parqué dans reserve/precision-journee/).
+// Espace client · Préciser ma journée. Traduit PPreciser.dc.html (ruban de la journée + adresses exactes, repris de l'ancien panneau « Configurer ce service »).
 // Le client connecté reprend son brouillon du simulateur public, indique l'adresse exacte de chaque lieu (privée, visible du
 // photographe seulement), règle les horaires au clavier ou sur le ruban, voit le prix complet et SOUMET depuis ici.
 // Prix, catalogue et distances : référence unique data/tarifs.js. Rien n'est envoyé : formulaires factices.
@@ -6,9 +6,10 @@ import { E } from '../lib/anim.js';
 import { monterEntete, majEntete } from '../lib/entete.js';
 import { $, el, svg, ecrire, animer, liste, voir, texte } from '../lib/dom.js';
 import { eurN as eur } from '../lib/format.js';
-import { CATEGORIES, SERVICES, OPTIONS, KM, COMMUNES, hm, virgule, service, calculer, ville } from '../../data/tarifs.js';
+import { CATEGORIES, SERVICES, OPTIONS, KM, COMMUNES, DUREE_MIN, DUREE_MAX, hm, virgule, service, calculer, ville } from '../../data/tarifs.js';
 import { mesures } from '../lib/scene.js';
 import { creerVie } from '../lib/vie.js';
+import { emailValide, erreurMdp } from '../lib/validation.js';
 import { lirePrecision, sauverPrecision, viderBrouillons } from '../lib/brouillon.js';
 
 let vie = null;
@@ -36,7 +37,7 @@ export function init() {
 
   function ouvrir(cfg, idx) {
     if (st.ph !== 'off') return;
-    st.pan = { cfg: JSON.parse(JSON.stringify(cfg)), idx }; st.ph = 'open';
+    st.pan = { cfg: structuredClone(cfg), idx }; st.ph = 'open';
     retour = document.activeElement;
     rendre();
     sync();
@@ -49,7 +50,7 @@ export function init() {
     vie.clearTimeout(tP);
     tP = vie.timeout(() => { st.ph = 'off'; st.pan = null; rendre(); if (retour && retour.isConnected && !retour.hidden) retour.focus({ preventScroll: true }); retour = null; }, 380);
   }
-  function maj(f, sauf) { st.pan = JSON.parse(JSON.stringify(st.pan)); f(st.pan.cfg); rendre(); sync(sauf); }
+  function maj(f, sauf) { st.pan = structuredClone(st.pan); f(st.pan.cfg); rendre(); sync(sauf); }
   function soumettre() {
     if (st.ph !== 'off' || st.sub !== 'off') return;
     Object.assign(st, { sub: 'open', subPh: 'form', subMode: 'create', subErr: '' });
@@ -67,8 +68,9 @@ export function init() {
   function envoyer() {
     if (st.subPh !== 'form') return;
     const mail = $('#sub-mail').value.trim(), mdp = $('#sub-mdp').value;
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)) { st.subErr = 'Cette adresse email n’est pas valide.'; rendre(); return; }
-    if (!mdp) { st.subErr = st.subMode === 'login' ? 'Indiquez votre mot de passe.' : 'Choisissez un mot de passe.'; rendre(); return; }
+    if (!emailValide(mail)) { st.subErr = 'Cette adresse email n’est pas valide.'; rendre(); return; }
+    const errMdp = erreurMdp(mdp, st.subMode === 'create');
+    if (errMdp) { st.subErr = errMdp; rendre(); return; }
     $('#sub-mdp').value = '';       // rien n'est conservé ni envoyé
     st.subPh = 'loading'; st.subErr = ''; rendre();
     vie.clearTimeout(tS);
@@ -265,8 +267,8 @@ export function init() {
     if (st.ph !== 'open') return;
     maj((c) => {
       const L = c.lieux, d0 = Math.min(...L.map((z) => z.h));
-      if (k === 'fin') c.dur = Math.max(2, Math.min(14, v - d0));
-      else if (k === 'debut') { const fin = d0 + c.dur, v2 = Math.max(6, Math.min(fin - 2, v)); L.forEach((z) => { if (z.h === d0 || z.h < v2) z.h = v2; }); c.dur = Math.max(2, Math.min(14, fin - v2)); }
+      if (k === 'fin') c.dur = Math.max(DUREE_MIN, Math.min(DUREE_MAX, v - d0));
+      else if (k === 'debut') { const fin = d0 + c.dur, v2 = Math.max(6, Math.min(fin - DUREE_MIN, v)); L.forEach((z) => { if (z.h === d0 || z.h < v2) z.h = v2; }); c.dur = Math.max(DUREE_MIN, Math.min(DUREE_MAX, fin - v2)); }
       else if (k[0] === 'l') L[Number(k.slice(1))].h = v;
     }, k);
   }

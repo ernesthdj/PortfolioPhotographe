@@ -1,6 +1,4 @@
 /* Page Contact (B · deux portes) */
-@keyframes retourC{from{opacity:0;filter:grayscale(0)}to{opacity:1;filter:grayscale(0)}}
-@keyframes retourNB{from{opacity:0;filter:grayscale(1) contrast(1.05)}to{opacity:1;filter:grayscale(1) contrast(1.05)}}
 .btn{gap:10px;border-radius:20px}
 .carte{position:absolute;top:320px;height:480px;transition:left .8s cubic-bezier(.45,0,.2,1),width .8s cubic-bezier(.45,0,.2,1)}
 .carte .k{position:absolute;left:28px;top:252px;font:500 10.5px 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#4B4D52}

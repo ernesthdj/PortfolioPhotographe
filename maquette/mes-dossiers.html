@@ -16,7 +16,7 @@
   <div id="scene">
     <div class="vignette" aria-hidden="true"></div>
     <div class="fond" id="fond">
-    <div id="contenu">
+    <div id="contenu" role="main">
     <div class="fond" id="page">
       <p class="mono" style="position:absolute;left:80px;top:128px;margin:0;display:flex;align-items:center;gap:12px">
         <span id="eye-trait" aria-hidden="true" style="display:block;width:28px;height:1px;background:#D9783A"></span>
@@ -68,7 +68,7 @@
           <p class="note" style="position:absolute;left:40px;top:116px;width:500px;margin:0">Votre compte et vos dossiers sont anonymisés : nom, e-mail, téléphone et adresses sont effacés. Les montants restent dans la comptabilité du photographe, sans lien avec vous.</p>
           <div class="champ" style="position:absolute;left:40px;top:214px;width:360px">
             <label class="mono" for="sup-mdp">Votre mot de passe, pour confirmer</label>
-            <input id="sup-mdp" type="password" autocomplete="off" aria-invalid="false" aria-describedby="sup-err">
+            <input id="sup-mdp" type="password" autocomplete="current-password" aria-invalid="false" aria-describedby="sup-err">
           </div>
           <p id="sup-err" role="alert" style="position:absolute;left:40px;top:286px;margin:0;display:flex;align-items:center;gap:8px;font:400 13px Inter,sans-serif;color:#0D0E10"><span id="sup-err-d" hidden aria-hidden="true" style="display:block;width:6px;height:6px;border-radius:3px;background:#7A1F33"></span><span id="sup-err-t"></span></p>
           <span class="encre" id="sup-enc" aria-hidden="true" style="position:absolute;left:40px;top:350px;width:280px;height:48px;border-radius:24px"></span>

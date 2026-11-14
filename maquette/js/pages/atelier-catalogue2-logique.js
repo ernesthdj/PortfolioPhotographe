@@ -29,8 +29,6 @@ export function resumeCategorie(nom) {
   if (op.length) p.push(op.length + ' option' + (op.length > 1 ? 's' : ''));
   return p.join(' · ');
 }
-/** Noms des services actifs reliés à un type de fiche (« Fiche mariage »). */
-export const servicesDuType = (nomType) => SRV.filter((s) => !s.arch && s.fiche === nomType).map((s) => s.t);
 /** Dossiers qui utilisent un type de fiche : leur prestation est un des services reliés à ce type. */
 export function dossiersDuType(nomType) {
   const ids = SRV.filter((s) => s.fiche === nomType).map((s) => s.k);

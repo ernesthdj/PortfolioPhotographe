@@ -1,7 +1,7 @@
 // Atelier · catalogue : logique partagée par Services / Service / Options / Option
 // (planches ErpServices, ErpService, ErpOptions, ErpOption ; PID F01, F02 : E13 à E16).
 import { monterAtelier } from '../lib/atelier-shell.js';
-import { $, el, svg, mot, ecrire, majMot, animer, texte, liste, voir } from '../lib/dom.js';
+import { $, el, svg, ecrire, majMot, animer, texte, liste, voir } from '../lib/dom.js';
 import { param } from '../lib/params.js';
 import { posf, larg } from '../lib/scene.js';
 import { creerVie } from '../lib/vie.js';

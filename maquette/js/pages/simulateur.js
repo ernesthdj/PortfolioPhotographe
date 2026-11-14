@@ -4,17 +4,18 @@
 //  - « + » ajoute la prestation directement (plus de panneau de configuration sur la page publique)
 //  - prix « À partir de · TVAC » avec déplacement estimé par zone ; « Créer mon compte pour préciser » -> panneau de compte
 //    -> « Votre brouillon est enregistré » (rien n'est envoyé au photographe)
-// Le panneau « Configurer ce service » (ruban + adresses exactes) est conservé dans maquette/reserve/precision-journee/
-// pour l'écran connecté « Préciser ma journée ».
+// Le ruban de la journée et les adresses exactes vivent dans l'écran connecté « Préciser ma journée » (preciser.js).
 // Prix, catalogue et distances : référence unique data/tarifs.js.
 import { E } from '../lib/anim.js';
 import { monterEntete, majEntete } from '../lib/entete.js';
-import { $, el, svg, ecrire, animer, liste, voir, texte } from '../lib/dom.js';
+import { $, el, svg, ecrire, animer, liste, voir } from '../lib/dom.js';
 import { eurN as eur } from '../lib/format.js';
 import { param } from '../lib/params.js';
-import { CATEGORIES, SERVICES, OPTIONS, KM, COMMUNES, hm, virgule, service, calculer } from '../../data/tarifs.js';
+import { CATEGORIES, SERVICES, OPTIONS, KM, COMMUNES, DUREE_MIN, DUREE_MAX, virgule, service, calculer } from '../../data/tarifs.js';
 import { mesures } from '../lib/scene.js';
 import { creerVie } from '../lib/vie.js';
+import { emailValide, erreurMdp } from '../lib/validation.js';
+import { memoriserFocus, clavierModale } from '../lib/modale.js';
 import { lireBrouillonPublic, sauverBrouillonPublic, viderPrecision } from '../lib/brouillon.js';
 
 let vie = null;
@@ -37,26 +38,29 @@ export function init() {
   const exemple = param('exemple', ['Vide', 'Mariage posé'], 'Vide');
   const sauver = () => sauverBrouillonPublic(st.lignes);   // « Votre composition reste gardée dans ce navigateur » : sessionStorage, jamais de mot de passe
 
-  const st = { lignes: exemple === 'Vide' ? lireBrouillonPublic() : JSON.parse(JSON.stringify(EXEMPLE)), promo: false, n: 0, sub: 'off', subMode: 'create', subPh: 'form', subErr: '' };
-  let tS = 0;
+  const st = { lignes: exemple === 'Vide' ? lireBrouillonPublic() : structuredClone(EXEMPLE), promo: false, n: 0, sub: 'off', subMode: 'create', subPh: 'form', subErr: '' };
+  let tS = 0, rendreFocus = null;      // rendreFocus : rend le focus au bouton « Créer mon compte » à la fermeture du panneau
 
   function soumettre() {
     if (st.sub !== 'off') return;
     Object.assign(st, { sub: 'open', subPh: 'form', subMode: 'create', subErr: '' });
     $('#sub-mail').value = ''; $('#sub-mdp').value = '';
+    rendreFocus = memoriserFocus();
     rendre();
+    $('#sub-x').focus({ preventScroll: true });
   }
   function fermerSub() {
     if (st.sub !== 'open' || st.subPh === 'loading') return;
     st.sub = 'closing'; st.n += 1; rendre();
     vie.clearTimeout(tS);
-    tS = vie.timeout(() => { st.sub = 'off'; st.subPh = 'form'; rendre(); }, 380);
+    tS = vie.timeout(() => { st.sub = 'off'; st.subPh = 'form'; rendre(); if (rendreFocus) rendreFocus(); rendreFocus = null; }, 380);
   }
   function envoyer() {
     if (st.subPh !== 'form') return;
     const mail = $('#sub-mail').value.trim(), mdp = $('#sub-mdp').value;
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)) { st.subErr = 'Cette adresse email n’est pas valide.'; rendre(); return; }
-    if (!mdp) { st.subErr = st.subMode === 'login' ? 'Indiquez votre mot de passe.' : 'Choisissez un mot de passe.'; rendre(); return; }
+    if (!emailValide(mail)) { st.subErr = 'Cette adresse email n’est pas valide.'; rendre(); return; }
+    const errMdp = erreurMdp(mdp, st.subMode === 'create');
+    if (errMdp) { st.subErr = errMdp; rendre(); return; }
     $('#sub-mdp').value = '';       // rien n'est conservé ni envoyé
     viderPrecision();               // « Préciser ma journée » repart de ce brouillon
     st.subPh = 'loading'; st.subErr = ''; rendre();
@@ -76,10 +80,10 @@ export function init() {
     const c = st.lignes[i]; if (!c || !c.lieux || !c.lieux.length) return;
     const d0 = d0De(c), fin = d0 + c.dur;
     if (type === 'd') {
-      const v2 = Math.max(10, Math.min(fin - 2, v));
+      const v2 = Math.max(10, Math.min(fin - DUREE_MIN, v));
       c.lieux.forEach((z) => { if (z.h === d0 || z.h < v2) z.h = v2; });
-      c.dur = Math.max(2, Math.min(14, fin - v2));
-    } else c.dur = Math.max(2, Math.min(14, Math.min(24, v) - d0));
+      c.dur = Math.max(DUREE_MIN, Math.min(DUREE_MAX, fin - v2));
+    } else c.dur = Math.max(DUREE_MIN, Math.min(DUREE_MAX, Math.min(24, v) - d0));
     sauver(); rendre(); syncR(document.activeElement);
   }
   /** Recopie l'état dans les poignées et les dates, sans écraser le champ manipulé. */
@@ -338,6 +342,7 @@ export function init() {
   $('#sub-autre').addEventListener('click', () => { st.subMode = st.subMode === 'create' ? 'login' : 'create'; st.subErr = ''; rendre(); });
   $('#appliquer').addEventListener('click', () => { st.promo = true; rendre(); });
 
+  vie.ecouter(document, 'keydown', (e) => { if (st.sub === 'open') clavierModale(e, $('#sub-pan'), fermerSub); });
   vie.ecouter(window, 'scene:resize', () => { rendre(); syncR(); });
   rendre();
   vie.timeout(syncR, 60);

@@ -57,7 +57,6 @@ export const DOSSIERS = BRUT.map((r) => {
   return { num: r[0], cli: r[1], mail: r[2], srv: service(r[7].sid).t, date: r[3], k: r[4], et: r[5], c: totalCentimes(cfg).ttc, dem: r[6], cfg };
 });
 export const dossier = (num) => DOSSIERS.find((d) => d.num === num);
-export const dossiersDe = (cli) => DOSSIERS.filter((d) => d.cli === cli);
 
 /** Client connecté dans l'espace client : ses dossiers sont ceux de « Mes dossiers ». */
 export const CLIENT_CONNECTE = { nom: 'Camille D.', mail: 'camille.d@example.com', dossiers: ['2027-014', '2027-024', '2025-007'] };

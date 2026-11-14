@@ -5,7 +5,7 @@ import { DOSSIERS, SHOOTINGS, AUJOURDHUI, dossier } from '../../data/dossiers.js
 
 export const TODAY = AUJOURDHUI;
 export const STC = { soumis: '#3AA6B5', accepte: '#D9783A', confirme: '#7A1F33' };
-export const WDL = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'];
+const WDL = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'];
 export const WDS = ['lun.', 'mar.', 'mer.', 'jeu.', 'ven.', 'sam.', 'dim.'];
 export const MOIS = { 10: 'octobre', 11: 'novembre', 12: 'décembre' };
 
@@ -52,7 +52,7 @@ export const EV = DOSSIERS
   });
 
 /** Livraisons (échéances de la production) et paiements, tous rattachés à des dossiers existants. */
-export const ALL = SUIVI.filter((s) => dansGrille(s.ek)).map((s) => ({ k: s.ek, t: 'Livraison · n° ' + s.num, ty: 'liv' }))
+const ALL = SUIVI.filter((s) => dansGrille(s.ek)).map((s) => ({ k: s.ek, t: 'Livraison · n° ' + s.num, ty: 'liv' }))
   .concat([
     { k: 20261120, t: 'Acompte · n° 2026-047', ty: 'pay' },
     { k: 20261203, t: 'Solde · n° 2026-041', ty: 'pay' }

@@ -1,10 +1,10 @@
 // Brouillon du devis, gardé dans sessionStorage (jamais de mot de passe, rien n'est envoyé).
 //  - CLE_PUBLIC : composition du simulateur public (sans compte) : zone seule, lieux sans adresse (c = -3)
 //  - CLE_PRECIS : composition précisée dans l'espace client (« Préciser ma journée ») : adresses exactes, privées
-import { OPTIONS, COMMUNES, service } from '../../data/tarifs.js';
+import { OPTIONS, COMMUNES, DUREE_MIN, DUREE_MAX, service } from '../../data/tarifs.js';
 
-export const CLE_PUBLIC = 'maquette.simulateur.public';
-export const CLE_PRECIS = 'maquette.preciser.lignes';
+const CLE_PUBLIC = 'maquette.simulateur.public';
+const CLE_PRECIS = 'maquette.preciser.lignes';
 
 const lire = (cle) => { try { return sessionStorage.getItem(cle); } catch (e) { return null; } };
 const ecrire = (cle, v) => { try { sessionStorage.setItem(cle, v); } catch (e) { /* stockage indisponible : sans effet */ } };
@@ -17,7 +17,7 @@ function lignesValides(brut, lieu) {
   if (!Array.isArray(v)) return [];
   return v.filter((c) => c && service(c.sid) && Array.isArray(c.opts) && c.opts.every((k) => OPTIONS[k]) && Array.isArray(c.lieux)
     && (service(c.sid).mode === 'P3' ? Number.isFinite(c.dur) && c.lieux.length > 0 : Number.isFinite(c.qty)))
-    .map((c) => ({ sid: c.sid, dur: c.dur === undefined ? undefined : borner(c.dur, 2, 14), qty: c.qty, opts: c.opts,
+    .map((c) => ({ sid: c.sid, dur: c.dur === undefined ? undefined : borner(c.dur, DUREE_MIN, DUREE_MAX), qty: c.qty, opts: c.opts,
       lieux: c.lieux.map(lieu),
       date: typeof c.date === 'string' ? c.date.slice(0, 10) : '', zone: Number.isInteger(c.zone) && c.zone >= -1 && c.zone < COMMUNES.length ? c.zone : -1 }));
 }

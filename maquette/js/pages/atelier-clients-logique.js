@@ -4,10 +4,10 @@
 import { CLIENTS } from '../../data/clients.js';
 import { SERVICES, OPTIONS, TVA, calculer } from '../../data/tarifs.js';
 import { liste, el, texte } from '../lib/dom.js';
+import { emailValide } from '../lib/validation.js';
 
 export const PAGE = 9;                    // clients par page
-export const NUM_NOUVEAU = '2027-022';    // numéro du dossier créé depuis le panneau (libre dans data/dossiers.js)
-export const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const NUM_NOUVEAU = '2027-022';    // numéro du dossier créé depuis le panneau (libre dans data/dossiers.js)
 
 // Catalogue proposé dans le panneau : SERVICES et OPTIONS de data/tarifs.js (référence unique des prix du simulateur).
 // Chaque service est pris dans sa configuration par défaut du simulateur (durée incluse, ou 10 plats) ;
@@ -36,7 +36,7 @@ export function filtrerClients({ ty, tag, org, q }, vide) {
 /** Validation du panneau « Nouveau client » (UC08) : renvoie les trois messages d'erreur (chaîne vide = valide). */
 export function validerNouveauClient(mail, nom, nbLignes) {
   return {
-    errE: EMAIL_RE.test(mail) ? '' : 'Cette adresse email n’est pas valide.',
+    errE: emailValide(mail) ? '' : 'Cette adresse email n’est pas valide.',
     errN: nom ? '' : 'Le nom du client est obligatoire.',
     errL: nbLignes ? '' : 'Ajoutez au moins une prestation au devis.'
   };

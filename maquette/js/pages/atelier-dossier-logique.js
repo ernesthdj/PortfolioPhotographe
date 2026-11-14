@@ -5,10 +5,11 @@
 // À l'ouverture le fond (#fond) se résorbe en clip ; le panneau se trace puis s'habille ; à la fermeture le fond revient.
 import { el, svg, mot, ecrire, animer, texte, liste, voir, $ } from '../lib/dom.js';
 import { E } from '../lib/anim.js';
-import { eurC } from '../lib/format.js';
+import { memoriserFocus, clavierModale } from '../lib/modale.js';
+import { eurC, totaux } from '../lib/format.js';
 import { ETAPES, TRANSITIONS } from '../../data/dossiers.js';
 
-export const TRL = {
+const TRL = {
   accepte: ['Accepter le dossier', 'Les échéances de paiement sont créées.'],
   refuse: ['Refuser le dossier', 'Un motif est obligatoire : il sera affiché au client.'],
   confirme: ['Confirmer le dossier', 'Acompte ou contrat reçu.'],
@@ -19,11 +20,10 @@ export const PROCH = { soumis: 'Accepter ou refuser ce dossier', accepte: 'Confi
 export const clos = (k) => k === 'refuse' || k === 'annule';
 
 /** Montant saisi (« 30 », « 30,5 », « 1 200.25 ») -> centimes, ou null si invalide / nul. */
-export function lireMontant(v) {
+function lireMontant(v) {
   const s = String(v).replace(/\s/g, '').replace(',', '.');
   return /^\d{1,5}(\.\d{1,2})?$/.test(s) && Number(s) > 0 ? Math.round(Number(s) * 100) : null;
 }
-const totaux = (ls) => { const ht = ls.reduce((s, l) => s + l.ht, 0), tva = Math.round(ht * .21); return { ht, tva, ttc: ht + tva }; };
 export { totaux };
 
 const ABS = 'position:absolute;';
@@ -153,7 +153,7 @@ export function monterPanneaux({ atelier, page, contexte: C, panneauInitial = nu
   const set = { dem: { v: dV, t: dT, d: dDialog }, ret: { v: rV, t: rT, d: rDialog }, eta: { v: eV, t: eT, d: eDialog } };
 
   // ---------------------------------------------------------------- comportement
-  let tP = null;
+  let tP = null, rendreFocus = null;   // rendreFocus : rend le focus au bouton déclencheur (« Traiter », « Retirer »…) à la fermeture
   const val = (id) => { const n = document.getElementById(id); return n ? String(n.value || '').trim() : ''; };
   const vider = (...ids) => ids.forEach((id) => { const n = document.getElementById(id); if (n) n.value = ''; });
 
@@ -162,14 +162,16 @@ export function monterPanneaux({ atelier, page, contexte: C, panneauInitial = nu
     vie.clearTimeout(tP);
     Object.assign(S, { pan, ph: 'form', bz: '', err: '', cl: false, choix: null, frais: false, res: null }, ex || {});
     vider('motif', 'motif-e', 'fr', 'fa');
+    rendreFocus = memoriserFocus();
     rendre();
+    const x = racines[pan] && racines[pan].querySelector('button.x'); if (x) x.focus({ preventScroll: true });
   }
   function fermer() {
     if (S.pan === 'off' || S.cl || S.ph === 'busy') return;
     vie.clearTimeout(tP);
     S.cl = true; S.n++;
     rendre();
-    tP = vie.timeout(() => { S.pan = 'off'; S.cl = false; rendre(); }, 380);
+    tP = vie.timeout(() => { S.pan = 'off'; S.cl = false; rendre(); if (rendreFocus) rendreFocus(); rendreFocus = null; }, 380);
   }
   function plus(bz, fn) { S.ph = 'busy'; S.bz = bz; S.err = ''; rendre(); vie.clearTimeout(tP); tP = vie.timeout(fn, 1000); }
   function fin(res) { S.ph = 'done'; S.res = res; rendre(); C.surChange(); }
@@ -298,6 +300,7 @@ export function monterPanneaux({ atelier, page, contexte: C, panneauInitial = nu
       if (done && S.res) eFait.maj(S.res, back);
     }
   }
+  vie.ecouter(document, 'keydown', (e) => { if (S.pan !== 'off' && !S.cl) clavierModale(e, racines[S.pan], fermer); });
   // un panneau ouvert dès le chargement (?panneau=…)
   if (S.pan !== 'off') { S.sel = S.sel || (C.lignes()[1] || {}).id; }
   rendre();

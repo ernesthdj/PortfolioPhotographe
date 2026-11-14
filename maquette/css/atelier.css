@@ -16,6 +16,8 @@
 .menu{list-style:none;margin:0;padding:0}
 .it{display:flex;align-items:center;gap:12px;width:100%;height:36px;padding:0 12px;box-sizing:border-box;border:0;border-radius:12px;background:transparent;color:#0D0E10;cursor:pointer;font:400 14px Inter,sans-serif;text-align:left;transition:background .25s ease}
 .it:hover{background:rgba(13,14,16,.05)}
+.it[aria-disabled="true"]{color:#9A9CA1;cursor:default}
+.it[aria-disabled="true"]:hover{background:transparent}
 .it.on{background:#0D0E10;color:#EEEDE9;box-shadow:0 12px 22px -10px rgba(13,14,16,.55)}
 .it.sub{height:32px;padding-left:30px;font-size:13px}
 .it.sub .ic{width:12px}
@@ -43,6 +45,7 @@ button.btn.encre{background:#0D0E10;color:#EEEDE9}
 .btn.off{background:transparent;color:#5D5F64;box-shadow:inset 0 0 0 1.5px rgba(13,14,16,.3);cursor:not-allowed}
 .mini.doux{color:#4B4D52}
 .mini[aria-disabled="true"]{color:#9A9CA1;text-decoration:none;cursor:default}
+a.btn.encre[aria-disabled="true"]{background:transparent;color:#5D5F64;box-shadow:inset 0 0 0 1.5px rgba(13,14,16,.3);cursor:not-allowed}
 .etape{display:inline-flex;align-items:center;gap:8px;font:400 13.5px Inter,sans-serif;white-space:nowrap;color:#0D0E10}
 .etape i{display:block;width:8px;height:8px;border-radius:4px}
 .tabs{position:absolute;display:flex;gap:30px}

@@ -22,7 +22,7 @@ animer($('#eye-trait'), a.eyeL); animer($('#eye'), a.eye); animer($('#h1'), a.h1
 animer($('#vues'), a.p1); animer($('#legende'), a.nt);
 
 // ------------------------------------------------------------------ vue mois (construite une fois)
-const CW = 1072 / 7; // largeur de colonne de la planche ; en fenêtre large : (1072 + dx) / 7 via calc()
+// largeur de colonne de la planche : 1072 / 7 ; en fenêtre large : (1072 + dx) / 7 via calc()
 const PAS = '(1072px + var(--dx)) / 7';
 const caseJour = (g) => {
   const evs = evDay(g.k), al = allDay(g.k), blk = BLK[g.k], libre = caseVide(g.k);
@@ -34,7 +34,7 @@ const caseJour = (g) => {
     el('span', { 'aria-hidden': 'true', style: `position:absolute;left:4px;top:8px;width:26px;text-align:center;font:400 13px Inter,sans-serif;color:${g.m !== 11 ? '#9A9CA1' : '#0D0E10'};pointer-events:none` }, String(g.d)),
     SUR[g.k] && el('span', { class: 'mono', 'aria-hidden': 'true', style: 'position:absolute;right:8px;top:9px;color:#7A1F33;font-size:9.5px;pointer-events:none' }, 'surchargé'),
     blk && el('span', { class: 'note', 'aria-hidden': 'true', style: 'position:absolute;left:10px;top:36px;font-size:12px;pointer-events:none' }, 'Bloqué · ' + blk),
-    ...its.map((it, j) => el('a', { href: 'dossier.html', class: 'ev', 'aria-label': it.aria, style: `top:${30 + j * 22}px` },
+    ...its.map((it, j) => el('a', { href: 'dossier.html', class: 'ev', 'aria-label': it.aria, title: it.hT + ' ' + it.t, style: `top:${30 + j * 22}px` },
       el('i', { 'aria-hidden': 'true', style: `background:${it.c};box-shadow:${it.sh}` }), el('span', null, it.hT + ' ' + it.t))));
   animer(c, a.p1);
   return c;
@@ -97,7 +97,7 @@ function rendreJour() {
   });
   al.forEach((e, i) => n.push(el('p', { class: 'note', style: `position:absolute;left:328px;top:${300 + evs.length * 92 + i * 44}px;margin:0;font-size:14px` }, e.t)));
   if (caseVide(st.day)) {
-    const lien = el('a', { href: '#', class: 'lien mini', style: 'position:absolute;left:304px;top:336px', on: { click: (e) => e.preventDefault() } }, 'Bloquer cette date →');
+    const lien = el('a', { role: 'link', tabindex: '0', 'aria-disabled': 'true', title: 'Bientôt disponible', class: 'lien mini', style: 'position:absolute;left:304px;top:336px', on: { click: (e) => e.preventDefault() } }, 'Bloquer cette date →');
     n.push(el('p', { style: 'position:absolute;left:304px;top:290px;margin:0;font:300 26px Inter,sans-serif' }, 'Rien ce jour-là.'), lien);
   }
   $('#vue-jour').replaceChildren(...n);
