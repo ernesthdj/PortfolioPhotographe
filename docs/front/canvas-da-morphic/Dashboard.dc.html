@@ -35,6 +35,8 @@ svg.ln{position:absolute;left:0;top:0;width:1440px;height:900px;overflow:visible
 @keyframes rOut{from{clip-path:var(--c1)}to{clip-path:var(--c0)}}
 @keyframes dev{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
 @keyframes devNB{0%{opacity:0;filter:grayscale(1) contrast(1.05)}45%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
+@keyframes devFast{0%{opacity:0;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@keyframes devFastNB{0%{opacity:0;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
 @keyframes devOut{0%{opacity:1;filter:brightness(1) grayscale(0)}100%{opacity:0;filter:brightness(0) grayscale(1)}}
 .phbtn{position:absolute;padding:0;margin:0;border:0;background:transparent;cursor:zoom-in}
 .phbtn:focus-visible{outline:2px solid #0D0E10;outline-offset:4px}
@@ -50,8 +52,7 @@ svg.ln{position:absolute;left:0;top:0;width:1440px;height:900px;overflow:visible
 .svc:focus-visible{outline:2px solid #0D0E10;outline-offset:6px;border-radius:4px}
 .svc .k{font:500 11.5px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#4B4D52}
 .svc .l{font:300 22px/1 Inter,sans-serif;letter-spacing:-.02em;white-space:nowrap}
-.svc .u{position:absolute;left:0;bottom:4px;height:2px;border-radius:1px;background:#3AA6B5;width:0;transition:width .45s cubic-bezier(.45,0,.2,1)}
-.svc.on .u{width:100%}
+@keyframes hlIn{from{opacity:0}to{opacity:1}}
 @keyframes rIn2{from{clip-path:var(--c0)}to{clip-path:var(--c1)}}
 @keyframes trace2{0%{stroke-dashoffset:101}50%{stroke-dashoffset:0}65%{stroke-dashoffset:0}100%{stroke-dashoffset:-102}}
 @keyframes devNB2{0%{opacity:0;filter:grayscale(1) contrast(1.05)}45%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
@@ -59,6 +60,10 @@ svg.ln{position:absolute;left:0;top:0;width:1440px;height:900px;overflow:visible
 @keyframes cometeR{from{stroke-dashoffset:0}to{stroke-dashoffset:100}}
 @keyframes apparait{from{stroke-opacity:0}to{stroke-opacity:1}}
 @keyframes eteint{from{stroke-opacity:0}to{stroke-opacity:0}}
+@keyframes filpoint{0%,80%{stroke-dashoffset:0;stroke-width:var(--lw,1.5px);stroke-opacity:1}86%{stroke-dashoffset:100;stroke-width:var(--lw,1.5px);stroke-opacity:1}88%{stroke-dashoffset:100;stroke-width:4px;stroke-opacity:1}88.6%{stroke-dashoffset:100;stroke-width:4px;stroke-opacity:0}95%{stroke-dashoffset:100;stroke-width:4px;stroke-opacity:0}95.4%{stroke-dashoffset:100;stroke-width:4px;stroke-opacity:1}97%{stroke-dashoffset:100;stroke-width:var(--lw,1.5px);stroke-opacity:1}100%{stroke-dashoffset:0;stroke-width:var(--lw,1.5px);stroke-opacity:1}}
+@keyframes filsat{0%,88.4%{stroke-dasharray:0 101;stroke-width:4px;stroke-opacity:0}88.6%{stroke-dasharray:0 101;stroke-width:4px;stroke-opacity:1}92%{stroke-dasharray:100 1;stroke-width:1.5px;stroke-opacity:1}95%{stroke-dasharray:0 101;stroke-width:4px;stroke-opacity:1}95.4%,100%{stroke-dasharray:0 101;stroke-width:4px;stroke-opacity:0}}
+svg.wd{transition:opacity .35s;position:absolute;left:0;top:0;width:1440px;height:900px;overflow:visible;pointer-events:none}
+.wd path{fill:none;stroke-width:2px;stroke-linecap:round;stroke-dasharray:0 101;stroke-opacity:0;stroke-dashoffset:0}
 @keyframes rebatit{0%{stroke-dashoffset:0}84%{stroke-dashoffset:0}90%{stroke-dashoffset:101}96%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
 @keyframes souffle{0%{width:28px}50%{width:46px}100%{width:28px}}
 .comete{fill:none;stroke-width:1.5px;stroke-linecap:round;stroke-dasharray:6 94}
@@ -100,16 +105,17 @@ svg.lbtr{position:absolute;overflow:visible;pointer-events:none}
 </helmet>
 <div class="papier" style="position: relative; width: 1440px; height: 900px; overflow: hidden; background-color: #FFFFFF; color: #0D0E10; font-family: Inter, system-ui, sans-serif">
   <div class="vignette" aria-hidden="true"></div>
+  <svg class="wd" aria-hidden="true"><path ref="{{wRef}}" pathLength="100" d="M0 0 L0 0"></path></svg>
   <div class="pastille" aria-hidden="true" style="left: {{pp.nx}}px; top: 30px; width: {{pp.nw}}px; height: 48px; animation: {{pp.nFill}}"></div>
   <div class="pastille" aria-hidden="true" style="left: 80px; top: 488px; width: 200px; height: 48px; animation: {{pp.gFill}}"></div>
   <div class="pastille" aria-hidden="true" style="left: 64px; top: 596px; width: 1312px; height: 116px; animation: {{pp.sFill}}"></div>
   <svg class="pp" aria-hidden="true">
     <path pathLength="100" d="{{pp.nTop}}" style="animation: {{pp.nLine}}"></path>
     <path pathLength="100" d="{{pp.nBot}}" style="animation: {{pp.nLine}}"></path>
-    <path class="comete" pathLength="100" d="{{pp.nLoop}}" style="stroke: #3AA6B5; animation: {{pp.nCom}}"></path>
+    <path class="comete" ref="{{cRefN}}" pathLength="100" d="{{pp.nLoop}}" style="stroke: #3AA6B5; opacity: {{pp.nOp}}; transition: opacity .2s linear; animation: {{pp.nCom}}"></path>
     <path pathLength="100" d="M64 654 L64 620 A24 24 0 0 1 88 596 L1352 596 A24 24 0 0 1 1376 620 L1376 654" style="animation: {{pp.sLine}}"></path>
     <path pathLength="100" d="M64 654 L64 688 A24 24 0 0 0 88 712 L1352 712 A24 24 0 0 0 1376 688 L1376 654" style="animation: {{pp.sLine}}"></path>
-    <path class="comete" pathLength="100" d="M64 654 L64 620 A24 24 0 0 1 88 596 L1352 596 A24 24 0 0 1 1376 620 L1376 688 A24 24 0 0 1 1352 712 L88 712 A24 24 0 0 1 64 688 Z" style="stroke: #D9783A; animation: {{pp.sCom}}"></path>
+    <path class="comete" ref="{{cRefS}}" pathLength="100" d="M64 654 L64 620 A24 24 0 0 1 88 596 L1352 596 A24 24 0 0 1 1376 620 L1376 688 A24 24 0 0 1 1352 712 L88 712 A24 24 0 0 1 64 688 Z" style="stroke: #D9783A; opacity: {{pp.sOp}}; transition: opacity .2s linear; animation: {{pp.sCom}}"></path>
   </svg>
 
 
@@ -123,8 +129,8 @@ svg.lbtr{position:absolute;overflow:visible;pointer-events:none}
   <svg class="ln" aria-hidden="true" style="stroke: #0D0E10">
     <path pathLength="100" d="M720 100 L80 100" style="animation: {{viv.sep}}"></path>
     <path pathLength="100" d="M720 100 L1360 100" style="animation: {{viv.sep}}"></path>
-    <path pathLength="100" d="M80 148 L580 148" style="stroke-width: 1px; animation: {{viv.lb1}}"></path>
-    <path pathLength="100" d="M80 566 L580 566" style="stroke-width: 1px; animation: {{viv.lb2}}"></path>
+    <path pathLength="100" d="M80 148 L580 148" style="stroke-width: 1px; --lw: 1px; animation: {{viv.lb1}}"></path>
+    <path pathLength="100" d="M80 566 L580 566" style="stroke-width: 1px; --lw: 1px; animation: {{viv.lb2}}"></path>
     <path pathLength="100" d="M80 512 Q80 488 104 488 L256 488 Q280 488 280 512" style="animation: {{a.pill}}"></path>
     <path pathLength="100" d="M80 512 Q80 536 104 536 L256 536 Q280 536 280 512" style="animation: {{a.pill}}"></path>
   </svg>
@@ -134,12 +140,12 @@ svg.lbtr{position:absolute;overflow:visible;pointer-events:none}
   </a>
   <span aria-hidden="true" style="position: absolute; left: 80px; top: 70px; width: 28px; height: 2px; border-radius: 1px; background: #3AA6B5; animation: {{viv.sig}}"></span>
 
-  <nav class="nav" aria-label="Menu principal" style="position: absolute; left: 600px; top: 46px; width: {{ind.navW}}px; display: flex; gap: 36px; font: 500 14px Inter, sans-serif">
+  <nav class="nav" ref="{{navRef}}" aria-label="Menu principal" style="position: absolute; left: 600px; top: 46px; width: {{ind.navW}}px; display: flex; gap: 36px; font: 500 14px Inter, sans-serif">
     <a href="#" onMouseEnter="{{ind.h0}}" onFocus="{{ind.h0}}" onMouseLeave="{{ind.out}}" onBlur="{{ind.out}}"><span class="w"><span class="o" style="animation: {{a.n0.o}}">Galerie</span><span class="f" aria-hidden="true" style="animation: {{a.n0.f}}">Galerie</span></span></a>
     <a href="#" onMouseEnter="{{ind.h1}}" onFocus="{{ind.h1}}" onMouseLeave="{{ind.out}}" onBlur="{{ind.out}}"><span class="w"><span class="o" style="animation: {{a.n1.o}}">Services</span><span class="f" aria-hidden="true" style="animation: {{a.n1.f}}">Services</span></span></a>
     <a href="#" onMouseEnter="{{ind.h2}}" onFocus="{{ind.h2}}" onMouseLeave="{{ind.out}}" onBlur="{{ind.out}}"><span class="w"><span class="o" style="animation: {{a.n2.o}}">À propos</span><span class="f" aria-hidden="true" style="animation: {{a.n2.f}}">À propos</span></span></a>
     <a href="#" onMouseEnter="{{ind.h3}}" onFocus="{{ind.h3}}" onMouseLeave="{{ind.out}}" onBlur="{{ind.out}}"><span class="w"><span class="o" style="animation: {{a.n3.o}}">Contact</span><span class="f" aria-hidden="true" style="animation: {{a.n3.f}}">Contact</span></span></a>
-    <span aria-hidden="true" style="position: absolute; bottom: -7px; height: 2px; border-radius: 1px; left: {{ind.l}}px; right: {{ind.r}}px; background: {{ind.c}}; transition: {{ind.tr}}"></span>
+    <span aria-hidden="true" style="position: absolute; opacity: {{hlN.op}}; left: {{hlN.l}}px; width: {{hlN.w}}px; height: {{hlN.h}}px; top: {{hlN.p}}px; border-radius: {{hlN.r}}px; background-color: {{hlN.bgc}}; background-image: {{hlN.bgi}}; box-shadow: {{hlN.sh}}; transition: {{hlN.tr}}"></span>
   </nav>
   <span class="encre" aria-hidden="true" style="position: absolute; left: 1184px; top: 34px; width: 176px; height: 40px; border-radius: 20px; background: #0D0E10; --c0: inset(0 100% 0 0 round 20px); --c1: inset(0 0 0 0 round 20px); animation: {{a.hFl}}"></span>
   <a href="#" class="btn" style="left: 1184px; top: 34px; width: 176px; height: 40px; color: #FFFFFF">
@@ -176,14 +182,14 @@ svg.lbtr{position:absolute;overflow:visible;pointer-events:none}
   <p style="position: absolute; left: 80px; top: 608px; margin: 0; font: 500 12.5px 'IBM Plex Mono', monospace; letter-spacing: .04em; color: #4B4D52">
     <span class="w"><span class="o" style="animation: {{a.sv.o}}">Mes services</span><span class="f" aria-hidden="true" style="animation: {{a.sv.f}}">Mes services</span></span>
   </p>
-  <nav aria-label="Services" style="position: absolute; left: 80px; right: 80px; top: 650px; display: flex; flex-wrap: nowrap; justify-content: space-between; column-gap: 24px">
+  <nav aria-label="Services" ref="{{svcRef}}" onMouseLeave="{{svcOut}}" style="position: absolute; left: 80px; right: 80px; top: 650px; display: flex; flex-wrap: nowrap; justify-content: space-between; column-gap: 24px">
     <sc-for list="{{svcs}}" as="it" hint-placeholder-count="6">
       <a href="#" class="{{it.cls}}" onMouseEnter="{{it.hov}}" onFocus="{{it.hov}}">
         <span class="k w"><span class="o" style="animation: {{it.k.o}}">{{it.n}}</span><span class="f" aria-hidden="true" style="animation: {{it.k.f}}">{{it.n}}</span></span>
         <span class="l w"><span class="o" style="animation: {{it.l.o}}">{{it.t}}</span><span class="f" aria-hidden="true" style="animation: {{it.l.f}}">{{it.t}}</span></span>
-        <span class="u" aria-hidden="true"></span>
       </a>
     </sc-for>
+    <span aria-hidden="true" style="position: absolute; opacity: {{hlS.op}}; left: {{hlS.l}}px; width: {{hlS.w}}px; height: {{hlS.h}}px; top: {{hlS.p}}px; border-radius: {{hlS.r}}px; background-color: {{hlS.bgc}}; background-image: {{hlS.bgi}}; box-shadow: {{hlS.sh}}; transition: {{hlS.tr}}"></span>
   </nav>
 
   <p style="position: absolute; left: 80px; top: 812px; margin: 0; font: 500 12.5px 'IBM Plex Mono', monospace; letter-spacing: .02em; color: #4B4D52">
@@ -199,7 +205,6 @@ svg.lbtr{position:absolute;overflow:visible;pointer-events:none}
 
   <sc-if value="{{lb.on}}" hint-placeholder-val="{{ false }}">
     <div role="dialog" aria-modal="true" aria-label="Photo en grand" style="position: absolute; inset: 0">
-      <div class="lb-fond papier" style="clip-path: {{lb.clip}}; transition: {{lb.trFond}}"></div>
       <img class="lb-img" src="{{lb.src}}" alt="{{lb.alt}}" style="left: {{lb.x}}px; top: {{lb.y}}px; width: {{lb.w}}px; height: {{lb.h}}px; animation: {{lb.anim}}">
       <div class="lb-cadre" style="left: {{lb.fx}}px; top: {{lb.fy}}px; width: {{lb.fw}}px; height: {{lb.fh}}px; transition: {{lb.trCadre}}; animation: {{lb.cadAnim}}"></div>
       <svg class="lbtr" aria-hidden="true" style="left: {{lb.tx1}}px; top: {{lb.ty1}}px; width: {{lb.tw2}}px; height: {{lb.th2}}px"><path pathLength="100" d="{{lb.td}}" style="animation: {{lb.retire}}"></path></svg>
@@ -222,27 +227,163 @@ svg.lbtr{position:absolute;overflow:visible;pointer-events:none}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"retard":{"editor":null,"default":0},"phase":{"editor":null,"default":"in"},"seul":{"editor":null,"default":true},"$preview":{"width":1440,"height":900}}'>
 class Component extends DCLogic {
-  constructor(p) { super(p); this.state = { ph: 'in', lbI: null, lbSt: 'from', lbN: 0, navI: -1, navH: null, svc: 0, svcN: 0, svcFade: false, heroI: 0, heroN: 0, heroOut: false }; this.prevI = -1; }
+  constructor(p) { super(p); this.state = { ph: 'in', fast: false, lbI: null, lbSt: 'from', lbN: 0, navI: -1, navH: null, navS: null, navSt: 'rest', navP: { x: 0, y: 0 }, svcS: null, svcSt: 'rest', svcP: { x: 0, y: 0 }, svc: 0, svcN: 0, svcFade: false, heroI: 0, heroN: 0, heroOut: false }; this.prevI = -1; this.hlGoal = {}; this.hlTs = {}; this.hlBusy = {}; this.hlCur = {}; this.tLeave = {}; this.svcGeo = null; this.svcY = 0; }
   componentDidMount() {
     const D = (this.props.seul ?? true) ? 0 : (this.props.retard ?? 0);
-    this.tNav = setTimeout(() => {
-      this.setState({ navI: 0 });
-      this.iNav = setInterval(() => { if (this.state.navH === null) this.setState({ navI: (this.state.navI + 1) % 4 }); }, 2800);
-    }, (D + 4.4) * 1000);
+    this.tWand = setTimeout(() => this.startWand(), (D + 4.6) * 1000);
     this.tHero = setTimeout(() => {
       this.iHero = setInterval(() => {
+        if (this.state.lbI !== null || this.state.ph !== 'in') return;
         this.setState({ heroOut: true });
         this.tHero2 = setTimeout(() => this.setState({ heroI: (this.state.heroI + 1) % 5, heroN: this.state.heroN + 1, heroOut: false }), 1000);
       }, 8000);
     }, (D + 4) * 1000);
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { this.navW = null; this.forceUpdate(); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { this.navW = null; this.mesureSvc(); this.forceUpdate(); });
+    this.tMes = setTimeout(() => { this.mesureSvc(); this.forceUpdate(); }, 700);
   }
-  componentWillUnmount() { clearTimeout(this.tm); clearTimeout(this.tLb); clearTimeout(this.tNav); clearInterval(this.iNav); clearTimeout(this.tSvc); clearTimeout(this.tHero); clearTimeout(this.tHero2); clearInterval(this.iHero); }
+  componentWillUnmount() { Object.keys(this.tLeave).forEach(k => clearTimeout(this.tLeave[k])); this.wandOn = false; clearTimeout(this.tWand); clearTimeout(this.tWandStep); if (this.wandEl) this.wandEl.getAnimations().forEach(a => a.cancel()); Object.keys(this.hlTs).forEach(k => clearTimeout(this.hlTs[k])); clearTimeout(this.tMes); clearTimeout(this.tm); clearTimeout(this.tLb); clearTimeout(this.tNav); clearInterval(this.iNav); clearTimeout(this.tSvc); clearTimeout(this.tHero); clearTimeout(this.tHero2); clearInterval(this.iHero); }
   choisir(i) {
     if (this.state.svc === i && !this.state.svcFade) return;
+    this.hlGo('svc', i);
     clearTimeout(this.tSvc);
     this.setState({ svcFade: true });
     this.tSvc = setTimeout(() => this.setState({ svc: i, svcN: this.state.svcN + 1, svcFade: false }), 300);
+  }
+  componentDidUpdate() {
+    const s = this.state;
+    if (s.navH !== null) this.hlGo('nav', s.navH);
+  }
+  // Surligneur : au repos rien n'est surligne, seule la comete tourne autour du cadre.
+  // Survol : la comete se fond en boule (a sa position), la boule glisse sous l'element, puis se redilate en ligne.
+  // Fin de survol : la ligne se retracte en boule, qui rejoint la comete.
+  hlGo(key, goal) {
+    this.hlGoal[key] = goal === undefined ? null : goal;
+    if (goal !== null && goal !== undefined) { clearTimeout(this.tLeave[key]); }
+    if (this.hlBusy[key]) return;
+    this.hlRun(key);
+  }
+  // Sortie du survol : le surligneur reste quelques secondes sous l'element avant de retourner a la comete.
+  hlLeave(key) { clearTimeout(this.tLeave[key]); this.tLeave[key] = setTimeout(() => this.hlGo(key, null), 2500); }
+  hlPoint(key) {
+    const c = key === 'nav' ? this.cNav : this.cSvc, host = key === 'nav' ? this.navEl : this.svcEl;
+    const ox = host ? host.offsetLeft : 0, oy = host ? host.offsetTop : 0;
+    try {
+      const o = parseFloat(getComputedStyle(c).strokeDashoffset) || 0;
+      const f = (((-o + 2.5) % 100) + 100) % 100;
+      const p = c.getPointAtLength(f / 100 * c.getTotalLength());
+      return { x: p.x - ox, y: p.y - oy };
+    } catch (e) { return { x: 0, y: this.hlCy(key) }; }
+  }
+  hlCy(key) { return key === 'nav' ? (this.navEl ? this.navEl.offsetHeight : 20) + 6 : this.svcY + 1; }
+  hlRun(key) {
+    const sk = key + 'S', tk = key + 'St', pk = key + 'P';
+    const goal = () => (this.hlGoal[key] === undefined ? null : this.hlGoal[key]);
+    const curr = () => (this.hlCur[key] === undefined ? null : this.hlCur[key]);
+    const wait = (ms, fn) => { this.hlTs[key] = setTimeout(fn, ms); };
+    if (curr() === goal()) { this.hlBusy[key] = false; return; }
+    this.hlBusy[key] = true;
+    const done = () => { this.hlBusy[key] = false; if (curr() !== goal()) this.hlGo(key, goal()); };
+    // la ligne se contracte en boule PENDANT qu'elle voyage, puis se redilate avant d'arriver : un seul geste
+    const back = () => {
+      this.setState({ [pk]: this.hlPoint(key), [tk]: 'back' });
+      wait(360, () => { this.hlCur[key] = null; this.setState({ [sk]: null, [tk]: 'rest' }); done(); });
+    };
+    const toLine = () => { this.setState({ [tk]: 'toLine' }); wait(260, () => { this.setState({ [tk]: 'idle' }); done(); }); };
+    const move = () => {
+      const g = goal();
+      if (g === null) { back(); return; }
+      this.hlCur[key] = g;
+      this.setState({ [sk]: g, [tk]: 'flow' });
+      wait(190, toLine);
+    };
+    if (curr() === null) {
+      this.setState({ [pk]: this.hlPoint(key), [sk]: null, [tk]: 'spawn' });
+      wait(40, move);
+    } else move();
+  }
+  // Trait vagabond d'arriere-plan : part d'un point, se dessine en ligne droite (axe X ou Y),
+  // se resorbe vers son extremite jusqu'a redevenir un point, puis ce point glisse (ou disparait/reapparait) ailleurs.
+  startWand() {
+    const el = this.wandEl;
+    if (!el || this.wandOn) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    this.wandOn = true;
+    const COL = ['#3AA6B5', '#D9783A', '#7A1F33'];
+    const rnd = (a, b) => a + Math.random() * (b - a);
+    const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+    const alea = () => ({ x: rnd(70, 1370), y: rnd(60, 840) });
+    const later = (ms, fn) => { this.tWandStep = setTimeout(() => { if (this.wandOn) fn(); }, ms); };
+    let axis = Math.random() < .5 ? 'x' : 'y', col = null, pos = alea();
+    const cycle = () => {
+      do { col = COL[Math.floor(Math.random() * COL.length)]; } while (col === this.wandCol);
+      this.wandCol = col;
+      const len = rnd(180, 480);
+      let sgn = Math.random() < .5 ? -1 : 1, x1 = pos.x, y1 = pos.y;
+      const fin = s => (axis === 'x' ? clamp(pos.x + s * len, 50, 1390) : clamp(pos.y + s * len, 50, 850));
+      let v = fin(sgn);
+      if (Math.abs(v - (axis === 'x' ? pos.x : pos.y)) < 120) { sgn = -sgn; v = fin(sgn); }
+      if (axis === 'x') x1 = v; else y1 = v;
+      el.getAnimations().forEach(a => a.cancel());
+      el.style.transform = 'none';
+      el.style.stroke = col;
+      el.setAttribute('d', 'M' + pos.x.toFixed(1) + ' ' + pos.y.toFixed(1) + ' L' + x1.toFixed(1) + ' ' + y1.toFixed(1));
+      const ease = 'cubic-bezier(.45,0,.2,1)';
+      const dessin = el.animate([{ strokeDasharray: '0 101', strokeOpacity: .4 }, { strokeDasharray: '100 1', strokeOpacity: .4 }], { duration: rnd(1100, 1900), easing: ease, fill: 'forwards' });
+      dessin.finished.then(() => {
+        if (!this.wandOn) return;
+        later(rnd(150, 500), () => {
+          const resorbe = el.animate([{ strokeDasharray: '100 101', strokeDashoffset: 0, strokeOpacity: .4 }, { strokeDasharray: '100 101', strokeDashoffset: -99.8, strokeOpacity: .4 }], { duration: rnd(1000, 1600), easing: ease, fill: 'forwards' });
+          resorbe.finished.then(() => {
+            if (!this.wandOn) return;
+            const fin2 = { x: x1, y: y1 }, nxt = alea();
+            axis = Math.random() < .7 ? (axis === 'x' ? 'y' : 'x') : axis;
+            later(rnd(200, 600), () => {
+              if (Math.random() < .55) {
+                const dist = Math.hypot(nxt.x - fin2.x, nxt.y - fin2.y);
+                const gl = el.animate([{ transform: 'translate(0px, 0px)' }, { transform: 'translate(' + (nxt.x - fin2.x).toFixed(1) + 'px, ' + (nxt.y - fin2.y).toFixed(1) + 'px)' }], { duration: 600 + dist * .55, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'forwards' });
+                gl.finished.then(() => { pos = nxt; later(rnd(100, 400), cycle); }).catch(() => {});
+              } else {
+                const ev = el.animate([{ strokeOpacity: .4 }, { strokeOpacity: 0 }], { duration: 320, fill: 'forwards' });
+                ev.finished.then(() => { pos = nxt; later(rnd(500, 1300), cycle); }).catch(() => {});
+              }
+            });
+          }).catch(() => {});
+        });
+      }).catch(() => {});
+    };
+    cycle();
+  }
+  mesureSvc() {
+    const nav = this.svcEl || document.querySelector('nav[aria-label="Services"]');
+    if (!nav) return;
+    const items = Array.from(nav.querySelectorAll('a'));
+    if (!items.length) return;
+    this.svcGeo = items.map(a => ({ x: a.offsetLeft, w: a.offsetWidth }));
+    this.svcY = items[0].offsetTop + items[0].offsetHeight - 6;
+  }
+  hlStyle(step, g, color, cy, P) {
+    const ball = step !== 'toLine' && step !== 'idle';
+    const free = step === 'spawn' || step === 'back' || step === 'rest';
+    const d = 12, tg = g || { x: 0, w: 0 };
+    const h = ball ? d : 2, w = ball ? d : tg.w;
+    const cx = free ? P.x : tg.x + tg.w / 2, cyy = free ? P.y : cy;
+    const l = ball ? cx - d / 2 : tg.x, top = cyy - h / 2;
+    const e = 'cubic-bezier(.45,0,.2,1)', sp = 'cubic-bezier(.34,1.45,.64,1)', mv = 'cubic-bezier(.4,0,.2,1)';
+    const prop = (t, f, ps) => (ps || ['left', 'width', 'height', 'top', 'border-radius', 'box-shadow']).map(p => p + ' ' + t + 's ' + f).join(', ');
+    const tr = {
+      spawn: 'opacity .06s linear',
+      flow: prop('.2', 'cubic-bezier(.3,0,.2,1)', ['width', 'height', 'border-radius', 'box-shadow']) + ', left .36s ' + mv + ', top .36s ' + mv + ', background-color .3s',
+      toLine: prop('.26', sp) + ', background-color .3s',
+      back: prop('.2', 'cubic-bezier(.3,0,.2,1)', ['width', 'height', 'border-radius', 'box-shadow']) + ', left .36s ' + mv + ', top .36s ' + mv + ', background-color .3s',
+      rest: 'opacity .18s linear',
+      idle: 'background-color .6s ease'
+    }[step];
+    return {
+      l, w, h, p: top, r: h / 2, bgc: color, op: step === 'rest' ? 0 : 1,
+      bgi: 'radial-gradient(circle at 36% 30%, rgba(255,255,255,.34), rgba(255,255,255,0) 58%)',
+      sh: ball ? '0 4px 5px rgba(13,14,16,.28), inset 0 -1px 2px rgba(13,14,16,.25)' : '0 0 0 rgba(13,14,16,0), inset 0 0 0 rgba(13,14,16,0)',
+      tr
+    };
   }
   mesures() {
     if (this.navW) return this.navW;
@@ -257,14 +398,15 @@ class Component extends DCLogic {
   ouvrir(i) {
     if (this.state.lbI !== null) return;
     clearTimeout(this.tLb);
-    this.setState({ lbI: i, lbSt: 'from', lbN: 0 });
+    this.setState({ lbI: i, lbSt: 'from', lbN: 0, ph: 'out' });
+    if (this.wandEl && this.wandEl.parentNode) this.wandEl.parentNode.style.opacity = '0';
     this.tLb = setTimeout(() => this.setState({ lbSt: 'to' }), 40);
   }
   fermer() {
     if (this.state.lbSt !== 'to') return;
-    this.setState({ lbSt: 'closing' });
+    this.setState({ lbSt: 'closing', ph: 'in', fast: true });
     clearTimeout(this.tLb);
-    this.tLb = setTimeout(() => this.setState({ lbI: null, lbSt: 'from' }), 820);
+    this.tLb = setTimeout(() => { this.setState({ lbI: null, lbSt: 'from' }); if (this.wandEl && this.wandEl.parentNode) this.wandEl.parentNode.style.opacity = '1'; }, 820);
   }
   aller(d, n) {
     if (this.state.lbSt !== 'to') return;
@@ -274,7 +416,8 @@ class Component extends DCLogic {
     const seul = this.props.seul ?? true;
     const D = seul ? 0 : (this.props.retard ?? 0);
     const ph = seul ? this.state.ph : (this.props.phase ?? 'in');
-    const K = .62, E = 'cubic-bezier(.45,0,.2,1)', on = ph === 'in';
+    const fast = this.state.fast;
+    const K = fast ? .2 : .62, E = 'cubic-bezier(.45,0,.2,1)', on = ph === 'in';
     const at = (dl) => (D + dl * K).toFixed(2);
     const S = (dl, d) => on ? `drawS ${d * K}s ${E} ${at(dl)}s both` : `undrawS .22s ${E} .1s both`;
     const F = (dl, d) => on ? `drawS ${d * K}s ${E} ${at(dl)}s both` : `undrawS .35s ${E} .3s both`;
@@ -283,7 +426,7 @@ class Component extends DCLogic {
       o: on ? `wIn ${d * K}s ${E} ${at(dl)}s both` : `wOut .2s ${E} .04s both`,
       f: on ? `wIn ${d * K}s ${E} ${at(dl + .25)}s both` : `wOut .2s ${E} 0s both`
     });
-    const P = (dl, nb) => on ? `${nb ? 'devNB' : 'dev'} 3.2s ease-in-out ${at(dl)}s both` : `devOut .25s ${E} 0s both`;
+    const P = (dl, nb) => on ? (fast ? `${nb ? 'devFastNB' : 'devFast'} .5s ease ${at(dl)}s both` : `${nb ? 'devNB' : 'dev'} 3.2s ease-in-out ${at(dl)}s both`) : `devOut .25s ${E} 0s both`;
     const R = (dl, d) => on ? `rIn ${d * K}s ${E} ${at(dl)}s both` : `rOut .22s ${E} .05s both`;
     const a = {
       sep: F(0, .8), logo: T(.3, .8), sig: on ? `wIn ${.5 * K}s ${E} ${at(1.35)}s both` : `wOut .2s ${E} 0s both`,
@@ -365,7 +508,7 @@ class Component extends DCLogic {
     const tuiles = [];
     const replay = () => {
       if (this.tm) return;
-      this.setState({ ph: 'out' });
+      this.setState({ ph: 'out', fast: false });
       this.tm = setTimeout(() => { this.tm = null; this.setState({ ph: 'in' }); }, 1000);
     };
     const CAPS = ['Les mariés', 'Plein air', 'Le balcon', 'Complicité', 'Instant'];
@@ -388,7 +531,7 @@ class Component extends DCLogic {
         clip: growing ? 'inset(0 0 0 0)' : 'inset(0 0 100% 0)',
         trFond: st === 'from' ? 'none' : (growing ? `clip-path .8s ${E}` : `clip-path .55s ${E} .2s`),
         trCadre: st === 'from' ? 'none' : (growing ? box(.75, 0) : box(.6, .12)),
-        anim: st === 'closing' ? `devOut .22s ${E} 0s forwards` : (growing ? `${this.state.lbN % 2 ? 'dev2' : 'dev'} 2.2s ease-in-out ${this.state.lbN ? .3 : .5}s both` : 'devOut .01s linear 0s forwards'),
+        anim: st === 'closing' ? `devOut .22s ${E} 0s forwards` : (growing ? `${this.state.lbN % 2 ? 'dev2' : 'dev'} 2.2s ease-in-out ${this.state.lbN ? .3 : .1}s both` : 'devOut .01s linear 0s forwards'),
         t: st === 'closing'
           ? { o: `wOut .18s ${E} 0s both`, f: `wOut .18s ${E} 0s both` }
           : { o: growing ? `wIn .45s ${E} .7s both` : 'none', f: growing ? `wIn .45s ${E} .85s both` : 'none' },
@@ -402,27 +545,26 @@ class Component extends DCLogic {
       };
     }
     const m = this.mesures();
-    const curN = this.state.navH !== null ? this.state.navH : this.state.navI;
-    const forward = curN >= this.prevI;
-    this.prevI = curN;
-    const lead = `.42s ${E} 0s`, follow = `.42s ${E} .14s`;
     const COUL = ['#3AA6B5', '#D9783A', '#7A1F33', '#3AA6B5'];
     const ind = {
       navW: m.total,
-      l: curN < 0 ? 0 : m.x[curN],
-      r: curN < 0 ? m.total : m.total - (m.x[curN] + m.w[curN]),
-      c: COUL[Math.max(curN, 0)],
-      tr: forward ? `right ${lead}, left ${follow}, background-color .6s ease` : `left ${lead}, right ${follow}, background-color .6s ease`,
-      out: () => this.setState({ navH: null })
+      out: () => { this.setState({ navH: null }); this.hlLeave('nav'); }
     };
     [0, 1, 2, 3].forEach(i => { ind['h' + i] = () => this.setState({ navH: i }); });
-    const go = (D + 4.6).toFixed(2);
+    const go = (D + (fast ? 1.2 : 4.6)).toFixed(2);
+    const nS = this.state.navS;
+    const hlN = this.hlStyle(this.state.navSt, nS === null ? null : { x: m.x[nS], w: m.w[nS] }, COUL[nS === null ? 0 : nS], this.hlCy('nav'), this.state.navP);
+    const sS = this.state.svcS;
+    const hlS = this.svcGeo && (sS === null || this.svcGeo[sS])
+      ? this.hlStyle(this.state.svcSt, sS === null ? null : this.svcGeo[sS], '#3AA6B5', this.hlCy('svc'), this.state.svcP)
+      : { l: 0, w: 0, h: 0, p: 0, r: 0, bgc: 'transparent', bgi: 'none', sh: 'none', tr: 'none', op: 0 };
+    const svcRef = (el) => { this.svcEl = el; };
     const live = (base, extra) => on ? `${base}, ${extra}` : base;
-    const com = (name, dur, dl) => on ? `apparait 1.8s ease-in-out ${(D + 4.6 + dl).toFixed(2)}s both, ${name} ${dur}s linear ${(D + 4.6 + dl).toFixed(2)}s infinite` : 'eteint .01s linear 0s both';
+    const com = (name, dur, dl) => on ? `apparait 1.8s ease-in-out ${(D + (fast ? 1.2 : 4.6) + dl).toFixed(2)}s both, ${name} ${dur}s linear ${(D + (fast ? 1.2 : 4.6) + dl).toFixed(2)}s infinite` : 'eteint .01s linear 0s both';
     const viv = {
-      sep: live(a.sep, `rebatit 15s ${E} ${go}s infinite`),
-      lb1: live(a.lb1, `rebatit 19s ${E} ${(D + 7.1).toFixed(2)}s infinite`),
-      lb2: live(a.lb2, `rebatit 21s ${E} ${(D + 10.3).toFixed(2)}s infinite`),
+      sep: live(a.sep, `filpoint 15s ${E} ${go}s infinite`), sSep: on ? `filsat 15s ${E} ${go}s infinite` : 'none',
+      lb1: live(a.lb1, `filpoint 19s ${E} ${(D + 7.1).toFixed(2)}s infinite`), sLb1: on ? `filsat 19s ${E} ${(D + 7.1).toFixed(2)}s infinite` : 'none',
+      lb2: live(a.lb2, `filpoint 21s ${E} ${(D + 10.3).toFixed(2)}s infinite`), sLb2: on ? `filsat 21s ${E} ${(D + 10.3).toFixed(2)}s infinite` : 'none',
       sig: live(a.sig, `souffle 6.5s ease-in-out ${go}s infinite`),
       c0: com('comete', 16, 0), c1: com('cometeR', 13, .5), c2: com('comete', 19, 1.1), c3: com('cometeR', 15, 1.6)
     };
@@ -456,7 +598,7 @@ class Component extends DCLogic {
     const mesure = (txt, font) => { if (!txt) return 0; this.mctx.font = font.replace(/\/[\d.]+/, ''); return this.mctx.measureText(txt).width; };
     const Wt = Math.round(Math.max(...hs.lines.map((ln, i) => hs.ind[i] + mesure(ln[0], hs.font) + mesure(ln[1], hs.em))) + 4);
     const Ht = Math.round(hs.lh * hs.lines.length);
-    const DW = 1.7, DR = .9;
+    const DW = fast ? .7 : 1.7, DR = fast ? .45 : .9;
     const w0 = first ? D + .9 * K : .1;
     const heroDot = !on || hout ? `resorbe ${DR}s ${E} 0s both`
       : `${this.state.heroN % 2 ? 'ecrit2' : 'ecrit'} ${DW}s ${E} ${w0.toFixed(2)}s both`;
@@ -477,13 +619,13 @@ class Component extends DCLogic {
       nTop: `M${nx} ${ny + r} A${r} ${r} 0 0 1 ${nx + r} ${ny} L${x2 - r} ${ny} A${r} ${r} 0 0 1 ${x2} ${ny + r}`,
       nBot: `M${nx} ${ny + r} A${r} ${r} 0 0 0 ${nx + r} ${ny + 2 * r} L${x2 - r} ${ny + 2 * r} A${r} ${r} 0 0 0 ${x2} ${ny + r}`,
       nLoop: `M${nx} ${ny + r} A${r} ${r} 0 0 1 ${nx + r} ${ny} L${x2 - r} ${ny} A${r} ${r} 0 0 1 ${x2 - r} ${ny + 2 * r} L${nx + r} ${ny + 2 * r} A${r} ${r} 0 0 1 ${nx} ${ny + r} Z`,
-      nLine: S(.3, .7), nFill: on ? `habille 1.8s ease-in-out ${at(1.0)}s both` : `deshabille .25s ease 0s both`,
-      sLine: S(1.6, .9), sFill: on ? `habille 1.8s ease-in-out ${at(2.5)}s both` : `deshabille .25s ease 0s both`,
-      nCom: com('comete', 9, .2), sCom: com('cometeR', 22, .8),
-      gFill: on ? `habille 1.6s ease-in-out ${at(2.6)}s both` : `deshabille .25s ease 0s both`,
+      nLine: S(.3, .7), nFill: on ? `habille ${fast ? .6 : 1.8}s ease-in-out ${at(1.0)}s both` : `deshabille .25s ease 0s both`,
+      sLine: S(1.6, .9), sFill: on ? `habille ${fast ? .6 : 1.8}s ease-in-out ${at(2.5)}s both` : `deshabille .25s ease 0s both`,
+      nCom: com('comete', 9, .2), sCom: com('cometeR', 22, .8), nOp: this.state.navSt === 'rest' ? 1 : 0, sOp: this.state.svcSt === 'rest' ? 1 : 0,
+      gFill: on ? `habille ${fast ? .6 : 1.6}s ease-in-out ${at(2.6)}s both` : `deshabille .25s ease 0s both`,
       hx: nx - 14, hw: nw + 28,
-      nHalo: on ? `haloIn 2.2s ease-in-out ${at(1.0)}s both` : `deshabille .25s ease 0s both`,
-      sHalo: on ? `haloIn 2.2s ease-in-out ${at(2.5)}s both` : `deshabille .25s ease 0s both`
+      nHalo: on ? `haloIn ${fast ? .8 : 2.2}s ease-in-out ${at(1.0)}s both` : `deshabille .25s ease 0s both`,
+      sHalo: on ? `haloIn ${fast ? .8 : 2.2}s ease-in-out ${at(2.5)}s both` : `deshabille .25s ease 0s both`
     };
     const CDUR = [16, 13, 19, 15, 17], CDIR = ['comete', 'cometeR', 'comete', 'cometeR', 'comete'];
     mos.forEach((m, i) => {
@@ -492,7 +634,12 @@ class Component extends DCLogic {
       else if (on && !this.state.svcFade) t0 = .1 + i * .12 + 3.0;
       m.com = t0 === null ? 'eteint .01s linear 0s both' : `apparait 1.8s ease-in-out ${t0.toFixed(2)}s both, ${CDIR[i % 5]} ${CDUR[i % 5]}s linear ${t0.toFixed(2)}s infinite`;
     });
-    return { a, tuiles, replay, seul, hits, lb, ind, svcs, viv, hero, pp, mos };
+    const navRef = (el) => { this.navEl = el; };
+    const wRef = (el) => { this.wandEl = el; };
+    const cRefN = (el) => { this.cNav = el; };
+    const cRefS = (el) => { this.cSvc = el; };
+    const svcOut = () => this.hlLeave('svc');
+    return { a, tuiles, replay, seul, hits, lb, ind, hlN, hlS, svcRef, navRef, wRef, cRefN, cRefS, svcOut, svcs, viv, hero, pp, mos };
   }
 }
 </script>

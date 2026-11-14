@@ -229,6 +229,24 @@ class Component extends DCLogic {
     this.tS = setTimeout(() => this.setState({ supPh: 'done' }), 1200);
   }
   renderVals() {
+    if (!window.__fonduBlanc) {
+      window.__fonduBlanc = true;
+      document.addEventListener('click', (e) => {
+        const a = e.target && e.target.closest ? e.target.closest('a[href$=".dc.html"]') : null;
+        if (!a || a.__passe || e.button || e.metaKey || e.ctrlKey || e.shiftKey) return;
+        let root = a.parentElement;
+        while (root && !(root.style && root.style.width === '1440px' && root.style.height === '900px')) root = root.parentElement;
+        if (!root) return;
+        e.preventDefault(); e.stopImmediatePropagation();
+        if (root.__quitte) return;
+        root.__quitte = true;
+        Array.from(root.children).forEach(c => c.animate([{ opacity: 1, filter: 'none' }, { opacity: 1, filter: 'grayscale(1) contrast(1.05)', offset: .4 }, { opacity: 0, filter: 'grayscale(1) brightness(1.6)' }], { duration: 320, easing: 'ease-in', fill: 'forwards' }));
+        setTimeout(() => {
+          a.__passe = true; a.click(); a.__passe = false;
+          setTimeout(() => { root.__quitte = false; Array.from(root.children).forEach(c => c.getAnimations().forEach(an => an.cancel())); }, 1200);
+        }, 350);
+      }, true);
+    }
     const K = .62, E = 'cubic-bezier(.45,0,.2,1)', st = this.state;
     const T = (dl, d) => ({ o: `wIn ${d * K}s ${E} ${(dl * K).toFixed(2)}s both`, f: `wIn ${d * K}s ${E} ${((dl + .25) * K).toFixed(2)}s both` });
     const H = dl => `habille 1s ease ${(dl * K).toFixed(2)}s both`;

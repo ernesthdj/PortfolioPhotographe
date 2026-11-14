@@ -136,7 +136,7 @@ svg.ln{position:absolute;overflow:visible;pointer-events:none}
           <figcaption style="position: absolute; left: {{b.p}}px; bottom: {{b.p}}px; filter: drop-shadow(0 3px 4px rgba(20,18,16,.18)); font: 500 10.5px 'IBM Plex Mono', monospace; letter-spacing: .08em; text-transform: uppercase; color: #4B4D52">
             <span class="w"><span class="o" style="animation: {{b.c.o}}">{{b.who}}</span><span class="f" aria-hidden="true" style="animation: {{b.c.f}}">{{b.who}}</span></span>
           </figcaption>
-          <span aria-hidden="true" style="position: absolute; right: {{b.p}}px; bottom: {{b.p}}px; font: 500 10.5px 'IBM Plex Mono', monospace; letter-spacing: .06em; color: #4B4D52">{{b.pos}}</span>
+          <span aria-hidden="true" style="position: absolute; right: {{b.p}}px; bottom: {{b.p}}px; font: 500 10.5px 'IBM Plex Mono', monospace; letter-spacing: .06em; color: #4B4D52; animation: {{b.pa}}">{{b.pos}}</span>
         </figure>
       </sc-for>
       <sc-for list="{{vues}}" as="v" hint-placeholder-count="8">
@@ -215,6 +215,24 @@ class Component extends DCLogic {
     return { items: out, H: Math.round(y) };
   }
   renderVals() {
+    if (!window.__fonduBlanc) {
+      window.__fonduBlanc = true;
+      document.addEventListener('click', (e) => {
+        const a = e.target && e.target.closest ? e.target.closest('a[href$=".dc.html"]') : null;
+        if (!a || a.__passe || e.button || e.metaKey || e.ctrlKey || e.shiftKey) return;
+        let root = a.parentElement;
+        while (root && !(root.style && root.style.width === '1440px' && root.style.height === '900px')) root = root.parentElement;
+        if (!root) return;
+        e.preventDefault(); e.stopImmediatePropagation();
+        if (root.__quitte) return;
+        root.__quitte = true;
+        Array.from(root.children).forEach(c => c.animate([{ opacity: 1, filter: 'none' }, { opacity: 1, filter: 'grayscale(1) contrast(1.05)', offset: .4 }, { opacity: 0, filter: 'grayscale(1) brightness(1.6)' }], { duration: 320, easing: 'ease-in', fill: 'forwards' }));
+        setTimeout(() => {
+          a.__passe = true; a.click(); a.__passe = false;
+          setTimeout(() => { root.__quitte = false; Array.from(root.children).forEach(c => c.getAnimations().forEach(an => an.cancel())); }, 1200);
+        }, 350);
+      }, true);
+    }
     const K = .62, E = 'cubic-bezier(.45,0,.2,1)';
     const T = (dl, d, alt) => ({ o: `${alt ? 'wIn2' : 'wIn'} ${d * K}s ${E} ${dl * K}s both`, f: `${alt ? 'wIn2' : 'wIn'} ${d * K}s ${E} ${(dl + .25) * K}s both` });
     const PH = [
@@ -286,7 +304,7 @@ class Component extends DCLogic {
           const pad = Math.round(Math.max(22, v.h * .12)), fs = Math.round(Math.max(17, Math.min(26, v.h * .095)));
           temoins.push({ x: v.x, y: v.y + y, w: v.w, h: v.h, sw: v.w + 2, sh: v.h + 2, d: frame(v.w, v.h),
             p: pad, qt: pad, tw: v.w - pad * 2, fs: fs + 3,
-            quote: TEM[qi], who: '— ' + (e.who || '[Prénom du client]'), pos: (qi + 1) + ' / ' + TEM.length,
+            quote: TEM[qi], who: '— ' + (e.who || '[Prénom du client]'), pos: (qi + 1) + ' / ' + TEM.length, pa: 'habille .5s ease both',
             line: `${alt ? 'trace2' : 'trace'} 2.2s ${E} ${tb.toFixed(2)}s both`, fill: `${alt ? 'habille2' : 'habille'} 1.6s ease-in-out ${(tb + .6).toFixed(2)}s both`,
             mark: `${alt ? 'wIn2' : 'wIn'} .5s ${E} ${(tb + .9).toFixed(2)}s both`, q: wr(1.2, 1.1), c: wr(1.7, .6) });
           return;
@@ -308,7 +326,7 @@ class Component extends DCLogic {
       const wo = (k2) => ({ o: `wOut .3s ${E} ${(k2 * .02).toFixed(2)}s both`, f: `wOut .28s ${E} ${(k2 * .02).toFixed(2)}s both` });
       vues.forEach((v, i2) => { v.anim = `devOut .3s ease-out ${(i2 * .02).toFixed(2)}s forwards`; v.tr = 'none'; });
       reperes.forEach((r, i2) => { r.a = wo(i2); r.b = wo(i2); r.l = 'none'; });
-      temoins.forEach((t, i2) => { t.fill = `devOut .3s ease-out ${(i2 * .03).toFixed(2)}s forwards`; t.q = wo(i2); t.c = wo(i2); t.mark = `wOut .25s ${E} 0s both`; t.line = 'none'; });
+      temoins.forEach((t, i2) => { t.fill = `devOut .3s ease-out ${(i2 * .03).toFixed(2)}s forwards`; t.q = wo(i2); t.c = wo(i2); t.mark = `wOut .25s ${E} 0s both`; t.line = 'none'; t.pa = `devOut .3s ease-out ${(i2 * .03).toFixed(2)}s forwards`; });
       a.eye = { o: `wOut .3s ${E} .04s both`, f: `wOut .28s ${E} 0s both` }; a.h1 = a.eye; a.h2 = a.eye;
       if (dissolve) {
         const wo2 = { o: `wOut .3s ${E} .1s both`, f: `wOut .28s ${E} .06s both` };
