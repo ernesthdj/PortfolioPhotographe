@@ -1,0 +1,11 @@
+# Fins de ligne : le dépôt stocke du LF pour tout le texte ; les fichiers binaires ne sont jamais convertis.
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.pdf binary
