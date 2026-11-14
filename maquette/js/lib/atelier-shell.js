@@ -35,7 +35,7 @@ const MP = [
   { k: 'stat', t: 'Statistiques', ic: 'stat' },
   { k: 'cat', t: 'Catalogue', ic: 'cat', grp: 1 }, { k: 'srv', t: 'Services', p: 'cat', h: 'services.html' }, { k: 'opt', t: 'Options', p: 'cat', h: 'options.html' },
   { k: 'ctg', t: 'Catégories', p: 'cat', h: 'categories.html' }, { k: 'fic', t: 'Fiches techniques', p: 'cat', h: 'fiches.html' }, { k: 'mod', t: 'Modèles de production', p: 'cat', h: 'modeles.html' },
-  { k: 'red', t: 'Réductions', ic: 'red' }, { k: 'par', t: 'Parrainage', ic: 'par' },
+  { k: 'red', t: 'Réductions', ic: 'red', h: 'reductions.html' }, { k: 'par', t: 'Parrainage', ic: 'par' },
   { k: 'vit', t: 'Vitrine', ic: 'vit', grp: 1 }, { k: 'med', t: 'Médiathèque', p: 'vit' }, { k: 'gal', t: 'Galeries', p: 'vit' },
   { k: 'txt', t: 'Textes', p: 'vit' }, { k: 'tem', t: 'Témoignages', p: 'vit' }, { k: 'mis', t: 'Services mis en avant', p: 'vit' },
   { k: 'reg', t: 'Réglages', ic: 'reg', grp: 1 }, { k: 'gen', t: 'Généraux', p: 'reg' }, { k: 'capa', t: 'Capacité', p: 'reg' }, { k: 'ori', t: 'Origines et étiquettes', p: 'reg' }
@@ -46,7 +46,8 @@ const PAGES = {
   'tableau-de-bord': { menu: 'bord' }, dossiers: { menu: 'dos' }, dossier: { menu: 'dos' }, demandes: { menu: 'dem' },
   services: { menu: 'srv', groupe: 'cat' }, service: { menu: 'srv', groupe: 'cat' }, options: { menu: 'opt', groupe: 'cat' }, option: { menu: 'opt', groupe: 'cat' },
   categories: { menu: 'ctg', groupe: 'cat' }, fiches: { menu: 'fic', groupe: 'cat' }, fiche: { menu: 'fic', groupe: 'cat' }, modeles: { menu: 'mod', groupe: 'cat' },
-  clients: { menu: 'cli' }, client: { menu: 'cli' }, planning: { menu: 'plan' }, production: { menu: 'prod' }
+  clients: { menu: 'cli' }, client: { menu: 'cli' }, planning: { menu: 'plan' }, production: { menu: 'prod' },
+  reductions: { menu: 'red' }, reduction: { menu: 'red' }
 };
 
 const CONTOUR = 'M0 24 A24 24 0 0 1 24 0 L216 0 A24 24 0 0 1 240 24 L240 828 A24 24 0 0 1 216 852 L24 852 A24 24 0 0 1 0 828 Z';

@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<title>Atelier · Réduction</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/atelier.css">
+<link rel="stylesheet" href="../css/pages/atelier-reductions.css" data-page-css>
+</head>
+<body class="atelier" data-module="atelier-reduction" data-famille="atelier">
+<div id="ecran">
+  <div id="scene">
+    <div class="vignette" aria-hidden="true"></div>
+    <div class="fond" id="fond">
+      <!-- La coque persistante (verre + menu) est ajoutée ici par js/lib/atelier-shell.js ; seul #contenu est remplacé par le routeur -->
+      <div id="contenu" role="main">
+      <a href="reductions.html" class="lien mini" id="retour" style="position:absolute;left:304px;top:40px">← Retour aux réductions</a>
+      <p class="mono" style="position:absolute;left:304px;top:78px;margin:0;display:flex;align-items:center;gap:12px">
+        <span id="eye-trait" aria-hidden="true" style="display:block;width:28px;height:1px;background:#D9783A"></span><span class="w" id="eye"></span>
+      </p>
+      <h1 style="position:absolute;left:302px;top:100px;margin:0;font:300 36px/1.1 Inter,sans-serif;letter-spacing:-.03em;filter:drop-shadow(0 6px 9px rgba(20,18,16,.18))">
+        <span class="w" id="h1"></span> <span class="w" id="h2"></span>
+      </h1>
+      <span class="encre" id="enc" aria-hidden="true" style="position:absolute;left:calc(1156px + var(--dx));top:72px;width:220px;height:48px;border-radius:24px"></span><button type="button" class="btn" id="save" style="left:calc(1156px + var(--dx));top:72px;width:220px;height:48px;border-radius:24px">Enregistrer</button>
+      <p id="toast" hidden role="alert" style="position:absolute;left:calc(700px + var(--dx));top:134px;width:676px;margin:0;display:flex;align-items:flex-start;justify-content:flex-end;gap:10px;font:400 13.5px/1.45 Inter,sans-serif;text-align:right;animation:habille .5s ease both"></p>
+
+      <div id="zone" class="rz" style="left:288px;top:156px;width:calc(1104px + var(--dx));height:720px">
+        <div class="champ" id="champ-lib" style="max-width:460px">
+          <label class="mono" for="lib">Libellé affiché au client</label>
+          <input id="lib" type="text" maxlength="60" autocomplete="off" aria-invalid="false" aria-describedby="lib-err">
+        </div>
+        <p id="lib-err" class="err" role="alert"></p>
+
+        <div class="rz-cols">
+          <section class="rp rp-col" aria-label="Si : les conditions">
+            <div class="verre rp-fond" aria-hidden="true"></div>
+            <svg class="rp-trait" aria-hidden="true"><rect x="0" y="0" width="100%" height="100%" rx="24" pathLength="100"></rect></svg>
+            <p class="mono rp-w" style="margin:0">1 · Quand</p>
+            <h2 class="rp-w" style="margin-top:8px">Si <i>le devis…</i></h2>
+            <div class="rp-b">
+              <div id="conds" class="rz-pile"></div>
+              <p id="conds-vide" class="note" style="margin:20px 0 0;font-size:12.5px">Aucune condition : la réduction vaut pour tout devis.</p>
+              <p class="note" id="ajout-l" style="margin:16px 0 10px;font-size:12px">Ajouter une condition (toutes doivent être vraies) :</p>
+              <div id="ajout" class="flux" role="group" aria-labelledby="ajout-l"></div>
+            </div>
+          </section>
+
+          <section class="rp rp-col" aria-label="Alors : l’effet">
+            <div class="verre rp-fond" aria-hidden="true"></div>
+            <svg class="rp-trait" aria-hidden="true"><rect x="0" y="0" width="100%" height="100%" rx="24" pathLength="100"></rect></svg>
+            <p class="mono rp-w" style="margin:0">2 · Alors</p>
+            <h2 class="rp-w" style="margin-top:8px">Alors <i>le client gagne…</i></h2>
+            <div class="rp-b">
+              <div id="types" class="flux" role="group" aria-label="Type de réduction" style="margin-top:20px"></div>
+              <div id="val-bloc">
+                <div class="rz-val-l"><input id="val" class="rz-val" type="text" inputmode="decimal" maxlength="6" autocomplete="off" aria-invalid="false" aria-describedby="val-note val-err"><span id="val-u" class="rz-unite" aria-hidden="true">%</span></div>
+                <p id="val-note" class="note" style="margin:10px 0 0;font-size:12px"></p>
+                <p id="val-err" class="err" role="alert"></p>
+              </div>
+              <p id="val-offert" class="note" hidden style="margin:22px 0 0;font-size:13px">L’élément choisi à droite est offert : sa valeur est déduite en totalité (100 %).</p>
+            </div>
+          </section>
+
+          <section class="rp rp-col" aria-label="Sur : la cible">
+            <div class="verre rp-fond" aria-hidden="true"></div>
+            <svg class="rp-trait" aria-hidden="true"><rect x="0" y="0" width="100%" height="100%" rx="24" pathLength="100"></rect></svg>
+            <p class="mono rp-w" style="margin:0">3 · Sur quoi</p>
+            <h2 class="rp-w" style="margin-top:8px">Sur <i>quoi ?</i></h2>
+            <div class="rp-b">
+              <div id="cibles" class="rz-pile" role="group" aria-label="Cible de la réduction"></div>
+              <div id="ref-bloc" class="champ" hidden style="margin-top:18px"><label class="mono" id="ref-l" for="ref">Lequel ?</label><select id="ref" aria-describedby="cible-err"></select></div>
+              <p id="cible-err" class="err" role="alert"></p>
+            </div>
+          </section>
+        </div>
+
+        <section class="rp rp-pan" aria-label="Aperçu chiffré" style="margin-top:26px">
+          <div class="verre rp-fond" aria-hidden="true"></div>
+          <svg class="rp-trait" aria-hidden="true"><rect x="0" y="0" width="100%" height="100%" rx="24" pathLength="100"></rect></svg>
+          <div class="rp-w" style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:12px">
+            <p class="mono" style="margin:0">Aperçu avec un devis d’exemple</p>
+            <p class="note" style="margin:0;font-size:12px">Se met à jour pendant que vous choisissez.</p>
+          </div>
+          <div class="rp-b">
+            <div id="ap" style="margin-top:14px;max-width:640px"></div>
+            <p id="ap-msg" class="note" role="status" style="margin:14px 0 0;font-size:12.5px;max-width:640px"></p>
+            <p class="note" style="margin:8px 0 0;font-size:12px">Aperçu calculé par le même moteur que le simulateur : la réduction s’applique sur le HTVA, la TVA se calcule après.</p>
+          </div>
+        </section>
+
+        <div class="rz-duo">
+          <section class="rp rp-lim" aria-label="Limites">
+            <div class="verre rp-fond" aria-hidden="true"></div>
+            <svg class="rp-trait" aria-hidden="true"><rect x="0" y="0" width="100%" height="100%" rx="24" pathLength="100"></rect></svg>
+            <p class="mono rp-w" style="margin:0">Limites · facultatives</p>
+            <div class="rp-b">
+              <div id="lims" class="flux" role="group" aria-label="Limites à appliquer" style="margin-top:14px"></div>
+              <div id="lim-champs" class="rz-champs">
+                <div class="champ" id="b-periode" hidden><label class="mono" for="lim-du">Valable du</label><input id="lim-du" type="date" min="2020-01-01" max="2099-12-31" aria-invalid="false" aria-describedby="periode-err"></div>
+                <div class="champ" id="b-periode2" hidden><label class="mono" for="lim-au">au</label><input id="lim-au" type="date" min="2020-01-01" max="2099-12-31" aria-invalid="false" aria-describedby="periode-err"></div>
+                <div class="champ" id="b-max" hidden><label class="mono" for="lim-max">Utilisations maximum</label><input id="lim-max" type="text" inputmode="numeric" maxlength="6" autocomplete="off" aria-invalid="false" aria-describedby="max-err"></div>
+                <div class="champ" id="b-plafond" hidden><label class="mono" for="lim-plafond">Remise maximale (€)</label><input id="lim-plafond" type="text" inputmode="decimal" maxlength="9" autocomplete="off" aria-invalid="false" aria-describedby="plafond-err"></div>
+              </div>
+              <p id="periode-err" class="err" role="alert"></p>
+              <p id="max-err" class="err" role="alert"></p>
+              <p id="plafond-err" class="err" role="alert"></p>
+            </div>
+          </section>
+
+          <section class="rp rp-lim" aria-label="Cumul et visibilité">
+            <div class="verre rp-fond" aria-hidden="true"></div>
+            <svg class="rp-trait" aria-hidden="true"><rect x="0" y="0" width="100%" height="100%" rx="24" pathLength="100"></rect></svg>
+            <p class="mono rp-w" style="margin:0">Cumul et visibilité</p>
+            <div class="rp-b" style="margin-top:14px;display:flex;flex-direction:column;gap:14px">
+              <div class="champ"><label class="mono" for="cumul">Cumul propre</label>
+                <select id="cumul"><option value="general">Réglage général</option><option value="oui">Cumulable avec d’autres réductions</option><option value="non">Jamais cumulée</option></select></div>
+              <label class="cn"><input type="checkbox" id="sug"><span class="bx" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2 6.5 L5 9 L10 3"></path></svg></span>Suggérer au visiteur</label>
+              <label class="cn"><input type="checkbox" id="act"><span class="bx" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2 6.5 L5 9 L10 3"></path></svg></span>Réduction active</label>
+            </div>
+          </section>
+        </div>
+      </div>
+      </div><!-- /#contenu -->
+    </div>
+  </div>
+</div>
+<script type="module" src="../js/amorce.js"></script>
+</body>
+</html>

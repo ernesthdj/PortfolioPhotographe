@@ -36,6 +36,7 @@ Déploiement Vercel : `vercel.json` active `cleanUrls` (dossier racine du projet
 | ErpFiches / ErpFiche | `atelier/fiches.html` / `atelier/fiche.html` |
 | ErpModeles | `atelier/modeles.html` |
 | ErpClients / ErpClient | `atelier/clients.html` / `atelier/client.html` |
+| E20 Réductions (liste B) / E21 (formulaire B) | `atelier/reductions.html` / `atelier/reduction.html` (`?id=` pour modifier ; données `data/reductions.js`) |
 | ErpPlanning / ErpProduction | `atelier/planning.html` / `atelier/production.html` |
 
 Planches exclues (entrées de menu et liens désactivés : `aria-disabled="true"`, grisés, infobulle « Bientôt disponible », sans lien) : ErpDossierPupitre, ErpTable, ErpRegie, ErpEcheanciers, ErpChiffres, ErpStats et les entrées de menu non dessinées.

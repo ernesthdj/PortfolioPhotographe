@@ -1,0 +1,79 @@
+/* Atelier · réductions (E20 liste « cartes en phrases », E21 formulaire « constructeur Si… alors… ») : compléments au style commun de l'atelier.
+   Valeurs reprises de E20-liste-B.dc.html et E21-form-B.dc.html. Palette du site uniquement. */
+
+/* Zone qui défile (la scène fait 900 de haut) : marge intérieure pour que les ombres des verres ne soient pas coupées */
+.rz{position:absolute;box-sizing:border-box;overflow-x:hidden;overflow-y:auto;scrollbar-width:thin;padding:14px 16px 32px}
+
+/* Panneau de verre en flux : le verre, le trait et le contenu sont des enfants d'un conteneur relatif (l'opacité du conteneur reste libre) */
+.rp{position:relative;isolation:isolate;box-sizing:border-box}
+.rp > .rp-fond{left:0;top:0;right:0;bottom:0;z-index:-1}
+.rp > .rp-trait{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.rp-trait rect{fill:none;stroke:rgba(13,14,16,.25);stroke-width:1px;stroke-dasharray:100 102;stroke-dashoffset:101}
+
+/* --- Liste : grille de cartes --- */
+.rg{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:22px;align-items:start}
+.rcarte{padding:24px 26px 20px}
+.rcarte.off{opacity:.8}
+.rc-ent{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.rc-t{margin:16px 0 0;font:500 16px Inter,sans-serif}
+.phrase{margin:14px 0 0;font:300 22px/1.4 Inter,sans-serif;letter-spacing:-.01em}
+.phrase i{font:italic 400 26px/1 'Instrument Serif',serif}
+.phrase b{font-weight:500}
+.rc-note{margin:14px 0 6px;font-size:12.5px}
+.jauge{height:4px;border-radius:2px;background:rgba(13,14,16,.12);overflow:hidden}
+.jauge span{display:block;height:100%;background:#3AA6B5}
+.rc-act{margin-top:16px;display:flex;gap:18px}
+/* Interrupteur Active / Inactive */
+.inter{display:inline-flex;align-items:center;gap:10px;padding:0;border:0;background:transparent;cursor:pointer;font:400 13.5px Inter,sans-serif;color:#0D0E10}
+.inter i{display:block;position:relative;flex:none;width:34px;height:20px;border-radius:10px;background:#0D0E10;transition:background .25s ease}
+.inter i::after{content:"";position:absolute;left:3px;top:3px;width:14px;height:14px;border-radius:7px;background:#EEEDE9;transform:translateX(14px);transition:transform .25s ease}
+.inter[aria-checked="false"] i{background:rgba(13,14,16,.22)}
+.inter[aria-checked="false"] i::after{transform:translateX(0)}
+.inter:focus-visible{outline:2px solid #0D0E10;outline-offset:3px;border-radius:10px}
+/* Fenêtre de confirmation */
+.rm-boite{left:calc(720px + var(--dx) / 2 - 230px);top:290px;width:460px;padding:28px 32px 26px}
+.rm-act{margin-top:24px;display:flex;align-items:center;gap:26px}
+.rm-act .btn{position:relative;width:170px;height:48px;border-radius:24px}
+
+/* --- Formulaire : trois colonnes, aperçu, limites --- */
+.rz-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;align-items:stretch}
+.rp-col{padding:26px 26px 28px;min-width:0}
+.rp-col h2{margin:0;font:300 22px/1.2 Inter,sans-serif;letter-spacing:-.02em}
+.rp-col h2 i{font:italic 400 28px/1 'Instrument Serif',serif}
+.rp-pan{padding:28px 32px 30px}
+.rz-duo{margin-top:26px;display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:22px;align-items:start}
+.rp-lim{padding:26px 28px}
+.rz-pile{margin-top:20px;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.rz-cond{display:flex;flex-direction:column;align-items:flex-start;gap:8px;width:100%}
+.rz-cond .champ{width:100%}
+.rz-cond .err{margin:0}
+.rz-cond .err:empty{display:none}
+.rz-champs{margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px 28px}
+.rz-champs .champ[hidden]{display:none}
+.puce.ajout{border:1px dashed rgba(13,14,16,.4);box-shadow:none;color:#4B4D52}
+.puce.ajout:hover{background:rgba(13,14,16,.05)}
+.puce:disabled{opacity:.4;cursor:not-allowed}
+.puce:disabled:hover{background:transparent}
+.puce span[aria-hidden="true"]{font-size:12px}
+/* Valeur de la réduction : un vrai champ, en grand */
+.rz-val-l{margin-top:22px;display:flex;align-items:baseline;gap:10px}
+.rz-val{display:block;width:3ch;min-width:2ch;max-width:100%;padding:0;border:0;border-bottom:1px solid rgba(13,14,16,.3);border-radius:0;background:transparent;outline:none;font:300 56px/1.05 Inter,sans-serif;letter-spacing:-.04em;color:#0D0E10}
+.rz-val:focus{border-bottom:2px solid #3AA6B5}
+.rz-val[aria-invalid="true"]{border-bottom:2px solid #7A1F33}
+.rz-unite{font:italic 400 36px/1 'Instrument Serif',serif}
+.rz .champ input[type="date"]{font:400 15px Inter,sans-serif;min-height:34px}
+/* Lignes de l'aperçu */
+.rl{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:11px 0;border-top:1px solid rgba(13,14,16,.14);font:400 14.5px Inter,sans-serif}
+.rl > span:first-child{display:inline-flex;align-items:center;gap:10px}
+.rl > span:last-child{white-space:nowrap}
+.rl i{display:block;flex:none;width:8px;height:8px;border-radius:4px;background:#3AA6B5}
+.rl.tot{border-top:1px solid #0D0E10;font-weight:500}
+.rl.doux{color:#4B4D52}
+/* Cases à cocher natives, habillées comme les autres cases de l'atelier */
+.cn{position:relative;display:inline-flex;align-items:center;gap:12px;cursor:pointer;font:400 14.5px Inter,sans-serif;color:#0D0E10}
+.cn input{position:absolute;left:0;top:0;width:20px;height:20px;margin:0;opacity:0;cursor:pointer}
+.cn .bx{display:flex;flex:none;align-items:center;justify-content:center;width:20px;height:20px;border-radius:6px;box-shadow:inset 0 0 0 1.5px rgba(13,14,16,.45);transition:background .2s ease}
+.cn input:checked + .bx{background:#0D0E10;box-shadow:none}
+.cn input:focus-visible + .bx{outline:2px solid #0D0E10;outline-offset:3px}
+.cn .bx svg{width:12px;height:12px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;opacity:0}
+.cn input:checked + .bx svg{opacity:1}
