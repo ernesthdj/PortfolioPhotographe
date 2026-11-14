@@ -7,7 +7,7 @@
 // Le ruban de la journée et les adresses exactes vivent dans l'écran connecté « Préciser ma journée » (preciser.js).
 // Prix, catalogue et distances : référence unique data/tarifs.js.
 import { E } from '../lib/anim.js';
-import { monterEntete, majEntete } from '../lib/entete.js';
+import { monterEntete } from '../lib/entete.js';
 import { $, el, svg, ecrire, animer, liste, voir } from '../lib/dom.js';
 import { eurN as eur, hhmm as hh } from '../lib/format.js';
 import { param } from '../lib/params.js';
@@ -116,7 +116,9 @@ export function init() {
     if (again) Object.assign(a, { sep: 'none', logo: T(0, .3), sig: 'none', n0: T(0, .3), n1: T(0, .3), n2: T(0, .3), n3: T(0, .3), hFl: 'none', hCta: T(0, .3) });
     return { a, T, H };
   }
-  let R = rythmes(false);
+  // Rythme d'entrée figé : après la première interaction seul le CONTENU change, rien de la page déjà dessinée ne se rejoue.
+  const R = rythmes(false), Rq = rythmes(true);
+  let panneauOuvert = false;     // le panneau était ouvert au rendu précédent (la page ne revient qu'à sa fermeture)
   const entete = monterEntete($('#entete'), { cta: 'Créer mon devis', a: R.a });
   entete.ctaA.setAttribute('aria-current', 'page');
   vie.aFaire(() => entete.ctaA.removeAttribute('aria-current'));
@@ -134,7 +136,7 @@ export function init() {
   ecrire($('#tot-t'), 'Totaux');
   [['eye-trait', 'eyeL'], ['eye', 'eye'], ['h1', 'h1'], ['h2', 'h2'], ['sub', 'sub'], ['cat-t', 'catT'], ['dev-l', 'devL'], ['msg2', 'msg2'], ['tot-t', 'totT'],
     ['axe', 'axe'], ['tvl', 'tVl'], ['pill', 'pill'], ['pill-c', 'pillC'], ['promo', 'promo'], ['appliquer', 'promo'], ['tot-verre', 'tB'], ['soumettre', 'tV'], ['t-ttc', 'tV']]
-    .forEach(([id, k]) => lier($('#' + id), () => R.a[k]));
+    .forEach(([id, k]) => lier($('#' + id), () => (k === 'msg2' && st.n > 0 ? Rq.a : R.a)[k]));   // le message « vide » revient vite quand on retire tout
   document.querySelectorAll('.pill-l').forEach((n) => lier(n, () => R.a.pillL));
   document.querySelectorAll('.tot-l').forEach((n) => lier(n, () => R.a.tL));
   document.querySelectorAll('.tv').forEach((n) => { if (n.id !== 'soumettre' && n.id !== 't-ttc') lier(n, () => R.a.tV); });
@@ -252,9 +254,6 @@ export function init() {
   }
 
   function rendre() {
-    const again = st.n > 0;
-    R = rythmes(again);
-    if (again) majEntete(entete, R.a);    // l'en-tête persistant ne rejoue rien avant la première interaction
     anims.forEach(([n, f]) => animer(n, f()));
 
     // largeur de l'axe des heures : 560 px à 1440, + dx au-delà (la journée occupe toute la place libre)
@@ -313,7 +312,10 @@ export function init() {
     sb.onclick = () => { if (ok) soumettre(); };
 
     rendreSub(rows, Math.round((ht + tva) * 100) / 100);
-    animer($('#page'), st.sub === 'open' ? `wOut .4s ${E} both` : (again ? `wIn .5s ${E} .05s both` : 'none'));
+    // la page s'efface pendant que le panneau de compte est ouvert et ne revient qu'à sa fermeture ; une simple mise à jour du devis ne l'anime pas
+    const retourPage = panneauOuvert && st.sub !== 'open';
+    panneauOuvert = st.sub === 'open';
+    animer($('#page'), panneauOuvert ? `wOut .4s ${E} both` : (retourPage ? `wIn .5s ${E} .05s both` : 'none'));
   }
 
   // ------------------------------------------------------------------ panneau de compte : enregistrer mon brouillon

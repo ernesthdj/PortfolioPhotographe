@@ -3,7 +3,7 @@
 // photographe seulement), règle les horaires au clavier ou sur le ruban, voit le prix complet et SOUMET depuis ici.
 // Prix, catalogue et distances : référence unique data/tarifs.js. Rien n'est envoyé : formulaires factices.
 import { E } from '../lib/anim.js';
-import { monterEntete, majEntete } from '../lib/entete.js';
+import { monterEntete } from '../lib/entete.js';
 import { $, el, svg, ecrire, animer, liste, voir, texte } from '../lib/dom.js';
 import { eurN as eur, hhmm as hh } from '../lib/format.js';
 import { CATEGORIES, SERVICES, OPTIONS, KM, COMMUNES, DUREE_MIN, DUREE_MAX, hm, virgule, service, calculer, ville } from '../../data/tarifs.js';
@@ -102,7 +102,9 @@ export function init() {
     if (again) Object.assign(a, { sep: 'none', logo: T(0, .3), sig: 'none', n0: T(0, .3), n1: T(0, .3), n2: T(0, .3), n3: T(0, .3), n4: T(0, .3), hFl: 'none', hCta: T(0, .3) });
     return { a, T, H };
   }
-  let R = rythmes(false);
+  // Rythme d'entrée figé : après la première interaction seul le CONTENU change, rien de la page déjà dessinée ne se rejoue.
+  const R = rythmes(false), Rq = rythmes(true);
+  let panneauOuvert = false;     // un panneau était ouvert au rendu précédent (la page ne revient qu'à sa fermeture)
   const entete = monterEntete($('#entete'), { actif: 'dossiers', cta: 'Simuler un devis', avecDossiers: true, a: R.a });
 
   // Registre : (élément, fonction qui donne son animation courante), réappliqué à chaque rendu.
@@ -118,7 +120,7 @@ export function init() {
   ecrire($('#tot-t'), 'Totaux');
   [['eye-trait', 'eyeL'], ['eye', 'eye'], ['h1', 'h1'], ['h2', 'h2'], ['sub', 'sub'], ['cat-t', 'catT'], ['dev-l', 'devL'], ['msg2', 'msg2'], ['tot-t', 'totT'],
     ['axe', 'axe'], ['tvl', 'tVl'], ['pill', 'pill'], ['pill-c', 'pillC'], ['promo', 'promo'], ['appliquer', 'promo'], ['tot-verre', 'tB'], ['soumettre', 'tV'], ['t-ttc', 'tV']]
-    .forEach(([id, k]) => lier($('#' + id), () => R.a[k]));
+    .forEach(([id, k]) => lier($('#' + id), () => (k === 'msg2' && st.n > 0 ? Rq.a : R.a)[k]));   // le message « vide » revient vite quand on retire tout
   document.querySelectorAll('.pill-l').forEach((n) => lier(n, () => R.a.pillL));
   document.querySelectorAll('.tot-l').forEach((n) => lier(n, () => R.a.tL));
   document.querySelectorAll('.tv').forEach((n) => { if (n.id !== 'soumettre' && n.id !== 't-ttc') lier(n, () => R.a.tV); });
@@ -191,9 +193,6 @@ export function init() {
   }
 
   function rendre() {
-    const again = st.n > 0;
-    R = rythmes(again);
-    if (again) majEntete(entete, R.a);    // l'en-tête persistant ne rejoue rien avant la première interaction
     anims.forEach(([n, f]) => animer(n, f()));
 
     // largeur de l'axe des heures : 560 px à 1440, + dx au-delà (la journée occupe toute la place libre)
@@ -252,7 +251,10 @@ export function init() {
 
     rendrePanneau();
     rendreSub(rows, Math.round((ht + tva) * 100) / 100);
-    animer($('#page'), (st.ph === 'open' || st.sub === 'open') ? `wOut .4s ${E} both` : (again ? `wIn .5s ${E} .05s both` : 'none'));
+    // la page s'efface pendant qu'un panneau est ouvert et ne revient qu'à sa fermeture ; une simple mise à jour ne l'anime pas
+    const ouvert = st.ph === 'open' || st.sub === 'open', retourPage = panneauOuvert && !ouvert;
+    panneauOuvert = ouvert;
+    animer($('#page'), ouvert ? `wOut .4s ${E} both` : (retourPage ? `wIn .5s ${E} .05s both` : 'none'));
   }
 
   // ------------------------------------------------------------------ panneau E01.a
