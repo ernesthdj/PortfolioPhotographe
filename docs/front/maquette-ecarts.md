@@ -343,3 +343,20 @@ Règle : tout en CSS `calc(Npx + var(--dx) * f)` ; aucun recalcul JS. À dx = 0 
   - le texte de fin de soumission suit la planche ; le numéro « 2027-014 » est celui du dossier d'exemple, rien n'est créé.
 - **Question de fond, non tranchée** : la planche garde, dans le panneau de soumission d'une page connectée, les champs e-mail et mot de passe (« Créez votre compte »). Reproduit tel quel pour rester fidèle ; à retirer si le client est déjà connecté ici.
 - **Non vérifié dans un navigateur** (aucun serveur local lancé) : seule la syntaxe des modules a été contrôlée (`node --check`) ainsi que la logique de `brouillon.js` (essai Node avec un faux sessionStorage). À regarder en priorité : alignement des poignées du ruban et des lieux, hauteur de la zone de défilement des lignes, animation d'entrée, focus à l'ouverture du panneau, passage simulateur vers préciser sans rechargement.
+
+## Atelier · Réductions (E20 liste B, E21 formulaire B)
+
+- **Fichiers créés** : `atelier/reductions.html`, `atelier/reduction.html`, `js/pages/atelier-reductions.js`, `js/pages/atelier-reduction.js`, `js/pages/atelier-reductions-logique.js` (phrases générées, validation, aperçu, mémoire de session), `css/pages/atelier-reductions.css`, `data/reductions.js` (source unique : 4 exemples, noms courts d'options, devis d'exemple).
+- **Fichiers modifiés** : `js/lib/atelier-shell.js` (entrée « Réductions » devenue un lien, active sur les deux pages), `maquette/README.md`.
+- **Réutilisé** : coque et menu persistants, `dom.js`, `anim.js` (rythme 0,45), `vie.js`, `modale.js` (confirmation de suppression), `params.js` (`?id=` en liste blanche), `data/tarifs.js` (`calculer`, `r2`, `TVA`, `CATEGORIES`) pour l'aperçu, `atelier.css` (puces, champs, erreurs).
+- **Écarts avec le canvas** :
+  - la scène fait 900 de haut : le contenu défile dans une zone interne (liste et formulaire), le canvas est une page haute ;
+  - montants de l'aperçu : devis d'exemple calculé par le moteur du simulateur (Mariage 6 h 490 €, Album 120 €, transport Liège 48,80 €, réduction 10 % = − 65,88 €) au lieu de 1 000 € / 200 € ; ajout des lignes TVA et Total TVAC ;
+  - les conditions « code » et « parrainage » sont supposées remplies dans l'aperçu ; les limites (dates, utilisations) ne sont pas simulées ;
+  - ajouts nécessaires aux champs : valeur réelle (pourcentage > 0 à 100, montant positif), choix du service, de l'option ou de la catégorie visés, champs de chaque condition et de chaque limite ; « Élément offert » désactive « Le dossier entier » et « Une catégorie » ;
+  - interrupteur : nom accessible fixe (« Activer … »), l'état visible « Active / Inactive » suit `aria-checked` ;
+  - la jauge sans maximum dit « n utilisations, sans maximum » ; commentaires de designer des planches non repris ;
+  - verre des cartes : conteneur relatif + fond de verre en enfant (l'opacité .8 de la carte inactive reste libre vis-à-vis de l'animation d'entrée) ; le flou d'arrière-plan peut différer légèrement.
+- **Persistance** : `sessionStorage` (clé `maquette.reductions`, validée à la lecture) ; rien n'est envoyé.
+- **Vérifié au navigateur (Chrome, 1745×777)** : menu actif, cartes 536×249 (padding 24/26, opacité .8 inactive), phrases/étiquettes dérivées, interrupteur, suppression (Échap, focus), navigation liste ↔ formulaire sans rechargement, aperçu en direct, erreurs, enregistrement puis retour. Un bug trouvé et corrigé : le routeur exige une adresse absolue.
+- **Non vérifié** : rendu à 1440×900 exact, rendu animé à l'œil, lecteur d'écran, navigation Retour/Avancer après enregistrement.
