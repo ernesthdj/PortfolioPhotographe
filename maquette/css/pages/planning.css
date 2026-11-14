@@ -1,10 +1,4 @@
 /* Planning (E39) : vues mois / semaine / jour. */
-.flux{display:flex;flex-wrap:wrap;gap:8px}
-.ico{position:absolute;width:26px;height:26px;padding:0;border:0;border-radius:13px;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#0D0E10}
-.ico:hover{background:rgba(13,14,16,.06)}
-.ico[aria-disabled="true"]{color:#B5B7BB;cursor:default;background:transparent}
-.ico svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.ico:focus-visible{outline:2px solid #0D0E10;outline-offset:2px}
 .ev{position:absolute;left:6px;right:6px;height:20px;display:flex;align-items:center;gap:6px;padding:0 6px;box-sizing:border-box;border-radius:7px;color:#0D0E10;text-decoration:none;font:400 12px Inter,sans-serif;white-space:nowrap;overflow:hidden;z-index:2}
 .ev:hover{background:rgba(13,14,16,.06)}
 .ev i{display:block;flex:none;width:7px;height:7px;border-radius:4px}

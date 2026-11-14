@@ -1,5 +1,3 @@
 /* Production (E28) : liste des shootings à livrer + étapes. */
-.err{min-height:20px;margin:6px 0 10px;display:flex;align-items:center;gap:8px;font:400 13px Inter,sans-serif;color:#0D0E10}
-.err i{display:block;flex:none;width:6px;height:6px;border-radius:3px;background:#7A1F33}
 /* Panneau de droite : conteneur décalé de dx (ancré à droite) ; seuls ses contrôles captent la souris. */
 #detail button,#detail a,#detail input,#detail label{pointer-events:auto}
