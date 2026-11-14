@@ -51,14 +51,14 @@
       <div class="verre" id="col2-verre" aria-hidden="true" style="left:calc(848px + var(--dx) * .5);top:196px;width:calc(528px + var(--dx) * .5);height:676px;opacity:0"></div>
       <div id="col2" style="position:absolute;left:calc(876px + var(--dx) * .5);top:218px;width:calc(472px + var(--dx) * .5)">
         <p class="mono" style="margin:0">Notes privées · jamais visibles du client</p>
-        <div class="champ"><textarea id="np" aria-label="Notes privées" style="height:62px"></textarea></div>
+        <div class="champ"><textarea maxlength="1000" id="np" aria-label="Notes privées" style="height:62px"></textarea></div>
         <button type="button" class="mini" id="note" style="margin-top:8px">Enregistrer la note</button>
         <p class="mono" style="margin:24px 0 8px">Journal des échanges</p>
         <div style="display:flex;gap:20px;align-items:flex-end">
           <div class="champ" style="width:150px"><label class="mono" for="jd">Date</label><input id="jd" type="date"></div>
           <div class="flux" id="f-canal" role="radiogroup" aria-label="Canal"></div>
         </div>
-        <div class="champ" style="margin-top:10px"><label class="mono" for="jrs">Résumé</label><textarea id="jrs" style="height:44px" aria-invalid="false" aria-describedby="jrs-err"></textarea></div>
+        <div class="champ" style="margin-top:10px"><label class="mono" for="jrs">Résumé</label><textarea maxlength="500" id="jrs" style="height:44px" aria-invalid="false" aria-describedby="jrs-err"></textarea></div>
         <p id="jrs-err" class="err" role="alert"></p>
         <button type="button" class="btn encre" id="ajouter" style="position:relative;width:200px;height:40px;border-radius:20px">+ Ajouter l’échange</button>
         <div id="journal"></div>

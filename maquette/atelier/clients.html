@@ -28,7 +28,7 @@
       </h1>
       <button type="button" class="btn encre ad" id="nouveau" style="left:1156px;top:72px;width:220px;height:48px;border-radius:24px">+ Nouveau client</button>
 
-      <div class="champ" id="champ-q" style="position:absolute;left:304px;top:156px;width:300px"><label class="mono" for="q">Nom ou email</label><input id="q" type="search" autocomplete="off"></div>
+      <div class="champ" id="champ-q" style="position:absolute;left:304px;top:156px;width:300px"><label class="mono" for="q">Nom ou email</label><input maxlength="100" id="q" type="search" autocomplete="off"></div>
       <button type="button" class="mini" id="rechercher" style="position:absolute;left:624px;top:188px">Rechercher</button>
       <div class="flux" id="f-type" role="group" aria-label="Clients ou prospects" style="position:absolute;right:64px;top:180px"></div>
       <div class="flux" role="group" aria-label="Filtrer par étiquette" style="position:absolute;left:304px;top:232px;align-items:center" id="g-tags">
@@ -63,9 +63,9 @@
           <p class="mono" style="position:absolute;left:40px;top:34px;margin:0">Nouveau client · même catalogue et mêmes prix que le simulateur</p>
           <p id="nc-t" style="position:absolute;left:40px;top:58px;margin:0;font:300 30px Inter,sans-serif;letter-spacing:-.02em">Un client vous a appelé ?</p>
           <div style="position:absolute;left:40px;top:118px;width:440px">
-            <div class="champ"><label class="mono" for="ncm">Email</label><input id="ncm" type="email" autocomplete="off" aria-invalid="false" aria-describedby="ncm-err"></div>
+            <div class="champ"><label class="mono" for="ncm">Email</label><input maxlength="254" id="ncm" type="email" autocomplete="off" aria-invalid="false" aria-describedby="ncm-err"></div>
             <p id="ncm-err" class="err" role="alert"></p>
-            <div class="champ" style="margin-top:4px"><label class="mono" for="ncn">Nom</label><input id="ncn" type="text" autocomplete="off" aria-invalid="false" aria-describedby="ncn-err"></div>
+            <div class="champ" style="margin-top:4px"><label class="mono" for="ncn">Nom</label><input maxlength="100" id="ncn" type="text" autocomplete="off" aria-invalid="false" aria-describedby="ncn-err"></div>
             <p id="ncn-err" class="err" role="alert"></p>
             <p class="mono" style="margin:14px 0 4px">Catalogue</p>
             <div id="pn-cat" style="max-height:275px;overflow-y:auto"></div>

@@ -13,7 +13,7 @@
 const L = 1440, H = 900, CAP_SITE = 1700;
 
 let sceneMontee = false;
-export const mesures = { W: L, k: 1, dx: 0 };
+export const mesures = { W: L, k: 1, dx: 0, gx: 0 };   // gx : part de dx dont profite le bloc central du site (plafonnée)
 window.__scene = mesures;
 
 export function monterScene() {
@@ -28,7 +28,7 @@ export function monterScene() {
     W = Math.round(W * 100) / 100;
     const dx = W - L, gx = Math.min(dx, CAP_SITE - L);
     const change = W !== mesures.W;
-    Object.assign(mesures, { W, k, dx });
+    Object.assign(mesures, { W, k, dx, gx });
     const st = scene.style;
     st.setProperty('--W', W + 'px'); st.setProperty('--dx', dx + 'px');
     st.setProperty('--gx', gx + 'px'); st.setProperty('--sx', (dx - gx) / 2 + 'px');

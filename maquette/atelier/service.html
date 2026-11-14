@@ -29,9 +29,9 @@
       <span class="encre" id="enc" aria-hidden="true" style="position:absolute;left:calc(1156px + var(--dx));top:72px;width:220px;height:48px;border-radius:24px"></span><button type="button" class="btn" id="save" aria-disabled="false" style="left:calc(1156px + var(--dx));top:72px;width:220px;height:48px;border-radius:24px">Enregistrer</button>
 
       <div id="col1" style="position:absolute;left:304px;top:196px;width:calc(496px + var(--dx) * .7)">
-        <div class="champ"><label class="mono" for="lib">Libellé</label><input id="lib" data-m="1" type="text" autocomplete="off" aria-invalid="false" aria-describedby="lib-err"></div>
+        <div class="champ"><label class="mono" for="lib">Libellé</label><input maxlength="120" id="lib" data-m="1" type="text" autocomplete="off" aria-invalid="false" aria-describedby="lib-err"></div>
         <p id="lib-err" class="err" role="alert"></p>
-        <div class="champ" style="margin-top:6px"><label class="mono" for="desc">Description</label><textarea id="desc" data-m="1"></textarea></div>
+        <div class="champ" style="margin-top:6px"><label class="mono" for="desc">Description</label><textarea maxlength="500" id="desc" data-m="1"></textarea></div>
         <p class="mono" id="mode-l" style="margin:22px 0 10px">Mode de prix</p>
         <div class="flux" id="modes" role="radiogroup" aria-labelledby="mode-l"></div>
         <div id="params" style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px 36px"></div>
@@ -48,7 +48,7 @@
         </div>
         <div style="margin-top:14px;display:flex;align-items:flex-end;gap:28px;min-height:56px">
           <button type="button" class="case" role="checkbox" aria-checked="false" id="tva-case" style="position:relative;margin-bottom:8px"><span class="bx" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2 6.5 L5 9 L10 3"></path></svg></span>Taux de TVA propre à ce service</button>
-          <div class="champ" id="tva-bloc" hidden style="width:110px"><label class="mono" for="tva">Taux (%)</label><input id="tva" data-m="1" type="text" inputmode="decimal" aria-invalid="false" aria-describedby="tva-err"></div>
+          <div class="champ" id="tva-bloc" hidden style="width:110px"><label class="mono" for="tva">Taux (%)</label><input maxlength="6" id="tva" data-m="1" type="text" inputmode="decimal" aria-invalid="false" aria-describedby="tva-err"></div>
         </div>
         <p id="tva-err" class="err" role="alert"></p>
       </div>
@@ -67,12 +67,12 @@
         <div id="trp-bloc" style="margin-top:12px;display:grid;grid-template-columns:1.4fr 1fr;gap:10px 28px">
           <div class="champ"><label class="mono" for="km">Km comptés</label><select id="km" data-m="1"><option>Aller seul</option><option>Aller-retour, lieu le plus loin</option><option>Itinéraire complet</option></select></div>
           <div class="champ"><label class="mono" for="seuil">Seuil</label><select id="seuil" data-m="1"><option>Franchise</option><option>Tout ou rien</option></select></div>
-          <div class="champ"><label class="mono" for="sKm">Seuil (km)</label><input id="sKm" data-m="1" type="text" inputmode="numeric"></div>
-          <div class="champ"><label class="mono" for="pKm">Prix par km (€)</label><input id="pKm" data-m="1" type="text" inputmode="decimal"></div>
+          <div class="champ"><label class="mono" for="sKm">Seuil (km)</label><input maxlength="6" id="sKm" data-m="1" type="text" inputmode="numeric"></div>
+          <div class="champ"><label class="mono" for="pKm">Prix par km (€)</label><input maxlength="8" id="pKm" data-m="1" type="text" inputmode="decimal"></div>
         </div>
         <p class="mono" style="margin:24px 0 10px">Date limite de modification</p>
         <button type="button" class="case" role="checkbox" aria-checked="false" id="dl-case" style="position:relative"><span class="bx" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2 6.5 L5 9 L10 3"></path></svg></span>Remplacer la date limite générale (30 jours avant)</button>
-        <div class="champ" id="dl-bloc" hidden style="margin-top:10px;width:220px"><label class="mono" for="dlj">Jours avant le shooting</label><input id="dlj" data-m="1" type="text" inputmode="numeric"></div>
+        <div class="champ" id="dl-bloc" hidden style="margin-top:10px;width:220px"><label class="mono" for="dlj">Jours avant le shooting</label><input maxlength="3" id="dlj" data-m="1" type="text" inputmode="numeric"></div>
       </div>
 
       <p id="toast" hidden style="position:absolute;left:calc(848px + var(--dx) * .7);top:136px;width:calc(528px + var(--dx) * .3);margin:0;display:flex;align-items:flex-start;justify-content:flex-end;gap:10px;font:400 13.5px/1.45 Inter,sans-serif;text-align:right;animation:habille .5s ease both"></p>

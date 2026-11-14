@@ -6,6 +6,7 @@
 // Une page qui anime l'en-tête (photo agrandie…) appelle majEntete(refs, a) ; le routeur le fige
 // ensuite avec figerEntete() quand on quitte la page.
 import { el, svg, mot, animer, majMot } from './dom.js';
+import { mesures } from './scene.js';
 
 const MENU = [
   ['galerie', 'Galerie', 'galerie.html', 'n0'], ['services', 'Services', 'services.html', 'n1'],
@@ -50,7 +51,7 @@ export function monterEntete(_parent, { actif = null, cta = 'Créer mon devis', 
   const noeuds = [sous, traits, logoA, sig, nav, dossiers, fl, ctaA];
   noeuds.forEach((n) => (contenu ? parent.insertBefore(n, contenu) : parent.append(n)));
 
-  const filets = () => { const W = window.__scene ? window.__scene.W : 1440; traits.querySelectorAll('path')[0].setAttribute('d', `M${W / 2} 100 L80 100`); traits.querySelectorAll('path')[1].setAttribute('d', `M${W / 2} 100 L${W - 80} 100`); };
+  const filets = () => { const W = mesures.W; traits.querySelectorAll('path')[0].setAttribute('d', `M${W / 2} 100 L80 100`); traits.querySelectorAll('path')[1].setAttribute('d', `M${W / 2} 100 L${W - 80} 100`); };
   filets(); window.addEventListener('scene:resize', filets);
   refs = { parent, filets, sous, traits: traits.querySelectorAll('path'), logo, sig, mots, soul, liens, fl, ctaMot, ctaA, nav, dossiers, ctaTexte: cta };
   mettreAJour(actif, cta, avecDossiers);

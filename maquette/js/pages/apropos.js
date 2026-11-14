@@ -3,6 +3,7 @@ import { rythme, E } from '../lib/anim.js';
 import { monterEntete, animationsEntete } from '../lib/entete.js';
 import { $, el, svg, mot, ecrire, animer, liste } from '../lib/dom.js';
 import { creerVie } from '../lib/vie.js';
+import { mesures } from '../lib/scene.js';
 
 let vie = null;
 
@@ -58,7 +59,7 @@ export function init() {
   // se répartissent sur toute la largeur restante (pas --p), les traits suivent.
   const contenu = $('#contenu');
   const geometrie = () => {
-    const dx = window.__scene ? window.__scene.dx : 0, gx = Math.min(dx, 260), g2 = gx / 2, p = 240 + (dx - g2) / 2;
+    const dx = mesures.dx, gx = mesures.gx, g2 = gx / 2, p = 240 + (dx - g2) / 2;
     contenu.style.setProperty('--g2', g2 + 'px'); contenu.style.setProperty('--p', p + 'px');
     traits.forEach((tr, i) => { const x = 580 + g2 + i * p; tr.setAttribute('d', `M${x} 470 L${x + 220} 470`); });
     ['#ph-l', '#ph-c'].forEach((s) => $(s).setAttribute('d', `M1 1 L${421 + g2} 1 L${421 + g2} 621 L1 621 Z`));

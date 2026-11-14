@@ -45,7 +45,7 @@
           <button type="button" class="btn" id="d-suiv-btn" aria-disabled="false" style="left:928px;width:300px;height:44px;border-radius:22px"></button>
         </div>
         <div id="d-livrer" hidden style="position:absolute;left:928px;width:420px">
-          <div class="champ"><label class="mono" for="lien">Lien de livraison</label><input id="lien" type="url" autocomplete="off" placeholder="https://" aria-invalid="false" aria-describedby="lien-err"></div>
+          <div class="champ"><label class="mono" for="lien">Lien de livraison</label><input maxlength="2048" id="lien" type="url" autocomplete="off" placeholder="https://" aria-invalid="false" aria-describedby="lien-err"></div>
           <p id="lien-err" class="err" role="alert"></p>
           <button type="button" class="btn encre" id="d-livrer-btn" style="position:relative;margin-top:6px;width:200px;height:44px;border-radius:22px">Livrer</button>
           <p class="note" style="margin:12px 0 0;font-size:12.5px">Aucune photo n’est stockée ici : le client reçoit le lien par email.</p>

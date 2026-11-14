@@ -174,11 +174,11 @@
           <form id="sub-f" novalidate style="position:absolute;left:440px;top:132px;width:360px;margin:0">
             <div class="champ" style="position:relative;width:360px">
               <label class="mono" for="sub-mail">E-mail</label>
-              <input id="sub-mail" type="email" autocomplete="email" placeholder="camille@exemple.be">
+              <input maxlength="254" id="sub-mail" type="email" autocomplete="email" placeholder="camille@exemple.be">
             </div>
             <div class="champ" style="position:relative;width:360px;margin-top:26px">
               <label class="mono" for="sub-mdp">Mot de passe</label>
-              <input id="sub-mdp" type="password" placeholder="8 caractères minimum">
+              <input maxlength="128" id="sub-mdp" type="password" placeholder="8 caractères minimum">
             </div>
             <p class="note" id="sub-aide" style="margin:10px 0 0"></p>
             <p role="alert" style="margin:8px 0 0;min-height:18px;display:flex;align-items:center;gap:8px;font:400 13px Inter,sans-serif;color:#0D0E10"><span id="sub-err-d" hidden aria-hidden="true" style="display:block;width:6px;height:6px;border-radius:3px;background:#7A1F33"></span><span id="sub-err"></span></p>

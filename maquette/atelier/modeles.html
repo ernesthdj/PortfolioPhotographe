@@ -30,7 +30,7 @@
       <div id="modeles" style="display:contents"></div>
 
       <div class="verre" id="p2-verre" aria-hidden="true" style="left:628px;top:176px;width:calc(748px + var(--dx));height:696px;opacity:0"></div>
-      <div class="champ" id="mnom-champ" style="position:absolute;left:656px;top:200px;width:calc(340px + var(--dx))"><label class="mono" for="mnom">Nom du modèle</label><input id="mnom" type="text" autocomplete="off"></div>
+      <div class="champ" id="mnom-champ" style="position:absolute;left:656px;top:200px;width:calc(340px + var(--dx))"><label class="mono" for="mnom">Nom du modèle</label><input maxlength="100" id="mnom" type="text" autocomplete="off"></div>
       <p class="mono" style="position:absolute;left:656px;top:296px;margin:0">Étapes, dans l’ordre</p>
       <ol aria-label="Étapes de production" id="etapes" style="list-style:none;margin:0;padding:0">
         <li class="sep" id="livraison" style="position:absolute;left:656px;width:calc(340px + var(--dx));height:40px">
@@ -40,7 +40,7 @@
           <svg aria-hidden="true" viewBox="0 0 24 24" style="position:absolute;right:8px;top:12px;width:16px;height:16px;fill:none;stroke:#4B4D52;stroke-width:1.6;stroke-linecap:round"><path d="M6 11 L18 11 L18 20 L6 20 Z M9 11 L9 8 C9 4 15 4 15 8 L15 11"></path></svg>
         </li>
       </ol>
-      <div class="champ" id="net-champ" style="position:absolute;left:656px;width:220px"><label class="mono" for="net">Nouvelle étape</label><input id="net" type="text" autocomplete="off" aria-describedby="mod-err"></div>
+      <div class="champ" id="net-champ" style="position:absolute;left:656px;width:220px"><label class="mono" for="net">Nouvelle étape</label><input maxlength="100" id="net" type="text" autocomplete="off" aria-describedby="mod-err"></div>
       <button type="button" class="mini" id="ajouter-etape" style="position:absolute;left:896px;margin-top:30px">+ Ajouter</button>
       <svg class="ln" aria-hidden="true" style="left:calc(1016px + var(--dx));top:296px;width:2px;height:460px"><path id="l1" pathLength="100" d="M1 0 L1 460" style="stroke-width:1px;stroke:rgba(13,14,16,.16)"></path></svg>
       <p class="mono" style="position:absolute;left:calc(1040px + var(--dx));top:296px;margin:0">Services reliés · délai de livraison</p>

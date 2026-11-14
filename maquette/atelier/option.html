@@ -29,9 +29,9 @@
       <span class="encre" id="enc" aria-hidden="true" style="position:absolute;left:calc(1156px + var(--dx));top:72px;width:220px;height:48px;border-radius:24px"></span><button type="button" class="btn" id="save" aria-disabled="false" style="left:calc(1156px + var(--dx));top:72px;width:220px;height:48px;border-radius:24px">Enregistrer</button>
 
       <div id="col1" style="position:absolute;left:304px;top:196px;width:calc(496px + var(--dx) * .7)">
-        <div class="champ"><label class="mono" for="lib">Libellé</label><input id="lib" data-m="1" type="text" autocomplete="off" aria-invalid="false" aria-describedby="lib-err"></div>
+        <div class="champ"><label class="mono" for="lib">Libellé</label><input maxlength="120" id="lib" data-m="1" type="text" autocomplete="off" aria-invalid="false" aria-describedby="lib-err"></div>
         <p id="lib-err" class="err" role="alert"></p>
-        <div class="champ" style="margin-top:6px"><label class="mono" for="desc">Description</label><textarea id="desc" data-m="1"></textarea></div>
+        <div class="champ" style="margin-top:6px"><label class="mono" for="desc">Description</label><textarea maxlength="500" id="desc" data-m="1"></textarea></div>
         <p class="mono" id="mode-l" style="margin:22px 0 10px">Mode de prix</p>
         <div class="flux" id="modes" role="radiogroup" aria-labelledby="mode-l"></div>
         <div id="params" style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px 36px"></div>
@@ -48,7 +48,7 @@
         </div>
         <div style="margin-top:14px;display:flex;align-items:flex-end;gap:28px;min-height:56px">
           <button type="button" class="case" role="checkbox" aria-checked="false" id="tva-case" style="position:relative;margin-bottom:8px"><span class="bx" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2 6.5 L5 9 L10 3"></path></svg></span>Taux de TVA propre à cette option</button>
-          <div class="champ" id="tva-bloc" hidden style="width:110px"><label class="mono" for="tva">Taux (%)</label><input id="tva" data-m="1" type="text" inputmode="decimal" aria-invalid="false" aria-describedby="tva-err"></div>
+          <div class="champ" id="tva-bloc" hidden style="width:110px"><label class="mono" for="tva">Taux (%)</label><input maxlength="6" id="tva" data-m="1" type="text" inputmode="decimal" aria-invalid="false" aria-describedby="tva-err"></div>
         </div>
         <p id="tva-err" class="err" role="alert"></p>
       </div>

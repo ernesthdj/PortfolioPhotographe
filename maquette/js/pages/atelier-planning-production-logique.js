@@ -73,4 +73,4 @@ export const item = (e) => ({
 });
 /** Élément d'agenda (livraison ou paiement). */
 export const itemEcheance = (e) => ({ t: e.t, hT: '', c: 'transparent', sh: e.ty === 'liv' ? 'inset 0 0 0 1.5px #0D0E10' : 'inset 0 0 0 1.5px #D9783A', aria: e.t });
-export const hhmm = (h) => String(Math.floor(h)).padStart(2, '0') + ':' + String(Math.round((h % 1) * 60)).padStart(2, '0');
+export { hhmm } from '../lib/format.js';

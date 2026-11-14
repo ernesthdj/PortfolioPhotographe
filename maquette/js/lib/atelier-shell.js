@@ -127,7 +127,9 @@ function monterCoque(fond, cfg, opt, { a, T, DR, IT }) {
     const quick = sub && (st.gu || ctx.apres), kk = sub ? k + (j + 1) * .4 : k;
     const tracePath = svg('path', { pathLength: '100', d: sub ? 'M9 12 L15 12' : IC[m.ic] });
     const lab = mot(m.t);
-    const a1 = el('a', mort ? { role: 'link', 'aria-disabled': 'true', tabindex: '0', title: 'Bientôt disponible', 'aria-current': 'false', on: { click: (e) => e.preventDefault() } }
+    // groupe (Argent, Catalogue…) : un vrai bouton qui déplie ; page non dessinée : entrée désactivée ; sinon un lien
+    const a1 = el(m.grp ? 'button' : 'a', m.grp ? { type: 'button', 'aria-current': 'false', on: { click: (e) => allerVers(e, m, href) } }
+      : mort ? { role: 'link', 'aria-disabled': 'true', tabindex: '0', title: 'Bientôt disponible', 'aria-current': 'false', on: { click: (e) => e.preventDefault() } }
       : { href, 'aria-current': 'false', on: { click: (e) => allerVers(e, m, href) } },
       svg('svg', { class: 'ic', viewBox: '0 0 24 24', 'aria-hidden': 'true' }, tracePath),
       el('span', { class: 'lab' }, lab));

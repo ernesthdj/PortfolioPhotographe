@@ -76,7 +76,7 @@ export function init(racine) {
       el('span', { class: 'note sous', style: 'position:absolute;left:0;top:27px;font-size:12.5px;white-space:nowrap' }),
       el('button', { type: 'button', class: 'mini ren', style: 'position:absolute;right:96px;top:14px', on: { click: () => renommer(k) } }, 'Renommer'),
       el('button', { type: 'button', class: 'mini doux sup', style: 'position:absolute;right:0;top:14px', on: { click: () => { st.conf = k; st.edit = null; toast.cacher(); rendre(); } } }, 'Supprimer'));
-    const inp = el('input', { id: 'ren-' + k, type: 'text', autocomplete: 'off', 'aria-label': 'Nouveau libellé', 'aria-invalid': 'false', 'aria-describedby': 'ren-err-' + k, });
+    const inp = el('input', { id: 'ren-' + k, type: 'text', maxlength: '80', autocomplete: 'off', 'aria-label': 'Nouveau libellé', 'aria-invalid': 'false', 'aria-describedby': 'ren-err-' + k, });
     const erreur = el('p', { id: 'ren-err-' + k, class: 'err', role: 'alert', style: 'margin:0;min-height:0;font-size:12px' });
     const edit = el('div', null,
       el('div', { class: 'champ', style: 'position:absolute;left:0;top:-6px;width:300px' }, inp),

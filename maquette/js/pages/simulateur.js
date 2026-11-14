@@ -9,7 +9,7 @@
 import { E } from '../lib/anim.js';
 import { monterEntete, majEntete } from '../lib/entete.js';
 import { $, el, svg, ecrire, animer, liste, voir } from '../lib/dom.js';
-import { eurN as eur } from '../lib/format.js';
+import { eurN as eur, hhmm as hh } from '../lib/format.js';
 import { param } from '../lib/params.js';
 import { CATEGORIES, SERVICES, OPTIONS, KM, COMMUNES, DUREE_MIN, DUREE_MAX, virgule, service, calculer } from '../../data/tarifs.js';
 import { mesures } from '../lib/scene.js';
@@ -23,7 +23,6 @@ let vie = null;
 export function init() {
   vie = creerVie();
 
-  const hh = (h) => String(Math.floor(h)).padStart(2, '0') + ':' + String(Math.round((h % 1) * 60)).padStart(2, '0');
   const d0De = (c) => Math.min(...c.lieux.map((z) => z.h));
 
   /** Bande de présence (foncée = heures incluses, claire = dépassement facturé) sur l'axe 10:00 → 24:00. */
@@ -296,11 +295,14 @@ export function init() {
     liste($('#rows'), rows, (r, i) => i, creerRang, majRang);
     liste($('#arcs'), rows, (r, i) => i, () => svg('path', { pathLength: '100', style: { stroke: '#3AA6B5', strokeWidth: '1.2px' } }), (n, r) => { n.setAttribute('d', r.arc); animer(n, r.aArc); });
     liste($('#lz-in'), lignes, (l, i) => i, creerLigne, majLigne);
-    Object.assign($('#lz').style, { top: lz0 + 'px', height: Math.max(60, 680 - lz0) + 'px' });
-    $('#lz-in').style.height = (ly + 10) + 'px';
-
     const noAlbum = st.lignes.findIndex((c) => { const s = service(c.sid); return s.opts.includes('album') && !c.opts.includes('album'); });
-    voir($('#sug'), noAlbum >= 0 && st.sub === 'off');
+    const sugOn = noAlbum >= 0 && st.sub === 'off';
+    // La liste a sa hauteur d'origine (jusqu'à y = 680, la suggestion d'album occupe y = 690). Seulement si le contenu la dépasse,
+    // elle descend jusqu'à y = 686 avec la suggestion affichée, ou dans le vide du panneau (y = 820) sans elle : plus de ligne coupée.
+    const bas = sugOn ? 686 : 820, haut = ly + 10 > 680 - lz0 ? Math.min(ly + 10, bas - lz0) : 680 - lz0;
+    Object.assign($('#lz').style, { top: lz0 + 'px', height: Math.max(60, haut) + 'px' });
+    $('#lz-in').style.height = (ly + 10) + 'px';
+    voir($('#sug'), sugOn);
     $('#sug-b').onclick = () => { st.lignes[noAlbum].opts = st.lignes[noAlbum].opts.concat('album'); sauver(); rendre(); };
     voir($('#promo-msg'), st.promo);
 

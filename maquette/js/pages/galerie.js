@@ -1,9 +1,11 @@
 // Galerie : filtres par service, flux de photos justifié groupé par événement, témoignage qui défile,
 // photo agrandie (le fond se décompose, retour rapide). Traduit PGalerie.dc.html.
 import { E } from '../lib/anim.js';
-import { el, svg, mot, ecrire, animer, liste } from '../lib/dom.js';
+import { el, svg, mot, animer, liste, cheminSvg, cadrePhoto, setMot } from '../lib/dom.js';
 import { monterEntete, majEntete, enteteMontee } from '../lib/entete.js';
 import { creerVie } from '../lib/vie.js';
+import { mesures } from '../lib/scene.js';
+import { param } from '../lib/params.js';
 import { memoriserFocus, clavierModale } from '../lib/modale.js';
 import { PHOTOS } from '../../data/photos-site.js';
 
@@ -32,8 +34,6 @@ const EVT = [
   { svc: 5, tag: 'Culinaire · [Maison]', txt: '[Une phrase sur le shooting]', ph: [0, 4, 3, 1] }
 ];
 const TEM = ['« [Ce que le client a ressenti en découvrant les photos.] »', '« [Un moment qu’il revit grâce aux images.] »'];
-const frame = (w, h) => `M1 1 L${w + 1} 1 L${w + 1} ${h + 1} L1 ${h + 1} Z`;
-const P = (d, extra) => svg('path', { pathLength: '100', d, ...(extra || {}) });
 
 // ---- lignes justifiées ------------------------------------------------------------------------------------
 function justifie(list, W, rowH, gap, padTop, legende) {  // W = largeur utile du flux (980 + gain de la fenêtre)
@@ -58,7 +58,8 @@ function justifie(list, W, rowH, gap, padTop, legende) {  // W = largeur utile d
 }
 
 // ---- état --------------------------------------------------------------------------------------------------
-const S = { svc: -1, n: 0, lb: null, lbN: 0, lbSt: 'from', lbR: null, tq: 0, tqOut: false, out: false, retour: false, sh: 0 };
+// svc : filtre repris de l'adresse (?service=Mariages, liste blanche SVC), -1 = tout
+const S = { svc: SVC.indexOf(param('service', SVC, '')), n: 0, lb: null, lbN: 0, lbSt: 'from', lbR: null, tq: 0, tqOut: false, out: false, retour: false, sh: 0 };
 let rects = [], tLb, rendreFocus = null;   // rendreFocus : rend le focus à la vignette cliquée à la fermeture de la photo agrandie
 const set = (patch) => { Object.assign(S, patch); render(); };
 
@@ -70,8 +71,8 @@ const h1W = el('span', { class: 'w' }), h2W = el('span', { class: 'w' });
 racine.append(el('h1', { style: 'position:absolute;left:78px;top:164px;margin:0;font:300 34px/1.12 Inter,sans-serif;letter-spacing:-.03em;filter:drop-shadow(0 6px 9px rgba(20,18,16,.18))' }, h1W, el('br'), h2W));
 
 const pastille = el('div', { class: 'verre', 'aria-hidden': 'true', style: 'left:64px;top:300px;width:268px;height:372px;opacity:0' });
-const pl1 = P('M0 186 L0 24 A24 24 0 0 1 24 0 L244 0 A24 24 0 0 1 268 24 L268 186'), pl2 = P('M0 186 L0 348 A24 24 0 0 0 24 372 L244 372 A24 24 0 0 0 268 348 L268 186');
-const plC = P('M0 186 L0 24 A24 24 0 0 1 24 0 L244 0 A24 24 0 0 1 268 24 L268 348 A24 24 0 0 1 244 372 L24 372 A24 24 0 0 1 0 348 Z', { class: 'comete', style: 'stroke:#D9783A' });
+const pl1 = cheminSvg('M0 186 L0 24 A24 24 0 0 1 24 0 L244 0 A24 24 0 0 1 268 24 L268 186'), pl2 = cheminSvg('M0 186 L0 348 A24 24 0 0 0 24 372 L244 372 A24 24 0 0 0 268 348 L268 186');
+const plC = cheminSvg('M0 186 L0 24 A24 24 0 0 1 24 0 L244 0 A24 24 0 0 1 268 24 L268 348 A24 24 0 0 1 244 372 L24 372 A24 24 0 0 1 0 348 Z', { class: 'comete', style: 'stroke:#D9783A' });
 const pillSvg = svg('svg', { class: 'ln', 'aria-hidden': 'true', style: 'left:64px;top:300px;width:268px;height:372px' }, pl1, pl2, plC);
 const filtresNav = el('nav', { 'aria-label': 'Filtrer par service', style: 'position:absolute;left:88px;top:316px;width:220px;display:flex;flex-direction:column' });
 const indic = el('span', { 'aria-hidden': 'true', style: 'position:absolute;left:88px;height:2px;border-radius:1px;background:#3AA6B5;transition:top .5s cubic-bezier(.45,0,.2,1),width .5s cubic-bezier(.45,0,.2,1) .12s' });
@@ -104,15 +105,12 @@ function changer(i) {
   if (S.out || i === S.svc) return;
   set({ out: true, lb: null, retour: false });
   vie.timeout(() => set({ svc: i, n: S.n + 1, sh: S.sh + 1, out: false }), 480);
+  // le filtre est partageable : l'adresse porte ?service=… (sans entrée d'historique supplémentaire)
+  history.replaceState(history.state, '', window.location.pathname + (i < 0 ? '' : '?service=' + encodeURIComponent(SVC[i])) + window.location.hash);
 }
 vie.interval(() => { set({ tqOut: true }); vie.timeout(() => set({ tq: S.tq + 1, tqOut: false }), 700); }, 7500);
 
 // ---- helpers de rendu --------------------------------------------------------------------------------------
-function setMot(w, texte, anim, fabrique) {
-  const cle = texte + '|' + (fabrique ? 'f' : '');
-  if (w._cle !== cle) { ecrire(w, fabrique ? () => fabrique(texte) : texte); w._cle = cle; }
-  animer(w, anim);
-}
 const italique = (s) => el('i', { style: "font:italic 400 40px/1 'Instrument Serif',serif" }, s);
 
 // ---- rendu -------------------------------------------------------------------------------------------------
@@ -138,7 +136,7 @@ function render() {
   const D0 = first ? 1.6 * K : .1;
 
   // -- flux de photos : repères, témoignage, vignettes --
-  const dx = (window.__scene && window.__scene.dx) || 0, FW = 980 + dx;   // flux de photos : toute la largeur restante
+  const dx = mesures.dx, FW = 980 + dx;   // flux de photos : toute la largeur restante
   const evts = EVT.filter((e) => S.svc < 0 || e.svc === S.svc);
   const reperes = [], vues = [], flat = [], temoins = [];
   let y = 6, k = 0;
@@ -228,7 +226,7 @@ function render() {
   liste(repHote, reperes, (r, i) => i, () => {
     const tag = el('span', { style: "font:500 11px 'IBM Plex Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:#4B4D52" }, el('span', { class: 'w' }));
     const tx = el('span', { style: 'font:400 15px Inter,sans-serif;color:#0D0E10' }, el('span', { class: 'w' }));
-    const filet = svg('svg', { class: 'ln', 'aria-hidden': 'true', style: 'left:0;top:30px;width:980px;height:2px' }, P('M0 1 L980 1', { style: 'stroke-width:1px' }));
+    const filet = svg('svg', { class: 'ln', 'aria-hidden': 'true', style: 'left:0;top:30px;width:980px;height:2px' }, cheminSvg('M0 1 L980 1', { style: 'stroke-width:1px' }));
     return el('div', { style: 'position:absolute;left:0' }, el('p', { style: 'margin:0;display:flex;align-items:baseline;gap:14px;white-space:nowrap' }, tag, tx), filet);
   }, (n, r) => {
     n.style.top = r.y + 'px'; n.style.width = FW + 'px';
@@ -258,7 +256,7 @@ function render() {
 
   liste(vueHote, vues, (v, i) => i, (v, i) => {
     const b = el('button', { type: 'button', class: 'vue', on: { click: () => ouvrir(i) } }, el('div', { class: 'ph' }, el('span')));
-    const s = svg('svg', { class: 'ln', 'aria-hidden': 'true' }, P(''));
+    const s = svg('svg', { class: 'ln', 'aria-hidden': 'true' }, cheminSvg(''));
     return el('div', { style: 'display:contents' }, b, s);
   }, (n, v) => {
     const [b, s] = n.children, ph = b.firstElementChild, p = PHOTOS[v.p];
@@ -267,7 +265,7 @@ function render() {
     ph.className = 'ph ton-' + p.ton; ph.firstElementChild.textContent = p.label; ph.title = p.label;   // légende tronquée par une ellipse : texte complet au survol
     animer(ph, v.anim);
     Object.assign(s.style, { left: (v.x - 1) + 'px', top: (v.y - 1) + 'px', width: (v.w + 2) + 'px', height: (v.h + 2) + 'px' });
-    s.firstElementChild.setAttribute('d', frame(v.w, v.h)); animer(s.firstElementChild, v.tr);
+    s.firstElementChild.setAttribute('d', cadrePhoto(v.w, v.h)); animer(s.firstElementChild, v.tr);
   });
 
   renderLb(flat, dx);
@@ -284,7 +282,7 @@ function renderLb(flat, dx) {
   const go = (dd) => { if (S.lbSt === 'to') set({ lb: (S.lb + dd + flat.length) % flat.length, lbN: S.lbN + 1 }); };
   if (!lbEls) {
     const img = el('div', { class: 'lb-img ph', role: 'img' }, el('span'));
-    const trP = P(''), trS = svg('svg', { class: 'ln', 'aria-hidden': 'true' }, trP);
+    const trP = cheminSvg(''), trS = svg('svg', { class: 'ln', 'aria-hidden': 'true' }, trP);
     const racine = el('div', { role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Photo en grand', style: 'position:absolute;inset:0' }, img, trS);
     lbHote.append(racine);
     lbEls = { racine, img, trP, trS, ui: null };
@@ -295,7 +293,7 @@ function renderLb(flat, dx) {
   Object.assign(L.img.style, { left: Rc.x + 'px', top: Rc.y + 'px', width: Rc.w + 'px', height: Rc.h + 'px' });
   animer(L.img, big && S.lbN > 0 ? `${a2 ? 'dev2' : 'dev'} 2s ease-in-out .1s both` : 'none');
   Object.assign(L.trS.style, { left: (tx - 1) + 'px', top: (ty - 1) + 'px', width: (tw + 2) + 'px', height: (th + 2) + 'px' });
-  L.trP.setAttribute('d', frame(tw, th));
+  L.trP.setAttribute('d', cadrePhoto(tw, th));
   animer(L.trP, big ? `${a2 ? 'trace2' : 'trace'} 1.8s ${E} ${S.lbN > 0 ? .05 : .7}s both` : 'none');
   if (big && !L.ui) {
     const mono = (style) => `position:absolute;top:846px;margin:0;font:500 12.5px 'IBM Plex Mono',monospace;letter-spacing:.04em;color:#4B4D52;animation:habille .5s ease .5s both;${style}`;

@@ -2,15 +2,15 @@
 // écrite par la goutte d'encre, collage justifié qui change selon le service survolé, ligne des services,
 // photo agrandie. Monté par accueil.html (avec bouton « Rejouer ») et par l'intro (index.html, sans bouton).
 import { E } from '../lib/anim.js';
-import { el, svg, mot, ecrire, animer, liste } from '../lib/dom.js';
+import { el, svg, mot, ecrire, animer, liste, cheminSvg, cadrePhoto, setMot } from '../lib/dom.js';
 import { monterEntete, majEntete, enteteMontee } from '../lib/entete.js';
 import { creerVie } from '../lib/vie.js';
+import { mesures as scene } from '../lib/scene.js';   // (« mesures » est déjà le nom de la mesure de texte plus bas)
 import { memoriserFocus, clavierModale } from '../lib/modale.js';
 import { creerSurligneur } from '../lib/surligneur.js';
 import { monterVagabond } from '../lib/vagabond.js';
 import { PHOTOS } from '../../data/photos-site.js';
 
-const SVG_PATH = (d, extra) => svg('path', { pathLength: '100', d, ...(extra || {}) });
 const FRAGMENT = (...n) => { const f = document.createDocumentFragment(); f.append(...n); return f; };
 
 // ---- contenus ----------------------------------------------------------------------------------------------
@@ -95,16 +95,16 @@ export function monterAccueil(hote, { seul = true, retard = 0 } = {}) {
   const pNav = el('div', { class: 'pastille', 'aria-hidden': 'true', style: 'top:30px;height:48px' });
   const pGal = el('div', { class: 'pastille', 'aria-hidden': 'true', style: 'left:80px;top:488px;width:200px;height:48px' });
   const pSvc = el('div', { class: 'pastille', 'aria-hidden': 'true', style: 'left:64px;top:596px;width:1312px;height:116px' });
-  const pp = { nTop: SVG_PATH(''), nBot: SVG_PATH(''), nLoop: SVG_PATH('', { class: 'comete' }),
-    sTop: SVG_PATH('M64 654 L64 620 A24 24 0 0 1 88 596 L1352 596 A24 24 0 0 1 1376 620 L1376 654'),
-    sBot: SVG_PATH('M64 654 L64 688 A24 24 0 0 0 88 712 L1352 712 A24 24 0 0 0 1376 688 L1376 654'),
-    sLoop: SVG_PATH('M64 654 L64 620 A24 24 0 0 1 88 596 L1352 596 A24 24 0 0 1 1376 620 L1376 688 A24 24 0 0 1 1352 712 L88 712 A24 24 0 0 1 64 688 Z', { class: 'comete' }) };
+  const pp = { nTop: cheminSvg(''), nBot: cheminSvg(''), nLoop: cheminSvg('', { class: 'comete' }),
+    sTop: cheminSvg('M64 654 L64 620 A24 24 0 0 1 88 596 L1352 596 A24 24 0 0 1 1376 620 L1376 654'),
+    sBot: cheminSvg('M64 654 L64 688 A24 24 0 0 0 88 712 L1352 712 A24 24 0 0 0 1376 688 L1376 654'),
+    sLoop: cheminSvg('M64 654 L64 620 A24 24 0 0 1 88 596 L1352 596 A24 24 0 0 1 1376 620 L1376 688 A24 24 0 0 1 1352 712 L88 712 A24 24 0 0 1 64 688 Z', { class: 'comete' }) };
   pp.nLoop.style.stroke = '#3AA6B5'; pp.sLoop.style.stroke = '#D9783A';
   const svgNav = svg('svg', { class: 'pp', 'aria-hidden': 'true' }, pp.nTop, pp.nBot, pp.nLoop);
   const svgPP = svg('svg', { class: 'pp', 'aria-hidden': 'true' }, pp.sTop, pp.sBot, pp.sLoop);
   const mosaique = el('div', { style: 'display:contents' });
-  const lb1 = SVG_PATH('M80 148 L580 148', { style: 'stroke-width:1px' }), lb2 = SVG_PATH('M80 566 L580 566', { style: 'stroke-width:1px' });
-  const pillT = SVG_PATH('M80 512 Q80 488 104 488 L256 488 Q280 488 280 512'), pillB = SVG_PATH('M80 512 Q80 536 104 536 L256 536 Q280 536 280 512');
+  const lb1 = cheminSvg('M80 148 L580 148', { style: 'stroke-width:1px' }), lb2 = cheminSvg('M80 566 L580 566', { style: 'stroke-width:1px' });
+  const pillT = cheminSvg('M80 512 Q80 488 104 488 L256 488 Q280 488 280 512'), pillB = cheminSvg('M80 512 Q80 536 104 536 L256 536 Q280 536 280 512');
   const svgLn = svg('svg', { class: 'ln', 'aria-hidden': 'true', style: 'left:0;top:0;width:1440px;height:900px' }, lb1, lb2, pillT, pillB);
   hote.append(pGal, pSvc, svgPP, mosaique, svgLn);
 
@@ -229,7 +229,7 @@ export function monterAccueil(hote, { seul = true, retard = 0 } = {}) {
     };
 
     // -- collage selon le service --
-    const dx = (window.__scene && window.__scene.dx) || 0;   // gain de largeur de la fenêtre (0 à 1440 x 900)
+    const dx = scene.dx;   // gain de largeur de la fenêtre (0 à 1440 x 900)
     const cur = SERVICES[S.svc].set.map((k) => PHOTOS[k]);
     const sn = S.svcN, alt2 = sn % 2 === 1, rects = rectsMosaique(cur.map((p) => p.r), dx);
     const mos = cur.map((p, i) => {
@@ -245,10 +245,10 @@ export function monterAccueil(hote, { seul = true, retard = 0 } = {}) {
       let t0 = null;
       if (on && sn === 0) t0 = D + (.6 + i * .15) * K + 3.4; else if (on && !S.svcFade) t0 = .1 + i * .12 + 3.0;
       const com = t0 === null ? 'eteint .01s linear 0s both' : `apparait 1.8s ease-in-out ${t0.toFixed(2)}s both, ${CDIR[i % 5]} ${CDUR[i % 5]}s linear ${t0.toFixed(2)}s infinite`;
-      return { p, ...r, anim, tr, com, cc: COMC[i % 4], d: `M1 1 L${r.w + 1} 1 L${r.w + 1} ${r.h + 1} L1 ${r.h + 1} Z` };
+      return { p, ...r, anim, tr, com, cc: COMC[i % 4], d: cadrePhoto(r.w, r.h) };
     });
     liste(mosaique, mos, (m, i) => i, (m) => {
-      const cad = svg('svg', { class: 'cad', 'aria-hidden': 'true' }, SVG_PATH(''), SVG_PATH('', { class: 'comete' }));
+      const cad = svg('svg', { class: 'cad', 'aria-hidden': 'true' }, cheminSvg(''), cheminSvg('', { class: 'comete' }));
       return el('div', { style: 'display:contents' }, emplacement(m.p, ''), cad);
     }, (n, m) => {
       const ph = n.children[0], cad = n.children[1];
@@ -364,10 +364,6 @@ export function monterAccueil(hote, { seul = true, retard = 0 } = {}) {
     renderLb(PH, dx);
   }
 
-  function setMot(w, texte, anim) {
-    if (w._t !== texte) { ecrire(w, texte); w._t = texte; }
-    animer(w, anim);
-  }
 
   // ---------- photo agrandie ----------
   let lbEls = null;
@@ -384,7 +380,7 @@ export function monterAccueil(hote, { seul = true, retard = 0 } = {}) {
       : { o: growing ? `wIn .45s ${E} .7s both` : 'none', f: growing ? `wIn .45s ${E} .85s both` : 'none' };
     if (!lbEls) {
       const fond = el('div', { class: 'lb-fond' }), img = emplacement(ph, 'lb-img'), cadre = el('div', { class: 'lb-cadre' });
-      const trP = SVG_PATH('');
+      const trP = cheminSvg('');
       const trS = svg('svg', { class: 'lbtr', 'aria-hidden': 'true' }, trP);
       const capW = mot(''), numW = mot('');
       const capP = el('p', { style: "position:absolute;left:120px;top:846px;margin:0;font:500 12.5px 'IBM Plex Mono',monospace;letter-spacing:.04em;color:#4B4D52" }, capW);
@@ -408,7 +404,7 @@ export function monterAccueil(hote, { seul = true, retard = 0 } = {}) {
     Object.assign(L.cadre.style, { left: (rect.x - 1) + 'px', top: (rect.y - 1) + 'px', width: (rect.w + 2) + 'px', height: (rect.h + 2) + 'px' });
     animer(L.cadre, growing ? `${alt ? 'cadreFin2' : 'cadreFin'} .01s linear .82s forwards` : 'none');
     Object.assign(L.trS.style, { left: (tx - 1) + 'px', top: (ty - 1) + 'px', width: (tw + 2) + 'px', height: (th + 2) + 'px' });
-    L.trP.setAttribute('d', `M1 1 L${tw + 1} 1 L${tw + 1} ${th + 1} L1 ${th + 1} Z`);
+    L.trP.setAttribute('d', cadrePhoto(tw, th));
     animer(L.trP, growing ? `${alt ? 'retire2' : 'retire'} 1s ${E} .8s forwards` : 'none');
     setMot(L.capW, p.cap, t); setMot(L.numW, '0' + (S.lbI + 1) + ' / 0' + PH.length, t);
     animer(L.close, t.o); animer(L.prev, t.o); animer(L.next, t.o);

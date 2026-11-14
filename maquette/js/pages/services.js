@@ -3,6 +3,7 @@ import { rythme, E } from '../lib/anim.js';
 import { monterEntete, animationsEntete } from '../lib/entete.js';
 import { $, el, svg, mot, ecrire, animer, liste } from '../lib/dom.js';
 import { creerVie } from '../lib/vie.js';
+import { mesures } from '../lib/scene.js';
 
 let vie = null;
 
@@ -84,7 +85,7 @@ export function init() {
   // ---- cadre de la photo : sa géométrie suit la largeur gagnée (+gx), recalculée au redimensionnement
   const cadre = [$('#cadre'), $('#cadre-c')];
   const geometrie = () => {
-    const dx = window.__scene ? window.__scene.dx : 0, gx = Math.min(dx, 260), w = 453 + gx;
+    const gx = mesures.gx, w = 453 + gx;
     cadre.forEach((p) => p.setAttribute('d', `M1 1 L${w} 1 L${w} 641 L1 641 Z`));
   };
   geometrie();

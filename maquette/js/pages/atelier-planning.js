@@ -1,6 +1,7 @@
 // Atelier · E39 Planning (vues mois, semaine, jour). Traduit ErpPlanning.dc.html.
 import { monterAtelier } from '../lib/atelier-shell.js';
 import { $, el, svg, ecrire, animer, voir, texte } from '../lib/dom.js';
+import { mesures } from '../lib/scene.js';
 import {
   TODAY, STC, WDS, MOIS, GRID, EV, BLK, SUR, evDay, allDay, caseVide, DESC, majuscule, item, itemEcheance, hhmm
 } from './atelier-planning-production-logique.js';
@@ -51,7 +52,7 @@ $('#pop .lien').addEventListener('click', (e) => e.preventDefault());
 const HY = (h) => 270 + (h - 8) * 41;
 function rendreSemaine() {
   const jours = GRID.slice(st.wk * 7, st.wk * 7 + 7), n = [];
-  const dx = window.__scene ? window.__scene.dx : 0;
+  const dx = mesures.dx;
   const P7 = '(1008px + var(--dx)) / 7', X = (i) => `calc(364px + ${i} * ${P7})`;
   const traits = svg('svg', { class: 'ln', 'aria-hidden': 'true', style: 'left:0;top:0;width:1440px;height:900px' });
   for (let i = 0; i < 15; i++) {

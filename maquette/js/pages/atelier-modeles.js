@@ -42,7 +42,7 @@ export function init(racine) {
   // ------------------------------------------------------------------ services reliés (7 lignes fixes)
   SVC_P.forEach(([k, t], i) => {
     const y = 330 + i * 50;
-    const inp = el('input', { id: 'd-' + k, type: 'text', inputmode: 'numeric', 'aria-label': 'Délai de livraison pour ' + t + ', en jours', 'aria-describedby': 'mod-err' });
+    const inp = el('input', { id: 'd-' + k, type: 'text', inputmode: 'numeric', maxlength: '3', 'aria-label': 'Délai de livraison pour ' + t + ', en jours', 'aria-describedby': 'mod-err' });
     const champ = el('div', { class: 'champ', style: `position:absolute;left:${'calc(1262px + var(--dx))'};top:${y}px;margin-top:-12px;width:50px` }, inp);
     const jours = el('span', { class: 'note', style: `position:absolute;left:${'calc(1318px + var(--dx))'};top:${y}px;font-size:12.5px` }, 'jours');
     const c = caseACocher(t, { left: 'calc(1040px + var(--dx))', top: y, taille: 14, onClick: () => {

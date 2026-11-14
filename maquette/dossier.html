@@ -79,7 +79,7 @@
           <p style="position:absolute;left:28px;top:50px;margin:0;font:300 24px Inter,sans-serif">Mariage · samedi 12 juin 2027</p>
           <p class="note" style="position:absolute;left:28px;top:92px;width:500px;margin:0">Il manque 2 informations obligatoires : noms des mariés, personne de contact le jour J. Les lieux et la durée sont déjà repris de votre devis.</p>
           <span class="encre" aria-hidden="true" style="position:absolute;left:28px;top:152px;width:220px;height:44px;border-radius:22px"></span>
-          <a href="#" class="btn" data-sans-effet style="left:28px;top:152px;width:220px;height:44px;border-radius:22px">Compléter la fiche</a>
+          <button type="button" class="btn" aria-disabled="true" title="Bientôt disponible" data-sans-effet style="left:28px;top:152px;width:220px;height:44px;border-radius:22px">Compléter la fiche</button>
         </div>
         <p class="note vue" style="position:absolute;left:600px;top:10px;width:440px;margin:0;animation-delay:.1s">Vous pouvez la reprendre plus tard. Un changement qui modifie le prix (durée, lieu) devient une demande, validée par le photographe.</p>
       </div>
@@ -91,7 +91,7 @@
       <!-- Documents -->
       <div id="v-docs" hidden>
         <div class="vue" style="position:absolute;left:0;top:0;width:calc(800px + var(--dx))">
-          <div class="ligne"><span style="display:flex;gap:14px;align-items:baseline"><span class="o mono">Version 1</span><span id="doc-t"></span></span><a href="#" class="mini" data-sans-effet>Ouvrir le PDF</a></div>
+          <div class="ligne"><span style="display:flex;gap:14px;align-items:baseline"><span class="o mono">Version 1</span><span id="doc-t"></span></span><button type="button" class="mini" aria-disabled="true" title="Bientôt disponible" data-sans-effet>Ouvrir le PDF</button></div>
           <p class="note" style="margin:12px 0 0">Une nouvelle version est créée à chaque changement d’étape ou demande validée. Aucune version n’est jamais modifiée.</p>
         </div>
       </div>

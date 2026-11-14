@@ -5,6 +5,7 @@ import { rythme, E } from '../lib/anim.js';
 import { monterEntete, majEntete, animationsEntete } from '../lib/entete.js';
 import { $, el, mot, ecrire, animer, liste, voir } from '../lib/dom.js';
 import { creerVie } from '../lib/vie.js';
+import { mesures } from '../lib/scene.js';
 
 let vie = null;
 
@@ -45,7 +46,7 @@ export function init() {
   // Répartition : les deux cartes se partagent la largeur utile (chacune gagne dx/2) ; ouverte, la carte de droite
   // prend toute la largeur. `instant` coupe la transition left/width (mise en page initiale ou redimensionnement).
   function cartes(instant) {
-    const dx = window.__scene ? window.__scene.dx : 0, wc = 620 + dx / 2;
+    const dx = mesures.dx, wc = 620 + dx / 2;
     const cg = $('#carte-g'), cd = $('#carte-d');
     if (instant) { cd.style.transition = 'none'; cg.style.transition = 'none'; }
     cg.style.width = wc + 'px';

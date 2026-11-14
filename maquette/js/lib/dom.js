@@ -81,3 +81,16 @@ export function liste(parent, items, cle, creer, maj) {
 
 /** Montre / cache (équivalent d'un sc-if) : le retour de `hidden` relance les animations de l'élément. */
 export function voir(n, oui) { if (n) n.hidden = !oui; return n; }
+
+/** Chemin SVG « tracé » : pathLength 100, pour les animations de trait (stroke-dashoffset). */
+export const cheminSvg = (d, extra) => svg('path', { pathLength: '100', d, ...(extra || {}) });
+
+/** Tracé du cadre d'une photo de largeur w et de hauteur h (marge de 1 px pour le trait). */
+export const cadrePhoto = (w, h) => `M1 1 L${w + 1} 1 L${w + 1} ${h + 1} L1 ${h + 1} Z`;
+
+/** Met à jour un mot « écrit » (ecrire) seulement si son texte change, puis pose son animation. `fabrique(texte)` : contenu riche. */
+export function setMot(w, texte, anim, fabrique) {
+  const cle = texte + '|' + (fabrique ? 'f' : '');
+  if (w._cle !== cle) { ecrire(w, fabrique ? () => fabrique(texte) : texte); w._cle = cle; }
+  animer(w, anim);
+}

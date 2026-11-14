@@ -48,6 +48,7 @@ Valeurs par défaut = celles du canvas. Insensibles à la casse et aux accents.
 | Page | Paramètres |
 |---|---|
 | toutes | `?ombre=Alternance` (défaut) · `Diagonale` · `Studio · latérale` · `Studio · spot` · `Studio · cyclo` · `Studio · strip` · `Sans` |
+| `galerie.html` | `?service=Mariages` · `Engagement` · `Famille lifestyle` · `Anniversaires` · `Événementiel` · `Culinaire & studio` (le filtre met l'adresse à jour) |
 | `atelier/tableau-de-bord.html` | `?etat=Données` (défaut) · `Chargement` · `Vide` · `Erreur` |
 | `atelier/dossiers.html` | `?etat=Données` · `Chargement` · `Aucun résultat` |
 | `atelier/dossier.html` | `?panneau=Aucun` · `Traiter la demande` · `Retirer une ligne` · `Changer l’étape` |

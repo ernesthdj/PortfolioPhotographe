@@ -5,6 +5,8 @@ import { TVA } from '../../data/tarifs.js';
 export const eurC = (c) => (c / 100).toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' €';
 /** Site public : toLocaleString fr-BE sur un montant en euros. */
 export const eurN = (n) => n.toLocaleString('fr-BE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+/** Heure décimale -> « HH:MM » (14.25 -> « 14:15 »). */
+export const hhmm = (h) => String(Math.floor(h)).padStart(2, '0') + ':' + String(Math.round((h % 1) * 60)).padStart(2, '0');
 /** Total HTVA / TVA (TVA de data/tarifs.js) / TVAC à partir de lignes { ht } en centimes. */
 export function totaux(lignes) {
   const ht = lignes.reduce((s, l) => s + l.ht, 0), tva = Math.round(ht * TVA);

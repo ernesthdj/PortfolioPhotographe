@@ -8,6 +8,7 @@
 //   vag.demarrer(4600);                     // lance le trait après ce délai (ms)
 //   vag.masquer(true | false);              // fondu (zoom photo)
 import { svg } from './dom.js';
+import { mesures } from './scene.js';
 
 const COULEURS = ['#3AA6B5', '#D9783A', '#7A1F33'];
 const OPACITE = 0.4;
@@ -23,7 +24,7 @@ export function monterVagabond(vie, hote) {
   vie.noeud(calque);
   vie.aFaire(() => { actif = false; trait.getAnimations().forEach((a) => a.cancel()); });
 
-  const largeur = () => (window.__scene ? window.__scene.W : 1440);
+  const largeur = () => mesures.W;
   const hasard = () => ({ x: alea(70, largeur() - 70), y: alea(60, 840) });
   const plus = (ms, fn) => { vie.timeout(() => { if (actif) fn(); }, ms); };
 

@@ -251,7 +251,7 @@ export function monterFormulaire({ opt }) {
       const lab = el('label', { class: 'mono', for: f[0] }, f[1]);
       let ctl;
       if (f[2]) { ctl = el('select', { id: f[0], 'data-m': '1' }, ...f[2].map((o) => el('option', null, o))); }
-      else ctl = el('input', { id: f[0], 'data-m': '1', type: 'text', inputmode: 'decimal', autocomplete: 'off', 'aria-describedby': 'par-err' });
+      else ctl = el('input', { id: f[0], 'data-m': '1', type: 'text', inputmode: 'decimal', maxlength: '10', autocomplete: 'off', 'aria-describedby': 'par-err' });
       const d = el('div', { class: 'champ' }, lab, ctl);
       ctl.value = mem[f[0]] == null ? '' : mem[f[0]];
       return d;
@@ -260,7 +260,7 @@ export function monterFormulaire({ opt }) {
     // paliers (P6)
     voir($('#p6'), st.mode === 'P6');
     liste($('#pal'), st.pal, (p) => p.k, (p) => {
-      const champ = (id, lab, mode) => { const i = el('input', { id, 'data-m': '1', type: 'text', inputmode: mode, 'aria-label': lab, 'aria-describedby': 'par-err' }); i.value = mem[id] == null ? '' : mem[id]; return i; };
+      const champ = (id, lab, mode) => { const i = el('input', { id, 'data-m': '1', type: 'text', inputmode: mode, maxlength: '10', 'aria-label': lab, 'aria-describedby': 'par-err' }); i.value = mem[id] == null ? '' : mem[id]; return i; };
       const croix = el('button', { type: 'button', class: 'ico', 'aria-label': 'Retirer le palier', 'aria-disabled': 'false', style: 'position:relative', on: { click: () => { st.pal = st.pal.filter((q) => q.k !== p.k); rendre(); } } },
         svg('svg', { viewBox: '0 0 24 24', 'aria-hidden': 'true' }, svg('path', { d: 'M7 7 L17 17 M17 7 L7 17' })));
       return el('div', { class: 'champ', style: 'display:grid;grid-template-columns:1fr 1fr 1.4fr 26px;gap:16px;align-items:end' },

@@ -5,7 +5,7 @@
 import { E } from '../lib/anim.js';
 import { monterEntete, majEntete } from '../lib/entete.js';
 import { $, el, svg, ecrire, animer, liste, voir, texte } from '../lib/dom.js';
-import { eurN as eur } from '../lib/format.js';
+import { eurN as eur, hhmm as hh } from '../lib/format.js';
 import { CATEGORIES, SERVICES, OPTIONS, KM, COMMUNES, DUREE_MIN, DUREE_MAX, hm, virgule, service, calculer, ville } from '../../data/tarifs.js';
 import { mesures } from '../lib/scene.js';
 import { creerVie } from '../lib/vie.js';
@@ -19,7 +19,6 @@ export function init() {
 
 
   // ------------------------------------------------------------------ catalogue et calculs : référence unique data/tarifs.js
-  const hh = (h) => String(Math.floor(h)).padStart(2, '0') + ':' + String(Math.round((h % 1) * 60)).padStart(2, '0');
 
   /** Bande de présence (foncée = heures incluses, claire = dépassement facturé) sur l'axe 10:00 → 24:00. */
   function bande(cfg, s, x0, sc) {

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Contact · Deux portes</title>
+<title>Contact · Ernest H.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
@@ -53,10 +53,10 @@
         </div>
         <div id="d-ouvert" hidden>
           <form aria-label="Écrire un message" style="margin:0" novalidate>
-            <div class="champ" style="left:40px;top:48px;width:calc(360px + var(--dx) * .28);opacity:0;animation:habille .6s ease .60s both"><label for="p-nom">Prénom et nom</label><input id="p-nom" type="text" autocomplete="name" placeholder="Camille Dupont"></div>
-            <div class="champ" style="left:calc(440px + var(--dx) * .28);top:48px;width:calc(360px + var(--dx) * .28);opacity:0;animation:habille .6s ease .70s both"><label for="p-mail">E-mail</label><input id="p-mail" type="email" autocomplete="email" placeholder="camille@exemple.be"></div>
+            <div class="champ" style="left:40px;top:48px;width:calc(360px + var(--dx) * .28);opacity:0;animation:habille .6s ease .60s both"><label for="p-nom">Prénom et nom</label><input maxlength="100" id="p-nom" type="text" autocomplete="name" placeholder="Camille Dupont"></div>
+            <div class="champ" style="left:calc(440px + var(--dx) * .28);top:48px;width:calc(360px + var(--dx) * .28);opacity:0;animation:habille .6s ease .70s both"><label for="p-mail">E-mail</label><input maxlength="254" id="p-mail" type="email" autocomplete="email" placeholder="camille@exemple.be"></div>
             <div class="champ" style="left:calc(840px + var(--dx) * .56);top:48px;width:calc(400px + var(--dx) * .44);opacity:0;animation:habille .6s ease .80s both"><label for="p-svc">Type d’événement</label><select id="p-svc"></select></div>
-            <div class="champ" style="left:40px;top:140px;width:calc(1200px + var(--dx));opacity:0;animation:habille .6s ease .90s both"><label for="p-msg">Votre message</label><textarea id="p-msg" rows="6" placeholder="Racontez-moi votre journée, vos lieux, vos envies."></textarea></div>
+            <div class="champ" style="left:40px;top:140px;width:calc(1200px + var(--dx));opacity:0;animation:habille .6s ease .90s both"><label for="p-msg">Votre message</label><textarea maxlength="2000" id="p-msg" rows="6" placeholder="Racontez-moi votre journée, vos lieux, vos envies."></textarea></div>
             <span class="encre" aria-hidden="true" style="position:absolute;left:40px;top:392px;width:220px;height:48px;border-radius:24px;animation:habille .8s ease .9s both"></span>
             <button type="button" class="btn" style="left:40px;top:392px;width:220px;height:48px;border-radius:24px"><span class="w" id="f-envoyer"></span></button>
             <button type="button" class="lien" id="fermer" style="position:absolute;left:292px;top:406px;font:500 14px Inter,sans-serif;color:#0D0E10;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px"><span class="w" id="f-revenir"></span></button>

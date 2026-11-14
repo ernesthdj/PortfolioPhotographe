@@ -36,10 +36,10 @@ const erreur = (id, top) => el('p', { id, role: 'alert', style: `${ABS}left:40px
 const case_ = (l, t, txt) => el('button', { type: 'button', class: 'case', role: 'checkbox', 'aria-checked': 'false', style: `left:${l}px;top:${t}px` },
   el('span', { class: 'bx', 'aria-hidden': 'true' }, svg('svg', { viewBox: '0 0 12 12' }, svg('path', { d: 'M2 6.5 L5 9 L10 3' }))), txt);
 const champTexte = (id, lib, l, t, w, aria) => el('div', { class: 'champ', style: `${ABS}left:${l}px;top:${t}px;width:${w}px` },
-  el('label', { class: 'mono', for: id }, lib), el('textarea', { id, 'aria-invalid': 'false', 'aria-describedby': aria }));
+  el('label', { class: 'mono', for: id }, lib), el('textarea', { id, maxlength: '500', 'aria-invalid': 'false', 'aria-describedby': aria }));
 const champMontant = (id, l, t, aria) => el('div', { class: 'champ', style: `${ABS}left:${l}px;top:${t}px;width:240px` },
   el('label', { class: 'mono', for: id }, 'Montant des frais, HTVA (€)'),
-  el('input', { id, type: 'text', inputmode: 'decimal', autocomplete: 'off', placeholder: '30,00', 'aria-invalid': 'false', 'aria-describedby': aria }));
+  el('input', { id, type: 'text', inputmode: 'decimal', maxlength: '12', autocomplete: 'off', placeholder: '30,00', 'aria-invalid': 'false', 'aria-describedby': aria }));
 
 /** Bloc « fait » commun aux trois panneaux. */
 function blocFait(idTitre, yBtn, a) {
