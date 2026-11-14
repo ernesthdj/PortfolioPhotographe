@@ -73,3 +73,30 @@ btnRejouer.addEventListener('click', () => {
 
 render();
 planifier();
+
+// Parcours : depuis l'intro (pas de routeur ici), un lien interne fait d'abord s'effacer toute la page vers le blanc
+// (développement photo à l'envers, 0,32 s), puis charge la page suivante, qui se dessine en morphing.
+let sortie = false;
+document.addEventListener('click', (e) => {
+  if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  const a = e.target.closest && e.target.closest('a[href]');
+  if (!a || (a.target && a.target !== '_self') || a.hasAttribute('download')) return;
+  const href = a.getAttribute('href');
+  if (!href || href.startsWith('#')) return;
+  const u = new URL(a.href, window.location.href);
+  if (u.origin !== window.location.origin) return;
+  e.preventDefault();
+  if (sortie) return;
+  sortie = true;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { window.location.assign(u.href); return; }
+  document.getElementById('scene').animate(
+    [{ opacity: 1, filter: 'none' }, { opacity: 1, filter: 'grayscale(1) contrast(1.05)', offset: .4 }, { opacity: 0, filter: 'grayscale(1) brightness(1.6)' }],
+    { duration: 320, easing: 'ease-in', fill: 'forwards' });
+  setTimeout(() => window.location.assign(u.href), 340);
+});
+// retour arrière du navigateur (page restaurée depuis le cache) : la page ne doit pas rester effacée
+window.addEventListener('pageshow', (e) => {
+  if (!e.persisted) return;
+  sortie = false;
+  document.getElementById('scene').getAnimations().forEach((an) => an.cancel());
+});
