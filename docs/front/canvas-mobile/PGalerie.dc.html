@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Galerie mobile</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+.mg-p,.mg-p *{box-sizing:border-box}
+.mg-p{--E:cubic-bezier(.45,0,.2,1);position:relative;width:390px;height:844px;overflow:hidden;background:#fff;color:#0D0E10;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.mg-sc{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;scrollbar-width:none}
+.mg-sc::-webkit-scrollbar{display:none}
+.mg-vg{position:absolute;inset:0;pointer-events:none;z-index:3;opacity:0;background:radial-gradient(120% 90% at 50% 42%,rgba(20,18,16,0) 55%,rgba(20,18,16,.08) 80%,rgba(20,18,16,.20) 100%)}
+.mg-mono{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4B4D52}
+.mg-ser{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+
+/* écriture : contour (.o) puis remplissage (.f), la goutte d'encre est la tête d'écriture */
+.mg-w{position:relative;display:inline-block;white-space:nowrap}
+.mg-w .o{display:block;color:transparent;-webkit-text-stroke:1px currentColor;clip-path:inset(-12px 100% -12px 0)}
+.mg-w .f{position:absolute;left:0;top:-.24em;padding:.24em .14em .24em 0;background-color:currentColor;background-image:radial-gradient(closest-side,rgba(255,255,255,.22),rgba(255,255,255,.07) 45%,rgba(255,255,255,0)),url(/_blob/ed07de6673f5b97f3f81d1a4ab4817c0);background-size:70% 60%,120px 120px;background-repeat:no-repeat,repeat;background-position:18% 12%,0 0;background-blend-mode:screen,overlay;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;clip-path:inset(-12px 100% -12px 0)}
+.mg-tete{position:absolute;left:0;top:50%;width:0;height:0;border-radius:0;background:#0D0E10;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1.5px 0 rgba(0,0,0,.22),0 2px 5px rgba(13,14,16,.22)}
+.rv .mg-w .o{animation:mg-wIn var(--u,.6s) var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+.rv .mg-w .f{animation:mg-wIn var(--u,.6s) var(--E) calc(var(--b,0s) + var(--d,0s) + .25s) both}
+.rv .mg-tete{animation:mg-ecrit var(--u,.6s) var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+
+/* traits */
+.mg-fr{position:absolute;inset:-6px;overflow:visible;pointer-events:none}
+.mg-fr rect,.mg-ln path{fill:none;stroke:#0D0E10;stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 102;stroke-dashoffset:101}
+.rv .mg-fr rect{animation:mg-trace 1.5s var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+.rv .mg-ln path{animation:mg-drawS var(--u,.45s) var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+.mg-hl{display:block;overflow:visible}
+.mg-hl path{stroke-width:1px;stroke:rgba(13,14,16,.22)}
+.mg-ln path.mg-com{fill:none;stroke-width:1.5px;stroke-linecap:round;stroke-dasharray:6 94;stroke-dashoffset:0;stroke-opacity:0}
+.rv .mg-ln path.mg-com{animation:mg-apparait 1.8s ease-in-out 4.6s both,mg-comete 16s linear 4.6s infinite}
+
+/* photos */
+.mg-ph{position:relative;filter:drop-shadow(0 16px 18px rgba(20,18,16,.26)) drop-shadow(0 4px 5px rgba(20,18,16,.14));cursor:pointer}
+.mg-img{display:block;width:100%;height:100%;object-fit:cover;opacity:0;clip-path:inset(0 100% 0 0)}
+.rv .mg-img{animation:mg-rIn .8s var(--E) calc(var(--b,0s) + var(--d,0s) + .45s) both,mg-dev 3.2s ease-in-out calc(var(--b,0s) + var(--d,0s) + .45s) both}
+.rv .mg-img.nb{animation:mg-rIn .8s var(--E) calc(var(--b,0s) + var(--d,0s) + .45s) both,mg-devNB 3.2s ease-in-out calc(var(--b,0s) + var(--d,0s) + .45s) both}
+.mg-tap{background:none;border:0;padding:0;cursor:pointer;display:block;width:100%;height:100%}
+
+/* matière */
+.mg-glass{background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(250,248,244,.86) 55%,rgba(240,237,231,.9) 100%);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 16px 32px -12px rgba(20,18,16,.30),0 4px 10px -3px rgba(20,18,16,.16),inset 0 1px 0 #fff,inset 0 0 0 1px rgba(255,255,255,.6),inset 0 -2px 0 rgba(20,18,16,.06),inset 0 -12px 18px -12px rgba(20,18,16,.10)}
+.mg-habille{opacity:0}
+.rv .mg-habille{animation:mg-habille 1.8s ease-in-out calc(var(--b,0s) + var(--d,0s)) both}
+.mg-menu{position:absolute;left:16px;right:16px;top:74px;z-index:12;border-radius:24px;padding:10px 22px 14px;animation:mg-habille .35s ease both}
+.mg-menu a{display:flex;align-items:center;gap:12px;min-height:50px;font:300 24px Inter,sans-serif;letter-spacing:-.015em;color:#0D0E10;text-decoration:none}
+.mg-btnw{filter:drop-shadow(0 12px 12px rgba(13,14,16,.38)) drop-shadow(0 3px 4px rgba(13,14,16,.22))}
+.mg-cta{display:flex;align-items:center;justify-content:center;border:0;color:#F4F2EE;font:600 15px Inter,sans-serif;cursor:pointer;width:100%;height:100%;background:radial-gradient(35% 25% at 30% 20%,rgba(255,255,255,.14),rgba(255,255,255,0)),url(/_blob/ed07de6673f5b97f3f81d1a4ab4817c0),#0D0E10;background-blend-mode:normal,overlay,normal;box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1.5px 0 rgba(0,0,0,.6);clip-path:inset(0 100% 0 0 round 26px)}
+.rv .mg-cta{animation:mg-rBtn .45s var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+.mg-chips{position:absolute;inset:0;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;border-radius:26px}
+.mg-chips::-webkit-scrollbar{display:none}
+.mg-chip{position:relative;flex:none;width:108px;height:52px;background:none;border:0;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;font:500 14px Inter,sans-serif;color:#0D0E10}
+
+/* décomposition (fond qui s'efface pendant la photo agrandie / le changement de filtre) et retour rapide */
+.out .rv .mg-w .o,.out .rv .mg-w .f{animation:mg-wOut .2s var(--E) 0s both}
+.out .rv .mg-tete{animation:none}
+.out .rv .mg-img{animation:mg-devOut .25s var(--E) 0s both}
+.out .rv .mg-fr rect{animation:none}
+.out .rv .mg-ln path{animation:mg-undrawS .3s var(--E) 0s both}
+.fq .mg-w .o,.fq .mg-w .f{animation:mg-wIn .25s var(--E) 0s both}
+.fq .mg-tete{animation:none}
+.fq .mg-img{animation:mg-devFast .5s ease 0s both}
+.fq .mg-img.nb{animation:mg-devFastNB .5s ease 0s both}
+.fq .mg-fr rect{animation:none}
+.fq .mg-ln path{animation:mg-drawS .3s var(--E) 0s both}
+
+/* photo agrandie */
+.mg-box{position:absolute;outline:1.5px solid #0D0E10;filter:drop-shadow(0 20px 22px rgba(20,18,16,.3)) drop-shadow(0 5px 6px rgba(20,18,16,.16));transition:left .65s var(--E),top .65s var(--E),width .65s var(--E),height .65s var(--E);animation:mg-cadreFin .5s ease 1.1s forwards}
+.mg-box.bk{animation:none;outline-color:transparent}
+.mg-v{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0}
+.mg-v.on{animation:mg-dev 2.6s ease .6s both}
+.mg-v.on.nb{animation:mg-devNB 2.6s ease .6s both}
+.mg-v.on.nx{animation:mg-dev 2.6s ease .15s both}
+.mg-v.on.nx.nb{animation:mg-devNB 2.6s ease .15s both}
+.mg-v.out{animation:mg-fOut .26s ease both}
+.mg-v.fin{opacity:1}
+.mg-v.fin.nb{filter:grayscale(1) contrast(1.05)}
+.mg-rb{display:flex;align-items:center;justify-content:center;width:52px;height:100px;background:none;border:0;padding:0 3px 0 0;cursor:pointer;color:#0D0E10}
+.mg-rb:hover .mg-rt{opacity:.62}
+.mg-rb:focus-visible{outline:2px solid #0D0E10;outline-offset:-3px}
+.mg-rt{writing-mode:vertical-rl;transform:rotate(180deg);font:400 14px Inter,sans-serif;letter-spacing:.02em;white-space:nowrap;transition:opacity .2s;clip-path:inset(0 -12px 100% -12px)}
+.rv .mg-rt{animation:mg-wInV .7s var(--E) var(--d,0s) both}
+@keyframes mg-wInV{from{clip-path:inset(0 -12px 100% -12px)}to{clip-path:inset(0 -12px -12px -12px)}}
+.mg-nv{position:relative;flex:1;min-width:0;height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#0D0E10;text-decoration:none;font:500 10.5px 'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase}
+.mg-nv.on{font-weight:600}
+.mg-nv:focus-visible{outline:2px solid #0D0E10;outline-offset:-3px;border-radius:14px}
+.mg-ib{position:absolute;width:48px;height:48px;border-radius:24px;border:1.5px solid #0D0E10;background:rgba(255,255,255,.9);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+
+.mg-sig,.mg-rule{clip-path:inset(-4px 100% -4px 0)}
+.rv .mg-sig{animation:mg-wIn .3s var(--E) .9s both,mg-souffle 6.5s ease-in-out 4.6s infinite}
+.rv .mg-rule{animation:mg-wIn .3s var(--E) calc(var(--b,0s) + .1s) both}
+.go .mg-vg{animation:mg-habille 1.4s ease-in-out .2s both}
+.out .rv .mg-habille{animation:mg-deshabille .3s ease both}
+.out .rv .mg-cta{animation:mg-rBtnOut .3s var(--E) 0s both}
+.out .rv .mg-ln path.mg-com{animation:none;stroke-opacity:0}
+.out .rv .mg-sig,.out .rv .mg-rule{animation:mg-wOut .2s var(--E) 0s both}
+.out .mg-vg{animation:mg-deshabille .3s ease both}
+@keyframes mg-deshabille{from{opacity:1}to{opacity:0}}
+@keyframes mg-rBtnOut{from{clip-path:inset(0 0 0 0 round 26px)}to{clip-path:inset(0 100% 0 0 round 26px)}}
+@keyframes mg-wIn{from{clip-path:inset(-12px 100% -12px 0)}to{clip-path:inset(-12px -12px -12px 0)}}
+@keyframes mg-wOut{from{clip-path:inset(-12px -12px -12px 0)}to{clip-path:inset(-12px 100% -12px 0)}}
+@keyframes mg-rIn{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes mg-rBtn{from{clip-path:inset(0 100% 0 0 round 26px)}to{clip-path:inset(0 0 0 0 round 26px)}}
+@keyframes mg-drawS{from{stroke-dashoffset:101}to{stroke-dashoffset:0}}
+@keyframes mg-undrawS{from{stroke-dashoffset:0}to{stroke-dashoffset:101}}
+@keyframes mg-trace{0%{stroke-dashoffset:101}50%{stroke-dashoffset:0}65%{stroke-dashoffset:0}100%{stroke-dashoffset:-102}}
+@keyframes mg-dev{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@keyframes mg-devNB{0%{opacity:0;filter:grayscale(1) contrast(1.05)}45%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
+@keyframes mg-devFast{0%{opacity:0;clip-path:inset(0 0 0 0);filter:grayscale(1) contrast(1.05)}100%{opacity:1;clip-path:inset(0 0 0 0);filter:grayscale(0) contrast(1)}}
+@keyframes mg-devFastNB{0%{opacity:0;clip-path:inset(0 0 0 0);filter:grayscale(1) contrast(1.05)}100%{opacity:1;clip-path:inset(0 0 0 0);filter:grayscale(1) contrast(1.05)}}
+@keyframes mg-devOut{0%{opacity:1;clip-path:inset(0 0 0 0)}100%{opacity:0;clip-path:inset(0 0 0 0)}}
+@keyframes mg-fOut{from{opacity:1}to{opacity:0}}
+@keyframes mg-habille{from{opacity:0}to{opacity:1}}
+@keyframes mg-apparait{from{stroke-opacity:0}to{stroke-opacity:1}}
+@keyframes mg-comete{from{stroke-dashoffset:0}to{stroke-dashoffset:-100}}
+@keyframes mg-souffle{0%{width:28px}50%{width:46px}100%{width:28px}}
+@keyframes mg-cadreFin{to{outline-color:transparent}}
+@keyframes mg-ecrit{0%{left:-14px;top:calc(50% - 5px);width:10px;height:10px;border-radius:5px}15%{left:-2px;top:0;width:3px;height:100%;border-radius:1.5px}85%{left:calc(100% - 2px);top:0;width:3px;height:100%;border-radius:1.5px}100%{left:100%;top:50%;width:0;height:0;border-radius:0}}
+@media (prefers-reduced-motion: reduce){.mg-p *{animation-duration:0s !important;animation-delay:0s !important;transition-duration:0s !important}}
+</style>
+</helmet>
+<div class="mg-p {{rcls}}" ref="{{rootRef}}">
+  <div class="mg-vg" aria-hidden="true"></div>
+
+  <!-- En-tête allégé : le logo seul, sur un fondu blanc (la navigation est réunie dans le dock du bas) -->
+  <div aria-hidden="true" style="position:absolute;z-index:9;left:0;right:0;top:0;height:84px;pointer-events:none;background:linear-gradient(180deg,#fff 50%,rgba(255,255,255,0))"></div>
+  <div data-rv="s" style="position:absolute;z-index:11;left:22px;right:22px;top:22px;height:40px">
+    <a href="PAccueil.dc.html" onClick="{{goAccueil}}" aria-label="Ernest H. — accueil" style="position:absolute;left:0;top:0;font:500 18px Inter,sans-serif;letter-spacing:-.01em;color:#0D0E10;text-decoration:none">
+      <span class="mg-w" style="--d:.25s;--u:.55s"><span class="o">Ernest H.</span><span class="f" aria-hidden="true">Ernest H.</span></span>
+    </a>
+    <div class="mg-sig" aria-hidden="true" style="position:absolute;left:0;top:28px;height:2px;width:28px;background:#3AA6B5;border-radius:2px"></div>
+    <div class="mg-mono" style="position:absolute;right:0;top:4px"><span class="mg-w" style="--d:.45s;--u:.5s"><span class="o">SC. 02</span><span class="f" aria-hidden="true">SC. 02</span></span></div>
+  </div>
+
+  <!-- Navigation tout-en-un : un seul dock en bas, zone du pouce. Rangée du haut = sous-navigation de la Galerie, rangée du bas = navigation principale + devis -->
+  <div data-rv="s" style="position:absolute;z-index:12;left:16px;bottom:18px;width:358px;height:114px">
+    <div class="mg-glass mg-habille" style="position:absolute;inset:0;border-radius:30px;--d:.8s"></div>
+    <svg class="mg-ln" style="position:absolute;left:0;top:0;overflow:visible;pointer-events:none" width="358" height="114" viewBox="0 0 358 114" aria-hidden="true">
+      <path pathLength="100" d="M0 57 V30 A30 30 0 0 1 30 0 H328 A30 30 0 0 1 358 30 V57" style="--d:.2s;--u:.6s"/>
+      <path pathLength="100" d="M0 57 V84 A30 30 0 0 0 30 114 H328 A30 30 0 0 0 358 84 V57" style="--d:.2s;--u:.6s"/>
+      <path pathLength="100" d="M22 49 H336" style="--d:1.1s;--u:.7s;stroke-width:1px;stroke:rgba(13,14,16,.22)"/>
+      <path class="mg-com" pathLength="100" d="M0 57 V30 A30 30 0 0 1 30 0 H328 A30 30 0 0 1 358 30 V84 A30 30 0 0 1 328 114 H30 A30 30 0 0 1 0 84 Z" style="stroke:#3AA6B5"/>
+    </svg>
+    <!-- sous-navigation : les services de la galerie, trait cyan qui glisse -->
+    <div class="mg-chips" role="tablist" aria-label="Filtrer la galerie par service" style="left:12px;right:12px;top:0;bottom:auto;height:48px;border-radius:0">
+      <div style="position:relative;width:740px;height:48px;display:flex">
+        <sc-for list="{{chips}}" as="c" hint-placeholder-count="7">
+          <button class="mg-chip" role="tab" aria-selected="{{c.on}}" onClick="{{c.pick}}" style="width:104px;height:48px"><span style="font-weight:{{c.w}}">{{c.l}}</span><span class="mg-mono" style="font-size:10px">{{c.n}}</span></button>
+        </sc-for>
+        <span aria-hidden="true" style="position:absolute;bottom:4px;height:2px;width:56px;background:#3AA6B5;border-radius:2px;left:{{ulx}}px;transition:left .45s cubic-bezier(.45,0,.2,1)"></span>
+      </div>
+    </div>
+    <!-- navigation principale -->
+    <div style="position:absolute;left:8px;right:8px;top:50px;height:60px;display:flex;align-items:center;gap:2px">
+      <a class="mg-nv" href="PAccueil.dc.html" onClick="{{goAccueil}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-6h4v6"/></svg>Accueil</a>
+      <a class="mg-nv on" href="PGalerie.dc.html" onClick="{{noop}}" aria-current="page"><span aria-hidden="true" style="position:absolute;top:0;left:14px;right:14px;height:2px;background:#3AA6B5;border-radius:2px"></span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="9"/><rect x="13.5" y="3.5" width="7" height="5"/><rect x="13.5" y="11.5" width="7" height="9"/><rect x="3.5" y="15.5" width="7" height="5"/></svg>Galerie</a>
+      <a class="mg-nv" href="#services"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Services</a>
+      <a class="mg-nv" href="#contact"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13"/><path d="M4 7l8 6 8-6"/></svg>Contact</a>
+      <div class="mg-btnw" style="flex:none;width:84px;height:46px;margin-left:4px"><button class="mg-cta" style="--d:1.4s"><span class="mg-w" style="--d:1.75s;--u:.45s"><span class="o">Devis</span><span class="f" aria-hidden="true">Devis</span></span></button></div>
+    </div>
+  </div>
+
+  <div class="mg-sc" ref="{{scRef}}" onScroll="{{scroll}}">
+    <div style="position:relative;padding-bottom:170px">
+
+      <!-- Titre selon le filtre -->
+      <div class="mg-c {{pc}}" style="padding:96px 22px 0">
+        <div data-rv="" style="display:flex;align-items:center;gap:12px">
+          <span class="mg-rule" aria-hidden="true" style="display:block;width:28px;height:1px;background:#D9783A"></span>
+          <span class="mg-mono"><span class="mg-w" style="--d:.15s;--u:.6s"><span class="o">Galerie · {{count}} photos</span><span class="f" aria-hidden="true">Galerie · {{count}} photos</span></span></span>
+        </div>
+        <div style="margin-top:14px;font-weight:300;font-size:34px;line-height:1.14;letter-spacing:-.03em;filter:drop-shadow(0 6px 8px rgba(20,18,16,.16))">
+          <div data-rv=""><span class="mg-w" style="--d:.2s;--u:.8s"><span class="mg-tete"></span><span class="o">{{t1}}</span><span class="f" aria-hidden="true">{{t1}}</span></span></div>
+          <div data-rv=""><span class="mg-w" style="--d:.55s;--u:.8s"><span class="mg-tete"></span><span class="o"><span class="mg-ser" style="font-size:40px">{{t2}}</span></span><span class="f" aria-hidden="true"><span class="mg-ser" style="font-size:40px">{{t2}}</span></span></span></div>
+        </div>
+      </div>
+
+      <!-- Flux : reportages regroupés par événement, rangées justifiées, témoignage à la place d'une photo -->
+      <div class="mg-c {{pc}}" style="display:flex;flex-wrap:wrap;gap:10px;padding:6px 22px 0;align-content:flex-start">
+        <sc-for list="{{flow}}" as="it" hint-placeholder-count="8">
+          <sc-if value="{{it.isM}}" hint-placeholder-val="{{false}}">
+            <div data-rv="" style="width:100%;margin-top:30px">
+              <div class="mg-mono"><span class="mg-w" style="--d:0s;--u:.6s"><span class="o">{{it.tag}}</span><span class="f" aria-hidden="true">{{it.tag}}</span></span></div>
+              <div style="font:400 15px/1.35 Inter,sans-serif;margin:6px 0 10px"><span class="mg-w" style="--d:.3s;--u:.7s"><span class="o">{{it.line}}</span><span class="f" aria-hidden="true">{{it.line}}</span></span></div>
+              <svg class="mg-ln mg-hl" width="346" height="2" viewBox="0 0 346 2" aria-hidden="true"><path pathLength="100" d="M0 1H346" style="--d:.1s;--u:1s"/></svg>
+            </div>
+          </sc-if>
+          <sc-if value="{{it.isP}}" hint-placeholder-val="{{true}}">
+            <div data-rv="" class="mg-ph" data-pid="{{it.n}}" style="width:{{it.w}}px;height:{{it.h}}px;--d:{{it.d}}">
+              <button class="mg-tap" onClick="{{it.open}}" aria-label="{{it.alt}} — agrandir"><img class="mg-img {{it.nb}}" src="{{it.src}}" alt="{{it.alt}}"></button>
+              <svg class="mg-fr" width="{{it.w6}}" height="{{it.h6}}" viewBox="{{it.vb}}" aria-hidden="true"><rect x="0" y="0" width="{{it.w6}}" height="{{it.h6}}" pathLength="100"/></svg>
+            </div>
+          </sc-if>
+          <sc-if value="{{it.isQ}}" hint-placeholder-val="{{false}}">
+            <div data-rv="" style="width:{{it.w}}px;height:{{it.h}}px;display:flex;flex-direction:column;justify-content:center;filter:drop-shadow(0 5px 7px rgba(20,18,16,.2))">
+              <div class="mg-ser" style="font-size:21px;line-height:1.22"><span class="mg-w" style="--d:.2s;--u:.8s"><span class="mg-tete"></span><span class="o">« [Un témoignage</span><span class="f" aria-hidden="true">« [Un témoignage</span></span></div>
+              <div class="mg-ser" style="font-size:21px;line-height:1.22"><span class="mg-w" style="--d:.6s;--u:.7s"><span class="mg-tete"></span><span class="o">court.] »</span><span class="f" aria-hidden="true">court.] »</span></span></div>
+              <div class="mg-mono" style="margin-top:10px;font-size:10px"><span class="mg-w" style="--d:1s;--u:.5s"><span class="o">[Prénoms]</span><span class="f" aria-hidden="true">[Prénoms]</span></span></div>
+            </div>
+          </sc-if>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <!-- Photo agrandie : le cadre part de la vignette, la photo se développe, ✕ la repose dans sa vignette -->
+  <sc-if value="{{vopen}}" hint-placeholder-val="{{false}}">
+    <div style="position:absolute;inset:0;z-index:20">
+      <div style="position:absolute;inset:0;background:#fff;opacity:{{vbgOp}};transition:opacity .5s ease"></div>
+      <div class="mg-box {{boxCls}}" style="left:{{box.l}}px;top:{{box.t}}px;width:{{box.w}}px;height:{{box.h}}px">
+        <sc-for list="{{vimgs}}" as="m" hint-placeholder-count="1">
+          <img class="{{m.cls}}" src="{{m.src}}" alt="{{m.alt}}">
+        </sc-for>
+      </div>
+      <div style="position:absolute;inset:0;pointer-events:{{ctlPe}};opacity:{{ctlOp}};transition:opacity .3s ease .45s">
+        <button class="mg-ib" onClick="{{closeV}}" aria-label="Fermer la photo" style="right:16px;top:16px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D0E10" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+        <div style="position:absolute;left:22px;right:22px;top:{{capTop}}px">
+          <div style="display:flex;align-items:center;gap:12px"><span aria-hidden="true" style="display:block;width:28px;height:1px;background:#D9783A"></span><span class="mg-mono">{{vnum}} / {{vtot}}</span></div>
+          <div class="mg-mono" style="margin-top:8px">{{vcap}}</div>
+        </div>
+        <button class="mg-ib" onClick="{{prevV}}" aria-label="Photo précédente" style="left:22px;bottom:28px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D0E10" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <button class="mg-ib" onClick="{{nextV}}" aria-label="Photo suivante" style="right:22px;bottom:28px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D0E10" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"play":{"editor":null,"default":true},"leaving":{"editor":null,"default":false},"onNav":{"editor":null},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { cat: 'tout', pc: '', menu: false, v: null };
+    this.batch = true; this.redo = false; this.n = 0;
+  }
+  act() { return this.props.play === undefined ? true : !!this.props.play; }
+  componentDidMount() { setTimeout(() => this.check(), 40); }
+  componentDidUpdate(pp) {
+    if (this.redo) { this.redo = false; this.reset(false); setTimeout(() => this.check(), 20); }
+    const was = pp.play === undefined ? true : !!pp.play, now = this.act();
+    if (!was && now) { this.batch = true; setTimeout(() => this.check(), 60); }
+    if (was && !now) {
+      clearTimeout(this.t1); clearTimeout(this.t2);
+      this.reset(true);
+      if (this.sc) this.sc.scrollTop = 0;
+      this.setState({ cat: 'tout', pc: '', v: null, menu: false });
+    }
+  }
+  componentWillUnmount() { clearTimeout(this.t1); clearTimeout(this.t2); }
+  nav(e, t) { if (this.props.onNav && !this.state.v) { e.preventDefault(); this.props.onNav(t); } else if (this.props.onNav) { e.preventDefault(); } }
+
+  // --- révélation : chaque bloc se construit quand il entre dans l'écran, et seulement quand la page est active ---
+  check() {
+    const root = this.root, sc = this.sc;
+    if (!root || !sc || !this.act()) return;
+    const bottom = sc.getBoundingClientRect().bottom;
+    let k = 0;
+    root.querySelectorAll('[data-rv]:not(.rv)').forEach((el) => {
+      if (el.getAttribute('data-rv') === 's') { el.style.setProperty('--b', '0s'); el.classList.add('rv'); return; }
+      const r = el.getBoundingClientRect();
+      if (r.top < bottom - 36) {
+        el.style.setProperty('--b', (this.batch ? k * 0.2 : 0.05).toFixed(2) + 's');
+        el.classList.add('rv'); k++;
+      }
+    });
+    this.batch = false;
+  }
+  reset(all) {
+    const zone = all ? this.root : this.sc; if (!zone) return;
+    zone.querySelectorAll('[data-rv]').forEach((el) => el.classList.remove('rv', 'fq'));
+    void zone.offsetWidth;
+  }
+  rectOf(el) {
+    const rr = this.rootEl.getBoundingClientRect(), r = el.getBoundingClientRect(), s = rr.width / 390;
+    return { l: (r.left - rr.left) / s, t: (r.top - rr.top) / s, w: r.width / s, h: r.height / s };
+  }
+  pick(k) {
+    if (k === this.state.cat || this.state.v) return;
+    this.setState({ pc: 'out' });
+    clearTimeout(this.t1);
+    this.t1 = setTimeout(() => { if (this.sc) this.sc.scrollTop = 0; this.redo = true; this.batch = true; this.setState({ cat: k, pc: '' }); }, 230);
+  }
+  openAt(e, i) {
+    const el = e.currentTarget.closest('[data-pid]');
+    this.rootEl = e.currentTarget.closest('.mg-p');
+    const rect = this.rectOf(el);
+    this.setState({ pc: 'out', v: { i, prev: -1, ph: 'from', rect, first: true } });
+    clearTimeout(this.t2);
+    this.t2 = setTimeout(() => this.setState({ v: { ...this.state.v, ph: 'to' } }), 60);
+  }
+  go(d) {
+    const v = this.state.v; if (!v || v.ph !== 'to') return;
+    this.setState({ v: { ...v, prev: v.i, i: (v.i + d + this.n) % this.n, first: false } });
+  }
+  closeV() {
+    const v = this.state.v; if (!v || v.ph !== 'to') return;
+    const el = this.rootEl.querySelector('[data-pid="' + v.i + '"]');
+    if (el) el.scrollIntoView({ block: 'center', inline: 'nearest' });
+    this.t2 = setTimeout(() => {
+      const rect = el ? this.rectOf(el) : v.rect;
+      // la page se redessine PENDANT que la photo revient (retour rapide, sans voile) : rien ne repasse à la fin
+      const sc = this.sc;
+      if (sc) sc.querySelectorAll('.rv[data-rv]').forEach((x) => x.classList.add('fq'));
+      this.setState({ v: { ...v, ph: 'back', rect, prev: -1 }, pc: '' });
+      this.t1 = setTimeout(() => this.setState({ v: null }), 700);
+    }, 70);
+  }
+  build(cat) {
+    const P = [
+      { src: '/_blob/c145ad0fe8cc59b423f374ceb0618733', r: 2 / 3, alt: 'Les mariés devant le château, la mariée sourit' },
+      { src: '/_blob/c1aa6596dc4bef1d2aa222836cdecd2d', r: 1400 / 600, alt: 'Couple enlacé dans un champ', nb: true },
+      { src: '/_blob/ab41a6e00573f6010cc7a04a2e70fc27', r: 1400 / 600, alt: 'Couple debout dans un grand champ' },
+      { src: '/_blob/098613cec7da82581cef70ebd0e18367', r: 2 / 3, alt: 'Les mariés enlacés, bouquet au premier plan', nb: true },
+      { src: '/_blob/2aa4aa217df0a00c1dd1ba248338bd5a', r: 2 / 3, alt: 'Baiser sur la joue' }
+    ];
+    const EV = {
+      mariages: [{ tag: 'Mariage · [Lieu] · 2026', line: '[Une ligne sur la journée, écrite par Ernest.]', ph: [0, 3, 4, 2], quote: true }, { tag: 'Mariage · [Lieu] · 2025', line: '[Une ligne sur la journée.]', ph: [4, 0, 1] }],
+      engagement: [{ tag: 'Engagement · [Lieu] · 2026', line: '[Une ligne sur la séance.]', ph: [1, 2, 3], quote: true }],
+      famille: [{ tag: 'Famille · [Lieu] · 2026', line: '[Une ligne sur la séance.]', ph: [2, 0, 4] }],
+      anniversaires: [{ tag: 'Anniversaire · [Lieu] · 2026', line: '[Une ligne sur la soirée.]', ph: [3, 4, 1], quote: true }],
+      evenementiel: [{ tag: 'Événement · [Lieu] · 2026', line: '[Une ligne sur l’événement.]', ph: [4, 3, 0] }],
+      culinaire: [{ tag: 'Culinaire · [Lieu] · 2026', line: '[Une ligne sur la commande.]', ph: [2, 1] }]
+    };
+    const evs = cat === 'tout' ? [].concat(EV.mariages, EV.engagement, EV.famille, EV.anniversaires, EV.evenementiel, EV.culinaire) : EV[cat];
+    const items = [], list = []; let n = 0;
+    const photo = (idx, w, d, ev) => {
+      const p = P[idx], h = Math.round(w / p.r), my = n++;
+      list.push({ src: p.src, alt: p.alt, r: p.r, nb: p.nb, cap: ev.tag, i: my });
+      return { isP: true, n: my, w, h, w6: w + 12, h6: h + 12, vb: '0 0 ' + (w + 12) + ' ' + (h + 12), src: p.src, alt: p.alt, nb: p.nb ? 'nb' : '', d: d + 's', open: (e) => this.openAt(e, my) };
+    };
+    evs.forEach((ev) => {
+      items.push({ isM: true, tag: ev.tag, line: ev.line });
+      let quoted = !ev.quote;
+      for (let k = 0; k < ev.ph.length; k++) {
+        const p = P[ev.ph[k]];
+        if (p.r > 1) { items.push(photo(ev.ph[k], 346, 0, ev)); continue; }
+        const nx = ev.ph[k + 1] !== undefined ? P[ev.ph[k + 1]] : null;
+        if (nx && nx.r < 1) { items.push(photo(ev.ph[k], 168, 0, ev)); items.push(photo(ev.ph[k + 1], 168, 0.25, ev)); k++; }
+        else {
+          items.push(photo(ev.ph[k], 168, 0, ev));
+          if (!quoted) { items.push({ isQ: true, w: 168, h: 252 }); quoted = true; }
+        }
+      }
+    });
+    return { items, list };
+  }
+  renderVals() {
+    const { cat, v } = this.state;
+    const CATS = [['tout', 'Tout', 'Toutes les', 'histoires.'], ['mariages', 'Mariages', 'Les', 'mariages.'], ['engagement', 'Engagement', 'Les', 'engagements.'], ['famille', 'Famille', 'Les', 'familles.'], ['anniversaires', 'Anniversaires', 'Les', 'anniversaires.'], ['evenementiel', 'Événementiel', 'Les', 'événements.'], ['culinaire', 'Culinaire', 'Le', 'culinaire.']];
+    const counts = {};
+    CATS.forEach(([k]) => { counts[k] = this.build(k).list.length; });
+    const cur = CATS.find((c) => c[0] === cat);
+    const { items, list } = this.build(cat);
+    this.n = list.length;
+    const idx = CATS.findIndex((c) => c[0] === cat);
+    const out = {
+      rcls: (this.act() ? 'go' : '') + (this.props.leaving ? ' out' : ''),
+      rootRef: (el) => { this.root = el; },
+      goAccueil: (e) => this.nav(e, 'accueil'),
+      noop: (e) => { if (this.props.onNav) e.preventDefault(); },
+      menu: this.state.menu, pc: this.state.pc,
+      toggleMenu: () => this.setState({ menu: !this.state.menu }),
+      scRef: (el) => { this.sc = el; },
+      scroll: () => this.check(),
+      count: counts[cat], t1: cur[2], t2: cur[3],
+      ulx: 12 + idx * 104 + 24,
+      chips: CATS.map(([k, l]) => ({ l, n: counts[k], on: k === cat, w: k === cat ? 600 : 400, pick: (e) => { try { e.currentTarget.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' }); } catch (x) {} this.pick(k); } })),
+      flow: items,
+      vopen: !!v,
+      closeV: () => this.closeV(), prevV: () => this.go(-1), nextV: () => this.go(1)
+    };
+    if (v) {
+      const t = list[v.i] || list[0];
+      const w = Math.min(346, 600 * t.r), h = w / t.r;
+      const target = { l: (390 - w) / 2, t: (844 - h) / 2 - 28, w, h };
+      const box = v.ph === 'to' ? target : v.rect;
+      out.box = { l: box.l, t: box.t, w: box.w, h: box.h };
+      out.boxCls = v.ph === 'back' ? 'bk' : '';
+      out.vbgOp = v.ph === 'to' ? 1 : 0;
+      out.ctlOp = v.ph === 'to' ? 1 : 0;
+      out.ctlPe = v.ph === 'to' ? 'auto' : 'none';
+      out.capTop = Math.min(target.t + target.h + 22, 700);
+      out.vnum = String(v.i + 1).padStart(2, '0'); out.vtot = String(list.length).padStart(2, '0'); out.vcap = t.cap;
+      out.vimgs = list.map((m, k) => ({
+        src: m.src, alt: m.alt,
+        cls: 'mg-v' + (m.nb ? ' nb' : '') + (v.ph === 'back' ? (k === v.i ? ' fin' : '') : (k === v.i ? ' on' + (v.first ? '' : ' nx') : (k === v.prev ? ' out' : '')))
+      }));
+    } else { out.box = { l: 0, t: 0, w: 0, h: 0 }; out.vimgs = []; }
+    return out;
+  }
+}
+</script>
+</body>
+</html>

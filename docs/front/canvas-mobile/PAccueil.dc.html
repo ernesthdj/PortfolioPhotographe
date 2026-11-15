@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Parcours — Accueil</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+.mf-p,.mf-p *{box-sizing:border-box}
+.mf-p{--E:cubic-bezier(.45,0,.2,1);position:relative;width:390px;height:844px;overflow:hidden;background:#fff;color:#0D0E10;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.mf-sc{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;scrollbar-width:none}
+.mf-sc::-webkit-scrollbar{display:none}
+.mf-vg{position:absolute;inset:0;pointer-events:none;z-index:3;opacity:0;background:radial-gradient(120% 90% at 50% 42%,rgba(20,18,16,0) 55%,rgba(20,18,16,.08) 80%,rgba(20,18,16,.20) 100%)}
+.mf-mono{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4B4D52}
+.mf-ser{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+
+/* écriture du texte : contour d'abord (.o), remplissage ensuite (.f), la goutte d'encre est la tête d'écriture */
+.mf-w{position:relative;display:inline-block;white-space:nowrap}
+.mf-w .o{display:block;color:transparent;-webkit-text-stroke:1px currentColor;clip-path:inset(-12px 100% -12px 0)}
+.mf-w .f{position:absolute;left:0;top:-.24em;padding:.24em .14em .24em 0;background-color:currentColor;background-image:radial-gradient(closest-side,rgba(255,255,255,.22),rgba(255,255,255,.07) 45%,rgba(255,255,255,0)),url(/_blob/ed07de6673f5b97f3f81d1a4ab4817c0);background-size:70% 60%,120px 120px;background-repeat:no-repeat,repeat;background-position:18% 12%,0 0;background-blend-mode:screen,overlay;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;clip-path:inset(-12px 100% -12px 0)}
+.go .mf-w .o{animation:mf-wIn var(--u,.6s) var(--E) var(--d,0s) both}
+.go .mf-w .f{animation:mf-wIn var(--u,.6s) var(--E) calc(var(--d,0s) + .25s) both}
+.mf-tete{position:absolute;left:0;top:50%;width:0;height:0;border-radius:0;background:#0D0E10;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1.5px 0 rgba(0,0,0,.22),0 2px 5px rgba(13,14,16,.22)}
+.go .mf-tete{animation:mf-ecrit var(--u,.6s) var(--E) var(--d,0s) both}
+
+/* traits : dessinés par stroke-dashoffset (pathLength = 100) */
+.mf-fr{position:absolute;inset:-6px;overflow:visible;pointer-events:none}
+.mf-fr rect,.mf-ln path{fill:none;stroke:#0D0E10;stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 102;stroke-dashoffset:101}
+.go .mf-fr rect{animation:mf-trace 1.5s var(--E) var(--d,0s) both}
+.go .mf-fr rect.mf-keep{animation:mf-drawS .6s var(--E) var(--d,0s) both}
+.go .mf-ln path{animation:mf-drawS var(--u,.45s) var(--E) var(--d,0s) both}
+.mf-hl{display:block;overflow:visible}
+.mf-hl path{stroke-width:1px;stroke:rgba(13,14,16,.22)}
+.mf-ln path.mf-com,.mf-fr rect.mf-com{fill:none;stroke-width:1.5px;stroke-linecap:round;stroke-dasharray:6 94;stroke-dashoffset:0;stroke-opacity:0}
+.go .mf-ln path.mf-com,.go .mf-fr rect.mf-com{animation:mf-apparait 1.8s ease-in-out 4.6s both,mf-comete 16s linear 4.6s infinite}
+
+/* photos : le cadre se trace, la photo se révèle dans le tracé puis se développe (noir et blanc -> couleur) */
+.mf-ph{position:relative;filter:drop-shadow(0 18px 20px rgba(20,18,16,.26)) drop-shadow(0 4px 5px rgba(20,18,16,.14))}
+.mf-img{display:block;width:100%;height:100%;object-fit:cover;opacity:0;clip-path:inset(0 100% 0 0)}
+.go .mf-img{animation:mf-rIn .8s var(--E) calc(var(--d,0s) + .45s) both,mf-dev 3.2s ease-in-out calc(var(--d,0s) + .45s) both}
+.go .mf-img.nb{animation:mf-rIn .8s var(--E) calc(var(--d,0s) + .45s) both,mf-devNB 3.2s ease-in-out calc(var(--d,0s) + .45s) both}
+
+/* habillage : la matière arrive en fondu lent une fois le trait fini */
+.mf-glass{background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(250,248,244,.86) 55%,rgba(240,237,231,.9) 100%);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 16px 32px -12px rgba(20,18,16,.30),0 4px 10px -3px rgba(20,18,16,.16),inset 0 1px 0 #fff,inset 0 0 0 1px rgba(255,255,255,.6),inset 0 -2px 0 rgba(20,18,16,.06),inset 0 -12px 18px -12px rgba(20,18,16,.10)}
+.mf-habille{opacity:0}
+.go .mf-habille{animation:mf-habille 1.8s ease-in-out var(--d,0s) both}
+.mf-menu{position:absolute;left:16px;right:16px;top:74px;z-index:6;border-radius:24px;padding:10px 22px 14px;opacity:0;pointer-events:none;transition:opacity .35s ease}
+.mf-menu.open{opacity:1;pointer-events:auto}
+.mf-menu a{display:flex;align-items:center;gap:12px;min-height:50px;font:300 24px Inter,sans-serif;letter-spacing:-.015em;color:#0D0E10;text-decoration:none}
+
+/* bouton noir : le remplissage se révèle, le texte s'écrit dessus */
+.mf-btnw{filter:drop-shadow(0 12px 12px rgba(13,14,16,.38)) drop-shadow(0 3px 4px rgba(13,14,16,.22))}
+.mf-cta{display:flex;align-items:center;justify-content:center;border:0;color:#F4F2EE;font:600 15px Inter,sans-serif;cursor:pointer;width:100%;height:100%;background:radial-gradient(35% 25% at 30% 20%,rgba(255,255,255,.14),rgba(255,255,255,0)),url(/_blob/ed07de6673f5b97f3f81d1a4ab4817c0),#0D0E10;background-blend-mode:normal,overlay,normal;box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1.5px 0 rgba(0,0,0,.6);clip-path:inset(0 100% 0 0 round 26px)}
+.go .mf-cta{animation:mf-rBtn .45s var(--E) var(--d,0s) both}
+.mf-svc{display:flex;align-items:center;gap:14px;height:56px;color:#0D0E10;text-decoration:none}
+.mf-tap{background:none;border:0;cursor:pointer}
+
+.mf-sig{clip-path:inset(-4px 100% -4px 0)}
+.go .mf-sig{animation:mf-wIn .3s var(--E) .9s both,mf-souffle 6.5s ease-in-out 4.6s infinite}
+.go .mf-vg{animation:mf-habille 1.4s ease-in-out .2s both}
+/* sortie : la page se décompose (texte résorbé, traits défaits, photos et verre effacés), jamais coupée d'un coup */
+.out .mf-w .o,.out .mf-w .f{animation:mf-wOut .2s var(--E) 0s both}
+.out .mf-tete{animation:none}
+.out .mf-img{animation:mf-devOut .25s var(--E) 0s both}
+.out .mf-fr rect{animation:none}
+.out .mf-fr rect.mf-keep{animation:mf-undrawS .3s var(--E) 0s both}
+.out .mf-ln path{animation:mf-undrawS .3s var(--E) 0s both}
+.out .mf-ln path.mf-com,.out .mf-fr rect.mf-com{animation:none;stroke-opacity:0}
+.out .mf-habille{animation:mf-deshabille .3s ease both}
+.out .mf-cta{animation:mf-rBtnOut .3s var(--E) 0s both}
+.out .mf-sig{animation:mf-wOut .2s var(--E) 0s both}
+.out .mf-vg{animation:mf-deshabille .3s ease both}
+@keyframes mf-wOut{from{clip-path:inset(-12px -12px -12px 0)}to{clip-path:inset(-12px 100% -12px 0)}}
+@keyframes mf-undrawS{from{stroke-dashoffset:0}to{stroke-dashoffset:101}}
+@keyframes mf-devOut{0%{opacity:1;clip-path:inset(0 0 0 0)}100%{opacity:0;clip-path:inset(0 0 0 0)}}
+@keyframes mf-deshabille{from{opacity:1}to{opacity:0}}
+@keyframes mf-rBtnOut{from{clip-path:inset(0 0 0 0 round 26px)}to{clip-path:inset(0 100% 0 0 round 26px)}}
+@keyframes mf-wIn{from{clip-path:inset(-12px 100% -12px 0)}to{clip-path:inset(-12px -12px -12px 0)}}
+@keyframes mf-rIn{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes mf-rBtn{from{clip-path:inset(0 100% 0 0 round 26px)}to{clip-path:inset(0 0 0 0 round 26px)}}
+@keyframes mf-drawS{from{stroke-dashoffset:101}to{stroke-dashoffset:0}}
+@keyframes mf-trace{0%{stroke-dashoffset:101}50%{stroke-dashoffset:0}65%{stroke-dashoffset:0}100%{stroke-dashoffset:-102}}
+@keyframes mf-dev{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@keyframes mf-devNB{0%{opacity:0;filter:grayscale(1) contrast(1.05)}45%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
+@keyframes mf-habille{from{opacity:0}to{opacity:1}}
+@keyframes mf-apparait{from{stroke-opacity:0}to{stroke-opacity:1}}
+@keyframes mf-comete{from{stroke-dashoffset:0}to{stroke-dashoffset:-100}}
+@keyframes mf-souffle{0%{width:28px}50%{width:46px}100%{width:28px}}
+@keyframes mf-ecrit{0%{left:-14px;top:calc(50% - 5px);width:10px;height:10px;border-radius:5px}15%{left:-2px;top:0;width:3px;height:100%;border-radius:1.5px}85%{left:calc(100% - 2px);top:0;width:3px;height:100%;border-radius:1.5px}100%{left:100%;top:50%;width:0;height:0;border-radius:0}}
+@media (prefers-reduced-motion: reduce){.mf-p *{animation-duration:0s !important;animation-delay:0s !important}}
+</style>
+</helmet>
+<div class="mf-p {{rcls}}">
+  <div class="mf-vg" aria-hidden="true"></div>
+
+  <!-- En-tête : contour tracé depuis la gauche (deux moitiés), puis la matière de verre arrive -->
+  <div style="position:absolute;z-index:5;left:16px;top:14px;width:358px;height:52px">
+    <div class="mf-glass mf-habille" style="position:absolute;inset:0;border-radius:26px;--d:.75s"></div>
+    <svg class="mf-ln" style="position:absolute;left:0;top:0;overflow:visible;pointer-events:none" width="358" height="52" viewBox="0 0 358 52" aria-hidden="true">
+      <path pathLength="100" d="M0 26 A26 26 0 0 1 26 0 L332 0 A26 26 0 0 1 358 26" style="--d:.2s;--u:.5s"/>
+      <path pathLength="100" d="M0 26 A26 26 0 0 0 26 52 L332 52 A26 26 0 0 0 358 26" style="--d:.2s;--u:.5s"/>
+      <path class="mf-com" pathLength="100" d="M0 26 A26 26 0 0 1 26 0 L332 0 A26 26 0 0 1 358 26 A26 26 0 0 1 332 52 L26 52 A26 26 0 0 1 0 26 Z" style="stroke:#3AA6B5"/>
+    </svg>
+    <div style="position:absolute;left:20px;top:11px;font:500 17px Inter,sans-serif;letter-spacing:-.01em">
+      <span class="mf-w" style="--d:.25s;--u:.55s"><span class="o">Ernest H.</span><span class="f" aria-hidden="true">Ernest H.</span></span>
+    </div>
+    <div class="mf-sig" aria-hidden="true" style="position:absolute;left:20px;top:35px;height:2px;width:28px;background:#3AA6B5;border-radius:2px;"></div>
+    <button class="mf-tap" onClick="{{toggleMenu}}" aria-label="Menu" aria-expanded="{{menu}}" style="position:absolute;right:6px;top:4px;width:44px;height:44px;border-radius:22px;display:flex;align-items:center;justify-content:center;padding:0">
+      <svg class="mf-ln" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0D0E10" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path pathLength="100" d="M4 8h16" style="--d:.6s;--u:.4s"/><path pathLength="100" d="M4 16h11" style="--d:.7s;--u:.4s"/></svg>
+    </button>
+  </div>
+  <div class="mf-menu mf-glass {{menuCls}}" aria-hidden="{{menuHid}}">
+    <a href="PGalerie.dc.html" onClick="{{goGalerie}}"><span class="mf-mono">01</span>Galerie</a>
+    <a href="#services"><span class="mf-mono">02</span>Services</a>
+    <a href="#apropos"><span class="mf-mono">03</span>À propos</a>
+    <a href="#contact"><span class="mf-mono">04</span>Contact</a>
+  </div>
+
+  <!-- Bouton devis flottant -->
+  <div class="mf-btnw" style="position:absolute;z-index:5;right:16px;bottom:22px;width:128px;height:52px">
+    <button class="mf-cta" style="--d:1.4s"><span class="mf-w" style="--d:1.75s;--u:.45s"><span class="o">Mon devis</span><span class="f" aria-hidden="true">Mon devis</span></span></button>
+  </div>
+
+  <div class="mf-sc" ref="{{scRef}}" onScroll="{{scroll}}">
+    <div style="position:relative;height:2208px">
+
+      <!-- Hero -->
+      <div style="position:absolute;left:22px;right:22px;top:86px;display:flex;justify-content:space-between">
+        <div class="mf-mono"><span class="mf-w" style="--d:.45s;--u:.5s"><span class="o">SC. 01</span><span class="f" aria-hidden="true">SC. 01</span></span></div>
+        <div class="mf-mono"><span class="mf-w" style="--d:.55s;--u:.6s"><span class="o">Sélection · 2026</span><span class="f" aria-hidden="true">Sélection · 2026</span></span></div>
+      </div>
+      <div style="position:absolute;left:22px;top:106px">
+        <sc-for list="{{hero}}" as="h" hint-placeholder-count="1">
+          <div class="mf-ph" style="width:{{h.w}}px;height:{{h.h}}px;--d:{{h.d}}">
+            <img class="mf-img {{h.nb}}" src="{{h.src}}" alt="{{h.alt}}" style="object-position:{{h.pos}}">
+            <svg class="mf-fr" width="{{h.w6}}" height="{{h.h6}}" viewBox="{{h.vb}}" aria-hidden="true"><rect x="0" y="0" width="{{h.w6}}" height="{{h.h6}}" pathLength="100"/><rect class="mf-com" x="0" y="0" width="{{h.w6}}" height="{{h.h6}}" pathLength="100" style="stroke:#D9783A"/></svg>
+          </div>
+        </sc-for>
+      </div>
+
+      <!-- Accroche : la goutte d'encre écrit chaque ligne -->
+      <div style="position:absolute;left:22px;right:22px;top:572px;font-weight:300;font-size:30px;line-height:1.2;letter-spacing:-.02em;filter:drop-shadow(0 6px 8px rgba(20,18,16,.16))">
+        <div><span class="mf-w" style="--d:1.1s;--u:.9s"><span class="mf-tete"></span><span class="o">Un regard, <span class="mf-ser" style="font-size:34px">un instant,</span></span><span class="f" aria-hidden="true">Un regard, <span class="mf-ser" style="font-size:34px">un instant,</span></span></span></div>
+        <div><span class="mf-w" style="--d:1.7s;--u:.7s"><span class="mf-tete"></span><span class="o">une histoire.</span><span class="f" aria-hidden="true">une histoire.</span></span></div>
+      </div>
+
+      <!-- Séance 1 : mariage -->
+      <div class="mf-b {{mk1.cls}}" style="position:absolute;left:22px;right:22px;top:676px;height:90px;padding-top:26px">
+        <div class="mf-mono"><span class="mf-w" style="--d:{{mk1.a}};--u:.6s"><span class="o">Mariage · [Lieu] · 2026</span><span class="f" aria-hidden="true">Mariage · [Lieu] · 2026</span></span></div>
+        <div style="font:400 15px/1.35 Inter,sans-serif;margin:6px 0 10px"><span class="mf-w" style="--d:{{mk1.b}};--u:.7s"><span class="o">[Une ligne sur la journée, écrite par Ernest.]</span><span class="f" aria-hidden="true">[Une ligne sur la journée, écrite par Ernest.]</span></span></div>
+        <svg class="mf-ln mf-hl" width="346" height="2" viewBox="0 0 346 2" aria-hidden="true"><path pathLength="100" d="M0 1H346" style="--d:{{mk1.c}};--u:1s"/></svg>
+      </div>
+      <div class="mf-b {{row1.cls}}" style="position:absolute;left:22px;top:766px;display:flex;gap:10px">
+        <sc-for list="{{row1.items}}" as="h" hint-placeholder-count="2">
+          <div class="mf-ph" style="width:{{h.w}}px;height:{{h.h}}px;--d:{{h.d}}">
+            <img class="mf-img {{h.nb}}" src="{{h.src}}" alt="{{h.alt}}" style="object-position:{{h.pos}}">
+            <svg class="mf-fr" width="{{h.w6}}" height="{{h.h6}}" viewBox="{{h.vb}}" aria-hidden="true"><rect x="0" y="0" width="{{h.w6}}" height="{{h.h6}}" pathLength="100"/></svg>
+          </div>
+        </sc-for>
+      </div>
+
+      <!-- Séance 2 : engagement -->
+      <div class="mf-b {{mk2.cls}}" style="position:absolute;left:22px;right:22px;top:1026px;height:80px;padding-top:26px">
+        <div class="mf-mono"><span class="mf-w" style="--d:{{mk2.a}};--u:.6s"><span class="o">Engagement · [Lieu] · 2026</span><span class="f" aria-hidden="true">Engagement · [Lieu] · 2026</span></span></div>
+        <div style="font:400 15px/1.35 Inter,sans-serif;margin:6px 0 0"><span class="mf-w" style="--d:{{mk2.b}};--u:.6s"><span class="o">[Une ligne sur la séance.]</span><span class="f" aria-hidden="true">[Une ligne sur la séance.]</span></span></div>
+      </div>
+      <div class="mf-b {{row2.cls}}" style="position:absolute;left:22px;top:1116px">
+        <sc-for list="{{row2.items}}" as="h" hint-placeholder-count="1">
+          <div class="mf-ph" style="width:{{h.w}}px;height:{{h.h}}px;--d:{{h.d}}">
+            <img class="mf-img {{h.nb}}" src="{{h.src}}" alt="{{h.alt}}" style="object-position:{{h.pos}}">
+            <svg class="mf-fr" width="{{h.w6}}" height="{{h.h6}}" viewBox="{{h.vb}}" aria-hidden="true"><rect x="0" y="0" width="{{h.w6}}" height="{{h.h6}}" pathLength="100"/></svg>
+          </div>
+        </sc-for>
+      </div>
+      <div class="mf-b {{row3.cls}}" style="position:absolute;left:22px;top:1274px">
+        <sc-for list="{{row3.items}}" as="h" hint-placeholder-count="1">
+          <div class="mf-ph" style="width:{{h.w}}px;height:{{h.h}}px;--d:{{h.d}}">
+            <img class="mf-img {{h.nb}}" src="{{h.src}}" alt="{{h.alt}}" style="object-position:{{h.pos}}">
+            <svg class="mf-fr" width="{{h.w6}}" height="{{h.h6}}" viewBox="{{h.vb}}" aria-hidden="true"><rect x="0" y="0" width="{{h.w6}}" height="{{h.h6}}" pathLength="100"/></svg>
+          </div>
+        </sc-for>
+      </div>
+
+      <!-- Témoignage : texte seul, ombre portée, écrit par la goutte -->
+      <div class="mf-b {{tem.cls}}" style="position:absolute;left:22px;right:22px;top:1456px;filter:drop-shadow(0 6px 8px rgba(20,18,16,.18))">
+        <div class="mf-ser" style="font-size:26px;line-height:1.25"><span class="mf-w" style="--d:{{tem.a}};--u:.8s"><span class="mf-tete"></span><span class="o">« [Un témoignage court</span><span class="f" aria-hidden="true">« [Un témoignage court</span></span></div>
+        <div class="mf-ser" style="font-size:26px;line-height:1.25"><span class="mf-w" style="--d:{{tem.b}};--u:.7s"><span class="mf-tete"></span><span class="o">d’un couple.] »</span><span class="f" aria-hidden="true">d’un couple.] »</span></span></div>
+        <div class="mf-mono" style="margin-top:12px"><span class="mf-w" style="--d:{{tem.c}};--u:.6s"><span class="o">[Prénom & prénom] · [Lieu]</span><span class="f" aria-hidden="true">[Prénom & prénom] · [Lieu]</span></span></div>
+      </div>
+
+      <!-- Index des services -->
+      <div class="mf-b {{svb.cls}}" style="position:absolute;left:22px;right:22px;top:1590px">
+        <div class="mf-mono" style="margin-bottom:12px"><span class="mf-w" style="--d:{{svb.a}};--u:.5s"><span class="o">Services</span><span class="f" aria-hidden="true">Services</span></span></div>
+        <sc-for list="{{svb.rows}}" as="s" hint-placeholder-count="6">
+          <div>
+            <svg class="mf-ln mf-hl" width="346" height="2" viewBox="0 0 346 2" aria-hidden="true"><path pathLength="100" d="M0 1H346" style="--d:{{s.d}};--u:.9s"/></svg>
+            <a class="mf-svc" href="#services"><span class="mf-mono" style="width:26px">{{s.n}}</span><span style="font:300 24px Inter,sans-serif;letter-spacing:-.02em;flex:1"><span class="mf-w" style="--d:{{s.d2}};--u:.55s"><span class="o">{{s.l}}</span><span class="f" aria-hidden="true">{{s.l}}</span></span></span><span class="mf-mono">dès [prix] €</span></a>
+          </div>
+        </sc-for>
+        <svg class="mf-ln mf-hl" width="346" height="2" viewBox="0 0 346 2" aria-hidden="true"><path pathLength="100" d="M0 1H346" style="--d:{{svb.z}};--u:.9s"/></svg>
+      </div>
+
+      <!-- Bloc de clôture -->
+      <div class="mf-b {{clo.cls}}" style="position:absolute;left:22px;right:22px;top:2000px">
+        <div style="font-weight:300;font-size:26px;line-height:1.3;letter-spacing:-.02em">
+          <div><span class="mf-w" style="--d:{{clo.a}};--u:.7s"><span class="mf-tete"></span><span class="o">Comment voulez-vous</span><span class="f" aria-hidden="true">Comment voulez-vous</span></span></div>
+          <div><span class="mf-w" style="--d:{{clo.b}};--u:.6s"><span class="mf-tete"></span><span class="o"><span class="mf-ser" style="font-size:30px">commencer ?</span></span><span class="f" aria-hidden="true"><span class="mf-ser" style="font-size:30px">commencer ?</span></span></span></div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:20px">
+          <div class="mf-btnw" style="width:168px;height:52px"><button class="mf-cta" style="--d:{{clo.c}}"><span class="mf-w" style="--d:{{clo.c2}};--u:.45s"><span class="o">Simuler un devis</span><span class="f" aria-hidden="true">Simuler un devis</span></span></button></div>
+          <div style="position:relative;width:168px;height:52px">
+            <svg class="mf-fr" style="inset:0" width="168" height="52" viewBox="0 0 168 52" aria-hidden="true"><rect class="mf-keep" x="0.75" y="0.75" width="166.5" height="50.5" rx="25" pathLength="100" style="--d:{{clo.c}}"/></svg>
+            <button class="mf-tap" style="position:absolute;inset:0;border-radius:26px;font:500 15px Inter,sans-serif;color:#0D0E10"><span class="mf-w" style="--d:{{clo.c2}};--u:.4s"><span class="o">Écrire</span><span class="f" aria-hidden="true">Écrire</span></span></button>
+          </div>
+        </div>
+        <div class="mf-mono" style="margin-top:22px"><span class="mf-w" style="--d:{{clo.d}};--u:.8s"><span class="o">[e-mail] · [téléphone] · [@compte]</span><span class="f" aria-hidden="true">[e-mail] · [téléphone] · [@compte]</span></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"play":{"editor":null,"default":true},"leaving":{"editor":null,"default":false},"onNav":{"editor":null},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { menu: false, sy: 0 }; this.max = 0; }
+  act() { return this.props.play === undefined ? true : !!this.props.play; }
+  componentDidUpdate(pp) {
+    const was = pp.play === undefined ? true : !!pp.play;
+    if (was && !this.act()) { this.max = 0; if (this.scEl) this.scEl.scrollTop = 0; this.setState({ menu: false, sy: 0 }); }
+  }
+  nav(e, t) { if (this.props.onNav) { e.preventDefault(); this.setState({ menu: false }); this.props.onNav(t); } }
+  renderVals() {
+    const A = '/_blob/c145ad0fe8cc59b423f374ceb0618733', B = '/_blob/c1aa6596dc4bef1d2aa222836cdecd2d', C = '/_blob/ab41a6e00573f6010cc7a04a2e70fc27', D = '/_blob/098613cec7da82581cef70ebd0e18367', E = '/_blob/2aa4aa217df0a00c1dd1ba248338bd5a';
+    const VIEW = 804;                       // hauteur d'écran utile : ce qui est déjà visible à l'ouverture joue avec l'intro
+    const reach = this.state.sy + VIEW;
+    const TOP = { mk1: 676, row1: 766, mk2: 1026, row2: 1116, row3: 1274, tem: 1456, svb: 1590, clo: 2000 };
+    const first = (k) => TOP[k] < VIEW;
+    const seen = (k) => reach > TOP[k];
+    const on = this.act();
+    const cls = (k) => 'mf-b' + (on && seen(k) ? ' go' : '');
+    // délai : à l'ouverture (abs) la page se construit en cascade ; plus bas (rel) chaque bloc se construit quand il arrive
+    const t = (k, abs, rel) => ((first(k) ? abs : 0.15 + rel).toFixed(2)) + 's';
+    const mk = (src, pos, alt, w, h, d, nb) => ({ src, pos, alt, w, h, w6: w + 12, h6: h + 12, vb: '0 0 ' + (w + 12) + ' ' + (h + 12), d, nb: nb ? 'nb' : '' });
+    const L = [['01', 'Mariages'], ['02', 'Engagement'], ['03', 'Famille lifestyle'], ['04', 'Anniversaires'], ['05', 'Événementiel'], ['06', 'Culinaire & studio']];
+    return {
+      rcls: (on ? 'go' : '') + (this.props.leaving ? ' out' : ''),
+      menuCls: this.state.menu ? 'open' : '', menuHid: this.state.menu ? 'false' : 'true',
+      goGalerie: (e) => this.nav(e, 'galerie'),
+      scRef: (el) => { this.scEl = el; },
+      menu: this.state.menu,
+      toggleMenu: () => this.setState({ menu: !this.state.menu }),
+      scroll: (e) => { const y = e && e.target ? e.target.scrollTop : 0; if (y > this.max) { this.max = y; this.setState({ sy: y }); } },
+      hero: [mk(A, '50% 30%', 'Les mariés devant le château, la mariée sourit', 346, 440, '0.3s')],
+      mk1: { cls: cls('mk1'), a: t('mk1', 2.3, 0), b: t('mk1', 2.6, .3), c: t('mk1', 2.4, .1) },
+      row1: { cls: cls('row1'), items: [mk(D, '50% 40%', 'Les mariés enlacés, bouquet au premier plan', 168, 250, t('row1', 2.5, 0), true), mk(E, '50% 35%', 'Baiser sur la joue', 168, 250, t('row1', 2.8, .25))] },
+      mk2: { cls: cls('mk2'), a: t('mk2', 0, 0), b: t('mk2', 0, .3) },
+      row2: { cls: cls('row2'), items: [mk(C, '30% 50%', 'Couple debout dans un grand champ', 346, 148, t('row2', 0, 0))] },
+      row3: { cls: cls('row3'), items: [mk(B, '60% 40%', 'Couple enlacé dans un champ', 346, 148, t('row3', 0, 0), true)] },
+      tem: { cls: cls('tem'), a: t('tem', 0, 0), b: t('tem', 0, .5), c: t('tem', 0, 1) },
+      svb: { cls: cls('svb'), a: t('svb', 0, 0), z: t('svb', 0, 0.9), rows: L.map(([n, l], k) => ({ n, l, d: (0.15 + .1 + k * .1).toFixed(2) + 's', d2: (0.15 + .25 + k * .1).toFixed(2) + 's' })) },
+      clo: { cls: cls('clo'), a: t('clo', 0, 0), b: t('clo', 0, .45), c: t('clo', 0, .9), c2: t('clo', 0, 1.2), d: t('clo', 0, 1.6) }
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Accueil mobile — Dock</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+*{box-sizing:border-box}
+.p{position:relative;width:390px;height:844px;overflow:hidden;background:#fff;color:#0D0E10;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.vg{position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 90% at 50% 42%,rgba(20,18,16,0) 52%,rgba(20,18,16,.10) 78%,rgba(20,18,16,.24) 100%)}
+.mono{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4B4D52}
+.ser{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+.wr{display:inline-block;animation:wIn 1.3s cubic-bezier(.6,.1,.3,1) both}
+@keyframes wIn{from{clip-path:inset(-20px 100% -20px 0)}to{clip-path:inset(-20px -20px -20px 0)}}
+.ln path,.ln rect{fill:none;stroke:#0D0E10;stroke-width:1.5px;stroke-linecap:round;stroke-dasharray:100 102;stroke-dashoffset:101;animation:drawS 1.6s ease-in-out .15s both}
+@keyframes drawS{from{stroke-dashoffset:101}to{stroke-dashoffset:0}}
+.ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0}
+.ph.on{animation:dev 2.8s ease both}
+.ph.on.nb{animation:devNB 2.8s ease both}
+.ph.out{animation:fOut .26s ease both}
+@keyframes dev{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@keyframes devNB{0%{opacity:0;filter:grayscale(1) contrast(1.05)}45%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
+@keyframes fOut{from{opacity:1}to{opacity:0}}
+@keyframes souffle{0%{width:28px}50%{width:46px}100%{width:28px}}
+@keyframes habille{from{opacity:0}to{opacity:1}}
+.glass{background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(250,248,244,.86) 55%,rgba(240,237,231,.9) 100%);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 16px 32px -12px rgba(20,18,16,.30),0 4px 10px -3px rgba(20,18,16,.16),inset 0 1px 0 #fff,inset 0 0 0 1px rgba(255,255,255,.6),inset 0 -2px 0 rgba(20,18,16,.06),inset 0 -12px 18px -12px rgba(20,18,16,.10);animation:habille 1.8s ease 1.6s both}
+.encre{border:0;color:#F4F2EE;font:600 15px Inter,sans-serif;cursor:pointer;background:radial-gradient(35% 25% at 30% 20%,rgba(255,255,255,.14),rgba(255,255,255,0)),url(/_blob/ed07de6673f5b97f3f81d1a4ab4817c0),#0D0E10;background-blend-mode:normal,overlay,normal;box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1.5px 0 rgba(0,0,0,.6),0 14px 24px -8px rgba(13,14,16,.55),0 4px 8px -2px rgba(13,14,16,.3)}
+.chip{flex:none;min-height:44px;padding:0 4px;margin-right:18px;background:none;border:0;cursor:pointer;position:relative;display:flex;align-items:center;gap:7px;font:400 15px Inter,sans-serif;color:#0D0E10}
+.chips{display:flex;overflow-x:auto;scrollbar-width:none;padding:0 22px}
+.chips::-webkit-scrollbar{display:none}
+.nav{flex:1;min-height:52px;background:none;border:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#0D0E10;font:500 10.5px 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase}
+@media (prefers-reduced-motion: reduce){*{animation-duration:0s !important;animation-delay:0s !important}}
+</style>
+</helmet>
+<div class="p">
+  <div class="vg"></div>
+
+  <!-- En-tête : logo + trait cyan qui respire, repère de scène -->
+  <div style="position:absolute;left:22px;right:22px;top:22px;height:44px;display:flex;align-items:center;justify-content:space-between">
+    <div style="position:relative;padding-bottom:7px">
+      <div style="font:500 18px Inter,sans-serif;letter-spacing:-.01em">Ernest H.</div>
+      <div style="position:absolute;left:0;bottom:0;height:2px;width:28px;background:#3AA6B5;border-radius:2px;animation:souffle 5s ease-in-out 3s infinite"></div>
+    </div>
+    <div class="mono">SC. 01</div>
+  </div>
+  <svg class="ln" style="position:absolute;left:22px;top:74px;overflow:visible" width="346" height="2" viewBox="0 0 346 2" aria-hidden="true"><path d="M0 1H346" pathLength="100" style="stroke-width:1px;stroke:rgba(13,14,16,.22)"/></svg>
+
+  <!-- Accroche -->
+  <div style="position:absolute;left:22px;right:22px;top:96px;font-weight:300;font-size:30px;line-height:1.14;letter-spacing:-.02em;filter:drop-shadow(0 6px 8px rgba(20,18,16,.16))">
+    <div class="wr">Un regard, <span class="ser" style="font-size:34px">un instant,</span></div><br>
+    <div class="wr" style="animation-delay:.35s">une histoire.</div>
+  </div>
+
+  <!-- Photo -->
+  <div style="position:absolute;left:39px;top:196px;width:312px;height:408px">
+    <div style="position:absolute;inset:0;overflow:hidden;background:#17140f;box-shadow:0 22px 40px -16px rgba(20,18,16,.38),0 6px 12px -4px rgba(20,18,16,.18)">
+      <sc-for list="{{services}}" as="s" hint-placeholder-count="6">
+        <img class="{{s.cls}}" src="{{s.src}}" alt="{{s.alt}}" style="object-position:{{s.pos}}">
+      </sc-for>
+    </div>
+    <svg class="ln" style="position:absolute;inset:-6px;overflow:visible" width="324" height="420" viewBox="0 0 324 420" aria-hidden="true"><rect x="0" y="0" width="324" height="420" pathLength="100"/></svg>
+    <div class="mono" style="position:absolute;left:0;right:0;bottom:-26px;display:flex;justify-content:space-between"><div>{{curNum}} · {{curLabel}}</div><div>[Lieu] · 2026</div></div>
+  </div>
+
+  <!-- Ligne des services : défilement horizontal -->
+  <div class="chips" style="position:absolute;left:0;right:0;top:638px">
+    <sc-for list="{{services}}" as="s" hint-placeholder-count="6">
+      <button class="chip" onClick="{{s.pick}}" aria-label="{{s.label}}"><span class="mono" style="color:#4B4D52">{{s.num}}</span><span style="font-weight:{{s.w}}">{{s.label}}</span><sc-if value="{{s.on}}" hint-placeholder-val="{{false}}"><span style="position:absolute;left:4px;right:4px;bottom:3px;height:2px;background:#3AA6B5;border-radius:2px"></span></sc-if></button>
+    </sc-for>
+  </div>
+
+  <!-- Dock : zone du pouce -->
+  <div class="glass" style="position:absolute;left:16px;right:16px;bottom:22px;height:68px;border-radius:34px;display:flex;align-items:center;padding:0 8px 0 10px;gap:2px">
+    <a class="nav" href="#g" style="text-decoration:none"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="9"/><rect x="13.5" y="3.5" width="7" height="5"/><rect x="13.5" y="11.5" width="7" height="9"/><rect x="3.5" y="15.5" width="7" height="5"/></svg>Galerie</a>
+    <a class="nav" href="#s" style="text-decoration:none"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Services</a>
+    <a class="nav" href="#c" style="text-decoration:none"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13"/><path d="M4 7l8 6 8-6"/></svg>Contact</a>
+    <button class="encre" style="height:50px;width:108px;border-radius:25px;flex:none">Mon devis</button>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { i: 0, p: -1 }; }
+  componentDidMount() { this.t = setInterval(() => this.go((this.state.i + 1) % 6), 6500); }
+  componentWillUnmount() { clearInterval(this.t); }
+  go(k) { if (k !== this.state.i) this.setState({ p: this.state.i, i: k }); }
+  renderVals() {
+    const A = '/_blob/c145ad0fe8cc59b423f374ceb0618733', B = '/_blob/c1aa6596dc4bef1d2aa222836cdecd2d', C = '/_blob/ab41a6e00573f6010cc7a04a2e70fc27', D = '/_blob/098613cec7da82581cef70ebd0e18367', E = '/_blob/2aa4aa217df0a00c1dd1ba248338bd5a';
+    const S = [
+      { label: 'Mariages', src: A, pos: '50% 30%', alt: 'Les mariés devant le château, la mariée sourit' },
+      { label: 'Engagement', src: C, pos: '30% 50%', alt: 'Couple debout dans un grand champ' },
+      { label: 'Famille', src: B, pos: '62% 50%', alt: 'Couple enlacé dans un champ' },
+      { label: 'Anniversaires', src: D, pos: '50% 40%', alt: 'Les mariés enlacés, bouquet au premier plan', nb: true },
+      { label: 'Événementiel', src: E, pos: '50% 35%', alt: 'Baiser sur la joue' },
+      { label: 'Culinaire', src: A, pos: '70% 60%', alt: 'Détail de la mariée', nb: true }
+    ];
+    const i = this.state.i, p = this.state.p;
+    return {
+      curNum: '0' + (i + 1), curLabel: S[i].label,
+      services: S.map((s, k) => ({
+        ...s, num: '0' + (k + 1), on: k === i, w: k === i ? 600 : 400,
+        cls: 'ph' + (k === i ? ' on' + (s.nb ? ' nb' : '') : (k === p ? ' out' : '')),
+        pick: () => this.go(k)
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

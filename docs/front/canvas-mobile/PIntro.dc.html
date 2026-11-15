@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Parcours — Intro</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+.mi-root,.mi-root *{box-sizing:border-box}
+.mi-plan{position:absolute;left:0;top:0;width:390px;height:1120px}
+.mi-mask{position:absolute;left:0;top:0;width:390px;height:844px;overflow:hidden;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 7%,#000 66%,transparent 82%);mask-image:linear-gradient(to bottom,transparent 0,#000 7%,#000 66%,transparent 82%)}
+.mi-lines{position:absolute;left:0;top:0;width:390px;height:1120px;overflow:visible;pointer-events:none}
+.mi-lines path{fill:none;stroke-width:2px;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 102;stroke-dashoffset:101}
+.mi-w{position:relative;display:inline-block;white-space:nowrap}
+.mi-w .o{display:block;color:transparent;-webkit-text-stroke:1px currentColor;clip-path:inset(-12px 100% -12px 0)}
+.mi-w .f{position:absolute;left:0;top:-.24em;padding:.24em .14em .24em 0;background-color:currentColor;background-image:radial-gradient(closest-side,rgba(255,255,255,.22),rgba(255,255,255,.07) 45%,rgba(255,255,255,0)),url(/_blob/ed07de6673f5b97f3f81d1a4ab4817c0);background-size:70% 60%,120px 120px;background-repeat:no-repeat,repeat;background-position:18% 12%,0 0;background-blend-mode:screen,overlay;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;clip-path:inset(-12px 100% -12px 0)}
+.mi-img{position:absolute;display:block;object-fit:cover;box-shadow:0 18px 32px -14px rgba(20,18,16,.36);--c0:inset(0 100% 0 0);--c1:inset(0 0 0 0);opacity:0;clip-path:inset(0 100% 0 0)}
+.mi-pt{position:absolute;width:10px;height:10px;border-radius:50%;background:#7A1F33;box-shadow:inset 0 1px 0 rgba(255,255,255,.14),inset 0 -1.5px 0 rgba(0,0,0,.24);transform:scale(0)}
+.mi-ctl{position:absolute;height:44px;padding:0 18px;border-radius:22px;border:2px solid #4B4D52;background:transparent;color:#4B4D52;font:500 13px Inter,sans-serif;cursor:pointer}
+.mi-ctl:focus-visible{outline:2px solid #4B4D52;outline-offset:3px}
+.mi-vg{position:absolute;inset:0;pointer-events:none;z-index:2;background:radial-gradient(120% 90% at 50% 42%,rgba(20,18,16,0) 52%,rgba(20,18,16,.10) 78%,rgba(20,18,16,.24) 100%)}
+@keyframes mi-pan{from{transform:translateY(200px)}to{transform:translateY(-420px)}}
+@keyframes mi-trace{0%{stroke-dashoffset:101}50%{stroke-dashoffset:0}65%{stroke-dashoffset:0}100%{stroke-dashoffset:-102}}
+@keyframes mi-teinte{0%{stroke:#3AA6B5}55%{stroke:#D9783A}100%{stroke:#7A1F33}}
+@keyframes mi-wIn{from{clip-path:inset(-12px 100% -12px 0)}to{clip-path:inset(-12px -12px -12px 0)}}
+@keyframes mi-wOut{from{clip-path:inset(-12px -12px -12px 0)}to{clip-path:inset(-12px 100% -12px 0)}}
+@keyframes mi-rIn{from{clip-path:var(--c0)}to{clip-path:var(--c1)}}
+@keyframes mi-rOut{from{clip-path:var(--c1)}to{clip-path:var(--c0)}}
+@keyframes mi-resorb{from{clip-path:inset(0 0 0 0)}to{clip-path:inset(0 100% 0 0)}}
+@keyframes mi-habille{from{opacity:0}to{opacity:1}}
+@keyframes mi-melt{0%{transform:scale(1)}40%{transform:scale(2,.4)}100%{transform:scale(0)}}
+@keyframes mi-devNB{0%{opacity:0;filter:grayscale(1) contrast(1.05)}45%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
+@keyframes mi-dev{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@media (prefers-reduced-motion: reduce){.mi-root *{animation-duration:0s !important;animation-delay:0s !important}}
+</style>
+</helmet>
+<div class="mi-root" style="position:relative;width:390px;height:844px;overflow:hidden;background:#FFFFFF;color:#0D0E10;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased">
+  <div style="position:absolute;inset:0;z-index:1;animation:{{a.layer}}">
+    <div class="mi-vg" aria-hidden="true" style="animation:{{a.vg}}"></div>
+    <div class="mi-mask">
+      <div class="mi-plan" style="animation:{{a.pan}}">
+        <img class="mi-img" src="/_blob/098613cec7da82581cef70ebd0e18367" alt="Les mariés enlacés, bouquet au premier plan" style="left:30px;top:150px;width:180px;height:270px;animation:{{a.pA}}">
+        <img class="mi-img" src="/_blob/2aa4aa217df0a00c1dd1ba248338bd5a" alt="Baiser sur la joue" style="left:222px;top:190px;width:138px;height:207px;animation:{{a.pC}}">
+        <img class="mi-img" src="/_blob/c1aa6596dc4bef1d2aa222836cdecd2d" alt="Couple enlacé dans un champ" style="left:70px;top:450px;width:300px;height:129px;animation:{{a.pB}}">
+        <img class="mi-img" src="/_blob/ab41a6e00573f6010cc7a04a2e70fc27" alt="Couple debout dans un grand champ" style="left:30px;top:600px;width:330px;height:141px;animation:{{a.pD}}">
+        <img class="mi-img" src="/_blob/c145ad0fe8cc59b423f374ceb0618733" alt="Les mariés devant le château" style="left:150px;top:770px;width:210px;height:315px;animation:{{a.pE}}">
+        <svg class="mi-lines" aria-hidden="true" style="stroke:#0D0E10">
+          <path pathLength="100" d="M29 149 L211 149 L211 421 L29 421 Z" style="animation:{{a.tA}}"></path>
+          <path pathLength="100" d="M221 189 L361 189 L361 398 L221 398 Z" style="animation:{{a.tC}}"></path>
+          <path pathLength="100" d="M69 449 L371 449 L371 580 L69 580 Z" style="animation:{{a.tB}}"></path>
+          <path pathLength="100" d="M29 599 L361 599 L361 742 L29 742 Z" style="animation:{{a.tD}}"></path>
+          <path pathLength="100" d="M149 769 L361 769 L361 1086 L149 1086 Z" style="animation:{{a.tE}}"></path>
+        </svg>
+        <span class="mi-pt" aria-hidden="true" style="left:24px;top:144px;animation:{{a.pt}}"></span>
+      </div>
+    </div>
+    <div style="position:absolute;left:30px;top:716px;margin:0;font:500 24px/1.3 Inter,sans-serif;letter-spacing:-.015em;z-index:3">
+      <div><span class="mi-w"><span class="o" style="animation:{{a.m1.o}}">Un regard,</span><span class="f" aria-hidden="true" style="animation:{{a.m1.f}}">Un regard,</span></span></div>
+      <div><span class="mi-w"><span class="o" style="animation:{{a.m2.o}}">un instant,</span><span class="f" aria-hidden="true" style="animation:{{a.m2.f}}">un instant,</span></span></div>
+      <div><span class="mi-w"><span class="o" style="animation:{{a.m3.o}}">une histoire.</span><span class="f" aria-hidden="true" style="animation:{{a.m3.f}}">une histoire.</span></span></div>
+    </div>
+    <div style="position:absolute;left:30px;top:812px;font:500 11.5px 'IBM Plex Mono',monospace;letter-spacing:.04em;color:#4B4D52;z-index:3">
+      <span class="mi-w"><span class="o" style="animation:{{a.tc.o}}">Ernest H. · Photographe</span><span class="f" aria-hidden="true" style="animation:{{a.tc.f}}">Ernest H. · Photographe</span></span>
+    </div>
+    <button type="button" class="mi-ctl" style="right:16px;top:16px;z-index:4" onClick="{{passer}}">Passer l'intro</button>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"play":{"editor":null,"default":true},"onDone":{"editor":null},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { skip: false, started: false }; }
+  act() { return this.props.play === undefined ? true : !!this.props.play; }
+  componentDidMount() { if (this.act()) this.start(); }
+  componentDidUpdate(pp) {
+    const was = pp.play === undefined ? true : !!pp.play;
+    if (!was && this.act()) this.start();
+  }
+  componentWillUnmount() { clearTimeout(this.tFin); clearTimeout(this.tSkip); }
+  start() {
+    if (this.state.started) return;
+    this.setState({ started: true });
+    this.tFin = setTimeout(() => this.done(), 6400);
+  }
+  done() { if (this.props.onDone) this.props.onDone(); }
+  renderVals() {
+    const E = 'cubic-bezier(.45,0,.2,1)';
+    const END = 5.5;
+    const on = this.state.started;      // rien ne joue avant le départ ; « Passer » résorbe toute la couche (layer) sans couper les animations en cours
+    const N = 'none';
+    const T = (dl, d) => ({
+      o: on ? `mi-wIn ${d}s ${E} ${dl}s both, mi-wOut .25s ${E} ${END + .1}s forwards` : N,
+      f: on ? `mi-wIn ${d}s ${E} ${dl + .16}s both, mi-wOut .25s ${E} ${END + .06}s forwards` : N
+    });
+    const TR = (dl) => on ? `mi-trace 1.5s ${E} ${dl}s both, mi-teinte 1.5s linear ${dl}s both` : N;
+    const PH = (dl, i, c) => on ? `mi-rIn .8s ${E} ${dl}s both, ${c ? 'mi-dev' : 'mi-devNB'} 2.6s ease-in-out ${dl}s both, mi-rOut .4s ${E} ${END + i * .08}s forwards` : N;
+    const a = {
+      layer: this.state.skip ? `mi-resorb .45s ${E} 0s both` : N,
+      vg: on ? `mi-habille 1.2s ease-in-out 0s both` : N,
+      pan: on ? `mi-pan 6.4s linear 0s both` : N,
+      pt: on ? `mi-melt .3s ${E} 0s both` : N,
+      tA: TR(0), pA: PH(.45, 0),
+      tC: TR(.9), pC: PH(1.35, 1, true),
+      tB: TR(1.7), pB: PH(2.15, 2),
+      tD: TR(2.4), pD: PH(2.85, 3),
+      tE: TR(3.1), pE: PH(3.55, 4, true),
+      m1: T(1.2, .6), m2: T(2.6, .6), m3: T(4.0, .7), tc: T(4.5, .7)
+    };
+    const passer = () => {
+      if (this.state.skip) return;
+      clearTimeout(this.tFin);
+      this.setState({ skip: true });
+      this.tSkip = setTimeout(() => this.done(), 480);
+    };
+    return { a, passer };
+  }
+}
+</script>
+</body>
+</html>
