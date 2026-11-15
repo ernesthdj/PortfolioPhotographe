@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Compte mobile</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+.mc-p,.mc-p *{box-sizing:border-box}
+.mc-p{--E:cubic-bezier(.45,0,.2,1);position:relative;width:390px;height:844px;overflow:hidden;background:#fff;color:#0D0E10;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.mc-sc{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;scrollbar-width:none}
+.mc-sc::-webkit-scrollbar{display:none}
+.mc-vg{position:absolute;inset:0;pointer-events:none;z-index:3;opacity:0;background:radial-gradient(120% 90% at 50% 42%,rgba(20,18,16,0) 55%,rgba(20,18,16,.08) 80%,rgba(20,18,16,.20) 100%)}
+.go .mc-vg{animation:mc-habille 1.4s ease-in-out .2s both}
+.mc-mono{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4B4D52}
+.mc-ser{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+
+/* écriture */
+.mc-w{position:relative;display:inline-block;white-space:nowrap}
+.mc-w .o{display:block;color:transparent;-webkit-text-stroke:1px currentColor;clip-path:inset(-12px 100% -12px 0)}
+.mc-w .f{position:absolute;left:0;top:-.24em;padding:.24em .14em .24em 0;background-color:currentColor;background-image:radial-gradient(closest-side,rgba(255,255,255,.22),rgba(255,255,255,.07) 45%,rgba(255,255,255,0)),url(/_blob/ed07de6673f5b97f3f81d1a4ab4817c0);background-size:70% 60%,120px 120px;background-repeat:no-repeat,repeat;background-position:18% 12%,0 0;background-blend-mode:screen,overlay;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;clip-path:inset(-12px 100% -12px 0)}
+.mc-tete{position:absolute;left:0;top:50%;width:0;height:0;border-radius:0;background:#0D0E10;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1.5px 0 rgba(0,0,0,.22),0 2px 5px rgba(13,14,16,.22)}
+.rv .mc-w .o{animation:mc-wIn var(--u,.6s) var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+.rv .mc-w .f{animation:mc-wIn var(--u,.6s) var(--E) calc(var(--b,0s) + var(--d,0s) + .25s) both}
+.rv .mc-tete{animation:mc-ne .22s var(--E) max(0s,calc(var(--b,0s) + var(--d,0s) - .22s)) both,mc-ecrit var(--u,.6s) var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+.mc-rule{clip-path:inset(-4px 100% -4px 0)}
+.rv .mc-rule{animation:mc-wIn .3s var(--E) calc(var(--b,0s) + .1s) both}
+
+/* traits */
+.mc-ln path{fill:none;stroke:#0D0E10;stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 102;stroke-dashoffset:101}
+.rv .mc-ln path{animation:mc-drawS var(--u,.45s) var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+.mc-hl{display:block;overflow:visible}
+.mc-hl path{stroke-width:1px;stroke:rgba(13,14,16,.24)}
+
+/* matière */
+.mc-glass{background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(250,248,244,.86) 55%,rgba(240,237,231,.9) 100%);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 16px 32px -12px rgba(20,18,16,.30),0 4px 10px -3px rgba(20,18,16,.16),inset 0 1px 0 #fff,inset 0 0 0 1px rgba(255,255,255,.6),inset 0 -2px 0 rgba(20,18,16,.06),inset 0 -12px 18px -12px rgba(20,18,16,.10);opacity:0}
+.rv .mc-glass{animation:mc-habille 1.8s ease-in-out calc(var(--b,0s) + var(--d,0s) + .5s) both}
+.mc-glow{position:absolute;border-radius:999px;pointer-events:none;background:radial-gradient(closest-side,rgba(58,166,181,.36),rgba(58,166,181,.16) 58%,rgba(58,166,181,0));filter:blur(5px);transition:left .5s var(--E),opacity .3s ease}
+.mc-btnw{filter:drop-shadow(0 12px 12px rgba(13,14,16,.38)) drop-shadow(0 3px 4px rgba(13,14,16,.22))}
+.mc-cta{display:flex;align-items:center;justify-content:center;border:0;color:#F4F2EE;font:600 15px Inter,sans-serif;cursor:pointer;width:100%;height:100%;background:radial-gradient(35% 25% at 30% 20%,rgba(255,255,255,.14),rgba(255,255,255,0)),url(/_blob/ed07de6673f5b97f3f81d1a4ab4817c0),#0D0E10;background-blend-mode:normal,overlay,normal;box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1.5px 0 rgba(0,0,0,.6);clip-path:inset(0 100% 0 0 round 26px)}
+.rv .mc-cta{animation:mc-rBtn .45s var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+.mc-back{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0;background:none;border:0;cursor:pointer;font:500 14px Inter,sans-serif;color:#0D0E10}
+.mc-back:focus-visible,.mc-mode:focus-visible,.mc-eye:focus-visible,.mc-chk:focus-visible{outline:2px solid #0D0E10;outline-offset:-3px;border-radius:12px}
+
+/* formulaire : champs soulignés, la lueur cyan accompagne le champ actif */
+.mc-f{position:relative;margin-top:22px}
+.mc-lab{display:block;margin-bottom:2px}
+.mc-in{width:100%;height:50px;border:0;border-bottom:1.5px solid rgba(13,14,16,.4);background:transparent;font:400 17px Inter,sans-serif;color:#0D0E10;padding:0 48px 0 0;outline:none;border-radius:0;-webkit-appearance:none;appearance:none}
+.mc-in::placeholder{color:rgba(13,14,16,.36)}
+.mc-in:focus{border-bottom:2px solid #0D0E10}
+.mc-fg{position:absolute;left:-10px;right:-10px;bottom:-6px;height:30px;border-radius:999px;background:radial-gradient(closest-side,rgba(58,166,181,.34),rgba(58,166,181,.12) 60%,rgba(58,166,181,0));filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .3s ease}
+.mc-f:focus-within .mc-fg{opacity:1}
+.mc-eye{position:absolute;right:-6px;bottom:3px;width:44px;height:44px;background:none;border:0;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+.mc-err{margin-top:8px;clip-path:inset(-12px 100% -12px 0);animation:mc-wIn .5s var(--E) both}
+.mc-mode{position:relative;flex:1;height:48px;background:none;border:0;cursor:pointer;font:500 15px Inter,sans-serif;color:#0D0E10}
+.mc-chk{display:flex;align-items:flex-start;gap:12px;width:100%;background:none;border:0;padding:0;cursor:pointer;text-align:left;color:#0D0E10}
+.mc-tg{position:relative;width:26px;height:26px;border-radius:50%;border:1.5px solid #0D0E10;flex:none;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.mc-tg i{display:block;width:12px;height:12px;border-radius:50%;background:rgba(58,166,181,.55);box-shadow:0 0 0 4px rgba(58,166,181,.16);transform:scale(0);transition:transform .35s var(--E)}
+.mc-tg.on i{transform:scale(1)}
+.mc-seg{height:3px;border-radius:2px;flex:1;transition:background .3s ease}
+
+/* sortie */
+.out .rv .mc-w .o,.out .rv .mc-w .f{animation:mc-wOut .2s var(--E) 0s both}
+.out .rv .mc-tete{animation:none}
+.out .rv .mc-ln path{animation:mc-undrawS .3s var(--E) 0s both}
+.out .rv .mc-glass{animation:mc-deshabille .3s ease both}
+.out .rv .mc-cta{animation:mc-rBtnOut .3s var(--E) 0s both}
+.out .rv .mc-rule{animation:mc-wOut .2s var(--E) 0s both}
+.out .mc-vg{animation:mc-deshabille .3s ease both}
+
+@keyframes mc-wIn{from{clip-path:inset(-12px 100% -12px 0)}to{clip-path:inset(-12px -12px -12px 0)}}
+@keyframes mc-wOut{from{clip-path:inset(-12px -12px -12px 0)}to{clip-path:inset(-12px 100% -12px 0)}}
+@keyframes mc-rBtn{from{clip-path:inset(0 100% 0 0 round 26px)}to{clip-path:inset(0 0 0 0 round 26px)}}
+@keyframes mc-rBtnOut{from{clip-path:inset(0 0 0 0 round 26px)}to{clip-path:inset(0 100% 0 0 round 26px)}}
+@keyframes mc-drawS{from{stroke-dashoffset:101}to{stroke-dashoffset:0}}
+@keyframes mc-undrawS{from{stroke-dashoffset:0}to{stroke-dashoffset:101}}
+@keyframes mc-habille{from{opacity:0}to{opacity:1}}
+@keyframes mc-deshabille{from{opacity:1}to{opacity:0}}
+@keyframes mc-ne{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes mc-ecrit{0%{left:-14px;top:calc(50% - 5px);width:10px;height:10px;border-radius:5px}15%{left:-2px;top:0;width:3px;height:100%;border-radius:1.5px}85%{left:calc(100% - 2px);top:0;width:3px;height:100%;border-radius:1.5px}100%{left:100%;top:50%;width:0;height:0;border-radius:0}}
+@media (prefers-reduced-motion: reduce){.mc-p *{animation-duration:0s !important;animation-delay:0s !important;transition-duration:0s !important}}
+</style>
+</helmet>
+<div class="mc-p {{rcls}}" ref="{{rootRef}}">
+  <div class="mc-vg" aria-hidden="true"></div>
+  <div class="mc-sc" ref="{{scRef}}" onScroll="{{scroll}}">
+    <div class="mc-c {{pc}}" style="padding:96px 22px 190px;position:relative">
+
+      <div data-rv="" style="display:flex;align-items:center;gap:12px">
+        <span class="mc-rule" aria-hidden="true" style="display:block;width:28px;height:1px;background:#D9783A"></span>
+        <span class="mc-mono"><span class="mc-w" style="--d:.15s;--u:.6s"><span class="o">{{eyebrow}}</span><span class="f" aria-hidden="true">{{eyebrow}}</span></span></span>
+      </div>
+      <div style="margin-top:14px;font-weight:300;font-size:34px;line-height:1.14;letter-spacing:-.03em;filter:drop-shadow(0 6px 8px rgba(20,18,16,.16))">
+        <div data-rv=""><span class="mc-w" style="--d:.1s;--u:.8s"><span class="mc-tete"></span><span class="o">{{t1}}</span><span class="f" aria-hidden="true">{{t1}}</span></span></div>
+        <div data-rv=""><span class="mc-w" style="--d:.45s;--u:.8s"><span class="mc-tete"></span><span class="o"><span class="mc-ser" style="font-size:40px">{{t2}}</span></span><span class="f" aria-hidden="true"><span class="mc-ser" style="font-size:40px">{{t2}}</span></span></span></div>
+      </div>
+
+      <!-- brouillon issu du simulateur -->
+      <sc-if value="{{hasDraft}}" hint-placeholder-val="{{true}}">
+        <div data-rv="" style="margin-top:22px;position:relative;height:104px">
+          <div class="mc-glass" style="position:absolute;inset:0;border-radius:24px"></div>
+          <svg class="mc-ln" style="position:absolute;left:0;top:0;overflow:visible;pointer-events:none" width="346" height="104" viewBox="0 0 346 104" aria-hidden="true">
+            <path pathLength="100" d="M0 52 V24 A24 24 0 0 1 24 0 H322 A24 24 0 0 1 346 24 V52" style="--d:.1s;--u:.7s"/>
+            <path pathLength="100" d="M0 52 V80 A24 24 0 0 0 24 104 H322 A24 24 0 0 0 346 80 V52" style="--d:.1s;--u:.7s"/>
+          </svg>
+          <div style="position:absolute;left:22px;right:22px;top:16px">
+            <div class="mc-mono" style="font-size:10px"><span class="mc-w" style="--d:.7s;--u:.5s"><span class="o">Votre brouillon</span><span class="f" aria-hidden="true">Votre brouillon</span></span></div>
+            <div style="margin-top:6px;font:400 14px/1.4 Inter,sans-serif;height:40px;overflow:hidden">{{recap}}</div>
+          </div>
+          <div style="position:absolute;right:22px;bottom:12px;font:300 20px/1 Inter,sans-serif;letter-spacing:-.03em">à partir de {{ttc}}</div>
+        </div>
+      </sc-if>
+
+      <!-- FORMULAIRE -->
+      <sc-if value="{{isForm}}" hint-placeholder-val="{{true}}">
+        <div data-rv="" style="margin-top:18px">
+          <div style="position:relative;display:flex">
+            <span class="mc-glow" aria-hidden="true" style="top:6px;height:36px;width:150px;left:{{mx}}px"></span>
+            <button class="mc-mode" onClick="{{toCreate}}" aria-pressed="{{isCreate}}" style="font-weight:{{wC}}">Créer un compte</button>
+            <button class="mc-mode" onClick="{{toLogin}}" aria-pressed="{{isLogin}}" style="font-weight:{{wL}}">J’ai déjà un compte</button>
+          </div>
+          <svg class="mc-ln mc-hl" width="346" height="2" viewBox="0 0 346 2" aria-hidden="true"><path pathLength="100" d="M0 1H346" style="--d:.2s;--u:.8s"/></svg>
+        </div>
+
+        <form data-rv="" novalidate="" onSubmit="{{submit}}" style="margin-top:2px">
+          <div class="mc-f">
+            <label class="mc-lab mc-mono" for="mc-email"><span class="mc-w" style="--d:.1s;--u:.5s"><span class="o">Adresse e-mail</span><span class="f" aria-hidden="true">Adresse e-mail</span></span></label>
+            <input class="mc-in" id="mc-email" type="email" inputmode="email" autocomplete="email" maxlength="254" placeholder="vous@exemple.be" value="{{email}}" onInput="{{onEmail}}" aria-invalid="{{eEmail}}">
+            <span class="mc-fg" aria-hidden="true"></span>
+            <sc-if value="{{eEmail}}" hint-placeholder-val="{{false}}"><div class="mc-err mc-mono" style="color:#0D0E10;text-transform:none;letter-spacing:.02em;font-size:12px">{{eEmailT}}</div></sc-if>
+          </div>
+          <div class="mc-f">
+            <label class="mc-lab mc-mono" for="mc-pwd"><span class="mc-w" style="--d:.25s;--u:.5s"><span class="o">Mot de passe</span><span class="f" aria-hidden="true">Mot de passe</span></span></label>
+            <input class="mc-in" id="mc-pwd" type="{{pwdType}}" autocomplete="{{pwdAuto}}" maxlength="128" placeholder="{{pwdPh}}" value="{{pwd}}" onInput="{{onPwd}}" aria-invalid="{{ePwd}}">
+            <span class="mc-fg" aria-hidden="true"></span>
+            <button type="button" class="mc-eye" onClick="{{toggleEye}}" aria-label="{{eyeL}}" aria-pressed="{{show}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0D0E10" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/><path d="{{eyeSlash}}"/></svg></button>
+            <sc-if value="{{ePwd}}" hint-placeholder-val="{{false}}"><div class="mc-err mc-mono" style="color:#0D0E10;text-transform:none;letter-spacing:.02em;font-size:12px">{{ePwdT}}</div></sc-if>
+            <sc-if value="{{isCreate}}" hint-placeholder-val="{{true}}">
+              <div style="display:flex;gap:6px;margin-top:12px"><sc-for list="{{meter}}" as="m" hint-placeholder-count="3"><span class="mc-seg" style="background:{{m.bg}}"></span></sc-for></div>
+              <div class="mc-mono" style="margin-top:8px;font-size:10px">10 caractères minimum · mélangez lettres, chiffres, symboles</div>
+            </sc-if>
+          </div>
+
+          <sc-if value="{{isCreate}}" hint-placeholder-val="{{true}}">
+            <div style="margin-top:24px">
+              <button type="button" class="mc-chk" role="checkbox" aria-checked="{{consent}}" onClick="{{toggleConsent}}">
+                <span class="mc-tg {{consentCls}}"><i></i></span>
+                <span style="font:400 14px/1.5 Inter,sans-serif">J’accepte que mes données servent à traiter ma demande, selon la <span style="text-decoration:underline;text-underline-offset:3px">politique de confidentialité</span> [lien].</span>
+              </button>
+              <sc-if value="{{eConsent}}" hint-placeholder-val="{{false}}"><div class="mc-err mc-mono" style="color:#0D0E10;text-transform:none;letter-spacing:.02em;font-size:12px;margin-left:38px">Le consentement est nécessaire pour créer le compte.</div></sc-if>
+            </div>
+          </sc-if>
+
+          <div style="margin-top:26px">
+            <div class="mc-btnw" style="width:100%;height:54px"><button type="submit" class="mc-cta" style="--d:.1s"><span class="mc-w" style="--d:.45s;--u:.5s"><span class="o">{{submitL}}</span><span class="f" aria-hidden="true">{{submitL}}</span></span></button></div>
+            <sc-if value="{{isLogin}}" hint-placeholder-val="{{false}}">
+              <div style="margin-top:6px;display:flex;justify-content:center"><button type="button" class="mc-back" style="text-decoration:underline;text-underline-offset:5px">Mot de passe oublié ?</button></div>
+            </sc-if>
+            <div style="margin-top:6px;display:flex;justify-content:center">
+              <button type="button" class="mc-back" onClick="{{backSim}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D0E10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>Revenir au simulateur</span></button>
+            </div>
+          </div>
+        </form>
+      </sc-if>
+
+      <!-- RÉUSSITE -->
+      <sc-if value="{{isDone}}" hint-placeholder-val="{{false}}">
+        <div data-rv="" style="margin-top:26px;font:400 15px/1.7 Inter,sans-serif;color:#4B4D52">
+          <div><span class="mc-w" style="--d:.1s;--u:.7s"><span class="o">{{doneA}}</span><span class="f" aria-hidden="true">{{doneA}}</span></span></div>
+          <div><span class="mc-w" style="--d:.35s;--u:.7s"><span class="o">Il reste à préciser les lieux, adresses</span><span class="f" aria-hidden="true">Il reste à préciser les lieux, adresses</span></span></div>
+          <div><span class="mc-w" style="--d:.6s;--u:.7s"><span class="o">et horaires exacts, puis à envoyer.</span><span class="f" aria-hidden="true">et horaires exacts, puis à envoyer.</span></span></div>
+        </div>
+        <div data-rv="" style="margin-top:28px">
+          <div class="mc-btnw" style="width:100%;height:54px"><button class="mc-cta" style="--d:.1s" onClick="{{precise}}"><span class="mc-w" style="--d:.45s;--u:.5s"><span class="o">Préciser ma journée</span><span class="f" aria-hidden="true">Préciser ma journée</span></span></button></div>
+          <div style="margin-top:8px;display:flex;justify-content:center">
+            <button class="mc-back" onClick="{{home}}"><span>Plus tard, retour à l’accueil</span></button>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"play":{"editor":null,"default":true},"leaving":{"editor":null,"default":false},"onNav":{"editor":null},"draft":{"editor":null},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { mode: 'create', email: '', pwd: '', show: false, consent: false, tried: false, done: false, pc: '' };
+    this.batch = true; this.redo = false;
+  }
+  act() { return this.props.play === undefined ? true : !!this.props.play; }
+  componentDidMount() { setTimeout(() => this.check(), 40); }
+  componentWillUnmount() { clearTimeout(this.t1); }
+  componentDidUpdate(pp) {
+    if (this.redo) { this.redo = false; this.reset(); setTimeout(() => this.check(), 20); }
+    const was = pp.play === undefined ? true : !!pp.play, now = this.act();
+    if (!was && now) { this.batch = true; setTimeout(() => this.check(), 60); }
+    if (was && !now) { clearTimeout(this.t1); this.reset(); if (this.sc) this.sc.scrollTop = 0; this.setState({ mode: 'create', email: '', pwd: '', show: false, consent: false, tried: false, done: false, pc: '' }); }
+  }
+  // changement de vue (créer / se connecter / réussite) : le contenu se décompose puis se réécrit
+  swap(patch) {
+    if (this.state.pc) return;
+    clearTimeout(this.t1);
+    this.setState({ pc: 'out' });
+    this.t1 = setTimeout(() => { if (this.sc) this.sc.scrollTop = 0; this.redo = true; this.batch = true; this.setState({ ...patch, pc: '' }); }, 230);
+  }
+  check() {
+    const root = this.root, sc = this.sc;
+    if (!root || !sc || !this.act()) return;
+    const bottom = sc.getBoundingClientRect().bottom;
+    let k = 0;
+    root.querySelectorAll('[data-rv]:not(.rv)').forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.top < bottom - 36) { el.style.setProperty('--b', (this.batch ? k * 0.2 : 0.05).toFixed(2) + 's'); el.classList.add('rv'); k++; }
+    });
+    this.batch = false;
+  }
+  reset() { const root = this.root; if (!root) return; root.querySelectorAll('[data-rv]').forEach((el) => el.classList.remove('rv')); void root.offsetWidth; }
+
+  // validation aux frontières : côté client ici pour le confort ; le serveur (Form Request, jeton CSRF) valide toujours de son côté
+  errors() {
+    const st = this.state, e = {};
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(st.email.trim())) e.email = 'Adresse e-mail invalide.';
+    if (st.mode === 'create') {
+      if (st.pwd.length < 10) e.pwd = 'Dix caractères minimum.';
+      if (!st.consent) e.consent = true;
+    } else if (!st.pwd) e.pwd = 'Saisissez votre mot de passe.';
+    return e;
+  }
+  submit(ev) {
+    if (ev && ev.preventDefault) ev.preventDefault();
+    const e = this.errors();
+    if (Object.keys(e).length) { this.setState({ tried: true }); return; }
+    this.swap({ done: true, tried: false });
+  }
+  renderVals() {
+    const st = this.state, e = st.tried ? this.errors() : {}, d = this.props.draft || null;
+    const create = st.mode === 'create';
+    // robustesse du mot de passe : longueur, longueur confortable, variété de caractères
+    const cls = [/[a-zà-ÿ]/i.test(st.pwd), /\d/.test(st.pwd), /[^A-Za-zÀ-ÿ0-9]/.test(st.pwd)].filter(Boolean).length;
+    const score = (st.pwd.length >= 10 ? 1 : 0) + (st.pwd.length >= 14 ? 1 : 0) + (cls >= 3 ? 1 : 0);
+    const meter = [0, 1, 2].map((i) => ({ bg: i < score ? '#0D0E10' : 'rgba(13,14,16,.18)' }));
+    const eyebrow = st.done ? 'Compte · prêt' : create ? 'Dernière étape' : 'Connexion';
+    const T = st.done ? ['Compte', 'créé.'] : create ? ['Gardons votre', 'brouillon.'] : ['Retrouvons', 'votre dossier.'];
+    return {
+      rcls: (this.act() ? 'go' : '') + (this.props.leaving ? ' out' : ''),
+      rootRef: (el) => { this.root = el; }, scRef: (el) => { this.sc = el; },
+      scroll: () => this.check(), pc: st.pc,
+      eyebrow, t1: T[0], t2: T[1],
+      hasDraft: !!d && !st.done, recap: d ? d.recap : '', ttc: d ? d.ttc : '',
+      isForm: !st.done, isDone: st.done, isCreate: create, isLogin: !create,
+      mx: create ? 11 : 184, wC: create ? 600 : 400, wL: create ? 400 : 600,
+      toCreate: () => { if (!create) this.swap({ mode: 'create', tried: false }); },
+      toLogin: () => { if (create) this.swap({ mode: 'login', tried: false }); },
+      email: st.email, pwd: st.pwd, show: st.show,
+      onEmail: (ev) => this.setState({ email: ev.target.value }), onPwd: (ev) => this.setState({ pwd: ev.target.value }),
+      pwdType: st.show ? 'text' : 'password', pwdAuto: create ? 'new-password' : 'current-password', pwdPh: create ? '10 caractères minimum' : 'Votre mot de passe',
+      eyeL: st.show ? 'Masquer le mot de passe' : 'Afficher le mot de passe', toggleEye: () => this.setState({ show: !st.show }), eyeSlash: st.show ? 'M3 3l18 18' : 'M3 21',
+      eEmail: !!e.email, eEmailT: e.email || '', ePwd: !!e.pwd, ePwdT: e.pwd || '', eConsent: !!e.consent,
+      meter, consent: st.consent, consentCls: st.consent ? 'on' : '', toggleConsent: () => this.setState({ consent: !st.consent }),
+      submitL: create ? 'Créer mon compte' : 'Me connecter', submit: (ev) => this.submit(ev),
+      backSim: () => { if (this.props.onNav) this.props.onNav('simulateur'); },
+      doneA: create ? 'Votre brouillon est rattaché à votre compte.' : 'Votre brouillon est rattaché à votre dossier.',
+      precise: () => {}, home: () => { if (this.props.onNav) this.props.onNav('accueil'); }
+    };
+  }
+}
+</script>
+</body>
+</html>

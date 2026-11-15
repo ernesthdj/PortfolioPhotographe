@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Simulateur mobile</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+.mm-p,.mm-p *{box-sizing:border-box}
+.mm-p{--E:cubic-bezier(.45,0,.2,1);position:relative;width:390px;height:844px;overflow:hidden;background:#fff;color:#0D0E10;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.mm-sc{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;scrollbar-width:none}
+.mm-sc::-webkit-scrollbar{display:none}
+.mm-vg{position:absolute;inset:0;pointer-events:none;z-index:3;opacity:0;background:radial-gradient(120% 90% at 50% 42%,rgba(20,18,16,0) 55%,rgba(20,18,16,.08) 80%,rgba(20,18,16,.20) 100%)}
+.go .mm-vg{animation:mm-habille 1.4s ease-in-out .2s both}
+.mm-mono{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4B4D52}
+.mm-ser{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+
+/* écriture : contour puis remplissage, goutte d'encre en tête */
+.mm-w{position:relative;display:inline-block;white-space:nowrap}
+.mm-w .o{display:block;color:transparent;-webkit-text-stroke:1px currentColor;clip-path:inset(-12px 100% -12px 0)}
+.mm-w .f{position:absolute;left:0;top:-.24em;padding:.24em .14em .24em 0;background-color:currentColor;background-image:radial-gradient(closest-side,rgba(255,255,255,.22),rgba(255,255,255,.07) 45%,rgba(255,255,255,0)),url(/_blob/ed07de6673f5b97f3f81d1a4ab4817c0);background-size:70% 60%,120px 120px;background-repeat:no-repeat,repeat;background-position:18% 12%,0 0;background-blend-mode:screen,overlay;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;clip-path:inset(-12px 100% -12px 0)}
+.mm-tete{position:absolute;left:0;top:50%;width:0;height:0;border-radius:0;background:#0D0E10;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1.5px 0 rgba(0,0,0,.22),0 2px 5px rgba(13,14,16,.22)}
+.rv .mm-w .o{animation:mm-wIn var(--u,.6s) var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+.rv .mm-w .f{animation:mm-wIn var(--u,.6s) var(--E) calc(var(--b,0s) + var(--d,0s) + .25s) both}
+.rv .mm-tete{animation:mm-ne .22s var(--E) max(0s,calc(var(--b,0s) + var(--d,0s) - .22s)) both,mm-ecrit var(--u,.6s) var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+.mm-rule,.mm-seg{clip-path:inset(-4px 100% -4px 0)}
+.rv .mm-rule{animation:mm-wIn .3s var(--E) calc(var(--b,0s) + .1s) both}
+.rv .mm-seg{animation:mm-wIn .5s var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+
+/* traits */
+.mm-ln path{fill:none;stroke:#0D0E10;stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 102;stroke-dashoffset:101}
+.rv .mm-ln path{animation:mm-drawS var(--u,.45s) var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+.mm-hl{display:block;overflow:visible}
+.mm-hl path{stroke-width:1px;stroke:rgba(13,14,16,.24)}
+
+/* matière */
+.mm-glass{background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(250,248,244,.86) 55%,rgba(240,237,231,.9) 100%);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 16px 32px -12px rgba(20,18,16,.30),0 4px 10px -3px rgba(20,18,16,.16),inset 0 1px 0 #fff,inset 0 0 0 1px rgba(255,255,255,.6),inset 0 -2px 0 rgba(20,18,16,.06),inset 0 -12px 18px -12px rgba(20,18,16,.10);opacity:0}
+.rv .mm-glass{animation:mm-habille 1.8s ease-in-out calc(var(--b,0s) + var(--d,0s) + .5s) both}
+.mm-glow{position:absolute;border-radius:999px;pointer-events:none;background:radial-gradient(closest-side,rgba(58,166,181,.36),rgba(58,166,181,.16) 58%,rgba(58,166,181,0));filter:blur(5px);transition:left .5s var(--E),top .5s var(--E),opacity .3s ease}
+.mm-btnw{filter:drop-shadow(0 12px 12px rgba(13,14,16,.38)) drop-shadow(0 3px 4px rgba(13,14,16,.22))}
+.mm-cta{display:flex;align-items:center;justify-content:center;border:0;color:#F4F2EE;font:600 15px Inter,sans-serif;cursor:pointer;width:100%;height:100%;background:radial-gradient(35% 25% at 30% 20%,rgba(255,255,255,.14),rgba(255,255,255,0)),url(/_blob/ed07de6673f5b97f3f81d1a4ab4817c0),#0D0E10;background-blend-mode:normal,overlay,normal;box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1.5px 0 rgba(0,0,0,.6);clip-path:inset(0 100% 0 0 round 26px)}
+.rv .mm-cta{animation:mm-rBtn .45s var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+.mm-back{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0;background:none;border:0;cursor:pointer;font:500 14px Inter,sans-serif;color:#0D0E10}
+.mm-back:focus-visible,.mm-row:focus-visible,.mm-zc:focus-visible,.mm-day:focus-visible,.mm-st:focus-visible,.mm-opt:focus-visible,.mm-ar:focus-visible{outline:2px solid #0D0E10;outline-offset:-3px;border-radius:12px}
+
+/* étape 1 : services en lignes */
+.mm-row{position:relative;display:flex;align-items:center;gap:14px;width:100%;height:60px;background:none;border:0;padding:0;cursor:pointer;color:#0D0E10;text-align:left}
+
+/* étape 2 : zones */
+.mm-zc{height:46px;padding:0 16px;border-radius:23px;border:1.5px solid rgba(13,14,16,.28);background:none;cursor:pointer;font:400 15px Inter,sans-serif;color:#0D0E10}
+.mm-zc.on{border-color:#0D0E10;font-weight:600;background:rgba(58,166,181,.16)}
+
+/* étape 3 : calendrier */
+.mm-cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px;margin-top:6px}
+.mm-dow{height:30px;display:flex;align-items:center;justify-content:center}
+.mm-day{height:46px;background:none;border:0;border-radius:23px;cursor:pointer;font:400 15px Inter,sans-serif;color:#0D0E10;position:relative;padding:0}
+.mm-day.off{color:rgba(13,14,16,.28);cursor:default}
+.mm-day.on{font-weight:600;background:rgba(58,166,181,.2);box-shadow:inset 0 0 0 1.5px #0D0E10}
+.mm-ar{width:44px;height:44px;border-radius:50%;border:1.5px solid #0D0E10;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+.mm-ar:disabled{opacity:.3;cursor:default}
+
+/* étape 4 : frise des heures */
+.mm-tl{position:relative;height:384px;margin-top:14px;clip-path:inset(-24px -10px 100% -10px)}
+.rv .mm-tl{animation:mm-vIn 1.2s var(--E) calc(var(--b,0s) + .2s) both}
+.mm-grid{position:absolute;left:44px;right:0;top:0;height:384px;background-image:repeating-linear-gradient(to bottom,rgba(13,14,16,.16) 0 1px,transparent 1px 24px)}
+.mm-band{position:absolute;left:56px;width:290px;border:1.5px solid #0D0E10;border-radius:14px;touch-action:none;cursor:grab;filter:drop-shadow(0 10px 12px rgba(20,18,16,.18))}
+.mm-inc{position:absolute;left:0;right:0;top:0;background:rgba(58,166,181,.22);border-radius:12px 12px 0 0}
+.mm-ovr{position:absolute;left:0;right:0;background:repeating-linear-gradient(135deg,rgba(217,120,58,.24) 0 6px,rgba(217,120,58,.1) 6px 12px);border-radius:0 0 12px 12px}
+.mm-hd{position:absolute;right:10px;width:44px;height:44px;border:0;background:none;padding:0;touch-action:none;cursor:ns-resize;display:flex;align-items:center;justify-content:center}
+.mm-hd i{display:block;width:16px;height:16px;border-radius:50%;background:#fff;border:1.5px solid #0D0E10;box-shadow:0 3px 6px rgba(20,18,16,.25)}
+.mm-hd:focus-visible i{outline:2px solid #0D0E10;outline-offset:3px}
+.mm-st{width:52px;height:52px;border-radius:50%;border:1.5px solid #0D0E10;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+
+/* résultat : options */
+.mm-opt{display:flex;align-items:center;gap:12px;width:100%;height:54px;background:none;border:0;padding:0;cursor:pointer;color:#0D0E10;text-align:left}
+.mm-tg{position:relative;width:26px;height:26px;border-radius:50%;border:1.5px solid #0D0E10;flex:none;display:flex;align-items:center;justify-content:center}
+.mm-tg i{display:block;width:12px;height:12px;border-radius:50%;background:rgba(58,166,181,.55);box-shadow:0 0 0 4px rgba(58,166,181,.16);transform:scale(0);transition:transform .35s var(--E)}
+.mm-tg.on i{transform:scale(1)}
+.mm-saved{clip-path:inset(-12px 100% -12px 0)}
+.mm-saved.on{animation:mm-wIn .7s var(--E) both}
+
+/* sortie */
+.out .rv .mm-w .o,.out .rv .mm-w .f{animation:mm-wOut .2s var(--E) 0s both}
+.out .rv .mm-tete{animation:none}
+.out .rv .mm-ln path{animation:mm-undrawS .3s var(--E) 0s both}
+.out .rv .mm-glass{animation:mm-deshabille .3s ease both}
+.out .rv .mm-cta{animation:mm-rBtnOut .3s var(--E) 0s both}
+.out .rv .mm-rule,.out .rv .mm-seg{animation:mm-wOut .2s var(--E) 0s both}
+.out .rv .mm-tl{animation:mm-vOut .35s var(--E) 0s both}
+.out .mm-vg{animation:mm-deshabille .3s ease both}
+
+@keyframes mm-wIn{from{clip-path:inset(-12px 100% -12px 0)}to{clip-path:inset(-12px -12px -12px 0)}}
+@keyframes mm-wOut{from{clip-path:inset(-12px -12px -12px 0)}to{clip-path:inset(-12px 100% -12px 0)}}
+@keyframes mm-vIn{from{clip-path:inset(-24px -10px 100% -10px)}to{clip-path:inset(-24px -10px -24px -10px)}}
+@keyframes mm-vOut{from{clip-path:inset(-24px -10px -24px -10px)}to{clip-path:inset(-24px -10px 100% -10px)}}
+@keyframes mm-rBtn{from{clip-path:inset(0 100% 0 0 round 26px)}to{clip-path:inset(0 0 0 0 round 26px)}}
+@keyframes mm-rBtnOut{from{clip-path:inset(0 0 0 0 round 26px)}to{clip-path:inset(0 100% 0 0 round 26px)}}
+@keyframes mm-drawS{from{stroke-dashoffset:101}to{stroke-dashoffset:0}}
+@keyframes mm-undrawS{from{stroke-dashoffset:0}to{stroke-dashoffset:101}}
+@keyframes mm-habille{from{opacity:0}to{opacity:1}}
+@keyframes mm-deshabille{from{opacity:1}to{opacity:0}}
+@keyframes mm-ne{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes mm-ecrit{0%{left:-14px;top:calc(50% - 5px);width:10px;height:10px;border-radius:5px}15%{left:-2px;top:0;width:3px;height:100%;border-radius:1.5px}85%{left:calc(100% - 2px);top:0;width:3px;height:100%;border-radius:1.5px}100%{left:100%;top:50%;width:0;height:0;border-radius:0}}
+@media (prefers-reduced-motion: reduce){.mm-p *{animation-duration:0s !important;animation-delay:0s !important;transition-duration:0s !important}}
+</style>
+</helmet>
+<div class="mm-p {{rcls}}" ref="{{rootRef}}">
+  <div class="mm-vg" aria-hidden="true"></div>
+  <div class="mm-sc" ref="{{scRef}}" onScroll="{{scroll}}">
+    <div class="mm-c {{pc}}" style="padding:96px 22px 190px;position:relative">
+
+      <!-- progression : une barre par étape -->
+      <div data-rv="" style="display:flex;align-items:center;gap:12px">
+        <span class="mm-rule" aria-hidden="true" style="display:block;width:28px;height:1px;background:#D9783A"></span>
+        <span class="mm-mono"><span class="mm-w" style="--d:.15s;--u:.6s"><span class="o">{{stepL}}</span><span class="f" aria-hidden="true">{{stepL}}</span></span></span>
+      </div>
+      <div data-rv="" style="display:flex;gap:6px;margin-top:12px">
+        <sc-for list="{{segs}}" as="g" hint-placeholder-count="5">
+          <span class="mm-seg" style="flex:1;height:3px;border-radius:2px;background:{{g.bg}};--d:{{g.d}}"></span>
+        </sc-for>
+      </div>
+
+      <!-- titre de l'étape -->
+      <div style="margin-top:22px;font-weight:300;font-size:34px;line-height:1.14;letter-spacing:-.03em;filter:drop-shadow(0 6px 8px rgba(20,18,16,.16))">
+        <div data-rv=""><span class="mm-w" style="--d:.1s;--u:.8s"><span class="mm-tete"></span><span class="o">{{t1}}</span><span class="f" aria-hidden="true">{{t1}}</span></span></div>
+        <div data-rv=""><span class="mm-w" style="--d:.45s;--u:.8s"><span class="mm-tete"></span><span class="o"><span class="mm-ser" style="font-size:40px">{{t2}}</span></span><span class="f" aria-hidden="true"><span class="mm-ser" style="font-size:40px">{{t2}}</span></span></span></div>
+      </div>
+
+      <!-- ÉTAPE : service -->
+      <sc-if value="{{isService}}" hint-placeholder-val="{{true}}">
+        <div data-rv="" style="margin-top:22px">
+          <sc-for list="{{services}}" as="s" hint-placeholder-count="6">
+            <div style="position:relative">
+              <svg class="mm-ln mm-hl" width="346" height="2" viewBox="0 0 346 2" aria-hidden="true"><path pathLength="100" d="M0 1H346" style="--d:{{s.d}};--u:.8s"/></svg>
+              <span class="mm-glow" aria-hidden="true" style="left:-10px;right:-10px;top:8px;height:48px;border-radius:24px;opacity:{{s.op}}"></span>
+              <button class="mm-row" aria-pressed="{{s.on}}" onClick="{{s.pick}}">
+                <span class="mm-mono" style="width:26px">{{s.n}}</span>
+                <span style="flex:1;font:300 24px Inter,sans-serif;letter-spacing:-.02em"><span style="font-weight:{{s.w}}">{{s.l}}</span></span>
+                <span class="mm-mono" style="color:#0D0E10">{{s.p}}</span>
+              </button>
+            </div>
+          </sc-for>
+          <svg class="mm-ln mm-hl" width="346" height="2" viewBox="0 0 346 2" aria-hidden="true"><path pathLength="100" d="M0 1H346" style="--d:.8s;--u:.8s"/></svg>
+        </div>
+      </sc-if>
+
+      <!-- ÉTAPE : lieu (zone seulement, jamais d'adresse exacte) -->
+      <sc-if value="{{isLieu}}" hint-placeholder-val="{{false}}">
+        <div data-rv="" style="margin-top:22px">
+          <div style="display:flex;flex-wrap:wrap;gap:10px">
+            <sc-for list="{{zones}}" as="z" hint-placeholder-count="7">
+              <button class="mm-zc {{z.cls}}" aria-pressed="{{z.on}}" onClick="{{z.pick}}">{{z.l}}</button>
+            </sc-for>
+          </div>
+          <div class="mm-mono" style="margin-top:18px;font-size:10px;line-height:1.8">{{zoneNote}}</div>
+        </div>
+      </sc-if>
+
+      <!-- ÉTAPE : date -->
+      <sc-if value="{{isDate}}" hint-placeholder-val="{{false}}">
+        <div data-rv="" style="margin-top:20px">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <button class="mm-ar" onClick="{{calPrev}}" disabled="{{calPrevOff}}" aria-label="Mois précédent"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0D0E10" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+            <div style="font:500 18px Inter,sans-serif;letter-spacing:-.01em;text-transform:capitalize">{{monthL}}</div>
+            <button class="mm-ar" onClick="{{calNext}}" aria-label="Mois suivant"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0D0E10" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+          </div>
+          <div class="mm-cal" style="margin-top:12px">
+            <sc-for list="{{dows}}" as="w" hint-placeholder-count="7"><div class="mm-dow"><span class="mm-mono" style="font-size:10px">{{w}}</span></div></sc-for>
+            <sc-for list="{{days}}" as="c" hint-placeholder-count="35">
+              <button class="mm-day {{c.cls}}" aria-pressed="{{c.on}}" aria-disabled="{{c.offA}}" onClick="{{c.pick}}">{{c.l}}</button>
+            </sc-for>
+          </div>
+          <div class="mm-mono" style="margin-top:14px;font-size:10px">{{dateNote}}</div>
+        </div>
+      </sc-if>
+
+      <!-- ÉTAPE : heures (forfait + dépassement) : on tire les poignées -->
+      <sc-if value="{{isHeures}}" hint-placeholder-val="{{false}}">
+        <div data-rv="" style="margin-top:14px">
+          <div class="mm-mono" style="font-size:10px">Tirez les poignées · minimum 2 h</div>
+          <div class="mm-tl" ref="{{tlRef}}">
+            <sc-for list="{{hours}}" as="h" hint-placeholder-count="17">
+              <span class="mm-mono" style="position:absolute;left:0;top:{{h.y}}px;font-size:10px;line-height:14px">{{h.l}}</span>
+            </sc-for>
+            <div class="mm-grid" aria-hidden="true"></div>
+            <div class="mm-band" style="top:{{bd.top}}px;height:{{bd.h}}px" onPointerDown="{{bodyDown}}" onPointerMove="{{move}}" onPointerUp="{{up}}" onPointerCancel="{{up}}">
+              <div class="mm-inc" style="height:{{bd.hi}}px"></div>
+              <div class="mm-ovr" style="top:{{bd.hi}}px;height:{{bd.ho}}px"></div>
+              <div style="position:absolute;left:14px;right:54px;top:0;height:{{bd.lh}}px;display:flex;align-items:center;justify-content:space-between;pointer-events:none">
+                <span style="font:500 18px Inter,sans-serif;letter-spacing:-.01em">{{durL}}</span>
+                <span class="mm-mono" style="color:#0D0E10;font-size:10px">{{range}}</span>
+              </div>
+              <button class="mm-hd" style="top:-22px" aria-label="Début de la prestation" onPointerDown="{{startDown}}" onPointerMove="{{move}}" onPointerUp="{{up}}" onPointerCancel="{{up}}"><i></i></button>
+              <button class="mm-hd" style="bottom:-22px" aria-label="Fin de la prestation" onPointerDown="{{endDown}}" onPointerMove="{{move}}" onPointerUp="{{up}}" onPointerCancel="{{up}}"><i></i></button>
+            </div>
+          </div>
+          <div class="mm-mono" style="margin-top:12px;font-size:10px">Inclus : hachures cyan · en plus : hachures orange</div>
+        </div>
+      </sc-if>
+
+      <!-- ÉTAPE : plats (culinaire) -->
+      <sc-if value="{{isPlats}}" hint-placeholder-val="{{false}}">
+        <div data-rv="" style="margin-top:34px">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <button class="mm-st" onClick="{{qtyMinus}}" aria-label="Moins de plats"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D0E10" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M6 12h12"/></svg></button>
+            <div style="text-align:center;filter:drop-shadow(0 6px 8px rgba(20,18,16,.16))"><div style="font:300 72px/1 Inter,sans-serif;letter-spacing:-.04em">{{qty}}</div><div class="mm-mono" style="margin-top:8px">plats · de 5 à 40</div></div>
+            <button class="mm-st" onClick="{{qtyPlus}}" aria-label="Plus de plats"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D0E10" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M12 6v12M6 12h12"/></svg></button>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- RÉSULTAT : prix « à partir de », options, invitation à créer le compte -->
+      <sc-if value="{{isDevis}}" hint-placeholder-val="{{false}}">
+        <div data-rv="" style="margin-top:18px;font:400 14px/1.6 Inter,sans-serif;color:#4B4D52">{{recap}}</div>
+        <div data-rv="" style="margin-top:18px;position:relative;height:{{card.h}}px">
+          <div class="mm-glass" style="position:absolute;inset:0;border-radius:26px"></div>
+          <svg class="mm-ln" style="position:absolute;left:0;top:0;overflow:visible;pointer-events:none" width="346" height="{{card.h}}" viewBox="{{card.vb}}" aria-hidden="true">
+            <path pathLength="100" d="{{card.d1}}" style="--d:.1s;--u:.8s"/>
+            <path pathLength="100" d="{{card.d2}}" style="--d:.1s;--u:.8s"/>
+          </svg>
+          <div style="position:absolute;left:22px;right:22px;top:22px">
+            <div class="mm-mono"><span class="mm-w" style="--d:.7s;--u:.5s"><span class="o">À partir de</span><span class="f" aria-hidden="true">À partir de</span></span></div>
+            <div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:4px;filter:drop-shadow(0 4px 6px rgba(20,18,16,.14))">
+              <span style="font:300 44px/1.1 Inter,sans-serif;letter-spacing:-.04em">{{ttc}}</span>
+              <span class="mm-mono">TVAC</span>
+            </div>
+            <div style="margin-top:12px">
+              <sc-for list="{{lines}}" as="l" hint-placeholder-count="3">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;height:{{l.h}}px">
+                  <div><div style="font:400 14px/1.3 Inter,sans-serif">{{l.t}}</div><sc-if value="{{l.hasSub}}" hint-placeholder-val="{{false}}"><div class="mm-mono" style="font-size:10px;margin-top:2px;letter-spacing:.06em">{{l.sub}}</div></sc-if></div>
+                  <span class="mm-mono" style="color:#0D0E10;white-space:nowrap">{{l.a}}</span>
+                </div>
+              </sc-for>
+            </div>
+            <div style="margin-top:6px;border-top:1px solid rgba(13,14,16,.18);padding-top:8px">
+              <div style="display:flex;justify-content:space-between;height:26px"><span class="mm-mono">Total HTVA</span><span class="mm-mono" style="color:#0D0E10">{{ht}}</span></div>
+              <div style="display:flex;justify-content:space-between;height:26px"><span class="mm-mono">TVA 21 %</span><span class="mm-mono" style="color:#0D0E10">{{tva}}</span></div>
+            </div>
+          </div>
+        </div>
+        <sc-if value="{{hasOpts}}" hint-placeholder-val="{{false}}">
+          <div data-rv="" style="margin-top:24px">
+            <div class="mm-mono"><span class="mm-w" style="--d:0s;--u:.5s"><span class="o">Ajouter une option</span><span class="f" aria-hidden="true">Ajouter une option</span></span></div>
+            <sc-for list="{{opts}}" as="o" hint-placeholder-count="3">
+              <div>
+                <svg class="mm-ln mm-hl" width="346" height="2" viewBox="0 0 346 2" aria-hidden="true"><path pathLength="100" d="M0 1H346" style="--d:{{o.d}};--u:.8s"/></svg>
+                <button class="mm-opt" aria-pressed="{{o.on}}" onClick="{{o.pick}}">
+                  <span class="mm-tg {{o.cls}}"><i></i></span>
+                  <span style="flex:1;font:400 15px Inter,sans-serif">{{o.l}}</span>
+                  <span class="mm-mono" style="color:#0D0E10">+ {{o.p}} €</span>
+                </button>
+              </div>
+            </sc-for>
+            <svg class="mm-ln mm-hl" width="346" height="2" viewBox="0 0 346 2" aria-hidden="true"><path pathLength="100" d="M0 1H346" style="--d:.6s;--u:.8s"/></svg>
+          </div>
+        </sc-if>
+      </sc-if>
+
+      <!-- commandes de l'étape (absentes de la première) -->
+      <sc-if value="{{showCmd}}" hint-placeholder-val="{{true}}">
+      <div data-rv="" style="margin-top:26px">
+        <div class="mm-btnw" style="width:100%;height:54px"><button class="mm-cta" style="--d:.1s" onClick="{{next}}"><span class="mm-w" style="--d:.45s;--u:.5s"><span class="o">{{nextL}}</span><span class="f" aria-hidden="true">{{nextL}}</span></span></button></div>
+        <sc-if value="{{hasBack}}" hint-placeholder-val="{{true}}">
+          <div style="margin-top:8px;display:flex;justify-content:center">
+            <button class="mm-back" onClick="{{back}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D0E10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>{{backL}}</span></button>
+          </div>
+        </sc-if>
+        <sc-if value="{{isDevis}}" hint-placeholder-val="{{false}}">
+          <div class="mm-saved {{savedCls}}" style="margin-top:10px;font:400 14px/1.6 Inter,sans-serif;color:#4B4D52">Brouillon enregistré. Dans votre espace, vous précisez les lieux, adresses et horaires exacts, puis vous envoyez la demande.</div>
+        </sc-if>
+      </div>
+      </sc-if>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"play":{"editor":null,"default":true},"leaving":{"editor":null,"default":false},"onNav":{"editor":null},"sid":{"editor":null},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    const n = new Date();
+    this.state = { step: 0, sid: 'mar', zone: -1, date: null, cal: 0, start: 14, dur: 4, qty: 10, opts: [], saved: false, pc: '' };
+    this.today = new Date(n.getFullYear(), n.getMonth(), n.getDate());
+    this.batch = true; this.redo = false; this.drag = null;
+  }
+  act() { return this.props.play === undefined ? true : !!this.props.play; }
+  componentDidMount() { if (this.act()) this.begin(); setTimeout(() => this.check(), 40); }
+  componentWillUnmount() { clearTimeout(this.t1); clearTimeout(this.tn); }
+  componentDidUpdate(pp) {
+    if (this.redo) { this.redo = false; this.reset(); setTimeout(() => this.check(), 20); }
+    const was = pp.play === undefined ? true : !!pp.play, now = this.act();
+    if (!was && now) { this.begin(); this.keep = false; this.batch = true; setTimeout(() => this.check(), 60); }
+    if (was && !now) { clearTimeout(this.t1); this.reset(); if (this.sc) this.sc.scrollTop = 0; if (this.keep) this.setState({ pc: '' }); else this.setState({ step: 0, sid: 'mar', zone: -1, date: null, cal: 0, start: 14, dur: 4, qty: 10, opts: [], saved: false, pc: '' }); }
+  }
+  // arrivée depuis une fiche Services : le service est déjà connu, on commence au lieu
+  begin() { const sid = this.props.sid; if (sid && this.svc(sid)) this.setState({ sid, step: this.svc(sid).tech ? 1 : 1, saved: false }); }
+  seq() { return this.svc(this.state.sid).tech ? ['service', 'lieu', 'date', 'heures', 'devis'] : ['service', 'date', 'plats', 'devis']; }
+  // changement d'étape : le contenu se décompose, puis la nouvelle étape s'écrit
+  go(n) {
+    if (this.state.pc) return;
+    clearTimeout(this.t1);
+    this.setState({ pc: 'out' });
+    this.t1 = setTimeout(() => { if (this.sc) this.sc.scrollTop = 0; this.redo = true; this.batch = true; this.setState({ step: n, pc: '' }); }, 230);
+  }
+  check() {
+    const root = this.root, sc = this.sc;
+    if (!root || !sc || !this.act()) return;
+    const bottom = sc.getBoundingClientRect().bottom;
+    let k = 0;
+    root.querySelectorAll('[data-rv]:not(.rv)').forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.top < bottom - 36) { el.style.setProperty('--b', (this.batch ? k * 0.2 : 0.05).toFixed(2) + 's'); el.classList.add('rv'); k++; }
+    });
+    this.batch = false;
+  }
+  reset() { const root = this.root; if (!root) return; root.querySelectorAll('[data-rv]').forEach((el) => el.classList.remove('rv')); void root.offsetWidth; }
+
+  // ---- barème : référence unique, celle du simulateur du site ordinateur ----
+  svc(id) {
+    return { mar: { t: 'Mariage', base: 250, incl: 2, extra: 60, tech: true, opts: ['album', 'tir', 'sec'] },
+      eng: { t: 'Séance engagement', base: 180, incl: 2, extra: 60, tech: true, opts: ['album', 'tir'] },
+      fam: { t: 'Famille lifestyle', base: 220, incl: 2, extra: 60, tech: true, opts: ['album', 'tir'] },
+      ann: { t: 'Anniversaire', base: 250, incl: 2, extra: 60, tech: true, opts: ['tir'] },
+      evt: { t: 'Événementiel', base: 250, incl: 2, extra: 60, tech: true, opts: ['tir'] },
+      cul: { t: 'Culinaire & studio', unit: 15, min: 5, max: 40, tech: false, opts: [] } }[id];
+  }
+  hm(h) { const H = Math.floor(h), M = Math.round((h - H) * 60); return M ? H + ' h ' + String(M).padStart(2, '0') : H + ' h'; }
+  eur(n) { return n.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' €'; }
+
+  // ---- frise des heures (24 px par heure, de 7 h à 23 h, pas d'une demi-heure, 2 h minimum, 14 h maximum) ----
+  yHours(e) {
+    const el = this.tl; if (!el) return null;
+    const r = el.getBoundingClientRect(), s = r.width / 346 || 1;
+    return 7 + ((e.clientY - r.top) / s) / 24;
+  }
+  down(kind, e) {
+    e.stopPropagation();
+    try { e.currentTarget.setPointerCapture(e.pointerId); } catch (x) {}
+    const y = this.yHours(e); if (y === null) return;
+    this.drag = { kind, off: y - this.state.start };
+  }
+  mv(e) {
+    const d = this.drag; if (!d) return;
+    const y = this.yHours(e); if (y === null) return;
+    const snap = (v) => Math.round(v * 2) / 2;
+    let { start, dur } = this.state; const end = start + dur;
+    if (d.kind === 's') { const ns = Math.max(7, Math.min(end - 2, snap(y))); start = ns; dur = end - ns; if (dur > 14) { dur = 14; start = end - 14; } }
+    else if (d.kind === 'e') { const ne = Math.min(23, Math.max(start + 2, snap(y))); dur = Math.min(14, ne - start); }
+    else { start = Math.max(7, Math.min(23 - dur, snap(y - d.off))); }
+    if (start !== this.state.start || dur !== this.state.dur) this.setState({ start, dur });
+  }
+
+  renderVals() {
+    const st = this.state, S = this.svc(st.sid), seq = this.seq(), cur = seq[Math.min(st.step, seq.length - 1)], isQty = S.unit !== undefined;
+    const OPT = { album: ['Album photo 30×30', 120], tir: ['10 tirages 20×30', 45], sec: ['Second photographe', 300] };
+    const KM = [44.8, 12.0, 61.3, 30.5, 58.2, 98.6, 109.4], COM = ['Bruxelles', 'Namur', 'Liège', 'Charleroi', 'Mons', 'Anvers', 'Gand'];
+    const MOIS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+    // ---- lignes du devis ----
+    const L = []; let ht = 0;
+    if (isQty) { const a = st.qty * S.unit; ht += a; L.push({ t: 'Culinaire & studio · ' + st.qty + ' plats', sub: S.unit + ',00 € par plat', a: this.eur(a), h: 44 }); }
+    else {
+      const over = Math.max(0, st.dur - S.incl), bill = Math.ceil(over * 2 - 1e-9) / 2, a = S.base + bill * S.extra; ht += a;
+      L.push({ t: S.t + ' · ' + this.hm(st.dur), sub: bill > 0 ? this.hm(S.incl) + ' incluses, ' + this.hm(over) + ' en plus à ' + S.extra + ' € / h' : 'forfait, ' + this.hm(S.incl) + ' incluses', a: this.eur(a), h: 44 });
+    }
+    st.opts.forEach((k) => { ht += OPT[k][1]; L.push({ t: OPT[k][0], a: this.eur(OPT[k][1]), h: 30 }); });
+    if (S.tech) {
+      if (st.zone >= 0) { const km = Math.round(KM[st.zone] * 2 * 10) / 10, fee = Math.round(Math.max(0, km - 25) * 0.5 * 100) / 100; ht += fee; L.push({ t: 'Déplacement estimé · ' + COM[st.zone], sub: fee > 0 ? 'environ ' + String(km).replace('.', ',') + ' km aller-retour' : 'déplacement offert', a: this.eur(fee), h: 44 }); }
+      else L.push({ t: 'Déplacement', sub: 'zone non choisie', a: '—', h: 44 });
+    }
+    L.forEach((l) => { l.hasSub = !!l.sub; });
+    const tva = Math.round(ht * 0.21 * 100) / 100, ttc = Math.round((ht + tva) * 100) / 100;
+    const lh = L.reduce((t, l) => t + l.h, 0), ch = 22 + 14 + 4 + 50 + 12 + lh + 6 + 8 + 52 + 22, R = 26, mid = ch / 2;
+    const card = { h: ch, vb: '0 0 346 ' + ch,
+      d1: 'M0 ' + mid + ' V' + R + ' A' + R + ' ' + R + ' 0 0 1 ' + R + ' 0 H' + (346 - R) + ' A' + R + ' ' + R + ' 0 0 1 346 ' + R + ' V' + mid,
+      d2: 'M0 ' + mid + ' V' + (ch - R) + ' A' + R + ' ' + R + ' 0 0 0 ' + R + ' ' + ch + ' H' + (346 - R) + ' A' + R + ' ' + R + ' 0 0 0 346 ' + (ch - R) + ' V' + mid };
+    // ---- étape 1 : services ----
+    const SV = [['mar', 'Mariage', 'dès 250 €'], ['eng', 'Engagement', 'dès 180 €'], ['fam', 'Famille lifestyle', 'dès 220 €'], ['ann', 'Anniversaire', 'dès 250 €'], ['evt', 'Événementiel', 'dès 250 €'], ['cul', 'Culinaire & studio', '15 € / plat']];
+    const services = SV.map(([k, l, p], i) => ({ n: '0' + (i + 1), l, p, on: k === st.sid, op: k === st.sid ? 1 : 0, w: k === st.sid ? 600 : 300, d: (0.1 + i * 0.1).toFixed(2) + 's', pick: () => { if (this.state.pc) return; this.setState({ sid: k, opts: [], dur: Math.max(3, this.svc(k).incl || 3), zone: -1 }); clearTimeout(this.tn); this.tn = setTimeout(() => this.go(1), 220); } }));
+    // ---- étape 2 : lieu ----
+    const zones = COM.map((l, i) => ({ l, on: st.zone === i, cls: st.zone === i ? 'on' : '', pick: () => this.setState({ zone: st.zone === i ? -1 : i }) }));
+    const kmAR = st.zone >= 0 ? Math.round(KM[st.zone] * 2 * 10) / 10 : 0;
+    const zoneNote = st.zone >= 0 ? (kmAR > 25 ? 'Déplacement estimé : environ ' + String(kmAR).replace('.', ',') + ' km aller-retour.' : 'Déplacement offert.') + ' Zone seulement : jamais d’adresse exacte avant la création du compte.' : 'Choisissez la zone la plus proche du lieu. Jamais d’adresse exacte avant la création du compte.';
+    // ---- étape 3 : calendrier ----
+    const base = new Date(this.today.getFullYear(), this.today.getMonth() + st.cal, 1);
+    const first = (base.getDay() + 6) % 7, nd = new Date(base.getFullYear(), base.getMonth() + 1, 0).getDate();
+    const days = []; for (let i = 0; i < first; i++) days.push({ l: '', cls: 'off', on: false, offA: 'true', pick: () => {} });
+    for (let d = 1; d <= nd; d++) {
+      const dt = new Date(base.getFullYear(), base.getMonth(), d), off = dt < this.today;
+      const on = !!st.date && st.date.getTime() === dt.getTime();
+      days.push({ l: String(d), cls: off ? 'off' : on ? 'on' : '', on, offA: off ? 'true' : 'false', pick: () => { if (!off) this.setState({ date: dt }); } });
+    }
+    const dateL = st.date ? st.date.getDate() + ' ' + MOIS[st.date.getMonth()] + ' ' + st.date.getFullYear() : '';
+    // ---- étape 4 : heures ----
+    const hours = []; for (let h = 7; h <= 23; h++) hours.push({ l: String(h).padStart(2, '0') + ' h', y: (h - 7) * 24 - 7 });
+    const inc = Math.min(st.dur, S.incl || st.dur), ovr = Math.max(0, st.dur - (S.incl || 2));
+    const bd = { top: (st.start - 7) * 24, h: st.dur * 24, hi: inc * 24, ho: ovr * 24, lh: Math.min(48, st.dur * 24) };
+    // ---- étape finale : options ----
+    const opts = S.opts.map((k, i) => { const on = st.opts.indexOf(k) >= 0; return { l: OPT[k][0], p: OPT[k][1], on, cls: on ? 'on' : '', d: (0.1 + i * 0.12).toFixed(2) + 's', pick: () => this.setState({ opts: on ? st.opts.filter((x) => x !== k) : st.opts.concat(k) }) }; });
+    const recap = [S.t, S.tech && st.zone >= 0 ? COM[st.zone] : '', dateL, isQty ? st.qty + ' plats' : this.hm(st.start) + ' → ' + this.hm(st.start + st.dur)].filter(Boolean).join(' · ');
+    // ---- textes par étape ----
+    const T = { service: ['Quel service', 'vous faut-il ?'], lieu: ['Où se passera', 'la journée ?'], date: ['Pour quelle', 'date ?'], heures: ['À quelles', 'heures ?'], plats: ['Combien', 'de plats ?'], devis: ['Votre prix,', 'à partir de.'] }[cur];
+    const last = cur === 'devis';
+    const segs = seq.map((k, i) => ({ bg: i <= st.step ? '#0D0E10' : 'rgba(13,14,16,.18)', d: (0.1 + i * 0.1).toFixed(2) + 's' }));
+    return {
+      rcls: (this.act() ? 'go' : '') + (this.props.leaving ? ' out' : ''),
+      rootRef: (el) => { this.root = el; }, scRef: (el) => { this.sc = el; }, tlRef: (el) => { this.tl = el; },
+      scroll: () => this.check(), pc: st.pc,
+      stepL: last ? 'Simulateur · résultat' : 'Étape ' + (st.step + 1) + ' sur ' + (seq.length - 1), segs, t1: T[0], t2: T[1],
+      isService: cur === 'service', isLieu: cur === 'lieu', isDate: cur === 'date', isHeures: cur === 'heures', isPlats: cur === 'plats', isDevis: last,
+      services, zones, zoneNote,
+      monthL: MOIS[base.getMonth()] + ' ' + base.getFullYear(), dows: ['L', 'M', 'M', 'J', 'V', 'S', 'D'], days, dateNote: st.date ? 'Date choisie : ' + dateL : 'Choisissez la date de la prestation.',
+      calPrev: () => this.setState({ cal: Math.max(0, st.cal - 1) }), calNext: () => this.setState({ cal: Math.min(18, st.cal + 1) }), calPrevOff: st.cal === 0,
+      hours, bd, durL: this.hm(st.dur), range: this.hm(st.start).replace(' h ', ' h') + ' → ' + this.hm(st.start + st.dur).replace(' h ', ' h'),
+      startDown: (e) => this.down('s', e), endDown: (e) => this.down('e', e), bodyDown: (e) => this.down('b', e),
+      move: (e) => this.mv(e), up: () => { this.drag = null; },
+      qty: st.qty, qtyMinus: () => this.setState({ qty: Math.max(S.min || 5, st.qty - 1) }), qtyPlus: () => this.setState({ qty: Math.min(S.max || 40, st.qty + 1) }),
+      recap, card, lines: L, ht: this.eur(ht), tva: this.eur(tva), ttc: this.eur(ttc), hasOpts: opts.length > 0, opts,
+      nextL: last ? 'Créer mon compte pour peaufiner' : 'Continuer',
+      next: () => { if (last) { if (this.props.onNav) { this.keep = true; this.props.onNav('compte', { recap, ttc: this.eur(ttc) }); } else this.setState({ saved: true }); } else this.go(Math.min(seq.length - 1, st.step + 1)); },
+      showCmd: cur !== 'service', hasBack: st.step > 0, backL: last ? 'Modifier mes choix' : 'Retour',
+      back: () => this.go(last ? 0 : Math.max(0, st.step - 1)),
+      savedCls: st.saved ? 'on' : ''
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Services mobile</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+.ms-p,.ms-p *{box-sizing:border-box}
+.ms-p{--E:cubic-bezier(.45,0,.2,1);position:relative;width:390px;height:844px;overflow:hidden;background:#fff;color:#0D0E10;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.ms-sc{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;scrollbar-width:none}
+.ms-sc::-webkit-scrollbar{display:none}
+.ms-vg{position:absolute;inset:0;pointer-events:none;z-index:3;opacity:0;background:radial-gradient(120% 90% at 50% 42%,rgba(20,18,16,0) 55%,rgba(20,18,16,.08) 80%,rgba(20,18,16,.20) 100%)}
+.go .ms-vg{animation:ms-habille 1.4s ease-in-out .2s both}
+.ms-mono{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4B4D52}
+.ms-ser{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+
+/* écriture : contour puis remplissage, goutte d'encre comme tête d'écriture */
+.ms-w{position:relative;display:inline-block;white-space:nowrap}
+.ms-w .o{display:block;color:transparent;-webkit-text-stroke:1px currentColor;clip-path:inset(-12px 100% -12px 0)}
+.ms-w .f{position:absolute;left:0;top:-.24em;padding:.24em .14em .24em 0;background-color:currentColor;background-image:radial-gradient(closest-side,rgba(255,255,255,.22),rgba(255,255,255,.07) 45%,rgba(255,255,255,0)),url(/_blob/ed07de6673f5b97f3f81d1a4ab4817c0);background-size:70% 60%,120px 120px;background-repeat:no-repeat,repeat;background-position:18% 12%,0 0;background-blend-mode:screen,overlay;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;clip-path:inset(-12px 100% -12px 0)}
+.ms-tete{position:absolute;left:0;top:50%;width:0;height:0;border-radius:0;background:#0D0E10;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1.5px 0 rgba(0,0,0,.22),0 2px 5px rgba(13,14,16,.22)}
+.rv .ms-w .o{animation:ms-wIn var(--u,.6s) var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+.rv .ms-w .f{animation:ms-wIn var(--u,.6s) var(--E) calc(var(--b,0s) + var(--d,0s) + .25s) both}
+.rv .ms-tete{animation:ms-ne .22s var(--E) max(0s,calc(var(--b,0s) + var(--d,0s) - .22s)) both,ms-ecrit var(--u,.6s) var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+.ms-rule{clip-path:inset(-4px 100% -4px 0)}
+.rv .ms-rule{animation:ms-wIn .3s var(--E) calc(var(--b,0s) + .1s) both}
+
+/* traits */
+.ms-fr{position:absolute;inset:-6px;overflow:visible;pointer-events:none}
+.ms-fr rect,.ms-ln path{fill:none;stroke:#0D0E10;stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 102;stroke-dashoffset:101}
+.rv .ms-fr rect{animation:ms-trace 1.5s var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+.rv .ms-ln path{animation:ms-drawS var(--u,.45s) var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+.ms-hl{display:block;overflow:visible}
+.ms-hl path{stroke-width:1px;stroke:rgba(13,14,16,.24)}
+
+/* photo */
+.ms-ph{position:relative;filter:drop-shadow(0 18px 20px rgba(20,18,16,.26)) drop-shadow(0 4px 5px rgba(20,18,16,.14))}
+.ms-img{display:block;width:100%;height:100%;object-fit:cover;opacity:0;clip-path:inset(0 100% 0 0)}
+.rv .ms-img{animation:ms-rIn .8s var(--E) calc(var(--b,0s) + var(--d,0s) + .45s) both,ms-dev 3.2s ease-in-out calc(var(--b,0s) + var(--d,0s) + .45s) both}
+.rv .ms-img.nb{animation:ms-rIn .8s var(--E) calc(var(--b,0s) + var(--d,0s) + .45s) both,ms-devNB 3.2s ease-in-out calc(var(--b,0s) + var(--d,0s) + .45s) both}
+
+/* matière */
+.ms-glass{background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(250,248,244,.86) 55%,rgba(240,237,231,.9) 100%);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 16px 32px -12px rgba(20,18,16,.30),0 4px 10px -3px rgba(20,18,16,.16),inset 0 1px 0 #fff,inset 0 0 0 1px rgba(255,255,255,.6),inset 0 -2px 0 rgba(20,18,16,.06),inset 0 -12px 18px -12px rgba(20,18,16,.10);opacity:0}
+.rv .ms-glass{animation:ms-habille 1.8s ease-in-out calc(var(--b,0s) + var(--d,0s) + .5s) both}
+.ms-btnw{filter:drop-shadow(0 12px 12px rgba(13,14,16,.38)) drop-shadow(0 3px 4px rgba(13,14,16,.22))}
+.ms-cta{display:flex;align-items:center;justify-content:center;border:0;color:#F4F2EE;font:600 15px Inter,sans-serif;cursor:pointer;width:100%;height:100%;background:radial-gradient(35% 25% at 30% 20%,rgba(255,255,255,.14),rgba(255,255,255,0)),url(/_blob/ed07de6673f5b97f3f81d1a4ab4817c0),#0D0E10;background-blend-mode:normal,overlay,normal;box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1.5px 0 rgba(0,0,0,.6);clip-path:inset(0 100% 0 0 round 26px)}
+.rv .ms-cta{animation:ms-rBtn .45s var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+.ms-more{display:inline-flex;align-items:center;gap:7px;height:44px;padding:0;background:none;border:0;cursor:pointer;font:500 14px Inter,sans-serif;color:#0D0E10}
+.ms-more:focus-visible{outline:2px solid #0D0E10;outline-offset:2px;border-radius:8px}
+.ms-glow{position:absolute;left:-12px;right:-12px;top:-8px;bottom:-4px;border-radius:999px;background:radial-gradient(closest-side,rgba(58,166,181,.36),rgba(58,166,181,.16) 58%,rgba(58,166,181,0));filter:blur(5px);opacity:0;pointer-events:none}
+.rv .ms-glow{animation:ms-habille 1.2s ease-in-out calc(var(--b,0s) + var(--d,0s)) both}
+
+/* sortie : le contenu se décompose (jamais coupé d'un coup) */
+.out .rv .ms-w .o,.out .rv .ms-w .f{animation:ms-wOut .2s var(--E) 0s both}
+.out .rv .ms-tete{animation:none}
+.out .rv .ms-img{animation:ms-devOut .25s var(--E) 0s both}
+.out .rv .ms-fr rect{animation:none}
+.out .rv .ms-ln path{animation:ms-undrawS .3s var(--E) 0s both}
+.out .rv .ms-glass,.out .rv .ms-glow{animation:ms-deshabille .3s ease both}
+.out .rv .ms-cta{animation:ms-rBtnOut .3s var(--E) 0s both}
+.out .rv .ms-rule{animation:ms-wOut .2s var(--E) 0s both}
+.out .ms-vg{animation:ms-deshabille .3s ease both}
+
+@keyframes ms-wIn{from{clip-path:inset(-12px 100% -12px 0)}to{clip-path:inset(-12px -12px -12px 0)}}
+@keyframes ms-wOut{from{clip-path:inset(-12px -12px -12px 0)}to{clip-path:inset(-12px 100% -12px 0)}}
+@keyframes ms-rIn{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes ms-rBtn{from{clip-path:inset(0 100% 0 0 round 26px)}to{clip-path:inset(0 0 0 0 round 26px)}}
+@keyframes ms-rBtnOut{from{clip-path:inset(0 0 0 0 round 26px)}to{clip-path:inset(0 100% 0 0 round 26px)}}
+@keyframes ms-drawS{from{stroke-dashoffset:101}to{stroke-dashoffset:0}}
+@keyframes ms-undrawS{from{stroke-dashoffset:0}to{stroke-dashoffset:101}}
+@keyframes ms-trace{0%{stroke-dashoffset:101}50%{stroke-dashoffset:0}65%{stroke-dashoffset:0}100%{stroke-dashoffset:-102}}
+@keyframes ms-dev{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@keyframes ms-devNB{0%{opacity:0;filter:grayscale(1) contrast(1.05)}45%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
+@keyframes ms-devOut{0%{opacity:1;clip-path:inset(0 0 0 0)}100%{opacity:0;clip-path:inset(0 0 0 0)}}
+@keyframes ms-habille{from{opacity:0}to{opacity:1}}
+@keyframes ms-deshabille{from{opacity:1}to{opacity:0}}
+@keyframes ms-ne{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes ms-ecrit{0%{left:-14px;top:calc(50% - 5px);width:10px;height:10px;border-radius:5px}15%{left:-2px;top:0;width:3px;height:100%;border-radius:1.5px}85%{left:calc(100% - 2px);top:0;width:3px;height:100%;border-radius:1.5px}100%{left:100%;top:50%;width:0;height:0;border-radius:0}}
+@media (prefers-reduced-motion: reduce){.ms-p *{animation-duration:0s !important;animation-delay:0s !important;transition-duration:0s !important}}
+</style>
+</helmet>
+<div class="ms-p {{rcls}}" ref="{{rootRef}}">
+  <div class="ms-vg" aria-hidden="true"></div>
+  <div class="ms-sc" ref="{{scRef}}" onScroll="{{scroll}}">
+    <div class="ms-c {{pc}}" style="padding:96px 22px 190px;position:relative">
+
+      <div data-rv="" style="display:flex;align-items:center;gap:12px">
+        <span class="ms-rule" aria-hidden="true" style="display:block;width:28px;height:1px;background:#D9783A"></span>
+        <span class="ms-mono"><span class="ms-w" style="--d:.15s;--u:.6s"><span class="o">Services · {{num}} / 06</span><span class="f" aria-hidden="true">Services · {{num}} / 06</span></span></span>
+      </div>
+
+      <!-- photo du service : cadre tracé, puis développement noir et blanc -> couleur -->
+      <div data-rv="" style="margin-top:18px;height:400px">
+        <div class="ms-ph" style="width:346px;height:400px;--d:.2s">
+          <img class="ms-img {{nb}}" src="{{src}}" alt="{{alt}}" style="object-position:{{pos}}">
+          <svg class="ms-fr" width="358" height="412" viewBox="0 0 358 412" aria-hidden="true"><rect x="0" y="0" width="358" height="412" pathLength="100"/></svg>
+        </div>
+      </div>
+
+      <!-- titre -->
+      <div style="margin-top:30px;font-weight:300;font-size:34px;line-height:1.14;letter-spacing:-.03em;filter:drop-shadow(0 6px 8px rgba(20,18,16,.16))">
+        <div data-rv=""><span class="ms-w" style="--d:.1s;--u:.8s"><span class="ms-tete"></span><span class="o">{{t1}}</span><span class="f" aria-hidden="true">{{t1}}</span></span></div>
+        <div data-rv=""><span class="ms-w" style="--d:.45s;--u:.8s"><span class="ms-tete"></span><span class="o"><span class="ms-ser" style="font-size:40px">{{t2}}</span></span><span class="f" aria-hidden="true"><span class="ms-ser" style="font-size:40px">{{t2}}</span></span></span></div>
+      </div>
+
+      <!-- description -->
+      <div data-rv="" style="margin-top:14px;font:400 15px/1.7 Inter,sans-serif;color:#4B4D52">
+        <div><span class="ms-w" style="--d:.1s;--u:.7s"><span class="o">{{d1}}</span><span class="f" aria-hidden="true">{{d1}}</span></span></div>
+        <div><span class="ms-w" style="--d:.35s;--u:.7s"><span class="o">{{d2}}</span><span class="f" aria-hidden="true">{{d2}}</span></span></div>
+      </div>
+
+      <!-- tarifs : lignes sur filets tracés -->
+      <div data-rv="" style="margin-top:26px">
+        <sc-for list="{{lines}}" as="r" hint-placeholder-count="4">
+          <div>
+            <svg class="ms-ln ms-hl" width="346" height="2" viewBox="0 0 346 2" aria-hidden="true"><path pathLength="100" d="M0 1H346" style="--d:{{r.d}};--u:.9s"/></svg>
+            <div style="display:flex;justify-content:space-between;align-items:center;height:52px">
+              <span style="font:400 15px Inter,sans-serif"><span class="ms-w" style="--d:{{r.d2}};--u:.5s"><span class="o">{{r.l}}</span><span class="f" aria-hidden="true">{{r.l}}</span></span></span>
+              <span class="ms-mono" style="color:#0D0E10"><span class="ms-w" style="--d:{{r.d3}};--u:.5s"><span class="o">{{r.v}}</span><span class="f" aria-hidden="true">{{r.v}}</span></span></span>
+            </div>
+          </div>
+        </sc-for>
+        <svg class="ms-ln ms-hl" width="346" height="2" viewBox="0 0 346 2" aria-hidden="true"><path pathLength="100" d="M0 1H346" style="--d:.7s;--u:.9s"/></svg>
+      </div>
+
+      <!-- exemple de simulation : la matière de verre arrive une fois le trait fini -->
+      <div data-rv="" style="margin-top:26px;position:relative;height:118px">
+        <div class="ms-glass" style="position:absolute;inset:0;border-radius:24px"></div>
+        <svg class="ms-ln" style="position:absolute;left:0;top:0;overflow:visible;pointer-events:none" width="346" height="118" viewBox="0 0 346 118" aria-hidden="true">
+          <path pathLength="100" d="M0 59 V24 A24 24 0 0 1 24 0 H322 A24 24 0 0 1 346 24 V59" style="--d:.1s;--u:.7s"/>
+          <path pathLength="100" d="M0 59 V94 A24 24 0 0 0 24 118 H322 A24 24 0 0 0 346 94 V59" style="--d:.1s;--u:.7s"/>
+        </svg>
+        <div style="position:absolute;left:22px;top:20px">
+          <div class="ms-mono"><span class="ms-w" style="--d:.8s;--u:.6s"><span class="o">Exemple de simulation</span><span class="f" aria-hidden="true">Exemple de simulation</span></span></div>
+          <div style="margin-top:6px;font:300 38px/1.1 Inter,sans-serif;letter-spacing:-.03em"><span class="ms-w" style="--d:1s;--u:.7s"><span class="o">≈ [prix] €</span><span class="f" aria-hidden="true">≈ [prix] €</span></span></div>
+          <div class="ms-mono" style="margin-top:6px;font-size:10px"><span class="ms-w" style="--d:1.3s;--u:.6s"><span class="o">[2 h · 1 lieu · 15 km]</span><span class="f" aria-hidden="true">[2 h · 1 lieu · 15 km]</span></span></div>
+        </div>
+      </div>
+
+      <!-- actions -->
+      <div data-rv="" style="margin-top:24px">
+        <div class="ms-btnw" style="width:100%;height:52px"><button class="ms-cta" style="--d:.1s" onClick="{{sim}}"><span class="ms-w" style="--d:.45s;--u:.5s"><span class="o">Simuler ma journée</span><span class="f" aria-hidden="true">Simuler ma journée</span></span></button></div>
+        <div style="margin-top:10px;display:flex;justify-content:center">
+          <button class="ms-more" onClick="{{gallery}}" aria-label="Voir la galerie du service">
+            <span style="position:relative;display:inline-block"><span class="ms-glow" style="--d:.7s" aria-hidden="true"></span><span class="ms-w" style="--d:.5s;--u:.5s"><span class="o">Voir la galerie</span><span class="f" aria-hidden="true">Voir la galerie</span></span></span>
+            <svg class="ms-ln" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D0E10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path pathLength="100" d="M5 12h14M13 6l6 6-6 6" style="--d:.8s;--u:.4s"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"play":{"editor":null,"default":true},"leaving":{"editor":null,"default":false},"onNav":{"editor":null},"svc":{"editor":null},"onGallery":{"editor":null},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { svc: 'mariages', pc: '' };
+    this.batch = true; this.redo = false;
+  }
+  act() { return this.props.play === undefined ? true : !!this.props.play; }
+  componentDidMount() { setTimeout(() => this.check(), 40); }
+  componentWillUnmount() { clearTimeout(this.t1); }
+  componentDidUpdate(pp) {
+    if (this.redo) { this.redo = false; this.reset(); setTimeout(() => this.check(), 20); }
+    const want = this.props.svc, was = pp.play === undefined ? true : !!pp.play, now = this.act();
+    if (want && want !== this.state.svc && now && this.state.pc !== 'out') this.pick(want, !was);
+    if (!was && now) { this.batch = true; setTimeout(() => this.check(), 60); }
+    if (was && !now) {
+      clearTimeout(this.t1);
+      this.reset();
+      if (this.sc) this.sc.scrollTop = 0;
+      this.setState({ svc: 'mariages', pc: '' });
+    }
+  }
+  // changement de service : le contenu se décompose (0,23 s), puis se réécrit
+  pick(k, instant) {
+    if (k === this.state.svc) return;
+    clearTimeout(this.t1);
+    if (instant) { this.redo = true; this.batch = true; this.setState({ svc: k, pc: '' }); return; }
+    this.setState({ pc: 'out' });
+    this.t1 = setTimeout(() => { if (this.sc) this.sc.scrollTop = 0; this.redo = true; this.batch = true; this.setState({ svc: k, pc: '' }); }, 230);
+  }
+  check() {
+    const root = this.root, sc = this.sc;
+    if (!root || !sc || !this.act()) return;
+    const bottom = sc.getBoundingClientRect().bottom;
+    let k = 0;
+    root.querySelectorAll('[data-rv]:not(.rv)').forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.top < bottom - 36) {
+        el.style.setProperty('--b', (this.batch ? k * 0.22 : 0.05).toFixed(2) + 's');
+        el.classList.add('rv'); k++;
+      }
+    });
+    this.batch = false;
+  }
+  reset() {
+    const root = this.root; if (!root) return;
+    root.querySelectorAll('[data-rv]').forEach((el) => el.classList.remove('rv'));
+    void root.offsetWidth;
+  }
+  renderVals() {
+    const A = '/_blob/c145ad0fe8cc59b423f374ceb0618733', B = '/_blob/c1aa6596dc4bef1d2aa222836cdecd2d', C = '/_blob/ab41a6e00573f6010cc7a04a2e70fc27', D = '/_blob/098613cec7da82581cef70ebd0e18367', E = '/_blob/2aa4aa217df0a00c1dd1ba248338bd5a';
+    const S = {
+      mariages: { n: 1, src: A, pos: '50% 30%', alt: 'Les mariés devant le château, la mariée sourit', t1: 'Votre mariage,', t2: 'raconté.', d1: 'Un regard discret, de la préparation', d2: 'à la dernière photo de la soirée.', ex: '[2 h · 1 lieu · 15 km]' },
+      engagement: { n: 2, src: C, pos: '30% 50%', alt: 'Couple debout dans un grand champ', t1: 'Avant le grand jour,', t2: 'à deux.', d1: 'Une séance en lumière naturelle,', d2: 'pour se voir tels que l’on est.' },
+      famille: { n: 3, src: B, pos: '62% 50%', alt: 'Couple enlacé dans un champ', t1: 'Votre famille,', t2: 'telle quelle.', d1: 'Des portraits sans pose forcée,', d2: 'au rythme des enfants.', nb: true },
+      anniversaires: { n: 4, src: D, pos: '50% 38%', alt: 'Les mariés enlacés, bouquet au premier plan', t1: 'Vos fêtes,', t2: 'sans rien rater.', d1: 'De l’arrivée des invités', d2: 'au gâteau et aux souvenirs.', nb: true },
+      evenementiel: { n: 5, src: E, pos: '50% 30%', alt: 'Baiser sur la joue', t1: 'Vos événements,', t2: 'en reportage.', d1: 'Ambiance, gestes et détails', d2: 'rassemblés dans un même récit.' },
+      culinaire: { n: 6, src: A, pos: '70% 65%', alt: 'Détail de la mariée', t1: 'Vos créations,', t2: 'mises en lumière.', d1: 'Un studio ou votre cuisine,', d2: 'pour des images qui donnent faim.', nb: true }
+    };
+    const key = this.state.svc, s = S[key] || S.mariages;
+    const L = [['Forfait de base', '[prix] €'], ['Durée incluse', '2 h minimum'], ['Heure supplémentaire', '[prix] € / h'], ['Trajet', '[prix] € / km']];
+    return {
+      rcls: (this.act() ? 'go' : '') + (this.props.leaving ? ' out' : ''),
+      rootRef: (el) => { this.root = el; }, scRef: (el) => { this.sc = el; },
+      scroll: () => this.check(),
+      pc: this.state.pc,
+      num: '0' + s.n, src: s.src, pos: s.pos, alt: s.alt, nb: s.nb ? 'nb' : '',
+      t1: s.t1, t2: s.t2, d1: s.d1, d2: s.d2,
+      lines: L.map(([l, v], k) => ({ l, v, d: (0.1 + k * 0.12).toFixed(2) + 's', d2: (0.25 + k * 0.12).toFixed(2) + 's', d3: (0.4 + k * 0.12).toFixed(2) + 's' })),
+      sim: (e) => { if (this.props.onNav) { e.preventDefault(); this.props.onNav('simulateur', key); } },
+      gallery: (e) => { if (this.props.onGallery) { e.preventDefault(); this.props.onGallery(key); } }
+    };
+  }
+}
+</script>
+</body>
+</html>

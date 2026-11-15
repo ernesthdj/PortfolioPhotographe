@@ -26,7 +26,7 @@ body{margin:0}
 .go .mf-w .o{animation:mf-wIn var(--u,.6s) var(--E) var(--d,0s) both}
 .go .mf-w .f{animation:mf-wIn var(--u,.6s) var(--E) calc(var(--d,0s) + .25s) both}
 .mf-tete{position:absolute;left:0;top:50%;width:0;height:0;border-radius:0;background:#0D0E10;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1.5px 0 rgba(0,0,0,.22),0 2px 5px rgba(13,14,16,.22)}
-.go .mf-tete{animation:mf-ecrit var(--u,.6s) var(--E) var(--d,0s) both}
+.go .mf-tete{animation:mf-ne .22s var(--E) max(0s,calc(var(--d,0s) - .22s)) both,mf-ecrit var(--u,.6s) var(--E) var(--d,0s) both}
 
 /* traits : dessinés par stroke-dashoffset (pathLength = 100) */
 .mf-fr{position:absolute;inset:-6px;overflow:visible;pointer-events:none}
@@ -80,6 +80,7 @@ body{margin:0}
 @keyframes mf-devOut{0%{opacity:1;clip-path:inset(0 0 0 0)}100%{opacity:0;clip-path:inset(0 0 0 0)}}
 @keyframes mf-deshabille{from{opacity:1}to{opacity:0}}
 @keyframes mf-rBtnOut{from{clip-path:inset(0 0 0 0 round 26px)}to{clip-path:inset(0 100% 0 0 round 26px)}}
+@keyframes mf-ne{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
 @keyframes mf-wIn{from{clip-path:inset(-12px 100% -12px 0)}to{clip-path:inset(-12px -12px -12px 0)}}
 @keyframes mf-rIn{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
 @keyframes mf-rBtn{from{clip-path:inset(0 100% 0 0 round 26px)}to{clip-path:inset(0 0 0 0 round 26px)}}
@@ -98,36 +99,8 @@ body{margin:0}
 <div class="mf-p {{rcls}}">
   <div class="mf-vg" aria-hidden="true"></div>
 
-  <!-- En-tête : contour tracé depuis la gauche (deux moitiés), puis la matière de verre arrive -->
-  <div style="position:absolute;z-index:5;left:16px;top:14px;width:358px;height:52px">
-    <div class="mf-glass mf-habille" style="position:absolute;inset:0;border-radius:26px;--d:.75s"></div>
-    <svg class="mf-ln" style="position:absolute;left:0;top:0;overflow:visible;pointer-events:none" width="358" height="52" viewBox="0 0 358 52" aria-hidden="true">
-      <path pathLength="100" d="M0 26 A26 26 0 0 1 26 0 L332 0 A26 26 0 0 1 358 26" style="--d:.2s;--u:.5s"/>
-      <path pathLength="100" d="M0 26 A26 26 0 0 0 26 52 L332 52 A26 26 0 0 0 358 26" style="--d:.2s;--u:.5s"/>
-      <path class="mf-com" pathLength="100" d="M0 26 A26 26 0 0 1 26 0 L332 0 A26 26 0 0 1 358 26 A26 26 0 0 1 332 52 L26 52 A26 26 0 0 1 0 26 Z" style="stroke:#3AA6B5"/>
-    </svg>
-    <div style="position:absolute;left:20px;top:11px;font:500 17px Inter,sans-serif;letter-spacing:-.01em">
-      <span class="mf-w" style="--d:.25s;--u:.55s"><span class="o">Ernest H.</span><span class="f" aria-hidden="true">Ernest H.</span></span>
-    </div>
-    <div class="mf-sig" aria-hidden="true" style="position:absolute;left:20px;top:35px;height:2px;width:28px;background:#3AA6B5;border-radius:2px;"></div>
-    <button class="mf-tap" onClick="{{toggleMenu}}" aria-label="Menu" aria-expanded="{{menu}}" style="position:absolute;right:6px;top:4px;width:44px;height:44px;border-radius:22px;display:flex;align-items:center;justify-content:center;padding:0">
-      <svg class="mf-ln" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0D0E10" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path pathLength="100" d="M4 8h16" style="--d:.6s;--u:.4s"/><path pathLength="100" d="M4 16h11" style="--d:.7s;--u:.4s"/></svg>
-    </button>
-  </div>
-  <div class="mf-menu mf-glass {{menuCls}}" aria-hidden="{{menuHid}}">
-    <a href="PGalerie.dc.html" onClick="{{goGalerie}}"><span class="mf-mono">01</span>Galerie</a>
-    <a href="#services"><span class="mf-mono">02</span>Services</a>
-    <a href="#apropos"><span class="mf-mono">03</span>À propos</a>
-    <a href="#contact"><span class="mf-mono">04</span>Contact</a>
-  </div>
-
-  <!-- Bouton devis flottant -->
-  <div class="mf-btnw" style="position:absolute;z-index:5;right:16px;bottom:22px;width:128px;height:52px">
-    <button class="mf-cta" style="--d:1.4s"><span class="mf-w" style="--d:1.75s;--u:.45s"><span class="o">Mon devis</span><span class="f" aria-hidden="true">Mon devis</span></span></button>
-  </div>
-
   <div class="mf-sc" ref="{{scRef}}" onScroll="{{scroll}}">
-    <div style="position:relative;height:2208px">
+    <div style="position:relative;height:2340px">
 
       <!-- Hero -->
       <div style="position:absolute;left:22px;right:22px;top:86px;display:flex;justify-content:space-between">
@@ -199,7 +172,7 @@ body{margin:0}
         <sc-for list="{{svb.rows}}" as="s" hint-placeholder-count="6">
           <div>
             <svg class="mf-ln mf-hl" width="346" height="2" viewBox="0 0 346 2" aria-hidden="true"><path pathLength="100" d="M0 1H346" style="--d:{{s.d}};--u:.9s"/></svg>
-            <a class="mf-svc" href="#services"><span class="mf-mono" style="width:26px">{{s.n}}</span><span style="font:300 24px Inter,sans-serif;letter-spacing:-.02em;flex:1"><span class="mf-w" style="--d:{{s.d2}};--u:.55s"><span class="o">{{s.l}}</span><span class="f" aria-hidden="true">{{s.l}}</span></span></span><span class="mf-mono">dès [prix] €</span></a>
+            <a class="mf-svc" href="PServices.dc.html" onClick="{{s.go}}"><span class="mf-mono" style="width:26px">{{s.n}}</span><span style="font:300 24px Inter,sans-serif;letter-spacing:-.02em;flex:1"><span class="mf-w" style="--d:{{s.d2}};--u:.55s"><span class="o">{{s.l}}</span><span class="f" aria-hidden="true">{{s.l}}</span></span></span><span class="mf-mono">dès [prix] €</span></a>
           </div>
         </sc-for>
         <svg class="mf-ln mf-hl" width="346" height="2" viewBox="0 0 346 2" aria-hidden="true"><path pathLength="100" d="M0 1H346" style="--d:{{svb.z}};--u:.9s"/></svg>
@@ -212,7 +185,7 @@ body{margin:0}
           <div><span class="mf-w" style="--d:{{clo.b}};--u:.6s"><span class="mf-tete"></span><span class="o"><span class="mf-ser" style="font-size:30px">commencer ?</span></span><span class="f" aria-hidden="true"><span class="mf-ser" style="font-size:30px">commencer ?</span></span></span></div>
         </div>
         <div style="display:flex;gap:10px;margin-top:20px">
-          <div class="mf-btnw" style="width:168px;height:52px"><button class="mf-cta" style="--d:{{clo.c}}"><span class="mf-w" style="--d:{{clo.c2}};--u:.45s"><span class="o">Simuler un devis</span><span class="f" aria-hidden="true">Simuler un devis</span></span></button></div>
+          <div class="mf-btnw" style="width:168px;height:52px"><button class="mf-cta" style="--d:{{clo.c}}" onClick="{{goSim}}"><span class="mf-w" style="--d:{{clo.c2}};--u:.45s"><span class="o">Simuler un devis</span><span class="f" aria-hidden="true">Simuler un devis</span></span></button></div>
           <div style="position:relative;width:168px;height:52px">
             <svg class="mf-fr" style="inset:0" width="168" height="52" viewBox="0 0 168 52" aria-hidden="true"><rect class="mf-keep" x="0.75" y="0.75" width="166.5" height="50.5" rx="25" pathLength="100" style="--d:{{clo.c}}"/></svg>
             <button class="mf-tap" style="position:absolute;inset:0;border-radius:26px;font:500 15px Inter,sans-serif;color:#0D0E10"><span class="mf-w" style="--d:{{clo.c2}};--u:.4s"><span class="o">Écrire</span><span class="f" aria-hidden="true">Écrire</span></span></button>
@@ -232,7 +205,7 @@ class Component extends DCLogic {
     const was = pp.play === undefined ? true : !!pp.play;
     if (was && !this.act()) { this.max = 0; if (this.scEl) this.scEl.scrollTop = 0; this.setState({ menu: false, sy: 0 }); }
   }
-  nav(e, t) { if (this.props.onNav) { e.preventDefault(); this.setState({ menu: false }); this.props.onNav(t); } }
+  nav(e, t, arg) { if (this.props.onNav) { e.preventDefault(); this.setState({ menu: false }); this.props.onNav(t, arg); } }
   renderVals() {
     const A = '/_blob/c145ad0fe8cc59b423f374ceb0618733', B = '/_blob/c1aa6596dc4bef1d2aa222836cdecd2d', C = '/_blob/ab41a6e00573f6010cc7a04a2e70fc27', D = '/_blob/098613cec7da82581cef70ebd0e18367', E = '/_blob/2aa4aa217df0a00c1dd1ba248338bd5a';
     const VIEW = 804;                       // hauteur d'écran utile : ce qui est déjà visible à l'ouverture joue avec l'intro
@@ -250,6 +223,7 @@ class Component extends DCLogic {
       rcls: (on ? 'go' : '') + (this.props.leaving ? ' out' : ''),
       menuCls: this.state.menu ? 'open' : '', menuHid: this.state.menu ? 'false' : 'true',
       goGalerie: (e) => this.nav(e, 'galerie'),
+      goSim: (e) => this.nav(e, 'simulateur'),
       scRef: (el) => { this.scEl = el; },
       menu: this.state.menu,
       toggleMenu: () => this.setState({ menu: !this.state.menu }),
@@ -261,7 +235,7 @@ class Component extends DCLogic {
       row2: { cls: cls('row2'), items: [mk(C, '30% 50%', 'Couple debout dans un grand champ', 346, 148, t('row2', 0, 0))] },
       row3: { cls: cls('row3'), items: [mk(B, '60% 40%', 'Couple enlacé dans un champ', 346, 148, t('row3', 0, 0), true)] },
       tem: { cls: cls('tem'), a: t('tem', 0, 0), b: t('tem', 0, .5), c: t('tem', 0, 1) },
-      svb: { cls: cls('svb'), a: t('svb', 0, 0), z: t('svb', 0, 0.9), rows: L.map(([n, l], k) => ({ n, l, d: (0.15 + .1 + k * .1).toFixed(2) + 's', d2: (0.15 + .25 + k * .1).toFixed(2) + 's' })) },
+      svb: { cls: cls('svb'), a: t('svb', 0, 0), z: t('svb', 0, 0.9), rows: L.map(([n, l], k) => ({ n, l, go: (e) => this.nav(e, 'services', ['mariages', 'engagement', 'famille', 'anniversaires', 'evenementiel', 'culinaire'][k]), d: (0.15 + .1 + k * .1).toFixed(2) + 's', d2: (0.15 + .25 + k * .1).toFixed(2) + 's' })) },
       clo: { cls: cls('clo'), a: t('clo', 0, 0), b: t('clo', 0, .45), c: t('clo', 0, .9), c2: t('clo', 0, 1.2), d: t('clo', 0, 1.6) }
     };
   }
