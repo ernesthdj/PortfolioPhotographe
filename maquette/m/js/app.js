@@ -4,9 +4,12 @@
 import { creerChrome } from './chrome.js';
 
 const REGISTRE = {
+  intro: () => import('./ecrans/intro.js'),
   accueil: () => import('./ecrans/accueil.js'),
+  galerie: () => import('./ecrans/galerie.js'),
+  services: () => import('./ecrans/services.js'),
   apropos: () => import('./ecrans/apropos.js'),
-  services: () => import('./ecrans/services.js')
+  contact: () => import('./ecrans/contact.js')
 };
 const DUREE_SORTIE = 650;
 
@@ -42,7 +45,7 @@ async function charger(nom) {
   return instances[nom];
 }
 
-let occupe = false, enAttente = false, premier = true;
+let occupe = false, enAttente = false, chromeMontre = false;
 
 async function traiter() {
   if (occupe) { enAttente = true; return; }
@@ -62,14 +65,16 @@ async function traiter() {
     const suivant = await charger(nom);
     if (courant) {
       courant.sortie(true);
-      await attendre(reduit() ? 0 : DUREE_SORTIE);
+      await attendre(reduit() ? 0 : (courant.dureeSortie ?? DUREE_SORTIE));
       courant.desactiver();
     }
     etat.ecran = nom;
     document.title = suivant.titreDoc || 'Ernest H. · Photographe';
     suivant.activer(arg);
     chrome.maj();
-    if (premier) { premier = false; chrome.montrer(); } else suivant.focus();
+    const cache = !!(suivant.masqueChrome && suivant.masqueChrome());
+    if (!cache && !chromeMontre) { chromeMontre = true; chrome.montrer(); }   // la bannière et le dock se dessinent à la première page visible
+    else if (!cache) suivant.focus();
   } finally {
     occupe = false;
     if (enAttente) { enAttente = false; traiter(); }
@@ -77,5 +82,5 @@ async function traiter() {
 }
 
 window.addEventListener('hashchange', traiter);
-if (!location.hash || location.hash === '#') history.replaceState(null, '', '#/accueil');
+if (!location.hash || location.hash === '#') history.replaceState(null, '', '#/intro');   // première visite : l'intro, puis l'accueil
 traiter();

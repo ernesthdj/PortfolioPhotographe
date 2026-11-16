@@ -114,7 +114,8 @@ a{color:inherit}
 /* ---- dock du bas : un seul bloc de verre qui grandit vers le haut quand une sous-navigation existe ---- */
 .dock{position:absolute;z-index:30;left:16px;right:16px;bottom:calc(18px + env(safe-area-inset-bottom));height:66px;perspective:640px;transition:height .5s var(--E),opacity .35s ease}
 .dock.avec-sous{height:115px}
-.dock.cache,.banniere.cache{opacity:0;pointer-events:none}
+.dock.cache,.banniere.cache{opacity:0;pointer-events:none;visibility:hidden;transition:opacity .35s ease,visibility 0s linear .35s}
+.banniere.cache a{pointer-events:none}
 .incl{position:absolute;inset:0;transform-origin:50% 55%;will-change:transform}
 .dock-verre{position:absolute;inset:0;border-radius:33px;opacity:0}
 .rv.dock .dock-verre{animation:habille 1.8s ease-in-out .75s both}
