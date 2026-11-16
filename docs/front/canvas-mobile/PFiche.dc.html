@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Fiche technique mobile</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+.md-p,.md-p *{box-sizing:border-box}
+.md-p{--E:cubic-bezier(.45,0,.2,1);position:relative;width:390px;height:844px;overflow:hidden;background:#fff;color:#0D0E10;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.md-sc{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;scrollbar-width:none}
+.md-sc::-webkit-scrollbar{display:none}
+.md-vg{position:absolute;inset:0;pointer-events:none;z-index:3;opacity:0;background:radial-gradient(120% 90% at 50% 42%,rgba(20,18,16,0) 55%,rgba(20,18,16,.08) 80%,rgba(20,18,16,.20) 100%)}
+.go .md-vg{animation:md-habille 1.4s ease-in-out .2s both}
+.md-mono{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4B4D52}
+.md-ser{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+
+/* écriture */
+.md-w{position:relative;display:inline-block;white-space:nowrap}
+.md-w .o{display:block;color:transparent;-webkit-text-stroke:1px currentColor;clip-path:inset(-12px 100% -12px 0)}
+.md-w .f{position:absolute;left:0;top:-.24em;padding:.24em .14em .24em 0;background-color:currentColor;background-image:radial-gradient(closest-side,rgba(255,255,255,.22),rgba(255,255,255,.07) 45%,rgba(255,255,255,0)),url(/_blob/ed07de6673f5b97f3f81d1a4ab4817c0);background-size:70% 60%,120px 120px;background-repeat:no-repeat,repeat;background-position:18% 12%,0 0;background-blend-mode:screen,overlay;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;clip-path:inset(-12px 100% -12px 0)}
+.md-tete{position:absolute;left:0;top:50%;width:0;height:0;border-radius:0;background:#0D0E10;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1.5px 0 rgba(0,0,0,.22),0 2px 5px rgba(13,14,16,.22)}
+.rv .md-w .o{animation:md-wIn var(--u,.6s) var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+.rv .md-w .f{animation:md-wIn var(--u,.6s) var(--E) calc(var(--b,0s) + var(--d,0s) + .25s) both}
+.rv .md-tete{animation:md-ne .22s var(--E) max(0s,calc(var(--b,0s) + var(--d,0s) - .22s)) both,md-ecrit var(--u,.6s) var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+.md-rule{clip-path:inset(-4px 100% -4px 0)}
+.rv .md-rule{animation:md-wIn .3s var(--E) calc(var(--b,0s) + .1s) both}
+
+/* traits */
+.md-ln path{fill:none;stroke:#0D0E10;stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 102;stroke-dashoffset:101}
+.rv .md-ln path{animation:md-drawS var(--u,.45s) var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+.md-hl{display:block;overflow:visible}
+.md-hl path{stroke-width:1px;stroke:rgba(13,14,16,.24)}
+
+/* matière */
+.md-glass{background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(250,248,244,.86) 55%,rgba(240,237,231,.9) 100%);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 16px 32px -12px rgba(20,18,16,.30),0 4px 10px -3px rgba(20,18,16,.16),inset 0 1px 0 #fff,inset 0 0 0 1px rgba(255,255,255,.6),inset 0 -2px 0 rgba(20,18,16,.06),inset 0 -12px 18px -12px rgba(20,18,16,.10);opacity:0}
+.rv .md-glass{animation:md-habille 1.8s ease-in-out calc(var(--b,0s) + var(--d,0s) + .5s) both}
+.md-btnw{filter:drop-shadow(0 12px 12px rgba(13,14,16,.38)) drop-shadow(0 3px 4px rgba(13,14,16,.22))}
+.md-cta{display:flex;align-items:center;justify-content:center;border:0;color:#F4F2EE;font:600 15px Inter,sans-serif;cursor:pointer;width:100%;height:100%;background:radial-gradient(35% 25% at 30% 20%,rgba(255,255,255,.14),rgba(255,255,255,0)),url(/_blob/ed07de6673f5b97f3f81d1a4ab4817c0),#0D0E10;background-blend-mode:normal,overlay,normal;box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1.5px 0 rgba(0,0,0,.6);clip-path:inset(0 100% 0 0 round 26px)}
+.rv .md-cta{animation:md-rBtn .45s var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+.md-back{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0;background:none;border:0;cursor:pointer;font:500 14px Inter,sans-serif;color:#0D0E10}
+.md-back:focus-visible,.md-add:focus-visible,.md-rm:focus-visible{outline:2px solid #0D0E10;outline-offset:-3px;border-radius:12px}
+
+/* suivi du dossier : une ligne, des repères, la lueur cyan sur l'étape en cours */
+.md-trk{position:relative;height:58px}
+.md-node{position:absolute;top:0;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:#fff;border:1.5px solid #0D0E10}
+.md-node.on{background:#0D0E10}
+.md-lbl{position:absolute;top:24px;width:70px;margin-left:-35px;text-align:center}
+
+/* formulaire */
+.md-f{position:relative;margin-top:20px}
+.md-lab{display:block;margin-bottom:2px}
+.md-in{width:100%;height:50px;border:0;border-bottom:1.5px solid rgba(13,14,16,.4);background:transparent;font:400 17px Inter,sans-serif;color:#0D0E10;padding:0;outline:none;border-radius:0;-webkit-appearance:none;appearance:none}
+.md-in::placeholder{color:rgba(13,14,16,.36)}
+.md-in:focus{border-bottom:2px solid #0D0E10}
+.md-fg{position:absolute;left:-10px;right:-10px;bottom:-6px;height:30px;border-radius:999px;background:radial-gradient(closest-side,rgba(58,166,181,.34),rgba(58,166,181,.12) 60%,rgba(58,166,181,0));filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .3s ease}
+.md-f:focus-within .md-fg{opacity:1}
+.md-err{margin-top:8px;clip-path:inset(-12px 100% -12px 0);animation:md-wIn .5s var(--E) both}
+.md-add{display:inline-flex;align-items:center;gap:10px;height:48px;padding:0;background:none;border:0;cursor:pointer;font:500 14px Inter,sans-serif;color:#0D0E10}
+.md-plus{width:26px;height:26px;border-radius:50%;border:1.5px solid #0D0E10;display:flex;align-items:center;justify-content:center;flex:none}
+.md-rm{width:44px;height:44px;background:none;border:0;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;margin-right:-10px}
+
+/* onglets du dossier : texte écrit, lueur cyan sur l'onglet actif */
+.md-tabs{display:flex;overflow-x:auto;scrollbar-width:none;margin:0 -22px;padding:0 16px}
+.md-tabs::-webkit-scrollbar{display:none}
+.md-tab{position:relative;flex:none;display:inline-flex;align-items:center;gap:6px;height:48px;padding:0 10px;background:none;border:0;cursor:pointer;font:500 14px Inter,sans-serif;color:#4B4D52}
+.md-tab.on{color:#0D0E10}
+.md-tab .g{position:absolute;left:0;right:0;top:8px;bottom:6px;border-radius:999px;background:radial-gradient(closest-side,rgba(58,166,181,.36),rgba(58,166,181,.16) 58%,rgba(58,166,181,0));filter:blur(5px);opacity:0;transition:opacity .35s ease;pointer-events:none}
+.md-tab.on .g{opacity:1}
+.md-tab:focus-visible{outline:2px solid #0D0E10;outline-offset:-3px;border-radius:14px}
+.md-nb{font:500 10px 'IBM Plex Mono',monospace;color:#0D0E10;border:1px solid #0D0E10;border-radius:999px;min-width:18px;height:18px;padding:0 5px;display:inline-flex;align-items:center;justify-content:center}
+.md-code{font:300 30px/1 Inter,sans-serif;letter-spacing:.04em}
+
+/* sortie */
+.out .rv .md-w .o,.out .rv .md-w .f{animation:md-wOut .2s var(--E) 0s both}
+.out .rv .md-tete{animation:none}
+.out .rv .md-ln path{animation:md-undrawS .3s var(--E) 0s both}
+.out .rv .md-glass{animation:md-deshabille .3s ease both}
+.out .rv .md-cta{animation:md-rBtnOut .3s var(--E) 0s both}
+.out .rv .md-rule{animation:md-wOut .2s var(--E) 0s both}
+.out .md-vg{animation:md-deshabille .3s ease both}
+
+@keyframes md-wIn{from{clip-path:inset(-12px 100% -12px 0)}to{clip-path:inset(-12px -12px -12px 0)}}
+@keyframes md-wOut{from{clip-path:inset(-12px -12px -12px 0)}to{clip-path:inset(-12px 100% -12px 0)}}
+@keyframes md-rBtn{from{clip-path:inset(0 100% 0 0 round 26px)}to{clip-path:inset(0 0 0 0 round 26px)}}
+@keyframes md-rBtnOut{from{clip-path:inset(0 0 0 0 round 26px)}to{clip-path:inset(0 100% 0 0 round 26px)}}
+@keyframes md-drawS{from{stroke-dashoffset:101}to{stroke-dashoffset:0}}
+@keyframes md-undrawS{from{stroke-dashoffset:0}to{stroke-dashoffset:101}}
+@keyframes md-habille{from{opacity:0}to{opacity:1}}
+@keyframes md-deshabille{from{opacity:1}to{opacity:0}}
+@keyframes md-ne{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes md-ecrit{0%{left:-14px;top:calc(50% - 5px);width:10px;height:10px;border-radius:5px}15%{left:-2px;top:0;width:3px;height:100%;border-radius:1.5px}85%{left:calc(100% - 2px);top:0;width:3px;height:100%;border-radius:1.5px}100%{left:100%;top:50%;width:0;height:0;border-radius:0}}
+@media (prefers-reduced-motion: reduce){.md-p *{animation-duration:0s !important;animation-delay:0s !important;transition-duration:0s !important}}
+.md-ta{display:block;width:100%;min-height:104px;border:0;border-bottom:1.5px solid rgba(13,14,16,.4);background:transparent;font:400 17px/1.5 Inter,sans-serif;color:#0D0E10;padding:10px 0;outline:none;border-radius:0;resize:none;-webkit-appearance:none;appearance:none}
+.md-ta::placeholder{color:rgba(13,14,16,.36)}
+.md-ta:focus{border-bottom:2px solid #0D0E10}
+.md-chk{display:flex;align-items:flex-start;gap:12px;width:100%;background:none;border:0;padding:0;cursor:pointer;text-align:left;color:#0D0E10}
+.md-chk:focus-visible{outline:2px solid #0D0E10;outline-offset:-3px;border-radius:12px}
+.md-tg{position:relative;width:26px;height:26px;border-radius:50%;border:1.5px solid #0D0E10;flex:none;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.md-tg i{display:block;width:12px;height:12px;border-radius:50%;background:rgba(58,166,181,.55);box-shadow:0 0 0 4px rgba(58,166,181,.16);transform:scale(0);transition:transform .35s var(--E)}
+.md-tg.on i{transform:scale(1)}
+.md-req{color:#4B4D52;text-transform:none;letter-spacing:.02em}
+</style>
+</helmet>
+<div class="md-p {{rcls}}" ref="{{rootRef}}">
+  <div class="md-vg" aria-hidden="true"></div>
+  <div class="md-sc" ref="{{scRef}}" onScroll="{{scroll}}">
+    <div class="md-c {{pc}}" style="padding:96px 22px 190px;position:relative">
+
+      <div data-rv="" style="margin:-10px 0 8px"><button class="md-back" onClick="{{toDossier}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D0E10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>Mon dossier</span></button></div>
+      <div data-rv="" style="display:flex;align-items:center;gap:12px">
+        <span class="md-rule" aria-hidden="true" style="display:block;width:28px;height:1px;background:#D9783A"></span>
+        <span class="md-mono"><span class="md-w" style="--d:.15s;--u:.6s"><span class="o">Fiche technique · {{svc}}</span><span class="f" aria-hidden="true">Fiche technique · {{svc}}</span></span></span>
+      </div>
+      <div style="margin-top:14px;font-weight:300;font-size:34px;line-height:1.14;letter-spacing:-.03em;filter:drop-shadow(0 6px 8px rgba(20,18,16,.16))">
+        <div data-rv=""><span class="md-w" style="--d:.1s;--u:.8s"><span class="md-tete"></span><span class="o">{{t1}}</span><span class="f" aria-hidden="true">{{t1}}</span></span></div>
+        <div data-rv=""><span class="md-w" style="--d:.45s;--u:.8s"><span class="md-tete"></span><span class="o"><span class="md-ser" style="font-size:40px">{{t2}}</span></span><span class="f" aria-hidden="true"><span class="md-ser" style="font-size:40px">{{t2}}</span></span></span></div>
+      </div>
+
+      <!-- FORMULAIRE -->
+      <sc-if value="{{isForm}}" hint-placeholder-val="{{true}}">
+        <div data-rv="" style="margin-top:16px;font:400 15px/1.7 Inter,sans-serif;color:#4B4D52">
+          <div><span class="md-w" style="--d:.1s;--u:.7s"><span class="o">Quelques informations pour préparer</span><span class="f" aria-hidden="true">Quelques informations pour préparer</span></span></div>
+          <div><span class="md-w" style="--d:.3s;--u:.7s"><span class="o">votre journée. Les lieux et la durée</span><span class="f" aria-hidden="true">votre journée. Les lieux et la durée</span></span></div>
+          <div><span class="md-w" style="--d:.5s;--u:.7s"><span class="o">viennent déjà de votre devis.</span><span class="f" aria-hidden="true">viennent déjà de votre devis.</span></span></div>
+        </div>
+        <div data-rv="" class="md-mono" style="margin-top:12px;font-size:10px;line-height:1.7;text-transform:none;letter-spacing:.02em"><span class="md-w" style="--d:.1s;--u:.9s"><span class="o">Enregistrement automatique : reprenez quand vous voulez.</span><span class="f" aria-hidden="true">Enregistrement automatique : reprenez quand vous voulez.</span></span></div>
+
+        <form data-rv="" novalidate="" onSubmit="{{save}}" style="margin-top:10px">
+
+          <div style="margin-top:18px">
+            <svg class="md-ln md-hl" width="346" height="2" viewBox="0 0 346 2" aria-hidden="true"><path pathLength="100" d="M0 1H346" style="--d:.1s;--u:.8s"/></svg>
+            <div class="md-mono" style="color:#0D0E10;height:44px;display:flex;align-items:center"><span class="md-w" style="--d:.2s;--u:.5s"><span class="o">01 · Les personnes</span><span class="f" aria-hidden="true">01 · Les personnes</span></span></div>
+          </div>
+          <div class="md-f" style="margin-top:2px">
+            <label class="md-lab md-mono" for="fi-noms">Prénoms des personnes concernées <span class="md-req">· obligatoire</span></label>
+            <input class="md-in" id="fi-noms" type="text" autocomplete="off" maxlength="120" placeholder="Camille et Alex" value="{{noms}}" onInput="{{onNoms}}">
+            <span class="md-fg" aria-hidden="true"></span>
+          </div>
+          <div class="md-f">
+            <label class="md-lab md-mono" for="fi-cn">Contact le jour J · nom <span class="md-req">· obligatoire</span></label>
+            <input class="md-in" id="fi-cn" type="text" autocomplete="off" maxlength="80" placeholder="Une personne joignable pendant la journée" value="{{cnom}}" onInput="{{onCnom}}">
+            <span class="md-fg" aria-hidden="true"></span>
+          </div>
+          <div class="md-f">
+            <label class="md-lab md-mono" for="fi-ct">Contact le jour J · téléphone <span class="md-req">· obligatoire</span></label>
+            <input class="md-in" id="fi-ct" type="tel" inputmode="tel" autocomplete="off" maxlength="24" placeholder="+32 …" value="{{ctel}}" onInput="{{onCtel}}" aria-invalid="{{eTel}}">
+            <span class="md-fg" aria-hidden="true"></span>
+            <sc-if value="{{eTel}}" hint-placeholder-val="{{false}}"><div class="md-err md-mono" style="color:#0D0E10;text-transform:none;letter-spacing:.02em;font-size:12px">Numéro de téléphone invalide.</div></sc-if>
+          </div>
+
+          <div style="margin-top:26px">
+            <svg class="md-ln md-hl" width="346" height="2" viewBox="0 0 346 2" aria-hidden="true"><path pathLength="100" d="M0 1H346" style="--d:.3s;--u:.8s"/></svg>
+            <div class="md-mono" style="color:#0D0E10;height:44px;display:flex;align-items:center"><span class="md-w" style="--d:.4s;--u:.5s"><span class="o">02 · La journée</span><span class="f" aria-hidden="true">02 · La journée</span></span></div>
+          </div>
+          <div class="md-f" style="margin-top:2px">
+            <label class="md-lab md-mono" for="fi-prog">Programme et moments clés</label>
+            <textarea class="md-ta" id="fi-prog" rows="3" maxlength="600" placeholder="Horaires prévus, ordre de la journée…" value="{{prog}}" onInput="{{onProg}}"></textarea>
+            <span class="md-fg" aria-hidden="true"></span>
+          </div>
+          <div class="md-f">
+            <label class="md-lab md-mono" for="fi-vip">Personnes importantes à photographier</label>
+            <textarea class="md-ta" id="fi-vip" rows="3" maxlength="600" placeholder="Famille proche, témoins, invités d’honneur…" value="{{vip}}" onInput="{{onVip}}"></textarea>
+            <span class="md-fg" aria-hidden="true"></span>
+          </div>
+
+          <div style="margin-top:26px">
+            <svg class="md-ln md-hl" width="346" height="2" viewBox="0 0 346 2" aria-hidden="true"><path pathLength="100" d="M0 1H346" style="--d:.5s;--u:.8s"/></svg>
+            <div class="md-mono" style="color:#0D0E10;height:44px;display:flex;align-items:center"><span class="md-w" style="--d:.6s;--u:.5s"><span class="o">03 · À savoir</span><span class="f" aria-hidden="true">03 · À savoir</span></span></div>
+          </div>
+          <div class="md-f" style="margin-top:2px">
+            <label class="md-lab md-mono" for="fi-note">Consignes particulières</label>
+            <textarea class="md-ta" id="fi-note" rows="3" maxlength="600" placeholder="Pas de flash à l’église, accès, allergies…" value="{{note}}" onInput="{{onNote}}"></textarea>
+            <span class="md-fg" aria-hidden="true"></span>
+          </div>
+          <div style="margin-top:22px">
+            <button type="button" class="md-chk" role="checkbox" aria-checked="{{pub}}" onClick="{{togglePub}}">
+              <span class="md-tg {{pubCls}}"><i></i></span>
+              <span style="font:400 14px/1.5 Inter,sans-serif">J’autorise la publication de quelques photos de la journée sur le portfolio.</span>
+            </button>
+          </div>
+
+          <div style="margin-top:28px">
+            <div class="md-btnw" style="width:100%;height:54px"><button type="button" class="md-cta" style="--d:.1s" onClick="{{save}}"><span class="md-w" style="--d:.45s;--u:.5s"><span class="o">Enregistrer la fiche</span><span class="f" aria-hidden="true">Enregistrer la fiche</span></span></button></div>
+            <div style="margin-top:6px;display:flex;justify-content:center"><button type="button" class="md-back" onClick="{{toDossier}}" style="text-decoration:underline;text-underline-offset:5px"><span>Reprendre plus tard</span></button></div>
+          </div>
+        </form>
+      </sc-if>
+
+      <!-- FICHE ENREGISTRÉE -->
+      <sc-if value="{{isSaved}}" hint-placeholder-val="{{false}}">
+        <div data-rv="" style="margin-top:22px;font:400 15px/1.7 Inter,sans-serif;color:#4B4D52">
+          <div><span class="md-w" style="--d:.1s;--u:.7s"><span class="o">Merci, le photographe a ce qu’il faut</span><span class="f" aria-hidden="true">Merci, le photographe a ce qu’il faut</span></span></div>
+          <div><span class="md-w" style="--d:.3s;--u:.7s"><span class="o">pour préparer votre journée.</span><span class="f" aria-hidden="true">pour préparer votre journée.</span></span></div>
+          <div><span class="md-w" style="--d:.5s;--u:.7s"><span class="o">Vous pouvez la modifier jusqu’au [date].</span><span class="f" aria-hidden="true">Vous pouvez la modifier jusqu’au [date].</span></span></div>
+        </div>
+        <div data-rv="" style="margin-top:28px">
+          <div class="md-btnw" style="width:100%;height:54px"><button class="md-cta" style="--d:.1s" onClick="{{toDossier}}"><span class="md-w" style="--d:.45s;--u:.5s"><span class="o">Retour au dossier</span><span class="f" aria-hidden="true">Retour au dossier</span></span></button></div>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"play":{"editor":null,"default":true},"leaving":{"editor":null,"default":false},"onNav":{"editor":null},"sel":{"editor":null},"onSaved":{"editor":null},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { noms: '', cnom: '', ctel: '', prog: '', vip: '', note: '', pub: false, tried: false, saved: false, pc: '' };
+    this.batch = true; this.redo = false;
+  }
+  act() { return this.props.play === undefined ? true : !!this.props.play; }
+  componentDidMount() { setTimeout(() => this.check(), 40); }
+  componentWillUnmount() { clearTimeout(this.t1); }
+  componentDidUpdate(pp) {
+    if (this.redo) { this.redo = false; this.reset(); setTimeout(() => this.check(), 20); }
+    const was = pp.play === undefined ? true : !!pp.play, now = this.act();
+    if (!was && now) { this.batch = true; setTimeout(() => this.check(), 60); }
+    if (was && !now) { clearTimeout(this.t1); this.reset(); if (this.sc) this.sc.scrollTop = 0; this.setState({ noms: '', cnom: '', ctel: '', prog: '', vip: '', note: '', pub: false, tried: false, saved: false, pc: '' }); }
+  }
+  // enregistrement : le formulaire se décompose, puis le message de confirmation s'écrit
+  swap(patch) {
+    if (this.state.pc) return;
+    clearTimeout(this.t1);
+    this.setState({ pc: 'out' });
+    this.t1 = setTimeout(() => { if (this.sc) this.sc.scrollTop = 0; this.redo = true; this.batch = true; this.setState({ ...patch, pc: '' }); }, 230);
+  }
+  check() {
+    const root = this.root, sc = this.sc;
+    if (!root || !sc || !this.act()) return;
+    const bottom = sc.getBoundingClientRect().bottom;
+    let k = 0;
+    root.querySelectorAll('[data-rv]:not(.rv)').forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.top < bottom - 36) { el.style.setProperty('--b', (this.batch ? k * 0.2 : 0.05).toFixed(2) + 's'); el.classList.add('rv'); k++; }
+    });
+    this.batch = false;
+  }
+  reset() { const root = this.root; if (!root) return; root.querySelectorAll('[data-rv]').forEach((el) => el.classList.remove('rv')); void root.offsetWidth; }
+  // prototype : seul un téléphone rempli mais manifestement faux bloque ; les champs obligatoires vides laissent passer pour parcourir le tunnel
+  errs() { const t = this.state.ctel.trim(); return { tel: t !== '' && !/^[+0-9 ().\-]{8,24}$/.test(t) }; }
+  save(ev) {
+    if (ev && ev.preventDefault) ev.preventDefault();
+    if (this.errs().tel) { this.setState({ tried: true }); return; }
+    const dk = this.props.sel || 'cur';
+    if (this.props.onSaved) this.props.onSaved(dk);
+    this.swap({ saved: true, tried: false });
+  }
+  renderVals() {
+    const st = this.state, dk = this.props.sel || 'cur', e = st.tried ? this.errs() : { tel: false };
+    const NAMES = { cur: 'Votre journée', eng: 'Séance engagement', ann: 'Anniversaire' };
+    return {
+      rcls: (this.act() ? 'go' : '') + (this.props.leaving ? ' out' : ''),
+      rootRef: (el) => { this.root = el; }, scRef: (el) => { this.sc = el; },
+      scroll: () => this.check(), pc: st.pc,
+      svc: NAMES[dk] || 'Votre journée',
+      t1: st.saved ? 'Fiche' : 'Fiche technique,', t2: st.saved ? 'enregistrée.' : 'à compléter.',
+      isForm: !st.saved, isSaved: st.saved,
+      noms: st.noms, cnom: st.cnom, ctel: st.ctel, prog: st.prog, vip: st.vip, note: st.note,
+      onNoms: (ev) => this.setState({ noms: ev.target.value }), onCnom: (ev) => this.setState({ cnom: ev.target.value }), onCtel: (ev) => this.setState({ ctel: ev.target.value }),
+      onProg: (ev) => this.setState({ prog: ev.target.value }), onVip: (ev) => this.setState({ vip: ev.target.value }), onNote: (ev) => this.setState({ note: ev.target.value }),
+      eTel: !!e.tel, pub: st.pub, pubCls: st.pub ? 'on' : '', togglePub: () => this.setState({ pub: !st.pub }),
+      save: (ev) => this.save(ev),
+      toDossier: () => { if (this.props.onNav) this.props.onNav('dossier', { sel: dk, tab: 1 }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

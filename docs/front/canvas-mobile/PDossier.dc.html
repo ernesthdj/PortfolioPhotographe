@@ -247,7 +247,7 @@ body{margin:0}
               <sc-for list="{{fiche.lines}}" as="s" hint-placeholder-count="4"><div><span class="md-w" style="--d:{{s.d}};--u:.6s"><span class="o">{{s.t}}</span><span class="f" aria-hidden="true">{{s.t}}</span></span></div></sc-for>
             </div>
             <sc-if value="{{fiche.todo}}" hint-placeholder-val="{{true}}">
-              <div class="md-btnw" style="margin-top:24px;width:100%;height:54px"><button class="md-cta" style="--d:.9s" onClick="{{noop}}"><span class="md-w" style="--d:1.2s;--u:.5s"><span class="o">Compléter la fiche</span><span class="f" aria-hidden="true">Compléter la fiche</span></span></button></div>
+              <div class="md-btnw" style="margin-top:24px;width:100%;height:54px"><button class="md-cta" style="--d:.9s" onClick="{{goFiche}}"><span class="md-w" style="--d:1.2s;--u:.5s"><span class="o">{{ficheL}}</span><span class="f" aria-hidden="true">{{ficheL}}</span></span></button></div>
             </sc-if>
             <div style="margin-top:20px;font:400 13.5px/1.6 Inter,sans-serif;color:#4B4D52">
               <sc-for list="{{fiche.note}}" as="s" hint-placeholder-count="4"><div><span class="md-w" style="--d:{{s.d}};--u:.6s"><span class="o">{{s.t}}</span><span class="f" aria-hidden="true">{{s.t}}</span></span></div></sc-for>
@@ -322,7 +322,7 @@ body{margin:0}
   </div>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"play":{"editor":null,"default":true},"leaving":{"editor":null,"default":false},"onNav":{"editor":null},"draft":{"editor":null},"email":{"editor":null},"sent":{"editor":null},"sel":{"editor":null},"onSent":{"editor":null},"$preview":{"width":390,"height":844}}'>
+<script type="text/x-dc" data-dc-script data-props='{"play":{"editor":null,"default":true},"leaving":{"editor":null,"default":false},"onNav":{"editor":null},"draft":{"editor":null},"email":{"editor":null},"sent":{"editor":null},"sel":{"editor":null},"tab":{"editor":null},"fdone":{"editor":null},"onSent":{"editor":null},"$preview":{"width":390,"height":844}}'>
 class Component extends DCLogic {
   constructor(props) {
     super(props);
@@ -335,7 +335,7 @@ class Component extends DCLogic {
   componentDidUpdate(pp) {
     if (this.redo) { this.redo = false; this.reset(); setTimeout(() => this.check(), 20); }
     const was = pp.play === undefined ? true : !!pp.play, now = this.act();
-    if (!was && now) { if (this.props.sent) this.setState({ sent: true }); this.batch = true; setTimeout(() => this.check(), 60); }
+    if (!was && now) { if (this.props.sent) this.setState({ sent: true }); if (this.props.tab) this.setState({ tab: this.props.tab }); this.batch = true; setTimeout(() => this.check(), 60); }
     if (was && !now) { clearTimeout(this.t1); this.reset(); if (this.sc) this.sc.scrollTop = 0; this.setState({ lieux: [{ nom: '', adr: '', h: '' }], tel: '', tried: false, sent: false, pc: '', tab: 0, copied: false }); }
   }
   // envoi : le formulaire se décompose, puis le message de confirmation s'écrit
@@ -399,7 +399,8 @@ class Component extends DCLogic {
     };
     const D = DOS[dk] || DOS.cur;
     const idx = isView ? D.idx : 0;
-    const TABS = [['Devis', ''], ['Fiches', D.fiche.todo ? '1' : ''], ['Demandes', D.dems.length ? String(D.dems.length) : ''], ['Documents', String(D.docs.length)], ['Parrainage', '']];
+    const fd = !!(this.props.fdone && this.props.fdone[dk]);
+    const TABS = [['Devis', ''], ['Fiches', D.fiche.todo && !fd ? '1' : ''], ['Demandes', D.dems.length ? String(D.dems.length) : ''], ['Documents', String(D.docs.length)], ['Parrainage', '']];
     const NAMES = ['Brouillon', 'Soumis', 'Accepté', 'Confirmé', 'Réalisé'];
     const track = NAMES.map((l, i) => ({ l, x: 34.6 + i * 69.2, cls: i <= idx ? 'on' : '', c: i <= idx ? '#0D0E10' : '#4B4D52' }));
     const x0 = 34.6, x1 = x0 + idx * 69.2;
@@ -416,7 +417,9 @@ class Component extends DCLogic {
       tDevis: st.tab === 0, tFiches: st.tab === 1, tDem: st.tab === 2, tDocs: st.tab === 3, tParr: st.tab === 4,
       lignes: D.lignes, totL: D.totL, total: D.total, hasHt: !!D.ht, ht: D.ht,
       noteDevis: lines(['Prix figés à la soumission. Pour retirer', 'une prestation, contactez le photographe.'], 1.0),
-      fiche: { st: D.fiche.st, t: D.fiche.t, lines: lines(D.fiche.lines, 0.3), todo: D.fiche.todo, note: lines(D.fiche.note, 1.1) },
+      fiche: { st: fd ? 'Complète' : D.fiche.st, t: D.fiche.t, lines: lines(fd ? ['Merci : votre fiche est enregistrée.', 'Vous pouvez la modifier jusqu’au [date].'] : D.fiche.lines, 0.3), todo: D.fiche.todo, note: lines(fd ? [] : D.fiche.note, 1.1) },
+      ficheL: fd ? 'Modifier la fiche' : 'Compléter la fiche',
+      goFiche: () => { if (this.props.onNav) this.props.onNav('fiche', { sel: dk }); },
       noDem: D.dems.length === 0, hasDems: D.dems.length > 0, dems: D.dems,
       demEmpty: lines(['Vos ajouts et changements apparaîtront', 'ici : en attente, validés ou refusés', 'avec le motif du photographe.'], 0.3),
       docs: D.docs.map(([k, t], i) => ({ k, t, d: (0.1 + i * 0.12).toFixed(2) + 's', d2: (0.25 + i * 0.12).toFixed(2) + 's', d3: (0.4 + i * 0.12).toFixed(2) + 's', aria: 'Ouvrir le PDF, ' + k })),

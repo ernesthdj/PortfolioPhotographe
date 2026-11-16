@@ -159,13 +159,78 @@ body{margin:0}
           <div style="margin-top:26px">
             <div class="mc-btnw" style="width:100%;height:54px"><button type="button" class="mc-cta" style="--d:.1s" onClick="{{submit}}"><span class="mc-w" style="--d:.45s;--u:.5s"><span class="o">{{submitL}}</span><span class="f" aria-hidden="true">{{submitL}}</span></span></button></div>
             <sc-if value="{{isLogin}}" hint-placeholder-val="{{false}}">
-              <div style="margin-top:6px;display:flex;justify-content:center"><button type="button" class="mc-back" style="text-decoration:underline;text-underline-offset:5px">Mot de passe oublié ?</button></div>
+              <div style="margin-top:6px;display:flex;justify-content:center"><button type="button" class="mc-back" onClick="{{toForgot}}" style="text-decoration:underline;text-underline-offset:5px">Mot de passe oublié ?</button></div>
             </sc-if>
             <div style="margin-top:6px;display:flex;justify-content:center">
               <button type="button" class="mc-back" onClick="{{backSim}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D0E10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>Revenir au simulateur</span></button>
             </div>
           </div>
         </form>
+      </sc-if>
+
+      <!-- MOT DE PASSE OUBLIÉ : demande du lien -->
+      <sc-if value="{{isFg}}" hint-placeholder-val="{{false}}">
+        <div data-rv="" style="margin-top:22px;font:400 15px/1.7 Inter,sans-serif;color:#4B4D52">
+          <div><span class="mc-w" style="--d:.1s;--u:.7s"><span class="o">Indiquez l’adresse de votre compte :</span><span class="f" aria-hidden="true">Indiquez l’adresse de votre compte :</span></span></div>
+          <div><span class="mc-w" style="--d:.3s;--u:.7s"><span class="o">nous vous envoyons un lien pour</span><span class="f" aria-hidden="true">nous vous envoyons un lien pour</span></span></div>
+          <div><span class="mc-w" style="--d:.5s;--u:.7s"><span class="o">choisir un nouveau mot de passe.</span><span class="f" aria-hidden="true">choisir un nouveau mot de passe.</span></span></div>
+        </div>
+        <form data-rv="" novalidate="" onSubmit="{{sendLink}}" style="margin-top:6px">
+          <div class="mc-f">
+            <label class="mc-lab mc-mono" for="mc-fmail"><span class="mc-w" style="--d:.1s;--u:.5s"><span class="o">Adresse e-mail</span><span class="f" aria-hidden="true">Adresse e-mail</span></span></label>
+            <input class="mc-in" id="mc-fmail" type="email" inputmode="email" autocomplete="email" maxlength="254" placeholder="vous@exemple.be" value="{{email}}" onInput="{{onEmail}}" aria-invalid="{{eEmail}}">
+            <span class="mc-fg" aria-hidden="true"></span>
+            <sc-if value="{{eEmail}}" hint-placeholder-val="{{false}}"><div class="mc-err mc-mono" style="color:#0D0E10;text-transform:none;letter-spacing:.02em;font-size:12px">{{eEmailT}}</div></sc-if>
+          </div>
+          <div style="margin-top:26px">
+            <div class="mc-btnw" style="width:100%;height:54px"><button type="button" class="mc-cta" style="--d:.1s" onClick="{{sendLink}}"><span class="mc-w" style="--d:.45s;--u:.5s"><span class="o">Envoyer le lien</span><span class="f" aria-hidden="true">Envoyer le lien</span></span></button></div>
+            <div style="margin-top:6px;display:flex;justify-content:center"><button type="button" class="mc-back" onClick="{{toLogin}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D0E10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>Retour à la connexion</span></button></div>
+          </div>
+        </form>
+      </sc-if>
+
+      <!-- LIEN ENVOYÉ : message identique que le compte existe ou non -->
+      <sc-if value="{{isFgSent}}" hint-placeholder-val="{{false}}">
+        <div data-rv="" style="margin-top:22px;font:400 15px/1.7 Inter,sans-serif;color:#4B4D52">
+          <div><span class="mc-w" style="--d:.1s;--u:.7s"><span class="o">Si un compte existe avec cette adresse,</span><span class="f" aria-hidden="true">Si un compte existe avec cette adresse,</span></span></div>
+          <div><span class="mc-w" style="--d:.3s;--u:.7s"><span class="o">un lien vient d’être envoyé. Il reste</span><span class="f" aria-hidden="true">un lien vient d’être envoyé. Il reste</span></span></div>
+          <div><span class="mc-w" style="--d:.5s;--u:.7s"><span class="o">valable [1 h].</span><span class="f" aria-hidden="true">valable [1 h].</span></span></div>
+        </div>
+        <div data-rv="" class="mc-mono" style="margin-top:14px;font-size:10px;line-height:1.7;text-transform:none;letter-spacing:.02em"><span class="mc-w" style="--d:.1s;--u:.8s"><span class="o">Pensez à vérifier vos courriers indésirables.</span><span class="f" aria-hidden="true">Pensez à vérifier vos courriers indésirables.</span></span></div>
+        <div data-rv="" style="margin-top:28px">
+          <div class="mc-btnw" style="width:100%;height:54px"><button class="mc-cta" style="--d:.1s" onClick="{{openLink}}"><span class="mc-w" style="--d:.45s;--u:.5s"><span class="o">Ouvrir le lien reçu (démo)</span><span class="f" aria-hidden="true">Ouvrir le lien reçu (démo)</span></span></button></div>
+          <div style="margin-top:6px;display:flex;justify-content:center"><button type="button" class="mc-back" onClick="{{toLogin}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D0E10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>Retour à la connexion</span></button></div>
+        </div>
+      </sc-if>
+
+      <!-- NOUVEAU MOT DE PASSE (page ouverte depuis le lien) -->
+      <sc-if value="{{isReset}}" hint-placeholder-val="{{false}}">
+        <form data-rv="" novalidate="" onSubmit="{{saveReset}}" style="margin-top:6px">
+          <div class="mc-f">
+            <label class="mc-lab mc-mono" for="mc-npwd"><span class="mc-w" style="--d:.1s;--u:.6s"><span class="o">Nouveau mot de passe</span><span class="f" aria-hidden="true">Nouveau mot de passe</span></span></label>
+            <input class="mc-in" id="mc-npwd" type="{{pwdType}}" autocomplete="new-password" maxlength="128" placeholder="10 caractères minimum" value="{{pwd}}" onInput="{{onPwd}}" aria-invalid="{{ePwd}}">
+            <span class="mc-fg" aria-hidden="true"></span>
+            <button type="button" class="mc-eye" onClick="{{toggleEye}}" aria-label="{{eyeL}}" aria-pressed="{{show}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0D0E10" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/><path d="{{eyeSlash}}"/></svg></button>
+            <sc-if value="{{ePwd}}" hint-placeholder-val="{{false}}"><div class="mc-err mc-mono" style="color:#0D0E10;text-transform:none;letter-spacing:.02em;font-size:12px">{{ePwdT}}</div></sc-if>
+            <div style="display:flex;gap:6px;margin-top:12px"><sc-for list="{{meter}}" as="m" hint-placeholder-count="3"><span class="mc-seg" style="background:{{m.bg}}"></span></sc-for></div>
+            <div class="mc-mono" style="margin-top:8px;font-size:10px">10 caractères minimum · mélangez lettres, chiffres, symboles</div>
+          </div>
+          <div style="margin-top:26px">
+            <div class="mc-btnw" style="width:100%;height:54px"><button type="button" class="mc-cta" style="--d:.1s" onClick="{{saveReset}}"><span class="mc-w" style="--d:.45s;--u:.5s"><span class="o">Enregistrer le mot de passe</span><span class="f" aria-hidden="true">Enregistrer le mot de passe</span></span></button></div>
+          </div>
+        </form>
+      </sc-if>
+
+      <!-- MOT DE PASSE MIS À JOUR -->
+      <sc-if value="{{isResetDone}}" hint-placeholder-val="{{false}}">
+        <div data-rv="" style="margin-top:22px;font:400 15px/1.7 Inter,sans-serif;color:#4B4D52">
+          <div><span class="mc-w" style="--d:.1s;--u:.7s"><span class="o">Votre mot de passe a été changé.</span><span class="f" aria-hidden="true">Votre mot de passe a été changé.</span></span></div>
+          <div><span class="mc-w" style="--d:.3s;--u:.7s"><span class="o">Les autres appareils connectés ont</span><span class="f" aria-hidden="true">Les autres appareils connectés ont</span></span></div>
+          <div><span class="mc-w" style="--d:.5s;--u:.7s"><span class="o">été déconnectés.</span><span class="f" aria-hidden="true">été déconnectés.</span></span></div>
+        </div>
+        <div data-rv="" style="margin-top:28px">
+          <div class="mc-btnw" style="width:100%;height:54px"><button class="mc-cta" style="--d:.1s" onClick="{{toLogin}}"><span class="mc-w" style="--d:.45s;--u:.5s"><span class="o">Me connecter</span><span class="f" aria-hidden="true">Me connecter</span></span></button></div>
+        </div>
       </sc-if>
 
       <!-- RÉUSSITE -->
@@ -228,7 +293,7 @@ class Component extends DCLogic {
     // Dans PID : tous les champs sont obligatoires et validés côté serveur (Form Request, jeton CSRF), consentement RGPD compris.
     const st = this.state, e = {}, mail = st.email.trim();
     if (mail && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail)) e.email = 'Adresse e-mail invalide.';
-    if (st.mode === 'create' && st.pwd && st.pwd.length < 10) e.pwd = 'Dix caractères minimum.';
+    if ((st.mode === 'create' || st.mode === 'reset') && st.pwd && st.pwd.length < 10) e.pwd = 'Dix caractères minimum.';
     return e;
   }
   submit(ev) {
@@ -239,25 +304,41 @@ class Component extends DCLogic {
     if (this.props.onNav) { this.props.onNav('dossiers'); return; }   // atterrissage direct sur « Mes dossiers »
     this.swap({ done: true, tried: false });
   }
+  // mot de passe oublié : le message est le même que le compte existe ou non (pas d'énumération des comptes)
+  sendLink(ev) {
+    if (ev && ev.preventDefault) ev.preventDefault();
+    if (this.errors().email) { this.setState({ tried: true }); return; }
+    this.swap({ mode: 'forgotSent', tried: false });
+  }
+  saveReset(ev) {
+    if (ev && ev.preventDefault) ev.preventDefault();
+    if (this.errors().pwd) { this.setState({ tried: true }); return; }
+    this.swap({ mode: 'resetDone', pwd: '', show: false, tried: false });
+  }
   renderVals() {
     const st = this.state, e = st.tried ? this.errors() : {}, d = this.props.draft || null;
-    const create = st.mode === 'create';
+    const create = st.mode === 'create', main = st.mode === 'create' || st.mode === 'login';
     // robustesse du mot de passe : longueur, longueur confortable, variété de caractères
     const cls = [/[a-zà-ÿ]/i.test(st.pwd), /\d/.test(st.pwd), /[^A-Za-zÀ-ÿ0-9]/.test(st.pwd)].filter(Boolean).length;
     const score = (st.pwd.length >= 10 ? 1 : 0) + (st.pwd.length >= 14 ? 1 : 0) + (cls >= 3 ? 1 : 0);
     const meter = [0, 1, 2].map((i) => ({ bg: i < score ? '#0D0E10' : 'rgba(13,14,16,.18)' }));
-    const eyebrow = st.done ? 'Compte · prêt' : create ? 'Dernière étape' : 'Connexion';
-    const T = st.done ? ['Compte', 'créé.'] : create ? ['Gardons votre', 'brouillon.'] : ['Retrouvons', 'votre dossier.'];
+    const EB = { forgot: 'Mot de passe oublié', forgotSent: 'Lien envoyé', reset: 'Nouveau mot de passe', resetDone: 'Mot de passe · à jour' };
+    const TT = { forgot: ['Retrouvons', 'votre accès.'], forgotSent: ['Vérifiez', 'votre boîte mail.'], reset: ['Un nouveau', 'mot de passe.'], resetDone: ['Mot de passe', 'mis à jour.'] };
+    const eyebrow = st.done ? 'Compte · prêt' : EB[st.mode] || (create ? 'Dernière étape' : 'Connexion');
+    const T = st.done ? ['Compte', 'créé.'] : TT[st.mode] || (create ? ['Gardons votre', 'brouillon.'] : ['Retrouvons', 'votre dossier.']);
     return {
       rcls: (this.act() ? 'go' : '') + (this.props.leaving ? ' out' : ''),
       rootRef: (el) => { this.root = el; }, scRef: (el) => { this.sc = el; },
       scroll: () => this.check(), pc: st.pc,
       eyebrow, t1: T[0], t2: T[1],
-      hasDraft: !!d && !st.done, recap: d ? d.recap : '', ttc: d ? d.ttc : '',
-      isForm: !st.done, isDone: st.done, isCreate: create, isLogin: !create,
+      hasDraft: !!d && !st.done && main, recap: d ? d.recap : '', ttc: d ? d.ttc : '',
+      isForm: !st.done && main, isDone: st.done, isCreate: create, isLogin: st.mode === 'login',
+      isFg: st.mode === 'forgot', isFgSent: st.mode === 'forgotSent', isReset: st.mode === 'reset', isResetDone: st.mode === 'resetDone',
+      toForgot: () => this.swap({ mode: 'forgot', tried: false }), sendLink: (ev) => this.sendLink(ev), saveReset: (ev) => this.saveReset(ev),
+      openLink: () => this.swap({ mode: 'reset', pwd: '', show: false, tried: false }),
       mx: create ? 11 : 184, wC: create ? 600 : 400, wL: create ? 400 : 600,
       toCreate: () => { if (!create) this.swap({ mode: 'create', tried: false }); },
-      toLogin: () => { if (create) this.swap({ mode: 'login', tried: false }); },
+      toLogin: () => { if (st.mode !== 'login') this.swap({ mode: 'login', tried: false }); },
       email: st.email, pwd: st.pwd, show: st.show,
       onEmail: (ev) => this.setState({ email: ev.target.value }), onPwd: (ev) => this.setState({ pwd: ev.target.value }),
       pwdType: st.show ? 'text' : 'password', pwdAuto: create ? 'new-password' : 'current-password', pwdPh: create ? '10 caractères minimum' : 'Votre mot de passe',
