@@ -279,7 +279,7 @@ body{margin:0}
   </div>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"play":{"editor":null,"default":true},"leaving":{"editor":null,"default":false},"onNav":{"editor":null},"sid":{"editor":null},"$preview":{"width":390,"height":844}}'>
+<script type="text/x-dc" data-dc-script data-props='{"play":{"editor":null,"default":true},"leaving":{"editor":null,"default":false},"onNav":{"editor":null},"sid":{"editor":null},"logged":{"editor":null},"$preview":{"width":390,"height":844}}'>
 class Component extends DCLogic {
   constructor(props) {
     super(props);
@@ -420,8 +420,8 @@ class Component extends DCLogic {
       move: (e) => this.mv(e), up: () => { this.drag = null; },
       qty: st.qty, qtyMinus: () => this.setState({ qty: Math.max(S.min || 5, st.qty - 1) }), qtyPlus: () => this.setState({ qty: Math.min(S.max || 40, st.qty + 1) }),
       recap, card, lines: L, ht: this.eur(ht), tva: this.eur(tva), ttc: this.eur(ttc), hasOpts: opts.length > 0, opts,
-      nextL: last ? 'Créer mon compte pour peaufiner' : 'Continuer',
-      next: () => { if (last) { if (this.props.onNav) { this.keep = true; this.props.onNav('compte', { recap, ttc: this.eur(ttc) }); } else this.setState({ saved: true }); } else this.go(Math.min(seq.length - 1, st.step + 1)); },
+      nextL: last ? (this.props.logged ? 'Mettre à jour mon dossier' : 'Créer mon compte pour peaufiner') : 'Continuer',
+      next: () => { if (last) { if (this.props.onNav) { this.keep = true; this.props.onNav(this.props.logged ? 'dossiers' : 'compte', { recap, ttc: this.eur(ttc), sid: st.sid }); } else this.setState({ saved: true }); } else this.go(Math.min(seq.length - 1, st.step + 1)); },
       showCmd: cur !== 'service', hasBack: st.step > 0, backL: last ? 'Modifier mes choix' : 'Retour',
       back: () => this.go(last ? 0 : Math.max(0, st.step - 1)),
       savedCls: st.saved ? 'on' : ''

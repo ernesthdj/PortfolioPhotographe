@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Contact mobile</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+.ms-p,.ms-p *{box-sizing:border-box}
+.ms-p{--E:cubic-bezier(.45,0,.2,1);position:relative;width:390px;height:844px;overflow:hidden;background:#fff;color:#0D0E10;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.ms-sc{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;scrollbar-width:none}
+.ms-sc::-webkit-scrollbar{display:none}
+.ms-vg{position:absolute;inset:0;pointer-events:none;z-index:3;opacity:0;background:radial-gradient(120% 90% at 50% 42%,rgba(20,18,16,0) 55%,rgba(20,18,16,.08) 80%,rgba(20,18,16,.20) 100%)}
+.go .ms-vg{animation:ms-habille 1.4s ease-in-out .2s both}
+.ms-mono{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4B4D52}
+.ms-ser{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+
+/* écriture : contour puis remplissage, goutte d'encre comme tête d'écriture */
+.ms-w{position:relative;display:inline-block;white-space:nowrap}
+.ms-w .o{display:block;color:transparent;-webkit-text-stroke:1px currentColor;clip-path:inset(-12px 100% -12px 0)}
+.ms-w .f{position:absolute;left:0;top:-.24em;padding:.24em .14em .24em 0;background-color:currentColor;background-image:radial-gradient(closest-side,rgba(255,255,255,.22),rgba(255,255,255,.07) 45%,rgba(255,255,255,0)),url(/_blob/ed07de6673f5b97f3f81d1a4ab4817c0);background-size:70% 60%,120px 120px;background-repeat:no-repeat,repeat;background-position:18% 12%,0 0;background-blend-mode:screen,overlay;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;clip-path:inset(-12px 100% -12px 0)}
+.ms-tete{position:absolute;left:0;top:50%;width:0;height:0;border-radius:0;background:#0D0E10;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1.5px 0 rgba(0,0,0,.22),0 2px 5px rgba(13,14,16,.22)}
+.rv .ms-w .o{animation:ms-wIn var(--u,.6s) var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+.rv .ms-w .f{animation:ms-wIn var(--u,.6s) var(--E) calc(var(--b,0s) + var(--d,0s) + .25s) both}
+.rv .ms-tete{animation:ms-ne .22s var(--E) max(0s,calc(var(--b,0s) + var(--d,0s) - .22s)) both,ms-ecrit var(--u,.6s) var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+.ms-rule{clip-path:inset(-4px 100% -4px 0)}
+.rv .ms-rule{animation:ms-wIn .3s var(--E) calc(var(--b,0s) + .1s) both}
+
+/* traits */
+.ms-fr{position:absolute;inset:-6px;overflow:visible;pointer-events:none}
+.ms-fr rect,.ms-ln path{fill:none;stroke:#0D0E10;stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 102;stroke-dashoffset:101}
+.rv .ms-fr rect{animation:ms-trace 1.5s var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+.rv .ms-ln path{animation:ms-drawS var(--u,.45s) var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+.ms-hl{display:block;overflow:visible}
+.ms-hl path{stroke-width:1px;stroke:rgba(13,14,16,.24)}
+
+/* photo */
+.ms-ph{position:relative;filter:drop-shadow(0 18px 20px rgba(20,18,16,.26)) drop-shadow(0 4px 5px rgba(20,18,16,.14))}
+.ms-img{display:block;width:100%;height:100%;object-fit:cover;opacity:0;clip-path:inset(0 100% 0 0)}
+.rv .ms-img{animation:ms-rIn .8s var(--E) calc(var(--b,0s) + var(--d,0s) + .45s) both,ms-dev 3.2s ease-in-out calc(var(--b,0s) + var(--d,0s) + .45s) both}
+.rv .ms-img.nb{animation:ms-rIn .8s var(--E) calc(var(--b,0s) + var(--d,0s) + .45s) both,ms-devNB 3.2s ease-in-out calc(var(--b,0s) + var(--d,0s) + .45s) both}
+
+/* matière */
+.ms-glass{background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(250,248,244,.86) 55%,rgba(240,237,231,.9) 100%);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 16px 32px -12px rgba(20,18,16,.30),0 4px 10px -3px rgba(20,18,16,.16),inset 0 1px 0 #fff,inset 0 0 0 1px rgba(255,255,255,.6),inset 0 -2px 0 rgba(20,18,16,.06),inset 0 -12px 18px -12px rgba(20,18,16,.10);opacity:0}
+.rv .ms-glass{animation:ms-habille 1.8s ease-in-out calc(var(--b,0s) + var(--d,0s) + .5s) both}
+.ms-btnw{filter:drop-shadow(0 12px 12px rgba(13,14,16,.38)) drop-shadow(0 3px 4px rgba(13,14,16,.22))}
+.ms-cta{display:flex;align-items:center;justify-content:center;border:0;color:#F4F2EE;font:600 15px Inter,sans-serif;cursor:pointer;width:100%;height:100%;background:radial-gradient(35% 25% at 30% 20%,rgba(255,255,255,.14),rgba(255,255,255,0)),url(/_blob/ed07de6673f5b97f3f81d1a4ab4817c0),#0D0E10;background-blend-mode:normal,overlay,normal;box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1.5px 0 rgba(0,0,0,.6);clip-path:inset(0 100% 0 0 round 26px)}
+.rv .ms-cta{animation:ms-rBtn .45s var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+.ms-more{display:inline-flex;align-items:center;gap:7px;height:44px;padding:0;background:none;border:0;cursor:pointer;font:500 14px Inter,sans-serif;color:#0D0E10}
+.ms-more:focus-visible{outline:2px solid #0D0E10;outline-offset:2px;border-radius:8px}
+.ms-glow{position:absolute;left:-12px;right:-12px;top:-8px;bottom:-4px;border-radius:999px;background:radial-gradient(closest-side,rgba(58,166,181,.36),rgba(58,166,181,.16) 58%,rgba(58,166,181,0));filter:blur(5px);opacity:0;pointer-events:none}
+.rv .ms-glow{animation:ms-habille 1.2s ease-in-out calc(var(--b,0s) + var(--d,0s)) both}
+
+/* sortie : le contenu se décompose (jamais coupé d'un coup) */
+.out .rv .ms-w .o,.out .rv .ms-w .f{animation:ms-wOut .2s var(--E) 0s both}
+.out .rv .ms-tete{animation:none}
+.out .rv .ms-img{animation:ms-devOut .25s var(--E) 0s both}
+.out .rv .ms-fr rect{animation:none}
+.out .rv .ms-ln path{animation:ms-undrawS .3s var(--E) 0s both}
+.out .rv .ms-glass,.out .rv .ms-glow{animation:ms-deshabille .3s ease both}
+.out .rv .ms-cta{animation:ms-rBtnOut .3s var(--E) 0s both}
+.out .rv .ms-rule{animation:ms-wOut .2s var(--E) 0s both}
+.out .ms-vg{animation:ms-deshabille .3s ease both}
+
+@keyframes ms-wIn{from{clip-path:inset(-12px 100% -12px 0)}to{clip-path:inset(-12px -12px -12px 0)}}
+@keyframes ms-wOut{from{clip-path:inset(-12px -12px -12px 0)}to{clip-path:inset(-12px 100% -12px 0)}}
+@keyframes ms-rIn{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes ms-rBtn{from{clip-path:inset(0 100% 0 0 round 26px)}to{clip-path:inset(0 0 0 0 round 26px)}}
+@keyframes ms-rBtnOut{from{clip-path:inset(0 0 0 0 round 26px)}to{clip-path:inset(0 100% 0 0 round 26px)}}
+@keyframes ms-drawS{from{stroke-dashoffset:101}to{stroke-dashoffset:0}}
+@keyframes ms-undrawS{from{stroke-dashoffset:0}to{stroke-dashoffset:101}}
+@keyframes ms-trace{0%{stroke-dashoffset:101}50%{stroke-dashoffset:0}65%{stroke-dashoffset:0}100%{stroke-dashoffset:-102}}
+@keyframes ms-dev{0%{opacity:0;filter:grayscale(1) contrast(1.05)}38%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(0) contrast(1)}}
+@keyframes ms-devNB{0%{opacity:0;filter:grayscale(1) contrast(1.05)}45%{opacity:1;filter:grayscale(1) contrast(1.05)}100%{opacity:1;filter:grayscale(1) contrast(1.05)}}
+@keyframes ms-devOut{0%{opacity:1;clip-path:inset(0 0 0 0)}100%{opacity:0;clip-path:inset(0 0 0 0)}}
+@keyframes ms-habille{from{opacity:0}to{opacity:1}}
+@keyframes ms-deshabille{from{opacity:1}to{opacity:0}}
+@keyframes ms-ne{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes ms-ecrit{0%{left:-14px;top:calc(50% - 5px);width:10px;height:10px;border-radius:5px}15%{left:-2px;top:0;width:3px;height:100%;border-radius:1.5px}85%{left:calc(100% - 2px);top:0;width:3px;height:100%;border-radius:1.5px}100%{left:100%;top:50%;width:0;height:0;border-radius:0}}
+@media (prefers-reduced-motion: reduce){.ms-p *{animation-duration:0s !important;animation-delay:0s !important;transition-duration:0s !important}}
+/* cartes de verre : contour tracé (rect), la matière arrive ensuite */
+.ms-lr{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.ms-lr rect{fill:none;stroke:#0D0E10;stroke-width:1.5px;stroke-linecap:round;stroke-dasharray:100 102;stroke-dashoffset:101}
+.rv .ms-lr rect{animation:ms-drawS 1s var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+.out .rv .ms-lr rect{animation:ms-undrawS .3s var(--E) 0s both}
+.ms-ghb{display:flex;align-items:center;justify-content:center;border:0;background:transparent;color:#0D0E10;font:600 15px Inter,sans-serif;cursor:pointer;width:100%;height:100%;box-shadow:inset 0 0 0 1.5px #0D0E10;clip-path:inset(0 100% 0 0 round 26px)}
+.rv .ms-ghb{animation:ms-rBtn .45s var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+.out .rv .ms-ghb{animation:ms-rBtnOut .3s var(--E) 0s both}
+.ms-ghb:focus-visible,.ms-cta:focus-visible{outline:2px solid #0D0E10;outline-offset:3px}
+.ms-fld{opacity:0;margin-top:16px}
+.rv .ms-fld{animation:ms-habille .6s ease calc(var(--b,0s) + var(--d,0s)) both}
+.out .rv .ms-fld{animation:ms-deshabille .3s ease both}
+.ms-fld label{display:block;font:500 10.5px 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#4B4D52}
+.ms-fld input,.ms-fld select,.ms-fld textarea{display:block;box-sizing:border-box;width:100%;min-height:44px;margin-top:2px;padding:10px 0;border:0;border-bottom:1px solid rgba(13,14,16,.35);border-radius:0;background:transparent;font:400 16px Inter,sans-serif;color:#0D0E10;outline:none;resize:none;-webkit-appearance:none;appearance:none}
+.ms-fld select{cursor:pointer}
+.ms-fld:focus-within input,.ms-fld:focus-within select,.ms-fld:focus-within textarea{border-bottom:2px solid #3AA6B5}
+.ms-lien{display:inline-flex;align-items:center;height:44px;padding:0;border:0;background:transparent;cursor:pointer;font:500 14px Inter,sans-serif;color:#0D0E10;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px}
+.ms-lien:focus-visible{outline:2px solid #0D0E10;outline-offset:2px;border-radius:6px}
+</style>
+</helmet>
+<div class="ms-p {{rcls}}" ref="{{rootRef}}">
+  <div class="ms-vg" aria-hidden="true"></div>
+  <div class="ms-sc" ref="{{scRef}}" onScroll="{{scroll}}">
+    <div class="ms-c {{pc}}" style="padding:96px 22px 190px;position:relative">
+
+      <div data-rv="" style="display:flex;align-items:center;gap:12px">
+        <span class="ms-rule" aria-hidden="true" style="display:block;width:28px;height:1px;background:#D9783A"></span>
+        <span class="ms-mono"><span class="ms-w" style="--d:.15s;--u:.6s"><span class="o">Contact</span><span class="f" aria-hidden="true">Contact</span></span></span>
+      </div>
+
+      <div style="margin-top:22px;font-weight:300;font-size:34px;line-height:1.14;letter-spacing:-.03em;filter:drop-shadow(0 6px 8px rgba(20,18,16,.16))">
+        <div data-rv=""><span class="ms-w" style="--d:.1s;--u:.8s"><span class="ms-tete"></span><span class="o">Comment voulez-vous</span><span class="f" aria-hidden="true">Comment voulez-vous</span></span></div>
+        <div data-rv=""><span class="ms-w" style="--d:.45s;--u:.8s"><span class="ms-tete"></span><span class="o"><span class="ms-ser" style="font-size:40px">commencer ?</span></span><span class="f" aria-hidden="true"><span class="ms-ser" style="font-size:40px">commencer ?</span></span></span></div>
+      </div>
+
+      <div data-rv="" style="margin-top:14px;font:400 15px/1.7 Inter,sans-serif;color:#4B4D52">
+        <div><span class="ms-w" style="--d:.1s;--u:.7s"><span class="o">Un prix tout de suite, ou d’abord</span><span class="f" aria-hidden="true">Un prix tout de suite, ou d’abord</span></span></div>
+        <div><span class="ms-w" style="--d:.3s;--u:.7s"><span class="o">une conversation : les deux mènent</span><span class="f" aria-hidden="true">une conversation : les deux mènent</span></span></div>
+        <div><span class="ms-w" style="--d:.5s;--u:.6s"><span class="o">au même rendez-vous.</span><span class="f" aria-hidden="true">au même rendez-vous.</span></span></div>
+      </div>
+
+      <!-- porte 1 : le simulateur -->
+      <div data-rv="" style="margin-top:28px;position:relative">
+        <div class="ms-glass" style="position:absolute;inset:0;border-radius:24px;--d:.5s"></div>
+        <svg class="ms-lr" aria-hidden="true"><rect x="0" y="0" width="100%" height="100%" rx="24" ry="24" pathLength="100" style="--d:.1s"/></svg>
+        <div style="position:relative;padding:22px">
+          <div class="ms-ph" style="height:140px;--d:.3s"><img class="ms-img" src="/_blob/79058532f3d7d37917786298a0ac7945" alt="Les mariés devant le château" style="object-position:50% 30%"></div>
+          <div class="ms-mono" style="margin-top:18px"><span class="ms-w" style="--d:.9s;--u:.6s"><span class="o">01 · Le plus rapide</span><span class="f" aria-hidden="true">01 · Le plus rapide</span></span></div>
+          <div style="margin-top:6px;font:300 26px/1.2 Inter,sans-serif;letter-spacing:-.02em"><span class="ms-w" style="--d:1s;--u:.7s"><span class="o">Simuler mon devis</span><span class="f" aria-hidden="true">Simuler mon devis</span></span></div>
+          <div style="margin-top:10px;font:400 14px/1.6 Inter,sans-serif;color:#4B4D52">
+            <div><span class="ms-w" style="--d:1.15s;--u:.7s"><span class="o">Vos lieux, vos horaires, votre service :</span><span class="f" aria-hidden="true">Vos lieux, vos horaires, votre service :</span></span></div>
+            <div><span class="ms-w" style="--d:1.3s;--u:.7s"><span class="o">le prix s’affiche en 3 minutes.</span><span class="f" aria-hidden="true">le prix s’affiche en 3 minutes.</span></span></div>
+          </div>
+          <div class="ms-btnw" style="margin-top:18px;width:100%;height:52px"><button class="ms-cta" style="--d:1.2s" onClick="{{sim}}"><span class="ms-w" style="--d:1.5s;--u:.5s"><span class="o">Lancer le simulateur</span><span class="f" aria-hidden="true">Lancer le simulateur</span></span></button></div>
+        </div>
+      </div>
+
+      <!-- porte 2 : un message (la carte s'ouvre en formulaire) -->
+      <div data-rv="" data-c2="" style="margin-top:22px;position:relative">
+        <div class="ms-glass" style="position:absolute;inset:0;border-radius:24px;--d:.5s"></div>
+        <svg class="ms-lr" aria-hidden="true"><rect x="0" y="0" width="100%" height="100%" rx="24" ry="24" pathLength="100" style="--d:.25s"/></svg>
+
+        <sc-if value="{{closed}}" hint-placeholder-val="{{ true }}">
+          <div style="position:relative;padding:22px">
+            <div class="ms-ph" style="height:140px;--d:.45s"><img class="ms-img nb" src="/_blob/2b6e173fdf036442185ceb85aa49021f" alt="Baiser sur la joue" style="object-position:50% 30%"></div>
+            <div class="ms-mono" style="margin-top:18px"><span class="ms-w" style="--d:1s;--u:.6s"><span class="o">02 · Le plus personnel</span><span class="f" aria-hidden="true">02 · Le plus personnel</span></span></div>
+            <div style="margin-top:6px;font:300 26px/1.2 Inter,sans-serif;letter-spacing:-.02em"><span class="ms-w" style="--d:1.1s;--u:.7s"><span class="o">Écrire un message</span><span class="f" aria-hidden="true">Écrire un message</span></span></div>
+            <div style="margin-top:10px;font:400 14px/1.6 Inter,sans-serif;color:#4B4D52">
+              <div><span class="ms-w" style="--d:1.25s;--u:.7s"><span class="o">Racontez-moi votre projet avec vos mots :</span><span class="f" aria-hidden="true">Racontez-moi votre projet avec vos mots :</span></span></div>
+              <div><span class="ms-w" style="--d:1.4s;--u:.7s"><span class="o">je réponds sous [48 h] avec mes questions.</span><span class="f" aria-hidden="true">je réponds sous [48 h] avec mes questions.</span></span></div>
+            </div>
+            <div style="margin-top:18px;width:100%;height:52px"><button class="ms-ghb" style="--d:1.3s" onClick="{{open}}"><span class="ms-w" style="--d:1.6s;--u:.5s"><span class="o">Écrire maintenant</span><span class="f" aria-hidden="true">Écrire maintenant</span></span></button></div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{formOn}}" hint-placeholder-val="{{ false }}">
+          <form style="position:relative;padding:8px 22px 22px;margin:0" aria-label="Écrire un message" onSubmit="{{send}}">
+            <div class="ms-mono" style="margin-top:14px"><span class="ms-w" style="--d:.5s;--u:.6s"><span class="o">02 · Votre message</span><span class="f" aria-hidden="true">02 · Votre message</span></span></div>
+            <div class="ms-fld" style="--d:.6s"><label for="ct-nom">Prénom et nom</label><input id="ct-nom" type="text" autocomplete="name" placeholder="Camille Dupont"></div>
+            <div class="ms-fld" style="--d:.7s"><label for="ct-mail">E-mail</label><input id="ct-mail" type="email" autocomplete="email" placeholder="camille@exemple.be"></div>
+            <div class="ms-fld" style="--d:.8s"><label for="ct-svc">Type d’événement</label>
+              <select id="ct-svc"><sc-for list="{{opts}}" as="o" hint-placeholder-count="7"><option>{{o}}</option></sc-for></select>
+            </div>
+            <div class="ms-fld" style="--d:.9s"><label for="ct-msg">Votre message</label><textarea id="ct-msg" rows="4" placeholder="Racontez-moi votre journée, vos lieux, vos envies."></textarea></div>
+            <div class="ms-btnw" style="margin-top:22px;width:100%;height:52px"><button type="submit" class="ms-cta" style="--d:1s"><span class="ms-w" style="--d:1.2s;--u:.5s"><span class="o">Envoyer</span><span class="f" aria-hidden="true">Envoyer</span></span></button></div>
+            <div style="margin-top:6px;display:flex;justify-content:center"><button type="button" class="ms-lien" onClick="{{back}}"><span class="ms-w" style="--d:1.3s;--u:.5s"><span class="o">Revenir aux deux choix</span><span class="f" aria-hidden="true">Revenir aux deux choix</span></span></button></div>
+          </form>
+        </sc-if>
+
+        <sc-if value="{{sentOn}}" hint-placeholder-val="{{ false }}">
+          <div style="position:relative;padding:30px 22px 22px" role="status">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true"><circle cx="14" cy="14" r="12.5" style="fill:none;stroke:#0D0E10;stroke-width:1.5px"/><path pathLength="100" d="M8.5 14.5 L12.5 18.5 L19.5 10" style="fill:none;stroke:#0D0E10;stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round"/></svg>
+            <div style="margin-top:14px;font:300 26px/1.2 Inter,sans-serif;letter-spacing:-.02em"><span class="ms-w" style="--d:.6s;--u:.7s"><span class="o">Message envoyé</span><span class="f" aria-hidden="true">Message envoyé</span></span></div>
+            <div class="ms-mono" style="margin-top:8px"><span class="ms-w" style="--d:.85s;--u:.7s"><span class="o">Réponse sous [48 h]</span><span class="f" aria-hidden="true">Réponse sous [48 h]</span></span></div>
+            <div style="margin-top:14px"><button type="button" class="ms-lien" onClick="{{back}}"><span class="ms-w" style="--d:1.1s;--u:.5s"><span class="o">Revenir aux deux choix</span><span class="f" aria-hidden="true">Revenir aux deux choix</span></span></button></div>
+          </div>
+        </sc-if>
+      </div>
+
+      <!-- coordonnées -->
+      <div data-rv="" style="margin-top:26px;display:flex;gap:12px;align-items:flex-start">
+        <span aria-hidden="true" style="display:block;flex:none;width:20px;height:1px;background:#D9783A;margin-top:7px"></span>
+        <div class="ms-mono" style="font-size:10px;line-height:1.8">
+          <div><span class="ms-w" style="--d:.1s;--u:.8s"><span class="o">[votre adresse e-mail]</span><span class="f" aria-hidden="true">[votre adresse e-mail]</span></span></div>
+          <div><span class="ms-w" style="--d:.25s;--u:.8s"><span class="o">[votre numéro] · [@votre compte]</span><span class="f" aria-hidden="true">[votre numéro] · [@votre compte]</span></span></div>
+          <div><span class="ms-w" style="--d:.4s;--u:.8s"><span class="o">Réponse sous [48 h]</span><span class="f" aria-hidden="true">Réponse sous [48 h]</span></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"play":{"editor":null,"default":true},"leaving":{"editor":null,"default":false},"onNav":{"editor":null},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { mode: 'closed', pc: '' }; this.batch = true; this.redo = false; }
+  act() { return this.props.play === undefined ? true : !!this.props.play; }
+  componentDidMount() { setTimeout(() => this.check(), 40); }
+  componentWillUnmount() { clearTimeout(this.t1); }
+  componentDidUpdate(pp) {
+    if (this.redo) { this.redo = false; this.reset(); setTimeout(() => this.check(), 20); }
+    const was = pp.play === undefined ? true : !!pp.play, now = this.act();
+    if (!was && now) { this.batch = true; setTimeout(() => this.check(), 60); }
+    if (was && !now) { clearTimeout(this.t1); this.reset(); if (this.sc) this.sc.scrollTop = 0; this.setState({ mode: 'closed', pc: '' }); }
+  }
+  // la carte du message se décompose (0,23 s), puis se réécrit sous sa nouvelle forme
+  swap(mode) {
+    if (mode === this.state.mode) return;
+    clearTimeout(this.t1);
+    this.setState({ pc: 'out' });
+    this.t1 = setTimeout(() => {
+      this.redo = true; this.batch = true; this.setState({ mode, pc: '' });
+      setTimeout(() => {
+        const c2 = this.root && this.root.querySelector('[data-c2]');
+        if (c2 && this.sc && mode !== 'closed') this.sc.scrollTo({ top: Math.max(0, c2.offsetTop - 90), behavior: 'smooth' });
+        if (c2 && this.sc && mode === 'closed') this.sc.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 60);
+    }, 230);
+  }
+  check() {
+    const root = this.root, sc = this.sc;
+    if (!root || !sc || !this.act()) return;
+    const bottom = sc.getBoundingClientRect().bottom;
+    let k = 0;
+    root.querySelectorAll('[data-rv]:not(.rv)').forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.top < bottom - 36) {
+        el.style.setProperty('--b', (this.batch ? k * 0.22 : 0.05).toFixed(2) + 's');
+        el.classList.add('rv'); k++;
+      }
+    });
+    this.batch = false;
+  }
+  reset() {
+    const root = this.root; if (!root) return;
+    root.querySelectorAll('[data-rv]').forEach((el) => el.classList.remove('rv'));
+    void root.offsetWidth;
+  }
+  renderVals() {
+    const m = this.state.mode;
+    return {
+      rcls: (this.act() ? 'go' : '') + (this.props.leaving ? ' out' : ''),
+      rootRef: (el) => { this.root = el; }, scRef: (el) => { this.sc = el; },
+      scroll: () => this.check(),
+      pc: this.state.pc,
+      closed: m === 'closed', formOn: m === 'form', sentOn: m === 'sent',
+      opts: ['Choisir un service', 'Mariage', 'Engagement', 'Famille lifestyle', 'Anniversaire', 'Événementiel', 'Culinaire & studio'],
+      open: () => this.swap('form'),
+      back: () => this.swap('closed'),
+      // prototype : la validation laisse passer les champs vides ; PID devra la faire côté serveur
+      send: (e) => { e.preventDefault(); this.swap('sent'); },
+      sim: (e) => { if (this.props.onNav) { e.preventDefault(); this.props.onNav('simulateur'); } }
+    };
+  }
+}
+</script>
+</body>
+</html>

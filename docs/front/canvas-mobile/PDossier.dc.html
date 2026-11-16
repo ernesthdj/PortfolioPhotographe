@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Espace client mobile</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+.md-p,.md-p *{box-sizing:border-box}
+.md-p{--E:cubic-bezier(.45,0,.2,1);position:relative;width:390px;height:844px;overflow:hidden;background:#fff;color:#0D0E10;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.md-sc{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;scrollbar-width:none}
+.md-sc::-webkit-scrollbar{display:none}
+.md-vg{position:absolute;inset:0;pointer-events:none;z-index:3;opacity:0;background:radial-gradient(120% 90% at 50% 42%,rgba(20,18,16,0) 55%,rgba(20,18,16,.08) 80%,rgba(20,18,16,.20) 100%)}
+.go .md-vg{animation:md-habille 1.4s ease-in-out .2s both}
+.md-mono{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4B4D52}
+.md-ser{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+
+/* écriture */
+.md-w{position:relative;display:inline-block;white-space:nowrap}
+.md-w .o{display:block;color:transparent;-webkit-text-stroke:1px currentColor;clip-path:inset(-12px 100% -12px 0)}
+.md-w .f{position:absolute;left:0;top:-.24em;padding:.24em .14em .24em 0;background-color:currentColor;background-image:radial-gradient(closest-side,rgba(255,255,255,.22),rgba(255,255,255,.07) 45%,rgba(255,255,255,0)),url(/_blob/ed07de6673f5b97f3f81d1a4ab4817c0);background-size:70% 60%,120px 120px;background-repeat:no-repeat,repeat;background-position:18% 12%,0 0;background-blend-mode:screen,overlay;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;clip-path:inset(-12px 100% -12px 0)}
+.md-tete{position:absolute;left:0;top:50%;width:0;height:0;border-radius:0;background:#0D0E10;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1.5px 0 rgba(0,0,0,.22),0 2px 5px rgba(13,14,16,.22)}
+.rv .md-w .o{animation:md-wIn var(--u,.6s) var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+.rv .md-w .f{animation:md-wIn var(--u,.6s) var(--E) calc(var(--b,0s) + var(--d,0s) + .25s) both}
+.rv .md-tete{animation:md-ne .22s var(--E) max(0s,calc(var(--b,0s) + var(--d,0s) - .22s)) both,md-ecrit var(--u,.6s) var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+.md-rule{clip-path:inset(-4px 100% -4px 0)}
+.rv .md-rule{animation:md-wIn .3s var(--E) calc(var(--b,0s) + .1s) both}
+
+/* traits */
+.md-ln path{fill:none;stroke:#0D0E10;stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 102;stroke-dashoffset:101}
+.rv .md-ln path{animation:md-drawS var(--u,.45s) var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+.md-hl{display:block;overflow:visible}
+.md-hl path{stroke-width:1px;stroke:rgba(13,14,16,.24)}
+
+/* matière */
+.md-glass{background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(250,248,244,.86) 55%,rgba(240,237,231,.9) 100%);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 16px 32px -12px rgba(20,18,16,.30),0 4px 10px -3px rgba(20,18,16,.16),inset 0 1px 0 #fff,inset 0 0 0 1px rgba(255,255,255,.6),inset 0 -2px 0 rgba(20,18,16,.06),inset 0 -12px 18px -12px rgba(20,18,16,.10);opacity:0}
+.rv .md-glass{animation:md-habille 1.8s ease-in-out calc(var(--b,0s) + var(--d,0s) + .5s) both}
+.md-btnw{filter:drop-shadow(0 12px 12px rgba(13,14,16,.38)) drop-shadow(0 3px 4px rgba(13,14,16,.22))}
+.md-cta{display:flex;align-items:center;justify-content:center;border:0;color:#F4F2EE;font:600 15px Inter,sans-serif;cursor:pointer;width:100%;height:100%;background:radial-gradient(35% 25% at 30% 20%,rgba(255,255,255,.14),rgba(255,255,255,0)),url(/_blob/ed07de6673f5b97f3f81d1a4ab4817c0),#0D0E10;background-blend-mode:normal,overlay,normal;box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1.5px 0 rgba(0,0,0,.6);clip-path:inset(0 100% 0 0 round 26px)}
+.rv .md-cta{animation:md-rBtn .45s var(--E) calc(var(--b,0s) + var(--d,0s)) both}
+.md-back{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0;background:none;border:0;cursor:pointer;font:500 14px Inter,sans-serif;color:#0D0E10}
+.md-back:focus-visible,.md-add:focus-visible,.md-rm:focus-visible{outline:2px solid #0D0E10;outline-offset:-3px;border-radius:12px}
+
+/* suivi du dossier : une ligne, des repères, la lueur cyan sur l'étape en cours */
+.md-trk{position:relative;height:58px}
+.md-node{position:absolute;top:0;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:#fff;border:1.5px solid #0D0E10}
+.md-node.on{background:#0D0E10}
+.md-lbl{position:absolute;top:24px;width:70px;margin-left:-35px;text-align:center}
+
+/* formulaire */
+.md-f{position:relative;margin-top:20px}
+.md-lab{display:block;margin-bottom:2px}
+.md-in{width:100%;height:50px;border:0;border-bottom:1.5px solid rgba(13,14,16,.4);background:transparent;font:400 17px Inter,sans-serif;color:#0D0E10;padding:0;outline:none;border-radius:0;-webkit-appearance:none;appearance:none}
+.md-in::placeholder{color:rgba(13,14,16,.36)}
+.md-in:focus{border-bottom:2px solid #0D0E10}
+.md-fg{position:absolute;left:-10px;right:-10px;bottom:-6px;height:30px;border-radius:999px;background:radial-gradient(closest-side,rgba(58,166,181,.34),rgba(58,166,181,.12) 60%,rgba(58,166,181,0));filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .3s ease}
+.md-f:focus-within .md-fg{opacity:1}
+.md-err{margin-top:8px;clip-path:inset(-12px 100% -12px 0);animation:md-wIn .5s var(--E) both}
+.md-add{display:inline-flex;align-items:center;gap:10px;height:48px;padding:0;background:none;border:0;cursor:pointer;font:500 14px Inter,sans-serif;color:#0D0E10}
+.md-plus{width:26px;height:26px;border-radius:50%;border:1.5px solid #0D0E10;display:flex;align-items:center;justify-content:center;flex:none}
+.md-rm{width:44px;height:44px;background:none;border:0;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;margin-right:-10px}
+
+/* sortie */
+.out .rv .md-w .o,.out .rv .md-w .f{animation:md-wOut .2s var(--E) 0s both}
+.out .rv .md-tete{animation:none}
+.out .rv .md-ln path{animation:md-undrawS .3s var(--E) 0s both}
+.out .rv .md-glass{animation:md-deshabille .3s ease both}
+.out .rv .md-cta{animation:md-rBtnOut .3s var(--E) 0s both}
+.out .rv .md-rule{animation:md-wOut .2s var(--E) 0s both}
+.out .md-vg{animation:md-deshabille .3s ease both}
+
+@keyframes md-wIn{from{clip-path:inset(-12px 100% -12px 0)}to{clip-path:inset(-12px -12px -12px 0)}}
+@keyframes md-wOut{from{clip-path:inset(-12px -12px -12px 0)}to{clip-path:inset(-12px 100% -12px 0)}}
+@keyframes md-rBtn{from{clip-path:inset(0 100% 0 0 round 26px)}to{clip-path:inset(0 0 0 0 round 26px)}}
+@keyframes md-rBtnOut{from{clip-path:inset(0 0 0 0 round 26px)}to{clip-path:inset(0 100% 0 0 round 26px)}}
+@keyframes md-drawS{from{stroke-dashoffset:101}to{stroke-dashoffset:0}}
+@keyframes md-undrawS{from{stroke-dashoffset:0}to{stroke-dashoffset:101}}
+@keyframes md-habille{from{opacity:0}to{opacity:1}}
+@keyframes md-deshabille{from{opacity:1}to{opacity:0}}
+@keyframes md-ne{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes md-ecrit{0%{left:-14px;top:calc(50% - 5px);width:10px;height:10px;border-radius:5px}15%{left:-2px;top:0;width:3px;height:100%;border-radius:1.5px}85%{left:calc(100% - 2px);top:0;width:3px;height:100%;border-radius:1.5px}100%{left:100%;top:50%;width:0;height:0;border-radius:0}}
+@media (prefers-reduced-motion: reduce){.md-p *{animation-duration:0s !important;animation-delay:0s !important;transition-duration:0s !important}}
+</style>
+</helmet>
+<div class="md-p {{rcls}}" ref="{{rootRef}}">
+  <div class="md-vg" aria-hidden="true"></div>
+  <div class="md-sc" ref="{{scRef}}" onScroll="{{scroll}}">
+    <div class="md-c {{pc}}" style="padding:96px 22px 190px;position:relative">
+
+      <div data-rv="" style="margin:-10px 0 8px"><button class="md-back" onClick="{{toList}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D0E10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>Mes dossiers</span></button></div>
+      <div data-rv="" style="display:flex;align-items:center;gap:12px">
+        <span class="md-rule" aria-hidden="true" style="display:block;width:28px;height:1px;background:#D9783A"></span>
+        <span class="md-mono"><span class="md-w" style="--d:.15s;--u:.6s"><span class="o">Espace client · {{who}}</span><span class="f" aria-hidden="true">Espace client · {{who}}</span></span></span>
+      </div>
+      <div style="margin-top:14px;font-weight:300;font-size:34px;line-height:1.14;letter-spacing:-.03em;filter:drop-shadow(0 6px 8px rgba(20,18,16,.16))">
+        <div data-rv=""><span class="md-w" style="--d:.1s;--u:.8s"><span class="md-tete"></span><span class="o">{{t1}}</span><span class="f" aria-hidden="true">{{t1}}</span></span></div>
+        <div data-rv=""><span class="md-w" style="--d:.45s;--u:.8s"><span class="md-tete"></span><span class="o"><span class="md-ser" style="font-size:40px">{{t2}}</span></span><span class="f" aria-hidden="true"><span class="md-ser" style="font-size:40px">{{t2}}</span></span></span></div>
+      </div>
+
+      <!-- suivi du dossier : Brouillon → Soumis → Accepté → Confirmé → Réalisé -->
+      <div data-rv="" style="margin-top:26px">
+        <div class="md-trk">
+          <svg class="md-ln md-hl" style="position:absolute;left:0;top:6px" width="346" height="2" viewBox="0 0 346 2" aria-hidden="true"><path pathLength="100" d="M34.6 1H311.4" style="--d:.2s;--u:1s"/></svg>
+          <svg class="md-ln" style="position:absolute;left:0;top:5px;overflow:visible" width="346" height="4" viewBox="0 0 346 4" aria-hidden="true"><path pathLength="100" d="{{trkD}}" style="--d:.5s;--u:.8s"/></svg>
+          <span class="md-glow" aria-hidden="true" style="position:absolute;top:-9px;left:{{glowX}}px;width:36px;height:32px;border-radius:50%;background:radial-gradient(closest-side,rgba(58,166,181,.5),rgba(58,166,181,0));filter:blur(4px);margin-left:-18px;transition:left .6s var(--E)"></span>
+          <sc-for list="{{track}}" as="s" hint-placeholder-count="5">
+            <span class="md-node {{s.cls}}" style="left:{{s.x}}px"></span>
+            <span class="md-lbl md-mono" style="left:{{s.x}}px;font-size:9px;letter-spacing:.06em;color:{{s.c}}">{{s.l}}</span>
+          </sc-for>
+        </div>
+      </div>
+
+      <!-- récapitulatif du brouillon -->
+      <sc-if value="{{hasDraft}}" hint-placeholder-val="{{true}}">
+        <div data-rv="" style="margin-top:18px;position:relative;height:104px">
+          <div class="md-glass" style="position:absolute;inset:0;border-radius:24px"></div>
+          <svg class="md-ln" style="position:absolute;left:0;top:0;overflow:visible;pointer-events:none" width="346" height="104" viewBox="0 0 346 104" aria-hidden="true">
+            <path pathLength="100" d="M0 52 V24 A24 24 0 0 1 24 0 H322 A24 24 0 0 1 346 24 V52" style="--d:.1s;--u:.7s"/>
+            <path pathLength="100" d="M0 52 V80 A24 24 0 0 0 24 104 H322 A24 24 0 0 0 346 80 V52" style="--d:.1s;--u:.7s"/>
+          </svg>
+          <div style="position:absolute;left:22px;right:22px;top:16px">
+            <div class="md-mono" style="font-size:10px"><span class="md-w" style="--d:.7s;--u:.5s"><span class="o">{{cardL}}</span><span class="f" aria-hidden="true">{{cardL}}</span></span></div>
+            <div style="margin-top:6px;font:400 14px/1.4 Inter,sans-serif;height:40px;overflow:hidden">{{recap}}</div>
+          </div>
+          <div style="position:absolute;right:22px;bottom:12px;font:300 20px/1 Inter,sans-serif;letter-spacing:-.03em">{{priceL}} {{ttc}}</div>
+        </div>
+      </sc-if>
+
+      <!-- PRÉCISER MA JOURNÉE : lieux, adresses exactes, horaires, contact -->
+      <sc-if value="{{isForm}}" hint-placeholder-val="{{true}}">
+        <form data-rv="" novalidate="" onSubmit="{{submit}}" style="margin-top:28px">
+          <div class="md-mono"><span class="md-w" style="--d:0s;--u:.5s"><span class="o">Préciser ma journée</span><span class="f" aria-hidden="true">Préciser ma journée</span></span></div>
+          <div class="md-mono" style="margin-top:8px;font-size:10px;line-height:1.7;text-transform:none;letter-spacing:.02em">Adresses et horaires exacts : seuls vous et le photographe les voyez.</div>
+
+          <sc-for list="{{lieux}}" as="l" hint-placeholder-count="1">
+            <div style="margin-top:22px">
+              <svg class="md-ln md-hl" width="346" height="2" viewBox="0 0 346 2" aria-hidden="true"><path pathLength="100" d="M0 1H346" style="--d:{{l.d}};--u:.8s"/></svg>
+              <div style="display:flex;align-items:center;justify-content:space-between;height:44px">
+                <span class="md-mono" style="color:#0D0E10">{{l.title}}</span>
+                <sc-if value="{{l.canRm}}" hint-placeholder-val="{{false}}"><button type="button" class="md-rm" onClick="{{l.rm}}" aria-label="Retirer ce lieu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0D0E10" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></sc-if>
+              </div>
+              <div class="md-f" style="margin-top:2px">
+                <label class="md-lab md-mono" for="{{l.idN}}">Nom du lieu</label>
+                <input class="md-in" id="{{l.idN}}" type="text" autocomplete="off" maxlength="80" placeholder="Salle, domicile, restaurant…" value="{{l.nom}}" onInput="{{l.onNom}}">
+                <span class="md-fg" aria-hidden="true"></span>
+              </div>
+              <div class="md-f">
+                <label class="md-lab md-mono" for="{{l.idA}}">Adresse exacte</label>
+                <input class="md-in" id="{{l.idA}}" type="text" autocomplete="street-address" maxlength="160" placeholder="Rue, numéro, commune" value="{{l.adr}}" onInput="{{l.onAdr}}" aria-invalid="{{l.eAdr}}">
+                <span class="md-fg" aria-hidden="true"></span>
+                <sc-if value="{{l.eAdr}}" hint-placeholder-val="{{false}}"><div class="md-err md-mono" style="color:#0D0E10;text-transform:none;letter-spacing:.02em;font-size:12px">Saisissez l’adresse complète.</div></sc-if>
+              </div>
+              <div class="md-f">
+                <label class="md-lab md-mono" for="{{l.idH}}">Heure d’arrivée</label>
+                <input class="md-in" id="{{l.idH}}" type="time" step="900" value="{{l.h}}" onInput="{{l.onH}}" aria-invalid="{{l.eH}}">
+                <span class="md-fg" aria-hidden="true"></span>
+                <sc-if value="{{l.eH}}" hint-placeholder-val="{{false}}"><div class="md-err md-mono" style="color:#0D0E10;text-transform:none;letter-spacing:.02em;font-size:12px">Indiquez l’heure d’arrivée.</div></sc-if>
+              </div>
+            </div>
+          </sc-for>
+
+          <sc-if value="{{canAdd}}" hint-placeholder-val="{{true}}">
+            <div style="margin-top:10px"><button type="button" class="md-add" onClick="{{addLieu}}"><span class="md-plus"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0D0E10" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 6v12M6 12h12"/></svg></span>Ajouter un lieu</button></div>
+          </sc-if>
+
+          <div class="md-f" style="margin-top:14px">
+            <label class="md-lab md-mono" for="md-tel">Contact le jour J</label>
+            <input class="md-in" id="md-tel" type="tel" inputmode="tel" autocomplete="tel" maxlength="24" placeholder="+32 …" value="{{tel}}" onInput="{{onTel}}" aria-invalid="{{eTel}}">
+            <span class="md-fg" aria-hidden="true"></span>
+            <sc-if value="{{eTel}}" hint-placeholder-val="{{false}}"><div class="md-err md-mono" style="color:#0D0E10;text-transform:none;letter-spacing:.02em;font-size:12px">Numéro de téléphone invalide.</div></sc-if>
+          </div>
+
+          <div style="margin-top:28px">
+            <div class="md-btnw" style="width:100%;height:54px"><button type="button" class="md-cta" style="--d:.1s" onClick="{{submit}}"><span class="md-w" style="--d:.45s;--u:.5s"><span class="o">Envoyer ma demande</span><span class="f" aria-hidden="true">Envoyer ma demande</span></span></button></div>
+            <div class="md-mono" style="margin-top:12px;font-size:10px;line-height:1.7;text-transform:none;letter-spacing:.02em;text-align:center">Le photographe examine votre demande et vous répond sous [48 h].</div>
+          </div>
+        </form>
+      </sc-if>
+
+      <!-- DEMANDE ENVOYÉE -->
+      <sc-if value="{{isSent}}" hint-placeholder-val="{{false}}">
+        <div data-rv="" style="margin-top:26px;font:400 15px/1.7 Inter,sans-serif;color:#4B4D52">
+          <div><span class="md-w" style="--d:.1s;--u:.7s"><span class="o">Votre dossier est en cours d’examen.</span><span class="f" aria-hidden="true">Votre dossier est en cours d’examen.</span></span></div>
+          <div><span class="md-w" style="--d:.35s;--u:.7s"><span class="o">Vous recevrez la réponse par e-mail,</span><span class="f" aria-hidden="true">Vous recevrez la réponse par e-mail,</span></span></div>
+          <div><span class="md-w" style="--d:.6s;--u:.7s"><span class="o">et ici dès que le dossier avance.</span><span class="f" aria-hidden="true">et ici dès que le dossier avance.</span></span></div>
+        </div>
+        <div data-rv="" style="margin-top:28px">
+          <div class="md-btnw" style="width:100%;height:54px"><button class="md-cta" style="--d:.1s" onClick="{{home}}"><span class="md-w" style="--d:.45s;--u:.5s"><span class="o">Retour à mes dossiers</span><span class="f" aria-hidden="true">Retour à mes dossiers</span></span></button></div>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"play":{"editor":null,"default":true},"leaving":{"editor":null,"default":false},"onNav":{"editor":null},"draft":{"editor":null},"email":{"editor":null},"sent":{"editor":null},"onSent":{"editor":null},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { lieux: [{ nom: '', adr: '', h: '' }], tel: '', tried: false, sent: false, pc: '' };
+    this.batch = true; this.redo = false;
+  }
+  act() { return this.props.play === undefined ? true : !!this.props.play; }
+  componentDidMount() { setTimeout(() => this.check(), 40); }
+  componentWillUnmount() { clearTimeout(this.t1); }
+  componentDidUpdate(pp) {
+    if (this.redo) { this.redo = false; this.reset(); setTimeout(() => this.check(), 20); }
+    const was = pp.play === undefined ? true : !!pp.play, now = this.act();
+    if (!was && now) { if (this.props.sent) this.setState({ sent: true }); this.batch = true; setTimeout(() => this.check(), 60); }
+    if (was && !now) { clearTimeout(this.t1); this.reset(); if (this.sc) this.sc.scrollTop = 0; this.setState({ lieux: [{ nom: '', adr: '', h: '' }], tel: '', tried: false, sent: false, pc: '' }); }
+  }
+  // envoi : le formulaire se décompose, puis le message de confirmation s'écrit
+  swap(patch) {
+    if (this.state.pc) return;
+    clearTimeout(this.t1);
+    this.setState({ pc: 'out' });
+    this.t1 = setTimeout(() => { if (this.sc) this.sc.scrollTop = 0; this.redo = true; this.batch = true; this.setState({ ...patch, pc: '' }); }, 230);
+  }
+  check() {
+    const root = this.root, sc = this.sc;
+    if (!root || !sc || !this.act()) return;
+    const bottom = sc.getBoundingClientRect().bottom;
+    let k = 0;
+    root.querySelectorAll('[data-rv]:not(.rv)').forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.top < bottom - 36) { el.style.setProperty('--b', (this.batch ? k * 0.2 : 0.05).toFixed(2) + 's'); el.classList.add('rv'); k++; }
+    });
+    this.batch = false;
+  }
+  reset() { const root = this.root; if (!root) return; root.querySelectorAll('[data-rv]').forEach((el) => el.classList.remove('rv')); void root.offsetWidth; }
+  // validation aux frontières (confort ici ; le serveur valide toujours : Form Request, jeton CSRF)
+  // Prototype : seuls les formats manifestement faux bloquent ; les champs vides laissent passer. Dans PID : adresses et horaires obligatoires, validés côté serveur.
+  errs() {
+    const st = this.state, e = { lieux: st.lieux.map((l) => ({ adr: l.adr.trim() !== '' && l.adr.trim().length < 6, h: false })), tel: st.tel.trim() !== '' && !/^[+0-9 ().\-]{8,24}$/.test(st.tel.trim()) };
+    e.any = e.tel || e.lieux.some((l) => l.adr || l.h);
+    return e;
+  }
+  upd(i, k, v) { this.setState({ lieux: this.state.lieux.map((l, j) => (j === i ? { ...l, [k]: v } : l)) }); }
+  submit(ev) {
+    if (ev && ev.preventDefault) ev.preventDefault();
+    if (this.errs().any) { this.setState({ tried: true }); return; }
+    if (this.props.onSent) this.props.onSent();
+    if (this.props.onNav) { if (this.sending) return; this.sending = true; setTimeout(() => { this.sending = false; this.props.onNav('dossiers'); }, 1300); return; }
+    this.swap({ sent: true, tried: false });
+  }
+  renderVals() {
+    const st = this.state, d = this.props.draft || null, e = st.tried ? this.errs() : { lieux: [], tel: false };
+    const idx = st.sent ? 1 : 0;
+    const NAMES = ['Brouillon', 'Soumis', 'Accepté', 'Confirmé', 'Réalisé'];
+    const track = NAMES.map((l, i) => ({ l, x: 34.6 + i * 69.2, cls: i <= idx ? 'on' : '', c: i <= idx ? '#0D0E10' : '#4B4D52' }));
+    const x0 = 34.6, x1 = x0 + idx * 69.2;
+    return {
+      rcls: (this.act() ? 'go' : '') + (this.props.leaving ? ' out' : ''),
+      rootRef: (el) => { this.root = el; }, scRef: (el) => { this.sc = el; },
+      scroll: () => this.check(), pc: st.pc,
+      who: this.props.email || 'connecté',
+      t1: st.sent ? 'Demande' : 'Votre journée,', t2: st.sent ? 'envoyée.' : 'à préciser.',
+      track, trkD: idx === 0 ? 'M34.6 2H34.6' : 'M' + x0 + ' 2H' + x1, glowX: x1,
+      hasDraft: !!d, recap: d ? d.recap : '', ttc: d ? d.ttc : '', cardL: st.sent ? 'Votre demande' : 'Votre brouillon', priceL: st.sent ? 'à confirmer ·' : 'à partir de',
+      isForm: !st.sent, isSent: st.sent,
+      lieux: st.lieux.map((l, i) => ({
+        nom: l.nom, adr: l.adr, h: l.h, title: 'Lieu ' + (i + 1), canRm: st.lieux.length > 1, d: (0.1 + i * 0.1).toFixed(2) + 's',
+        idN: 'md-nom-' + i, idA: 'md-adr-' + i, idH: 'md-h-' + i,
+        eAdr: !!(e.lieux[i] && e.lieux[i].adr), eH: !!(e.lieux[i] && e.lieux[i].h),
+        onNom: (ev) => this.upd(i, 'nom', ev.target.value), onAdr: (ev) => this.upd(i, 'adr', ev.target.value), onH: (ev) => this.upd(i, 'h', ev.target.value),
+        rm: () => this.setState({ lieux: st.lieux.filter((x, j) => j !== i) })
+      })),
+      canAdd: st.lieux.length < 4, addLieu: () => this.setState({ lieux: st.lieux.concat({ nom: '', adr: '', h: '' }) }),
+      tel: st.tel, onTel: (ev) => this.setState({ tel: ev.target.value }), eTel: !!e.tel,
+      submit: (ev) => this.submit(ev),
+      toList: () => { if (this.props.onNav) this.props.onNav('dossiers'); },
+      home: () => { if (this.props.onNav) this.props.onNav('dossiers'); }
+    };
+  }
+}
+</script>
+</body>
+</html>
