@@ -88,7 +88,7 @@ body{margin:0}
 .ms-lr rect{fill:none;stroke:#0D0E10;stroke-width:1.5px;stroke-linecap:round;stroke-dasharray:100 102;stroke-dashoffset:101}
 .rv .ms-lr rect{animation:ms-drawS 1s var(--E) calc(var(--b,0s) + var(--d,0s)) both}
 .out .rv .ms-lr rect{animation:ms-undrawS .3s var(--E) 0s both}
-.ms-ghb{display:flex;align-items:center;justify-content:center;border:0;background:transparent;color:#0D0E10;font:600 15px Inter,sans-serif;cursor:pointer;width:100%;height:100%;box-shadow:inset 0 0 0 1.5px #0D0E10;clip-path:inset(0 100% 0 0 round 26px)}
+.ms-ghb{border-radius:26px;display:flex;align-items:center;justify-content:center;border:0;background:transparent;color:#0D0E10;font:600 15px Inter,sans-serif;cursor:pointer;width:100%;height:100%;box-shadow:inset 0 0 0 1.5px #0D0E10;clip-path:inset(0 100% 0 0 round 26px)}
 .rv .ms-ghb{animation:ms-rBtn .45s var(--E) calc(var(--b,0s) + var(--d,0s)) both}
 .out .rv .ms-ghb{animation:ms-rBtnOut .3s var(--E) 0s both}
 .ms-ghb:focus-visible,.ms-cta:focus-visible{outline:2px solid #0D0E10;outline-offset:3px}
@@ -129,7 +129,7 @@ body{margin:0}
         <div class="ms-glass" style="position:absolute;inset:0;border-radius:24px;--d:.5s"></div>
         <svg class="ms-lr" aria-hidden="true"><rect x="0" y="0" width="100%" height="100%" rx="24" ry="24" pathLength="100" style="--d:.1s"/></svg>
         <div style="position:relative;padding:22px">
-          <div class="ms-ph" style="height:140px;--d:.3s"><img class="ms-img" src="/_blob/79058532f3d7d37917786298a0ac7945" alt="Les mariés devant le château" style="object-position:50% 30%"></div>
+          <div class="ms-ph" style="height:140px;--d:.3s"><img class="ms-img" src="/_blob/c145ad0fe8cc59b423f374ceb0618733" alt="Les mariés devant le château" style="object-position:50% 30%"></div>
           <div class="ms-mono" style="margin-top:18px"><span class="ms-w" style="--d:.9s;--u:.6s"><span class="o">01 · Le plus rapide</span><span class="f" aria-hidden="true">01 · Le plus rapide</span></span></div>
           <div style="margin-top:6px;font:300 26px/1.2 Inter,sans-serif;letter-spacing:-.02em"><span class="ms-w" style="--d:1s;--u:.7s"><span class="o">Simuler mon devis</span><span class="f" aria-hidden="true">Simuler mon devis</span></span></div>
           <div style="margin-top:10px;font:400 14px/1.6 Inter,sans-serif;color:#4B4D52">
@@ -147,7 +147,7 @@ body{margin:0}
 
         <sc-if value="{{closed}}" hint-placeholder-val="{{ true }}">
           <div style="position:relative;padding:22px">
-            <div class="ms-ph" style="height:140px;--d:.45s"><img class="ms-img nb" src="/_blob/2b6e173fdf036442185ceb85aa49021f" alt="Baiser sur la joue" style="object-position:50% 30%"></div>
+            <div class="ms-ph" style="height:140px;--d:.45s"><img class="ms-img nb" src="/_blob/2aa4aa217df0a00c1dd1ba248338bd5a" alt="Baiser sur la joue" style="object-position:50% 30%"></div>
             <div class="ms-mono" style="margin-top:18px"><span class="ms-w" style="--d:1s;--u:.6s"><span class="o">02 · Le plus personnel</span><span class="f" aria-hidden="true">02 · Le plus personnel</span></span></div>
             <div style="margin-top:6px;font:300 26px/1.2 Inter,sans-serif;letter-spacing:-.02em"><span class="ms-w" style="--d:1.1s;--u:.7s"><span class="o">Écrire un message</span><span class="f" aria-hidden="true">Écrire un message</span></span></div>
             <div style="margin-top:10px;font:400 14px/1.6 Inter,sans-serif;color:#4B4D52">
@@ -159,7 +159,7 @@ body{margin:0}
         </sc-if>
 
         <sc-if value="{{formOn}}" hint-placeholder-val="{{ false }}">
-          <form style="position:relative;padding:8px 22px 22px;margin:0" aria-label="Écrire un message" onSubmit="{{send}}">
+          <form style="position:relative;padding:8px 22px 22px;margin:0" aria-label="Écrire un message">
             <div class="ms-mono" style="margin-top:14px"><span class="ms-w" style="--d:.5s;--u:.6s"><span class="o">02 · Votre message</span><span class="f" aria-hidden="true">02 · Votre message</span></span></div>
             <div class="ms-fld" style="--d:.6s"><label for="ct-nom">Prénom et nom</label><input id="ct-nom" type="text" autocomplete="name" placeholder="Camille Dupont"></div>
             <div class="ms-fld" style="--d:.7s"><label for="ct-mail">E-mail</label><input id="ct-mail" type="email" autocomplete="email" placeholder="camille@exemple.be"></div>
@@ -167,7 +167,7 @@ body{margin:0}
               <select id="ct-svc"><sc-for list="{{opts}}" as="o" hint-placeholder-count="7"><option>{{o}}</option></sc-for></select>
             </div>
             <div class="ms-fld" style="--d:.9s"><label for="ct-msg">Votre message</label><textarea id="ct-msg" rows="4" placeholder="Racontez-moi votre journée, vos lieux, vos envies."></textarea></div>
-            <div class="ms-btnw" style="margin-top:22px;width:100%;height:52px"><button type="submit" class="ms-cta" style="--d:1s"><span class="ms-w" style="--d:1.2s;--u:.5s"><span class="o">Envoyer</span><span class="f" aria-hidden="true">Envoyer</span></span></button></div>
+            <div class="ms-btnw" style="margin-top:22px;width:100%;height:52px"><button type="submit" class="ms-cta" style="--d:1s" onClick="{{send}}"><span class="ms-w" style="--d:1.2s;--u:.5s"><span class="o">Envoyer</span><span class="f" aria-hidden="true">Envoyer</span></span></button></div>
             <div style="margin-top:6px;display:flex;justify-content:center"><button type="button" class="ms-lien" onClick="{{back}}"><span class="ms-w" style="--d:1.3s;--u:.5s"><span class="o">Revenir aux deux choix</span><span class="f" aria-hidden="true">Revenir aux deux choix</span></span></button></div>
           </form>
         </sc-if>
