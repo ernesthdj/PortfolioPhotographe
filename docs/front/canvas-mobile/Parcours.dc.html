@@ -113,7 +113,7 @@ body{margin:0}
     <dc-import name="PCompte" play="{{pk.play}}" leaving="{{pk.leaving}}" on-nav="{{nav}}" draft="{{draft}}" on-auth="{{onAuth}}" hint-size="390px,844px"></dc-import>
   </div>
   <div class="pc-s" style="visibility:{{pd2.vis}}">
-    <dc-import name="PDossier" play="{{pd2.play}}" leaving="{{pd2.leaving}}" on-nav="{{nav}}" draft="{{draft}}" email="{{email}}" on-sent="{{onSent}}" sent="{{sent}}" hint-size="390px,844px"></dc-import>
+    <dc-import name="PDossier" play="{{pd2.play}}" leaving="{{pd2.leaving}}" on-nav="{{nav}}" draft="{{draft}}" email="{{email}}" on-sent="{{onSent}}" sent="{{sent}}" sel="{{dsel}}" hint-size="390px,844px"></dc-import>
   </div>
   <div class="pc-s" style="visibility:{{pl.vis}}">
     <dc-import name="PMesDossiers" play="{{pl.play}}" leaving="{{pl.leaving}}" on-nav="{{nav}}" draft="{{draft}}" email="{{email}}" sent="{{sent}}" hint-size="390px,844px"></dc-import>
@@ -188,7 +188,7 @@ body{margin:0}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
 class Component extends DCLogic {
-  constructor(props) { super(props); this.state = { screen: 'intro', leaving: false, cat: 'tout', svc: 'mariages', sim: null, draft: null, logged: false, email: '', sent: false, toast: '', zoom: false }; this.lastKey = ''; }
+  constructor(props) { super(props); this.state = { screen: 'intro', leaving: false, cat: 'tout', svc: 'mariages', sim: null, draft: null, dsel: '', logged: false, email: '', sent: false, toast: '', zoom: false }; this.lastKey = ''; }
   componentWillUnmount() { clearTimeout(this.t); clearTimeout(this.tt); clearTimeout(this.tt2); cancelAnimationFrame(this.raf); cancelAnimationFrame(this.rs); }
   componentDidUpdate() { const k = this.state.screen + ':' + this.state.cat + ':' + this.state.svc; if (this.lastKey !== k) { this.lastKey = k; this.centerCat(); } }
   // --- banderole des catégories : défilement animé (ease-in-out, 0,6 s) ; elle se déroule vers la droite si l'on clique à gauche, vers la gauche si l'on clique à droite ---
@@ -266,11 +266,12 @@ class Component extends DCLogic {
       cat: target === 'galerie' ? (arg || 'tout') : 'tout',
       svc: target === 'services' ? (arg || 'mariages') : 'mariages',
       sim: target === 'simulateur' ? (arg || null) : null,
-      draft: arg && typeof arg === 'object' ? arg : this.state.draft
+      draft: arg && typeof arg === 'object' && !arg.sel ? arg : this.state.draft,
+      dsel: arg && arg.sel ? arg.sel : ''
     }), 650);
   }
   renderVals() {
-    const { screen, leaving, cat, svc, sim: simK, draft, logged, email, sent, zoom } = this.state;
+    const { screen, leaving, cat, svc, sim: simK, draft, dsel, logged, email, sent, zoom } = this.state;
     const mk = (id) => ({ vis: screen === id ? 'visible' : 'hidden', play: screen === id, leaving: leaving && screen === id });
     const GCH = [['tout', 'Tout'], ['mariages', 'Mariages'], ['engagement', 'Engagement'], ['famille', 'Famille'], ['anniversaires', 'Anniversaires'], ['evenementiel', 'Événementiel'], ['culinaire', 'Culinaire']];
     const SCH = [['mariages', 'Mariages'], ['engagement', 'Engagement'], ['famille', 'Famille'], ['anniversaires', 'Anniversaires'], ['evenementiel', 'Événementiel'], ['culinaire', 'Culinaire']];
@@ -284,7 +285,7 @@ class Component extends DCLogic {
     return {
       go: screen === 'intro' ? '' : 'go',
       pi: mk('intro'), pa: mk('accueil'), pg: mk('galerie'), ps: mk('services'), pm: mk('simulateur'), pk: mk('compte'), pd2: mk('dossier'), pl: mk('dossiers'), pap: mk('apropos'), pct: mk('contact'),
-      draft, email, sent, logged, toastCls: this.state.toast, onSent: () => { this.setState({ sent: true, toast: 'on' }); clearTimeout(this.tt); clearTimeout(this.tt2); this.tt = setTimeout(() => this.setState({ toast: 'off' }), 4600); this.tt2 = setTimeout(() => this.setState({ toast: '' }), 5100); }, ctaL: logged ? 'Mon dossier' : 'Mon devis', onAuth: (m) => this.setState({ logged: true, email: m }),
+      draft, dsel, email, sent, logged, toastCls: this.state.toast, onSent: () => { this.setState({ sent: true, toast: 'on' }); clearTimeout(this.tt); clearTimeout(this.tt2); this.tt = setTimeout(() => this.setState({ toast: 'off' }), 4600); this.tt2 = setTimeout(() => this.setState({ toast: '' }), 5100); }, ctaL: logged ? 'Mon dossier' : 'Mon devis', onAuth: (m) => this.setState({ logged: true, email: m }),
       cat, svc, sim: simK ? ({ mariages: 'mar', engagement: 'eng', famille: 'fam', anniversaires: 'ann', evenementiel: 'evt', culinaire: 'cul' })[simK] || '' : '',
       nav: (t, a) => this.nav(t, a),
       done: () => this.setState({ screen: 'accueil', leaving: false }),
