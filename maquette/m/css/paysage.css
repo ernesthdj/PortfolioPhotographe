@@ -1,0 +1,31 @@
+/* Maquette mobile : mise en page en paysage (téléphone tenu à l'horizontale, écran de 500 px de haut ou moins).
+   Le site prend toute la largeur (voir #app dans ecrans.css) : photo à gauche et texte à droite, galerie sur 4 colonnes,
+   marges du haut et du bas réduites. Chargé après ecrans.css. Les écrans sont reconnus par leur contenu (:has), sans classe à ajouter. */
+@media (orientation:landscape) and (max-height:500px){
+  :root{--haut:calc(72px + env(safe-area-inset-top));--bas:calc(150px + env(safe-area-inset-bottom))}
+
+  /* encoche : rien sous les bords gauche et droit de l'écran */
+  .page{padding-left:max(22px,env(safe-area-inset-left));padding-right:max(22px,env(safe-area-inset-right));display:flow-root}
+  .dock{left:max(16px,env(safe-area-inset-left));right:max(16px,env(safe-area-inset-right))}
+  .banniere .logo,.banniere .sig{left:max(22px,env(safe-area-inset-left))}
+  .banniere .ap{right:max(22px,env(safe-area-inset-right))}
+
+  /* photo d'ouverture à gauche, le texte s'écrit à sa droite (accueil, services, à propos) */
+  .page .photo-bloc{float:left;width:calc(50% - 14px);margin:12px 28px 18px 0}
+  .page .photo-bloc .photo,.page .photo-bloc.portrait .photo{aspect-ratio:1/1}
+  .page .tarifs,.page .exemple,.page .actions,.page .seance,.page .texte,.page .titre{display:flow-root}      /* ces blocs se rangent À CÔTÉ de la photo flottante au lieu de passer dessous */
+  .page .legende{float:left;clear:left;width:calc(50% - 14px);margin-right:28px}      /* flottante aussi : sinon elle pousse tout le texte sous la photo */
+  .page .rangee,.page .temoin,.page .index,.page .cloture,.page .piliers,.page .materiel{clear:both}
+
+  /* accueil : les rangées de photos gardent des proportions qui tiennent dans la hauteur de l'écran */
+  .rangee .tuile-a{aspect-ratio:4/3}
+  .rangee.pleine .tuile-a{aspect-ratio:3/1}
+
+  /* galerie : 4 photos par ligne, les panoramas sur 2 colonnes */
+  .tuile{width:calc(25% - 7.5px)}
+  .tuile.large{width:calc(50% - 5px)}
+
+  /* contact : les deux portes côte à côte */
+  .page:has(> .porte){display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:28px;align-items:start}
+  .page:has(> .porte) > :not(.porte){grid-column:1/-1}
+}

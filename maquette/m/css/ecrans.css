@@ -132,22 +132,17 @@
 .ib-fermer{right:16px;top:calc(16px + env(safe-area-inset-top))}
 .ib-prec{left:22px;bottom:calc(28px + env(safe-area-inset-bottom))}
 .ib-suiv{right:22px;bottom:calc(28px + env(safe-area-inset-bottom))}
-/* paysage (le système a pivoté l'écran) : le visualiseur prend tout l'écran, boutons de chaque côté ; le reste du site est dessiné pour le portrait */
+/* paysage (le système a pivoté l'écran) : le site prend toute la largeur ; le visualiseur aussi (toute taille d'écran), boutons de chaque côté */
+@media (orientation:landscape) and (max-height:500px){#app{max-width:none;box-shadow:none}}
 @media (orientation:landscape){
   .zoom-ouvert #app{max-width:none;box-shadow:none}
+  .zoom .zcap{text-shadow:0 1px 8px rgba(0,0,0,.75)}      /* la légende est posée sur la photo */
   .ib-fermer{right:calc(16px + env(safe-area-inset-right));top:12px}
   .ib-prec,.ib-suiv{bottom:auto;top:50%;margin-top:-24px}
   .ib-prec{left:calc(14px + env(safe-area-inset-left))}
   .ib-suiv{right:calc(14px + env(safe-area-inset-right))}
 }
-#tourner{display:none;position:fixed;inset:0;z-index:100;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:24px;background:#fff;color:#2b2521;text-align:center;font:400 16px/1.4 Inter,sans-serif}
-#tourner svg{margin-bottom:6px}
-#tourner p{margin:0}
-#tourner .mono{font-size:11px;opacity:.6}
-@media (orientation:landscape) and (max-height:500px){
-  html:not(.zoom-ouvert) #app{visibility:hidden}
-  html:not(.zoom-ouvert) #tourner{display:flex}
-}
+
 .ib{position:absolute;width:48px;height:48px;border-radius:24px;border:1.5px solid var(--ink);background:rgba(255,255,255,.9);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
 .zcap{position:absolute;left:22px;right:22px}
 .zcap .eyebrow .regle{clip-path:none;animation:none}

@@ -62,7 +62,7 @@ export function creerZoomPhotos(e, ctx, { liste: lireListe, tuile: trouverTuile 
     const paysage = p.r > 1, rot = paysage && !ecranPaysage ? inclinaison : 0;   // une photo en paysage se couche quand on couche le téléphone (écran verrouillé en portrait)
     let cible;
     if (rot !== 0) { const Wd = Math.min(H * 0.73, (W - 44) * p.r), Hd = Wd / p.r; cible = { l: W / 2 - Wd / 2, t: H * 0.44 - Hd / 2, w: Wd, h: Hd, rot }; }
-    else if (ecranPaysage) { const w = Math.min(W - 150, (H - 76) * p.r), h = w / p.r; cible = { l: (W - w) / 2, t: Math.max(14, (H - h) / 2 - 22), w, h, rot: 0 }; }   // écran en paysage : la photo remplit la hauteur, boutons sur les côtés
+    else if (ecranPaysage) { const w = Math.min(W - 100, (H - 16) * p.r), h = w / p.r; cible = { l: (W - w) / 2, t: (H - h) / 2, w, h, rot: 0 }; }   // écran en paysage : la photo remplit la hauteur (légende posée dessus), boutons sur les côtés
     else { const w = Math.min(W - 44, H * 0.71 * p.r), h = w / p.r; cible = { l: (W - w) / 2, t: (H - h) / 2 - 28, w, h, rot: 0 }; }
     const b = v.ph === 'to' ? cible : { ...v.rect, rot: 0 };
     Object.assign(zoom.boite.style, { left: b.l + 'px', top: b.t + 'px', width: b.w + 'px', height: b.h + 'px', transform: `rotate(${b.rot}deg)` });
@@ -70,7 +70,9 @@ export function creerZoomPhotos(e, ctx, { liste: lireListe, tuile: trouverTuile 
     zoom.fond.classList.toggle('on', v.ph === 'to');
     zoom.ctl.style.opacity = v.ph === 'to' ? '1' : '0';
     zoom.ctl.style.pointerEvents = v.ph === 'to' ? 'auto' : 'none';
-    zoom.legende.style.top = (ecranPaysage ? Math.min(cible.t + cible.h + 10, H - 54) : rot !== 0 ? H - 144 : Math.min(cible.t + cible.h + 22, H - 144)) + 'px';
+    zoom.legende.style.top = (ecranPaysage ? cible.t + cible.h - 50 : rot !== 0 ? H - 144 : Math.min(cible.t + cible.h + 22, H - 144)) + 'px';
+    zoom.legende.style.left = ecranPaysage ? cible.l + 14 + 'px' : '';     // en paysage la légende est sur la photo, en bas à gauche
+    zoom.legende.style.right = ecranPaysage ? 'auto' : ''
     zoom.num.textContent = `${String(v.i + 1).padStart(2, '0')} / ${String(liste.length).padStart(2, '0')}`;
     zoom.cap.textContent = m.cap;
     zoom.imgs.forEach((im, k) => {
