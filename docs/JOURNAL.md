@@ -233,3 +233,8 @@ Choix figes et ecartes dans `docs/front/premier-impact-design.md`. A peaufiner a
 - Annonce que les photos Blob risquaient de ne pas s'afficher a cause de `manifest: null` sur `/api/photos`, sans verifier : les pages lisent `data/photos-blob.js`, pas cette API (mini-CMS non branche).
 - Deux liens donnes (`/` et `/m`) sans signaler l'absence de redirection mobile.
 - Boucle d'attente sur `/m/` qui renvoie un 308 vers `/m` (cleanUrls) : jamais de 200.
+
+### [2026-11-26] FIX — ecran blanc de la version mobile en ligne
+**Fichiers :** `maquette/m/index.html`
+**Resume :** Sur Vercel (`cleanUrls`), `/m/` redirige vers `/m` : les chemins relatifs `css/mobile.css` et `js/app.js` etaient alors resolus a la racine (`/css/mobile.css`, 404) et la page restait blanche. Chemins passes en absolu (`/m/css/...`, `/m/js/app.js`). Invisible en local, le serveur de test servant `/m/`.
+**Erreur de Claude :** la redirection mobile vers `/m` a ete deployee sans charger la page mobile reelle (seuls les codes HTTP avaient ete testes). Toujours ouvrir la page dans un navigateur (viewport mobile) apres un changement d'adresse.
