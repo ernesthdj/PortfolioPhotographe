@@ -38,6 +38,11 @@ export interface Manifest {
   events: EventGroup[];
 }
 
+/** Manifeste vide : état de départ tant que rien n'a été enregistré. */
+export function emptyManifest(): Manifest {
+  return { version: 1, rev: 0, photos: [], slots: {}, events: [] };
+}
+
 export const SLOT_LIMITS: Readonly<Record<string, number>> = Object.fromEntries([
   ["intro", 5],
   ...[0, 1, 2, 3, 4, 5].flatMap((s) => [

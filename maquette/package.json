@@ -4,7 +4,8 @@
   "type": "module",
   "description": "Maquette statique + mini CMS photos (fonctions Vercel dans api/)",
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "node --test \"tests/*.test.ts\""
   },
   "dependencies": {
     "@vercel/blob": "^2.9.0"
