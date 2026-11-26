@@ -6,10 +6,11 @@ import { el, svg, mot, ecrire, animer, liste, cheminSvg, cadrePhoto, setMot } fr
 import { monterEntete, majEntete, enteteMontee } from '../lib/entete.js';
 import { creerVie } from '../lib/vie.js';
 import { mesures as scene } from '../lib/scene.js';   // (« mesures » est déjà le nom de la mesure de texte plus bas)
-import { memoriserFocus, clavierModale } from '../lib/modale.js';
+import { memoriserFocus } from '../lib/modale.js';
+import { creerPhotoAgrandie } from '../lib/photo-agrandie.js';
 import { creerSurligneur } from '../lib/surligneur.js';
 import { monterVagabond } from '../lib/vagabond.js';
-import { PHOTOS, TAILLES, habillePhoto } from '../../data/photos-site.js';
+import { PHOTOS, habillePhoto } from '../../data/photos-site.js';
 
 const FRAGMENT = (...n) => { const f = document.createDocumentFragment(); f.append(...n); return f; };
 
@@ -69,16 +70,16 @@ function rectsMosaique(ratios, dx = 0) {
   return out;
 }
 
-function emplacement(p, cls, w) {
+function emplacement(p, cls) {
   const n = el('div', { class: cls + ' ph ton-' + p.ton, role: 'img', 'aria-label': p.alt }, el('span', null, p.label));
-  habillePhoto(n, p, w);
+  habillePhoto(n, p);
   return n;
 }
-function majEmplacement(n, p, cls, w) {
+function majEmplacement(n, p, cls) {
   n.className = cls + ' ph ton-' + p.ton;
   n.setAttribute('aria-label', p.alt);
   n.firstElementChild.textContent = p.label;
-  habillePhoto(n, p, w);
+  habillePhoto(n, p);
 }
 
 /**
@@ -373,51 +374,12 @@ export function monterAccueil(hote, { seul = true, retard = 0 } = {}) {
   }
 
 
-  // ---------- photo agrandie ----------
-  let lbEls = null;
+  // ---------- photo agrandie (module commun à toutes les pages) ----------
+  const pa = creerPhotoAgrandie({ hote: lbHote, vie, fermer, aller: (d, n) => aller(d, n), classeFond: 'lb-fond' });
   function renderLb(PH, dx) {
-    if (S.lbI === null || S.lbI === undefined) { if (lbEls) { lbEls.racine.remove(); lbEls = null; } return; }
-    const p = PH[S.lbI], st = S.lbSt, ph = p.p;
-    const w0 = Math.min(1180, 740 * ph.r), h0 = w0 / ph.r;
-    const tx = Math.round(720 + dx / 2 - w0 / 2), ty = Math.round(446 - h0 / 2), tw = Math.round(w0), th = Math.round(h0);
-    const growing = st === 'to', atSrc = st === 'from' || st === 'closing';
-    const rect = atSrc ? { x: p.x, y: p.y, w: p.w, h: p.h } : { x: tx, y: ty, w: tw, h: th };
-    const box = (d, dl) => ['left', 'top', 'width', 'height'].map((k) => `${k} ${d}s ${E} ${dl}s`).join(', ');
-    const alt = S.lbN % 2;
-    const t = st === 'closing' ? { o: `wOut .18s ${E} 0s both`, f: `wOut .18s ${E} 0s both` }
-      : { o: growing ? `wIn .45s ${E} .7s both` : 'none', f: growing ? `wIn .45s ${E} .85s both` : 'none' };
-    if (!lbEls) {
-      const fond = el('div', { class: 'lb-fond' }), img = emplacement(ph, 'lb-img', TAILLES.grand), cadre = el('div', { class: 'lb-cadre' });
-      const trP = cheminSvg('');
-      const trS = svg('svg', { class: 'lbtr', 'aria-hidden': 'true' }, trP);
-      const capW = mot(''), numW = mot('');
-      const capP = el('p', { style: "position:absolute;left:120px;top:846px;margin:0;font:500 12.5px 'IBM Plex Mono',monospace;letter-spacing:.04em;color:#4B4D52" }, capW);
-      const numP = el('p', { style: "position:absolute;left:670px;top:846px;width:100px;margin:0;text-align:center;font:500 12.5px 'IBM Plex Mono',monospace;letter-spacing:.04em;color:#4B4D52" }, numW);
-      const bt = (label, style, d, fn) => el('button', { type: 'button', class: 'lb-btn', 'aria-label': label, style, on: { click: fn } },
-        svg('svg', { viewBox: '0 0 24 24', 'aria-hidden': 'true' }, svg('path', { d })));
-      const close = bt('Fermer', 'right:32px;top:16px', 'M6 6 L18 18 M18 6 L6 18', fermer);
-      const prev = bt('Photo précédente', 'left:44px;top:416px', 'M15 5 L8 12 L15 19', () => aller(-1, PH.length));
-      const next = bt('Photo suivante', 'right:44px;top:416px', 'M9 5 L16 12 L9 19', () => aller(1, PH.length));
-      const racine = el('div', { role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Photo en grand', style: 'position:absolute;inset:0' }, fond, img, cadre, trS, capP, numP, close, prev, next);
-      lbHote.append(racine);
-      vie.ecouter(racine, 'click', (ev) => { if (ev.target === racine) fermer(); });   // un clic en dehors de la photo la referme aussi
-      lbEls = { racine, fond, img, cadre, trS, trP, capW, numW, numP, close, prev, next };
-      close.focus({ preventScroll: true });
-    }
-    const L = lbEls;
-    L.fond.classList.toggle('on', growing);
-    majEmplacement(L.img, ph, 'lb-img', TAILLES.grand);
-    Object.assign(L.img.style, { left: tx + 'px', top: ty + 'px', width: tw + 'px', height: th + 'px' });
-    animer(L.img, st === 'closing' ? `devOut .22s ${E} 0s forwards` : (growing ? `${alt ? 'dev2' : 'dev'} 2.2s ease-in-out ${S.lbN ? .3 : .1}s both` : 'devOut .01s linear 0s forwards'));
-    L.numP.style.left = `calc(670px + var(--dx) / 2)`;
-    L.cadre.style.transition = st === 'from' ? 'none' : (growing ? box(.75, 0) : box(.6, .12));
-    Object.assign(L.cadre.style, { left: (rect.x - 1) + 'px', top: (rect.y - 1) + 'px', width: (rect.w + 2) + 'px', height: (rect.h + 2) + 'px' });
-    animer(L.cadre, growing ? `${alt ? 'cadreFin2' : 'cadreFin'} .01s linear .82s forwards` : 'none');
-    Object.assign(L.trS.style, { left: (tx - 1) + 'px', top: (ty - 1) + 'px', width: (tw + 2) + 'px', height: (th + 2) + 'px' });
-    L.trP.setAttribute('d', cadrePhoto(tw, th));
-    animer(L.trP, growing ? `${alt ? 'retire2' : 'retire'} 1s ${E} .8s forwards` : 'none');
-    setMot(L.capW, p.cap, t); setMot(L.numW, '0' + (S.lbI + 1) + ' / 0' + PH.length, t);
-    animer(L.close, t.o); animer(L.prev, t.o); animer(L.next, t.o);
+    if (S.lbI === null || S.lbI === undefined) { pa.vider(); return; }
+    const h = PH[S.lbI];
+    pa.rendre({ p: h.p, cap: h.cap, i: S.lbI, total: PH.length, st: S.lbSt, rect: { x: h.x, y: h.y, w: h.w, h: h.h }, n: S.lbN, dx });
   }
 
   // ---------- cycles (menu, accroche) ----------
@@ -430,11 +392,7 @@ export function monterAccueil(hote, { seul = true, retard = 0 } = {}) {
   }, (D + 4) * 1000);
   vag.demarrer((D + 4.6) * 1000);
   vie.ecouter(window, 'scene:resize', () => render());
-  vie.ecouter(document, 'keydown', (e) => {
-    if (!lbEls || S.lbI === null) return;
-    if (e.key === 'ArrowLeft') lbEls.prev.click(); else if (e.key === 'ArrowRight') lbEls.next.click();
-    else clavierModale(e, lbEls.racine, fermer);
-  });
+  vie.ecouter(document, 'keydown', (e) => { if (S.lbI !== null) pa.touche(e); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (vivant) { navW = null; render(); } });
 
   render();

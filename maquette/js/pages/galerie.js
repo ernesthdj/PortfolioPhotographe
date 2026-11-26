@@ -6,8 +6,9 @@ import { monterEntete, majEntete, enteteMontee } from '../lib/entete.js';
 import { creerVie } from '../lib/vie.js';
 import { mesures } from '../lib/scene.js';
 import { param } from '../lib/params.js';
-import { memoriserFocus, clavierModale } from '../lib/modale.js';
-import { PHOTOS, TAILLES, habillePhoto } from '../../data/photos-site.js';
+import { memoriserFocus } from '../lib/modale.js';
+import { creerPhotoAgrandie } from '../lib/photo-agrandie.js';
+import { PHOTOS, habillePhoto } from '../../data/photos-site.js';
 import { SVC, EVT } from '../../data/galerie-evenements.js';
 
 let vie = null;
@@ -264,54 +265,16 @@ function render() {
   renderLb(flat, dx);
 }
 
-// ---- photo agrandie ----------------------------------------------------------------------------------------
-let lbEls = null;
+// ---- photo agrandie (module commun à toutes les pages) -----------------------------------------------------
+const pa = creerPhotoAgrandie({ hote: lbHote, vie, fermer, aller: (dd, total) => { if (S.lbSt === 'to') set({ lb: (S.lb + dd + total) % total, lbN: S.lbN + 1 }); } });
 function renderLb(flat, dx) {
-  if (S.lb === null || !flat[S.lb]) { if (lbEls) { lbEls.racine.remove(); lbEls = null; } return; }
-  const f = flat[S.lb], p = PHOTOS[f.p], w0 = Math.min(1180, 720 * p.r), h0 = w0 / p.r;
-  const tx = Math.round(720 + dx / 2 - w0 / 2), ty = Math.round(440 - h0 / 2), tw = Math.round(w0), th = Math.round(h0);
-  const ph = S.lbSt, big = ph === 'to', Rc = big ? { x: tx, y: ty, w: tw, h: th } : (S.lbR || { x: tx, y: ty, w: tw, h: th });
-  const a2 = S.lbN % 2 === 1, box = (d, dl) => ['left', 'top', 'width', 'height'].map((k2) => `${k2} ${d}s ${E} ${dl}s`).join(', ');
-  const go = (dd) => { if (S.lbSt === 'to') set({ lb: (S.lb + dd + flat.length) % flat.length, lbN: S.lbN + 1 }); };
-  if (!lbEls) {
-    const fond = el('div', { class: 'lb-teinte' }), img = el('div', { class: 'lb-img ph', role: 'img' }, el('span'));
-    const trP = cheminSvg(''), trS = svg('svg', { class: 'ln', 'aria-hidden': 'true' }, trP);
-    const racine = el('div', { role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Photo en grand', style: 'position:absolute;inset:0' }, fond, img, trS);
-    lbHote.append(racine);
-    vie.ecouter(racine, 'click', (ev) => { if (ev.target === racine) fermer(); });   // un clic en dehors de la photo la referme aussi
-    lbEls = { racine, fond, img, trP, trS, ui: null };
-  }
-  const L = lbEls;
-  L.fond.classList.toggle('on', big);
-  L.img.className = 'lb-img ph ton-' + p.ton; L.img.setAttribute('aria-label', p.altG); L.img.firstElementChild.textContent = p.label; habillePhoto(L.img, p, TAILLES.grand);
-  L.img.style.transition = ph === 'from' ? 'none' : (big ? box(.8, 0) : box(.7, 0));
-  Object.assign(L.img.style, { left: Rc.x + 'px', top: Rc.y + 'px', width: Rc.w + 'px', height: Rc.h + 'px' });
-  animer(L.img, big && S.lbN > 0 ? `${a2 ? 'dev2' : 'dev'} 2s ease-in-out .1s both` : 'none');
-  Object.assign(L.trS.style, { left: (tx - 1) + 'px', top: (ty - 1) + 'px', width: (tw + 2) + 'px', height: (th + 2) + 'px' });
-  L.trP.setAttribute('d', cadrePhoto(tw, th));
-  animer(L.trP, big ? `${a2 ? 'trace2' : 'trace'} 1.8s ${E} ${S.lbN > 0 ? .05 : .7}s both` : 'none');
-  if (big && !L.ui) {
-    const mono = (style) => `position:absolute;top:846px;margin:0;font:500 12.5px 'IBM Plex Mono',monospace;letter-spacing:.04em;color:#4B4D52;animation:habille .5s ease .5s both;${style}`;
-    const cap = el('p', { style: mono('left:120px') }), num = el('p', { style: mono('left:calc(640px + var(--dx) / 2);width:160px;text-align:center') });
-    const bt = (label, style, d, fn) => el('button', { type: 'button', class: 'lb-btn', 'aria-label': label, style, on: { click: fn } }, svg('svg', { viewBox: '0 0 24 24', 'aria-hidden': 'true' }, svg('path', { d })));
-    const close = bt('Fermer', 'right:32px;top:16px', 'M6 6 L18 18 M18 6 L6 18', fermer);
-    const prev = bt('Photo précédente', 'left:44px;top:416px', 'M15 5 L8 12 L15 19', () => go(-1));
-    const next = bt('Photo suivante', 'right:44px;top:416px', 'M9 5 L16 12 L9 19', () => go(1));
-    L.racine.append(cap, num, close, prev, next);
-    L.ui = { cap, num, nodes: [cap, num, close, prev, next] };
-    close.focus({ preventScroll: true });
-  }
-  if (!big && L.ui) { L.ui.nodes.forEach((n) => n.remove()); L.ui = null; }
-  if (L.ui) { L.ui.cap.textContent = f.tag; L.ui.num.textContent = (S.lb + 1) + ' / ' + flat.length; }
+  if (S.lb === null || !flat[S.lb]) { pa.vider(); return; }
+  const f = flat[S.lb];
+  pa.rendre({ p: PHOTOS[f.p], cap: f.tag, i: S.lb, total: flat.length, st: S.lbSt, rect: S.lbR, n: S.lbN, dx });
 }
 
 vie.ecouter(window, 'scene:resize', () => render());
-vie.ecouter(document, 'keydown', (e) => {
-  if (S.lb === null || !lbEls) return;
-  const nodes = lbEls.ui && lbEls.ui.nodes;
-  if (e.key === 'ArrowLeft') { if (nodes) nodes[3].click(); } else if (e.key === 'ArrowRight') { if (nodes) nodes[4].click(); }
-  else clavierModale(e, lbEls.racine, fermer);
-});
+vie.ecouter(document, 'keydown', (e) => { if (S.lb !== null) pa.touche(e); });
   render();
 }
 
