@@ -11,7 +11,7 @@
 import { E } from './anim.js';
 import { el, svg, animer, cheminSvg, cadrePhoto } from './dom.js';
 import { clavierModale } from './modale.js';
-import { TAILLES, habillePhoto } from '../../data/photos-site.js';
+import { TAILLES, habillePhoto, urlPhoto } from '../../data/photos-site.js';
 
 export function creerPhotoAgrandie({ hote, vie, fermer, aller, classeFond = 'lb-teinte' }) {
   let lbEls = null;
@@ -32,7 +32,7 @@ export function creerPhotoAgrandie({ hote, vie, fermer, aller, classeFond = 'lb-
     const L = lbEls;
     L.total = total;
     L.fond.classList.toggle('on', big);
-    L.img.className = 'lb-img ph ton-' + p.ton; L.img.setAttribute('aria-label', p.altG); L.img.firstElementChild.textContent = p.label; habillePhoto(L.img, p, TAILLES.grand);
+    L.img.className = 'lb-img ph ton-' + p.ton; L.img.setAttribute('aria-label', p.altG); L.img.firstElementChild.textContent = p.label; habillePhoto(L.img, p, TAILLES.grand); L.img.style.setProperty('--img0', 'url("' + urlPhoto(p.src, TAILLES.vignette) + '")');
     L.img.style.transition = st === 'from' ? 'none' : (big ? box(.8, 0) : box(.7, 0));
     Object.assign(L.img.style, { left: Rc.x + 'px', top: Rc.y + 'px', width: Rc.w + 'px', height: Rc.h + 'px' });
     animer(L.img, big && n > 0 ? `${a2 ? 'dev2' : 'dev'} 2s ease-in-out .1s both` : 'none');

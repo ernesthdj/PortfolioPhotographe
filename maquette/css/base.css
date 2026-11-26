@@ -59,7 +59,7 @@ svg.pp{left:0;top:0;width:var(--W);height:900px}
 .ph{background:var(--ton,linear-gradient(150deg,#b9b2a6,#7d776d))}
 .ph::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 30% 20%,rgba(255,255,255,.28),rgba(255,255,255,0) 60%),linear-gradient(180deg,rgba(255,255,255,0) 55%,rgba(13,14,16,.28))}
 .ph>span{position:absolute;left:12px;bottom:10px;right:12px;font:500 10.5px 'IBM Plex Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.85);text-shadow:0 1px 2px rgba(13,14,16,.5);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ph.reel{background:var(--img) center/cover no-repeat,var(--ton)}
+.ph.reel{background:var(--img) center/cover no-repeat,var(--img0,none) center/cover no-repeat,var(--ton)}   /* --img0 : vignette déjà chargée, visible le temps que la grande version arrive */
 .ph.reel::before,.ph.reel>span{display:none}
 /* teintes de placeholder : de quoi voir le « développement » gris -> couleur */
 .ton-1{--ton:linear-gradient(150deg,#d9a98a,#8f5a4a)}
