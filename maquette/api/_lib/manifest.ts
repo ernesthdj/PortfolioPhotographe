@@ -1,4 +1,4 @@
-import { get, put } from "@vercel/blob";
+import { BlobNotFoundError, head, put } from "@vercel/blob";
 
 /**
  * Manifeste du mini CMS : une seule source de vérité (cms/manifest.json dans le store Blob).
@@ -132,11 +132,30 @@ export function removePhoto(m: Manifest, id: string): Manifest {
   };
 }
 
-export async function readManifest(): Promise<Manifest | null> {
-  const res = await get(MANIFEST_PATH, { access: "public", useCache: false });
-  if (!res || res.statusCode !== 200) return null;
+export interface ReadDeps {
+  head: (pathname: string) => Promise<{ url: string }>;
+  fetch: typeof fetch;
+  now: () => number;
+}
+const REAL_DEPS: ReadDeps = { head, fetch: (input, init) => fetch(input, init), now: () => Date.now() };
+
+/**
+ * Lit le manifeste À JOUR. Sur un magasin public, le CDN garde l'ancienne version jusqu'à 60 s après une écriture
+ * (l'option `useCache: false` du SDK ne vaut que pour un magasin privé) : on lit donc une adresse unique à chaque appel.
+ * Sans cela, deux enregistrements rapprochés se lisaient l'un l'autre en retard et l'un écrasait l'autre.
+ */
+export async function readManifest(deps: ReadDeps = REAL_DEPS): Promise<Manifest | null> {
+  let url: string;
   try {
-    return parseManifest(JSON.parse(await new Response(res.stream).text()));
+    url = (await deps.head(MANIFEST_PATH)).url;
+  } catch (e) {
+    if (e instanceof BlobNotFoundError) return null;
+    throw e;
+  }
+  const res = await deps.fetch(`${url}?v=${deps.now()}`, { cache: "no-store" });
+  if (!res.ok) return null;
+  try {
+    return parseManifest(await res.json());
   } catch {
     return null;
   }

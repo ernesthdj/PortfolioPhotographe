@@ -87,3 +87,32 @@ test("should_leave_the_manifest_unchanged_when_removing_an_unknown_photo", async
   const { removePhoto } = await import("../api/_lib/manifest.ts");
   assert.deepEqual(removePhoto(base(), "zzzz"), base());
 });
+
+test("should_read_a_unique_url_without_cache_when_reading_the_manifest", async () => {
+  const { readManifest } = await import("../api/_lib/manifest.ts");
+  const vus: string[] = [];
+  let t = 1000;
+  const deps = {
+    head: async () => ({ url: "https://store.example/cms/manifest.json" }),
+    fetch: async (input: string | URL | Request, init?: RequestInit) => { vus.push(String(input)); assert.equal(init?.cache, "no-store"); return Response.json(emptyManifest()); },
+    now: () => t++,
+  };
+  assert.deepEqual(await readManifest(deps), emptyManifest());
+  await readManifest(deps);
+  assert.equal(vus.length, 2);
+  assert.notEqual(vus[0], vus[1]);
+  assert.ok(vus.every((u) => u.startsWith("https://store.example/cms/manifest.json?v=")));
+});
+test("should_return_null_when_the_manifest_is_missing_unreadable_or_invalid", async () => {
+  const { readManifest } = await import("../api/_lib/manifest.ts");
+  const { BlobNotFoundError } = await import("@vercel/blob");
+  const base = { head: async () => ({ url: "https://store.example/m.json" }), now: () => 1 };
+  assert.equal(await readManifest({ ...base, head: async () => { throw new BlobNotFoundError(); }, fetch: async () => Response.json({}) }), null);
+  assert.equal(await readManifest({ ...base, fetch: async () => new Response("", { status: 404 }) }), null);
+  assert.equal(await readManifest({ ...base, fetch: async () => new Response("pas du json") }), null);
+  assert.equal(await readManifest({ ...base, fetch: async () => Response.json({ version: 9 }) }), null);
+});
+test("should_propagate_the_error_when_the_store_is_unreachable", async () => {
+  const { readManifest } = await import("../api/_lib/manifest.ts");
+  await assert.rejects(readManifest({ head: async () => { throw new Error("réseau"); }, fetch: async () => Response.json({}), now: () => 1 }), /réseau/);
+});
