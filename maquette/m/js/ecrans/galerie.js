@@ -3,7 +3,8 @@
 // la croix la repose dans sa vignette pendant que la page se redessine (retour rapide, jamais l'intro rejouée).
 import { creerEcran } from '../lib/ecran.js';
 import { eyebrow, titre, ecrit, filet, lienFleche, photo, rv } from '../lib/ecriture.js';
-import { el, svg } from '../../../js/lib/dom.js';
+import { el } from '../../../js/lib/dom.js';
+import { creerZoomPhotos } from '../lib/zoom-photo.js';
 import { PHOTOS } from '../photos.js';
 
 export const titreDoc = 'Galerie · Ernest H.';
@@ -47,8 +48,7 @@ function assembler(cat) {
 
 export function creer(ctx) {
   const e = creerEcran(ctx);
-  let cat = 'tout', liste = [], v = null, zoom = null, inclinaison = 0;
-  const reduit = () => { try { return matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (x) { return false; } };
+  let cat = 'tout', liste = [];
 
   // ---------- fil ----------
   const rendre = (it) => {
@@ -71,7 +71,7 @@ export function creer(ctx) {
     const ph = PHOTOS[it.idx];
     const p = photo({ ton: ph.ton, nb: ph.nb, libelle: ph.libelle, alt: ph.alt, src: ph.src, d: it.d });
     p.removeAttribute('role'); p.setAttribute('aria-hidden', 'true');
-    const bouton = el('button', { type: 'button', class: 'tap', 'aria-label': ph.alt + ' — agrandir', on: { click: () => ouvrir(it.n) } });
+    const bouton = el('button', { type: 'button', class: 'tap', 'aria-label': ph.alt + ' — agrandir', on: { click: () => zoom.ouvrir(it.n) } });
     return rv(el('div', { class: 'tuile' + (it.large ? ' large' : ''), 'data-pid': String(it.n) }, p, bouton));
   };
 
@@ -82,123 +82,15 @@ export function creer(ctx) {
     e.page.replaceChildren(eyebrow('Galerie'), titre(c[2], c[3]), el('div', { class: 'flux' }, ...items.map(rendre)));
   };
 
-  // ---------- photo agrandie ----------
-  const rectDe = (n) => { const rr = e.racine.getBoundingClientRect(), r = n.getBoundingClientRect(); return { l: r.left - rr.left, t: r.top - rr.top, w: r.width, h: r.height }; };
-
-  function creerZoom() {
-    const fond = el('div', { class: 'zoom-fond' });
-    const imgs = liste.map((m) => { const p = PHOTOS[m.idx]; const i = el('div', { class: 'zimg reel ton-' + p.ton + (p.nb ? ' nb' : ''), role: 'img', 'aria-label': p.alt }, el('span', null, p.libelle)); i.style.setProperty('--img', 'url("' + p.src + '")'); return i; });
-    const boite = el('div', { class: 'zbox' }, ...imgs);
-    const icone = (...d) => svg('svg', { width: 20, height: 20, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': 1.7, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'aria-hidden': 'true' }, ...d.map((x) => svg('path', { d: x })));
-    const bFermer = el('button', { type: 'button', class: 'ib', 'aria-label': 'Fermer la photo', style: { right: '16px', top: 'calc(16px + env(safe-area-inset-top))' }, on: { click: fermer } }, icone('M6 6l12 12M18 6L6 18'));
-    const num = el('span', { class: 'mono' }), cap = el('div', { class: 'mono', style: { marginTop: '8px' } });
-    const legende = el('div', { class: 'zcap' }, el('div', { class: 'eyebrow' }, el('span', { class: 'regle', 'aria-hidden': 'true' }), num), cap);
-    const bPrec = el('button', { type: 'button', class: 'ib', 'aria-label': 'Photo précédente', style: { left: '22px', bottom: 'calc(28px + env(safe-area-inset-bottom))' }, on: { click: () => aller(-1) } }, icone('M15 5l-7 7 7 7'));
-    const bSuiv = el('button', { type: 'button', class: 'ib', 'aria-label': 'Photo suivante', style: { right: '22px', bottom: 'calc(28px + env(safe-area-inset-bottom))' }, on: { click: () => aller(1) } }, icone('M9 5l7 7-7 7'));
-    const ctl = el('div', { class: 'zctl' }, bFermer, legende, bPrec, bSuiv);
-    const racine = el('div', { class: 'zoom', role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Photo agrandie' }, fond, boite, ctl);
-    return { racine, fond, boite, imgs, ctl, legende, num, cap };
-  }
-
-  function ecouter(oui) {
-    try {
-      if (oui && !ecouter.dh) {
-        ecouter.dh = (ev) => {
-          if (ev.gamma === null || ev.gamma === undefined) return;
-          const g = ev.gamma;
-          let tl = inclinaison;
-          if (g < -55) tl = 90; else if (g > 55) tl = -90; else if (Math.abs(g) < 35) tl = 0;   // hystérésis : pas de va-et-vient près du seuil
-          if (tl !== inclinaison) { inclinaison = tl; rendreZoom(); }
-        };
-        window.addEventListener('deviceorientation', ecouter.dh);
-      } else if (!oui && ecouter.dh) { window.removeEventListener('deviceorientation', ecouter.dh); ecouter.dh = null; }
-    } catch (x) { /* capteur indisponible : la photo reste droite */ }
-  }
-  /** iPhone : l'accès au capteur se demande depuis un geste de l'utilisateur ; l'ouverture d'une photo (un tap) en est un. */
-  function demanderCapteur() {
-    try { const D = window.DeviceOrientationEvent; if (D && typeof D.requestPermission === 'function') D.requestPermission().catch(() => {}); } catch (x) { /* refus : la photo reste droite */ }
-  }
-
-  function rendreZoom() {
-    if (!v || !zoom) return;
-    const W = e.racine.clientWidth, H = e.racine.clientHeight, m = liste[v.i], p = PHOTOS[m.idx];
-    const paysage = p.r > 1, rot = paysage ? inclinaison : 0;   // une photo en paysage se couche quand on couche le téléphone
-    let cible;
-    if (rot !== 0) { const Wd = Math.min(H * 0.73, (W - 44) * p.r), Hd = Wd / p.r; cible = { l: W / 2 - Wd / 2, t: H * 0.44 - Hd / 2, w: Wd, h: Hd, rot }; }
-    else { const w = Math.min(W - 44, H * 0.71 * p.r), h = w / p.r; cible = { l: (W - w) / 2, t: (H - h) / 2 - 28, w, h, rot: 0 }; }
-    const b = v.ph === 'to' ? cible : { ...v.rect, rot: 0 };
-    Object.assign(zoom.boite.style, { left: b.l + 'px', top: b.t + 'px', width: b.w + 'px', height: b.h + 'px', transform: `rotate(${b.rot}deg)` });
-    zoom.boite.className = 'zbox pr' + (v.ph === 'back' ? ' bk' : '');
-    zoom.fond.classList.toggle('on', v.ph === 'to');
-    zoom.ctl.style.opacity = v.ph === 'to' ? '1' : '0';
-    zoom.ctl.style.pointerEvents = v.ph === 'to' ? 'auto' : 'none';
-    zoom.legende.style.top = (rot !== 0 ? H - 144 : Math.min(cible.t + cible.h + 22, H - 144)) + 'px';
-    zoom.num.textContent = `${String(v.i + 1).padStart(2, '0')} / ${String(liste.length).padStart(2, '0')}`;
-    zoom.cap.textContent = m.cap;
-    zoom.imgs.forEach((im, k) => {
-      const nb = PHOTOS[liste[k].idx].nb ? ' nb' : '';
-      im.className = 'zimg reel ton-' + PHOTOS[liste[k].idx].ton + nb + (v.ph === 'back' ? (k === v.i ? ' fin' : '') : (k === v.i ? ' on' + (v.premier ? ' pr' : ' nx') : (k === v.prev ? ' out' : '')));
-    });
-  }
-
-  function ouvrir(i) {
-    if (v) return;
-    const tuile = e.racine.querySelector(`[data-pid="${i}"]`);
-    if (!tuile) return;
-    v = { i, prev: -1, ph: 'from', rect: rectDe(tuile), premier: true };
-    zoom = creerZoom();
-    e.racine.append(zoom.racine);
-    // un tap en dehors de la photo (et hors boutons) la referme aussi ; la couche de boutons couvre tout l'écran, on compare donc avec le cadre de la photo
-    zoom.racine.addEventListener('click', (ev) => {
-      if (ev.target.closest('.ib')) return;
-      const r = zoom.boite.getBoundingClientRect();
-      if (ev.clientX >= r.left && ev.clientX <= r.right && ev.clientY >= r.top && ev.clientY <= r.bottom) return;
-      fermer();
-    });
-    e.racine.querySelectorAll('.fq-skip').forEach((x) => x.classList.remove('fq-skip'));
-    e.racine.classList.add('out');                    // le fond se décompose derrière la photo
-    ctx.majChrome();
-    demanderCapteur();
-    ecouter(true);
-    rendreZoom();
-    e.vie.timeout(() => { if (v) { v.ph = 'to'; rendreZoom(); } }, 60);
-    e.vie.timeout(() => { const f = zoom && zoom.racine.querySelector('[aria-label="Fermer la photo"]'); if (f) f.focus({ preventScroll: true }); }, 700);
-  }
-  function aller(d) {
-    if (!v || v.ph !== 'to') return;
-    v = { ...v, prev: v.i, i: (v.i + d + liste.length) % liste.length, premier: false };
-    rendreZoom();
-  }
-  function fermer() {
-    if (!v || v.ph !== 'to') return;
-    const tuile = e.racine.querySelector(`[data-pid="${v.i}"]`);
-    if (tuile) tuile.scrollIntoView({ block: 'center', inline: 'nearest' });
-    e.vie.timeout(() => {
-      if (!v) return;
-      const rect = tuile ? rectDe(tuile) : v.rect;
-      // la page se redessine PENDANT que la photo revient (retour rapide, sans voile) : rien ne repasse à la fin
-      e.racine.querySelectorAll('.rv[data-rv]').forEach((x) => x.classList.add('fq'));
-      if (tuile) tuile.classList.add('fq-skip');      // la photo refermée rejoint sa place sans aucune animation
-      e.racine.classList.remove('out');
-      v = { ...v, ph: 'back', rect, prev: -1 };
-      rendreZoom();
-      ctx.majChrome();
-      e.vie.timeout(() => { nettoyerZoom(); if (tuile) { const t = tuile.querySelector('button'); if (t) t.focus({ preventScroll: true }); } }, reduit() ? 0 : 700);
-    }, 70);
-  }
-  function nettoyerZoom() {
-    ecouter(false);
-    if (zoom) { zoom.racine.remove(); zoom = null; }
-    v = null; inclinaison = 0;
-    // 'fq' reste en place : le retirer ferait changer les animations de toute la page et la rejouerait en entier
-  }
+  // ---------- photo agrandie (module commun à tous les écrans) ----------
+  const zoom = creerZoomPhotos(e, ctx, { liste: () => liste, tuile: (i) => e.racine.querySelector(`[data-pid="${i}"]`) });
 
   return {
     ...e,
     activer(arg) { cat = CATS.some((c) => c[0] === arg) ? arg : 'tout'; construire(); e.activer(); },
-    desactiver() { e.vie.nettoyer(); nettoyerZoom(); e.racine.classList.remove('out'); e.desactiver(); },
-    changer(arg) { const k = CATS.some((c) => c[0] === arg) ? arg : 'tout'; if (k === cat || v) return; cat = k; e.refaire(construire); },
+    desactiver() { e.vie.nettoyer(); zoom.nettoyer(); e.racine.classList.remove('out'); e.desactiver(); },
+    changer(arg) { const k = CATS.some((c) => c[0] === arg) ? arg : 'tout'; if (k === cat || zoom.ouvert()) return; cat = k; e.refaire(construire); },
     sousNav() { return { cle: 'galerie', liste: CATS.map(([k, l]) => [k, l]), courant: cat, choisir: (k) => ctx.aller('galerie', k === 'tout' ? null : k) }; },
-    masqueChrome: () => !!v && v.ph !== 'back'
+    masqueChrome: zoom.masqueChrome
   };
 }

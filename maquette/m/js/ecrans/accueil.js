@@ -4,12 +4,16 @@ import { creerEcran } from '../lib/ecran.js';
 import { ecrit, filet, bouton, photo, rv } from '../lib/ecriture.js';
 import { el, svg } from '../../../js/lib/dom.js';
 import { SERVICES } from '../../../data/tarifs.js';
+import { creerZoomPhotos } from '../lib/zoom-photo.js';
 import { PHOTOS } from '../photos.js';
 
 export const titreDoc = 'Ernest H. · Photographe';
 
 const P = Object.fromEntries(PHOTOS.map((p) => [p.id, p]));
 const cliche = (id, d) => photo({ ton: P[id].ton, nb: P[id].nb, libelle: P[id].libelle, alt: P[id].alt, src: P[id].src, d });
+// photos de la page, dans l'ordre où le zoom les parcourt (légendes provisoires comme les séances de la page)
+const ORDRE = [['chateau', 'Mariage · [Lieu] · 2026'], ['bouquet', 'Mariage · [Lieu] · 2026'], ['baiser', 'Mariage · [Lieu] · 2026'], ['grand-champ', 'Engagement · [Lieu] · 2026'], ['champ', 'Engagement · [Lieu] · 2026']];
+const LISTE = ORDRE.map(([id, cap]) => ({ idx: PHOTOS.findIndex((p) => p.id === id), cap }));
 const INDEX = [['mariages', 'mar'], ['engagement', 'eng'], ['famille', 'fam'], ['anniversaires', 'ann'], ['evenementiel', 'evt'], ['culinaire', 'cul']];
 const NOMS = { mar: 'Mariages', eng: 'Engagement', fam: 'Famille lifestyle', ann: 'Anniversaires', evt: 'Événementiel', cul: 'Culinaire & studio' };
 
@@ -17,6 +21,13 @@ function prix(s) { return s.mode === 'P4' ? `dès ${s.unit} € / plat` : `dès 
 
 export function creer(ctx) {
   const e = creerEcran(ctx);
+  const zoom = creerZoomPhotos(e, ctx, { liste: () => LISTE, tuile: (i) => e.racine.querySelector(`[data-pid="${i}"]`) });
+  /** Photo + bouton qui l'agrandit depuis sa place. */
+  const tuile = (id, d, classe) => {
+    const n = ORDRE.findIndex(([x]) => x === id);
+    return el('div', { class: classe, 'data-pid': String(n) }, cliche(id, d),
+      el('button', { type: 'button', class: 'tap', 'aria-label': P[id].alt + ' — agrandir', on: { click: () => zoom.ouvrir(n) } }));
+  };
 
   const construire = () => {
     const ligneAccroche = (contenu, d, u) => rv(el('span', { class: 'ligne' }, ecrit(contenu, { d, u, tete: true })));
@@ -38,7 +49,7 @@ export function creer(ctx) {
 
     e.page.replaceChildren(
       rv(el('div', { class: 'accueil-haut' }, el('span', { class: 'mono' }, ecrit('Sc. 01', { d: 0.45, u: 0.5 })), el('span', { class: 'mono' }, ecrit('Sélection · 2026', { d: 0.55, u: 0.6 })))),
-      rv(el('div', { class: 'photo-bloc' }, cliche('chateau', 0.3))),
+      rv(tuile('chateau', 0.3, 'photo-bloc')),
       el('h1', { class: 'accroche' },
         ligneAccroche(() => { const f = document.createDocumentFragment(); f.append('Un regard, ', el('span', { class: 'ser' }, 'un instant,')); return f; }, 1.1, 0.9),
         ligneAccroche('une histoire.', 1.7, 0.7)),
@@ -47,13 +58,13 @@ export function creer(ctx) {
         el('span', { class: 'mono' }, ecrit('Mariage · [Lieu] · 2026', { d: 0.1, u: 0.6 })),
         el('div', { class: 'seance-l' }, ecrit('[Une ligne sur la journée, écrite par Ernest.]', { d: 0.4, u: 0.7, bloc: true })),
         filet(0.2, 1))),
-      rv(el('div', { class: 'rangee' }, el('div', { class: 'tuile-a' }, cliche('bouquet', 0.1)), el('div', { class: 'tuile-a' }, cliche('baiser', 0.35)))),
+      rv(el('div', { class: 'rangee' }, tuile('bouquet', 0.1, 'tuile-a'), tuile('baiser', 0.35, 'tuile-a'))),
 
       rv(el('div', { class: 'seance' },
         el('span', { class: 'mono' }, ecrit('Engagement · [Lieu] · 2026', { d: 0.1, u: 0.6 })),
         el('div', { class: 'seance-l' }, ecrit('[Une ligne sur la séance.]', { d: 0.4, u: 0.6, bloc: true })))),
-      rv(el('div', { class: 'rangee pleine' }, el('div', { class: 'tuile-a' }, cliche('grand-champ', 0.1)))),
-      rv(el('div', { class: 'rangee pleine' }, el('div', { class: 'tuile-a' }, cliche('champ', 0.1)))),
+      rv(el('div', { class: 'rangee pleine' }, tuile('grand-champ', 0.1, 'tuile-a'))),
+      rv(el('div', { class: 'rangee pleine' }, tuile('champ', 0.1, 'tuile-a'))),
 
       rv(el('blockquote', { class: 'temoin', style: { margin: '40px 0 0' } },
         el('div', { class: 'ser' }, ecrit('« [Un témoignage court d’un couple.] »', { d: 0.1, u: 1, bloc: true, tete: true })),
@@ -72,5 +83,10 @@ export function creer(ctx) {
     );
   };
 
-  return { ...e, activer() { construire(); e.activer(); } };
+  return {
+    ...e,
+    activer() { construire(); e.activer(); },
+    desactiver() { e.vie.nettoyer(); zoom.nettoyer(); e.racine.classList.remove('out'); e.desactiver(); },
+    masqueChrome: zoom.masqueChrome
+  };
 }

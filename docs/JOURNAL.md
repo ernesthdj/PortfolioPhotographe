@@ -246,3 +246,8 @@ Choix figes et ecartes dans `docs/front/premier-impact-design.md`. A peaufiner a
 ### [2026-11-26] FEAT — inclinaison de la photo au capteur (mobile)
 **Fichiers :** `maquette/m/js/ecrans/galerie.js`, `maquette/m/css/ecrans.css`
 **Resume :** Le bouton d'inclinaison du zoom photo est supprime. Une photo en paysage se couche desormais selon le capteur d'orientation du telephone (seuils et hysteresis inchanges). Sur iPhone, l'autorisation du capteur est demandee a l'ouverture d'une photo (un tap), seul geste utilisateur disponible. Non teste dans un navigateur (pas de capteur simulable) : verification sur telephone par l'utilisateur.
+
+### [2026-11-26] REFACTOR — zoom photo commun a tous les ecrans mobiles, ajoute a l'accueil
+**Fichiers :** `maquette/m/js/lib/zoom-photo.js` (nouveau), `maquette/m/js/ecrans/galerie.js`, `maquette/m/js/ecrans/accueil.js`, `maquette/m/css/ecrans.css`
+**Resume :** Les photos de l'accueil n'avaient pas le zoom de la galerie, qui etait ecrit en dur dans `galerie.js`. Le zoom (animation depuis la vignette, croix, fleches, rotation au capteur) devient un module partage `creerZoomPhotos(e, ctx, { liste, tuile })`, utilise par la galerie (204 -> 96 lignes) et l'accueil (5 photos, legendes des seances). Teste en local dans Chrome (accueil : ouverture, suivante, fermeture ; galerie : sans regression), aucune erreur de console. Fluidite et rotation au capteur a verifier sur telephone.
+**Erreurs de Claude :** (1) regle CSS `.accueil .photo-bloc{position:relative}` ecrite sans verifier que la classe `.accueil` existe : le bouton couvrait toute la page (corrige, vu au test local) ; (2) premier test galerie fausse par un selecteur global alors que les ecrans restent dans le DOM : toujours cibler `.ecran.actif`.
