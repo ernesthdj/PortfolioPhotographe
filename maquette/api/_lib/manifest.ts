@@ -54,6 +54,7 @@ export const SLOT_LIMITS: Readonly<Record<string, number>> = Object.fromEntries(
 /** Un fichier IMMUABLE par version (cms/manifest/00000007.json) : on n'écrase jamais, donc jamais de lecture périmée ni d'écriture perdue. */
 const MANIFEST_DIR = "cms/manifest/";
 const KEEP_VERSIONS = 10;
+const MAX_ESSAIS = 8;
 const versionPath = (rev: number): string => `${MANIFEST_DIR}${String(rev).padStart(8, "0")}.json`;
 const VERSION_RE = /^cms\/manifest\/(\d{8})\.json$/;
 const ID_RE = /^[a-z0-9_-]{4,40}$/;
@@ -192,10 +193,11 @@ export async function writeManifest(manifest: Manifest, deps: StoreDeps = REAL_D
 
 /**
  * Modifie le manifeste de façon sûre : lit la dernière version, applique `change`, écrit la suivante. Si quelqu'un a écrit entre-temps
- * (ConflictError), on relit et on rejoue (4 essais). `change` renvoie null pour dire « rien à faire » (résultat null).
+ * (ConflictError), on relit et on rejoue (8 essais, courte pause aléatoire pour désynchroniser les concurrents). `change` renvoie null pour dire « rien à faire » (résultat null).
  */
 export async function updateManifest(change: (current: Manifest) => Manifest | null, deps: StoreDeps = REAL_DEPS): Promise<Manifest | null> {
-  for (let essai = 0; essai < 4; essai++) {
+  for (let essai = 0; essai < MAX_ESSAIS; essai++) {
+    if (essai > 0) await new Promise((r) => setTimeout(r, 15 + Math.random() * 60));
     const courant = (await readManifest(deps)) ?? emptyManifest();
     const suivant = change(courant);
     if (suivant === null) return null;

@@ -91,6 +91,13 @@ test("should_not_lose_either_change_when_two_updates_run_at_the_same_time", asyn
   assert.deepEqual(final.photos.map((p) => p.id).sort(), ["aaaa", "bbbb", "cccc"]);
   assert.equal(final.rev, 3);
 });
+test("should_survive_six_simultaneous_updates_when_many_contend", async () => {
+  const { deps } = fauxStockage();
+  const ids = ["aaaa", "bbbb", "cccc", "dddd", "eeee", "ffff"];
+  const res = await Promise.all(ids.map((id) => updateManifest((m) => addPhoto(m, photo(id)), deps)));
+  assert.ok(res.every((r) => r !== null));
+  assert.deepEqual(((await readManifest(deps)) as Manifest).photos.map((p) => p.id).sort(), ids);
+});
 test("should_replay_on_fresh_state_when_a_conflict_happens", async () => {
   const { deps } = fauxStockage();
   let appels = 0;
@@ -105,7 +112,7 @@ test("should_replay_on_fresh_state_when_a_conflict_happens", async () => {
   assert.equal(r?.rev, 2);
   assert.deepEqual(r?.photos.map((p) => p.id), ["zzzz", "aaaa"]);
 });
-test("should_give_up_with_a_conflict_after_four_failed_attempts", async () => {
+test("should_give_up_with_a_conflict_after_eight_failed_attempts", async () => {
   const { deps } = fauxStockage();
   await assert.rejects(updateManifest((m) => m, { ...deps, put: async () => { throw new BlobError("This blob already exists"); } }), ConflictError);
 });
