@@ -1,6 +1,14 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "images": {
+    "sizes": [640, 960, 1600],
+    "remotePatterns": [
+      { "protocol": "https", "hostname": "lauetrtunbubmx4r.public.blob.vercel-storage.com", "pathname": "/marie-bryan/**" }
+    ],
+    "minimumCacheTTL": 31536000,
+    "formats": ["image/webp"]
+  },
   "redirects": [
     {
       "source": "/",
