@@ -69,7 +69,7 @@ export function parseManifest(input: unknown): Manifest | null {
   if (!isRecord(input) || input.version !== 1) return null;
   const rev = input.rev;
   if (typeof rev !== "number" || !Number.isInteger(rev) || rev < 0) return null;
-  if (!Array.isArray(input.photos) || input.photos.length > 600) return null;
+  if (!Array.isArray(input.photos) || input.photos.length > MAX_PHOTOS) return null;
 
   const photos: Photo[] = [];
   const ids = new Set<string>();
@@ -112,6 +112,24 @@ export function parseManifest(input: unknown): Manifest | null {
   }
 
   return { version: 1, rev, photos, slots, events };
+}
+
+export const MAX_PHOTOS = 600;
+
+/** Ajoute une photo (non publiée, dans aucun emplacement) ; ne touche ni à `rev` ni à l'original. */
+export function addPhoto(m: Manifest, photo: Photo): Manifest {
+  return { ...m, photos: [...m.photos, photo] };
+}
+
+/** Retire une photo du manifeste ET de tous les emplacements et séries qui la citent. */
+export function removePhoto(m: Manifest, id: string): Manifest {
+  const sans = (ids: string[]): string[] => ids.filter((x) => x !== id);
+  return {
+    ...m,
+    photos: m.photos.filter((p) => p.id !== id),
+    slots: Object.fromEntries(Object.entries(m.slots).map(([k, v]) => [k, sans(v)])),
+    events: m.events.map((e) => ({ ...e, photos: sans(e.photos) })),
+  };
 }
 
 export async function readManifest(): Promise<Manifest | null> {

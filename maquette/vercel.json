@@ -2,23 +2,50 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "images": {
-    "sizes": [640, 960, 1600],
+    "sizes": [
+      640,
+      960,
+      1600
+    ],
     "remotePatterns": [
-      { "protocol": "https", "hostname": "lauetrtunbubmx4r.public.blob.vercel-storage.com", "pathname": "/marie-bryan/**" }
+      {
+        "protocol": "https",
+        "hostname": "lauetrtunbubmx4r.public.blob.vercel-storage.com",
+        "pathname": "/marie-bryan/**"
+      },
+      {
+        "protocol": "https",
+        "hostname": "lauetrtunbubmx4r.public.blob.vercel-storage.com",
+        "pathname": "/cms/photos/**"
+      }
     ],
     "minimumCacheTTL": 31536000,
-    "formats": ["image/webp"]
+    "formats": [
+      "image/webp"
+    ]
   },
   "redirects": [
     {
       "source": "/",
-      "has": [{ "type": "header", "key": "user-agent", "value": "(?i).*(iphone|ipod|mobile).*" }],
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(?i).*(iphone|ipod|mobile).*"
+        }
+      ],
       "destination": "/m",
       "permanent": false
     },
     {
       "source": "/:page(accueil|galerie|contact|services|apropos)",
-      "has": [{ "type": "header", "key": "user-agent", "value": "(?i).*(iphone|ipod|mobile).*" }],
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(?i).*(iphone|ipod|mobile).*"
+        }
+      ],
       "destination": "/m#/:page",
       "permanent": false
     }
@@ -27,11 +54,52 @@
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
-        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), payment=()" },
-        { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://lauetrtunbubmx4r.public.blob.vercel-storage.com; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'" }
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), payment=()"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://lauetrtunbubmx4r.public.blob.vercel-storage.com; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'"
+        }
+      ]
+    },
+    {
+      "source": "/admin/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
+    },
+    {
+      "source": "/admin",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
       ]
     }
   ]

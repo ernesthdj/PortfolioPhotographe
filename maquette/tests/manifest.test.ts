@@ -63,3 +63,27 @@ test("should_hide_unpublished_photos_when_building_the_public_view", () => {
   assert.deepEqual(pub.events.map((e) => e.id), ["evt2"]);
   assert.deepEqual(pub.events[0]?.photos, ["aaaa"]);
 });
+
+test("should_add_a_photo_unpublished_and_in_no_slot_when_adding", async () => {
+  const { addPhoto } = await import("../api/_lib/manifest.ts");
+  const m = addPhoto(emptyManifest(), photo("cccc", false));
+  assert.deepEqual(m.photos.map((p) => p.id), ["cccc"]);
+  assert.equal(m.photos[0]?.published, false);
+  assert.deepEqual(m.slots, {});
+  assert.notEqual(parseManifest(m), null);
+});
+test("should_remove_a_photo_from_photos_slots_and_events_when_deleting", async () => {
+  const { removePhoto } = await import("../api/_lib/manifest.ts");
+  const m = parseManifest({ ...base(), slots: { intro: ["aaaa", "bbbb"], "service:0": ["aaaa"] }, events: [{ id: "evt1", svc: 0, tag: "t", txt: "x", photos: ["aaaa", "bbbb"] }] });
+  assert.ok(m);
+  const r = removePhoto(m, "aaaa");
+  assert.deepEqual(r.photos.map((p) => p.id), ["bbbb"]);
+  assert.deepEqual(r.slots.intro, ["bbbb"]);
+  assert.deepEqual(r.slots["service:0"], []);
+  assert.deepEqual(r.events[0]?.photos, ["bbbb"]);
+  assert.notEqual(parseManifest(r), null);
+});
+test("should_leave_the_manifest_unchanged_when_removing_an_unknown_photo", async () => {
+  const { removePhoto } = await import("../api/_lib/manifest.ts");
+  assert.deepEqual(removePhoto(base(), "zzzz"), base());
+});
