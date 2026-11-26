@@ -225,3 +225,11 @@ Choix figes et ecartes dans `docs/front/premier-impact-design.md`. A peaufiner a
 ### [2026-11-11] DESIGN — DA Morphic calibree (passe 1, intro, dashboard, galerie)
 **Fichiers :** `docs/front/da-morphic-design.md` (nouveau), `docs/front/canvas-da-morphic/` (sources des planches)
 **Resume :** Nouvelle direction artistique basee sur le Morphic-theme, calibree sur le canvas https://claude.ai/artifact/L7CCM7dpQYzQMgQRaGmy4j. Ce depot ne sert plus qu'a calibrer la DA : le front reel sera construit dans PID (Laravel + Blade, jQuery). Passes « Verre de mer » (galets, blobs) et « Epure » abandonnees. Decisions : trace morphique + developpement photo (fondu noir et blanc vers couleur, sans negatif) entremeles ; texte jamais colore, palette cyan / orange / bordeaux sur les traits seulement ; fond blanc avec vignettage CSS ; verre mat sans grain code en CSS ; animations continues apres l'apparition ; superpositions qui decomposent puis redessinent le fond. Pages calibrees : intro collage, dashboard (accroche tournante ecrite par la goutte d'encre, collage a grille recalculee, menus en pastilles de verre), galerie (filtres par service, flux par evenement sans albums, temoignages a la place d'une photo, zoom depuis la vignette). Aucun code applicatif modifie.
+
+### [2026-11-26] FIX — un seul lien responsive et erreurs de diagnostic
+**Fichiers :** `maquette/vercel.json`
+**Resume :** Redirection par appareil dans `vercel.json` : un telephone qui ouvre `/` (ou `/galerie`, `/contact`, `/services`, `/accueil`, `/apropos`) arrive sur la version mobile `/m` ; l'ordinateur reste sur la version PC. Plus de second lien a partager.
+**Erreurs commises par Claude (a ne pas refaire) :**
+- Annonce que les photos Blob risquaient de ne pas s'afficher a cause de `manifest: null` sur `/api/photos`, sans verifier : les pages lisent `data/photos-blob.js`, pas cette API (mini-CMS non branche).
+- Deux liens donnes (`/` et `/m`) sans signaler l'absence de redirection mobile.
+- Boucle d'attente sur `/m/` qui renvoie un 308 vers `/m` (cleanUrls) : jamais de 200.

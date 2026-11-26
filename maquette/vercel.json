@@ -1,6 +1,20 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/",
+      "has": [{ "type": "header", "key": "user-agent", "value": "(?i).*(iphone|ipod|mobile).*" }],
+      "destination": "/m",
+      "permanent": false
+    },
+    {
+      "source": "/:page(accueil|galerie|contact|services|apropos)",
+      "has": [{ "type": "header", "key": "user-agent", "value": "(?i).*(iphone|ipod|mobile).*" }],
+      "destination": "/m#/:page",
+      "permanent": false
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
