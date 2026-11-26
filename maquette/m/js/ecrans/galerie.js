@@ -47,7 +47,7 @@ function assembler(cat) {
 
 export function creer(ctx) {
   const e = creerEcran(ctx);
-  let cat = 'tout', liste = [], v = null, zoom = null, pivot = false, capte = false, inclinaison = 0;
+  let cat = 'tout', liste = [], v = null, zoom = null, inclinaison = 0;
   const reduit = () => { try { return matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (x) { return false; } };
 
   // ---------- fil ----------
@@ -90,15 +90,14 @@ export function creer(ctx) {
     const imgs = liste.map((m) => { const p = PHOTOS[m.idx]; const i = el('div', { class: 'zimg reel ton-' + p.ton + (p.nb ? ' nb' : ''), role: 'img', 'aria-label': p.alt }, el('span', null, p.libelle)); i.style.setProperty('--img', 'url("' + p.src + '")'); return i; });
     const boite = el('div', { class: 'zbox' }, ...imgs);
     const icone = (...d) => svg('svg', { width: 20, height: 20, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': 1.7, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'aria-hidden': 'true' }, ...d.map((x) => svg('path', { d: x })));
-    const bPivot = el('button', { type: 'button', class: 'ib', 'aria-pressed': 'false', 'aria-label': 'Option : pivoter la photo quand on incline le téléphone', style: { left: '16px', top: 'calc(16px + env(safe-area-inset-top))' }, on: { click: basculerPivot } }, icone('M20 12a8 8 0 1 1-2.6-5.9', 'M20 4v4h-4'));
     const bFermer = el('button', { type: 'button', class: 'ib', 'aria-label': 'Fermer la photo', style: { right: '16px', top: 'calc(16px + env(safe-area-inset-top))' }, on: { click: fermer } }, icone('M6 6l12 12M18 6L6 18'));
     const num = el('span', { class: 'mono' }), cap = el('div', { class: 'mono', style: { marginTop: '8px' } });
     const legende = el('div', { class: 'zcap' }, el('div', { class: 'eyebrow' }, el('span', { class: 'regle', 'aria-hidden': 'true' }), num), cap);
     const bPrec = el('button', { type: 'button', class: 'ib', 'aria-label': 'Photo précédente', style: { left: '22px', bottom: 'calc(28px + env(safe-area-inset-bottom))' }, on: { click: () => aller(-1) } }, icone('M15 5l-7 7 7 7'));
     const bSuiv = el('button', { type: 'button', class: 'ib', 'aria-label': 'Photo suivante', style: { right: '22px', bottom: 'calc(28px + env(safe-area-inset-bottom))' }, on: { click: () => aller(1) } }, icone('M9 5l7 7-7 7'));
-    const ctl = el('div', { class: 'zctl' }, bPivot, bFermer, legende, bPrec, bSuiv);
+    const ctl = el('div', { class: 'zctl' }, bFermer, legende, bPrec, bSuiv);
     const racine = el('div', { class: 'zoom', role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Photo agrandie' }, fond, boite, ctl);
-    return { racine, fond, boite, imgs, ctl, bPivot, legende, num, cap };
+    return { racine, fond, boite, imgs, ctl, legende, num, cap };
   }
 
   function ecouter(oui) {
@@ -106,7 +105,6 @@ export function creer(ctx) {
       if (oui && !ecouter.dh) {
         ecouter.dh = (ev) => {
           if (ev.gamma === null || ev.gamma === undefined) return;
-          capte = true;
           const g = ev.gamma;
           let tl = inclinaison;
           if (g < -55) tl = 90; else if (g > 55) tl = -90; else if (Math.abs(g) < 35) tl = 0;   // hystérésis : pas de va-et-vient près du seuil
@@ -114,18 +112,17 @@ export function creer(ctx) {
         };
         window.addEventListener('deviceorientation', ecouter.dh);
       } else if (!oui && ecouter.dh) { window.removeEventListener('deviceorientation', ecouter.dh); ecouter.dh = null; }
-    } catch (x) { /* capteur indisponible : la rotation reste manuelle */ }
+    } catch (x) { /* capteur indisponible : la photo reste droite */ }
   }
-  function basculerPivot() {
-    pivot = !pivot;
-    try { if (pivot && window.DeviceOrientationEvent && typeof window.DeviceOrientationEvent.requestPermission === 'function') window.DeviceOrientationEvent.requestPermission().catch(() => {}); } catch (x) { /* refus : on garde 90° fixe */ }
-    rendreZoom();
+  /** iPhone : l'accès au capteur se demande depuis un geste de l'utilisateur ; l'ouverture d'une photo (un tap) en est un. */
+  function demanderCapteur() {
+    try { const D = window.DeviceOrientationEvent; if (D && typeof D.requestPermission === 'function') D.requestPermission().catch(() => {}); } catch (x) { /* refus : la photo reste droite */ }
   }
 
   function rendreZoom() {
     if (!v || !zoom) return;
     const W = e.racine.clientWidth, H = e.racine.clientHeight, m = liste[v.i], p = PHOTOS[m.idx];
-    const paysage = p.r > 1, rot = paysage && pivot ? (capte ? inclinaison : 90) : 0;
+    const paysage = p.r > 1, rot = paysage ? inclinaison : 0;   // une photo en paysage se couche quand on couche le téléphone
     let cible;
     if (rot !== 0) { const Wd = Math.min(H * 0.73, (W - 44) * p.r), Hd = Wd / p.r; cible = { l: W / 2 - Wd / 2, t: H * 0.44 - Hd / 2, w: Wd, h: Hd, rot }; }
     else { const w = Math.min(W - 44, H * 0.71 * p.r), h = w / p.r; cible = { l: (W - w) / 2, t: (H - h) / 2 - 28, w, h, rot: 0 }; }
@@ -135,9 +132,6 @@ export function creer(ctx) {
     zoom.fond.classList.toggle('on', v.ph === 'to');
     zoom.ctl.style.opacity = v.ph === 'to' ? '1' : '0';
     zoom.ctl.style.pointerEvents = v.ph === 'to' ? 'auto' : 'none';
-    zoom.bPivot.hidden = !paysage;
-    zoom.bPivot.classList.toggle('pv', pivot);
-    zoom.bPivot.setAttribute('aria-pressed', String(pivot));
     zoom.legende.style.top = (rot !== 0 ? H - 144 : Math.min(cible.t + cible.h + 22, H - 144)) + 'px';
     zoom.num.textContent = `${String(v.i + 1).padStart(2, '0')} / ${String(liste.length).padStart(2, '0')}`;
     zoom.cap.textContent = m.cap;
@@ -164,6 +158,7 @@ export function creer(ctx) {
     e.racine.querySelectorAll('.fq-skip').forEach((x) => x.classList.remove('fq-skip'));
     e.racine.classList.add('out');                    // le fond se décompose derrière la photo
     ctx.majChrome();
+    demanderCapteur();
     ecouter(true);
     rendreZoom();
     e.vie.timeout(() => { if (v) { v.ph = 'to'; rendreZoom(); } }, 60);

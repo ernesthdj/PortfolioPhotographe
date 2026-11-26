@@ -242,3 +242,7 @@ Choix figes et ecartes dans `docs/front/premier-impact-design.md`. A peaufiner a
 ### [2026-11-26] PERF — zoom photo mobile moins sacade
 **Fichiers :** `maquette/m/css/ecrans.css`
 **Resume :** Le zoom lagguait sur smartphone. Causes probables (lues dans le code, non mesurees sur telephone) : 3 `drop-shadow` flous recalcules a chaque image sur le cadre qui change de taille, et un fond en degrade radial anime en boucle repeint en continu. Ombre remplacee par un `box-shadow` pose apres le deplacement (animation `zOmbre`), fond du zoom en pause hors ouverture et demarre apres 0,8 s. Non teste en local (serveur refuse par les permissions) : verification sur telephone par l'utilisateur. Piste suivante si ca lague encore : versions reduites des photos (2000 px aujourd'hui).
+
+### [2026-11-26] FEAT — inclinaison de la photo au capteur (mobile)
+**Fichiers :** `maquette/m/js/ecrans/galerie.js`, `maquette/m/css/ecrans.css`
+**Resume :** Le bouton d'inclinaison du zoom photo est supprime. Une photo en paysage se couche desormais selon le capteur d'orientation du telephone (seuils et hysteresis inchanges). Sur iPhone, l'autorisation du capteur est demandee a l'ouverture d'une photo (un tap), seul geste utilisateur disponible. Non teste dans un navigateur (pas de capteur simulable) : verification sur telephone par l'utilisateur.
