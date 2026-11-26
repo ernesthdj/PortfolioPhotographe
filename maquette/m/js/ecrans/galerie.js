@@ -14,12 +14,12 @@ const CATS = [
 ];
 // exemples : étiquettes, lignes et lieux restent entre crochets ; `ph` = indices dans PHOTOS ; `quote` = un témoignage s'invite dans la grille
 const EV = {
-  mariages: [{ tag: 'Mariage · [Lieu] · 2026', line: '[Une ligne sur la journée, écrite par Ernest.]', ph: [0, 3, 4, 2], quote: true }, { tag: 'Mariage · [Lieu] · 2025', line: '[Une ligne sur la journée.]', ph: [4, 0, 1] }],
-  engagement: [{ tag: 'Engagement · [Lieu] · 2026', line: '[Une ligne sur la séance.]', ph: [1, 2, 3], quote: true }],
-  famille: [{ tag: 'Famille · [Lieu] · 2026', line: '[Une ligne sur la séance.]', ph: [2, 0, 4] }],
-  anniversaires: [{ tag: 'Anniversaire · [Lieu] · 2026', line: '[Une ligne sur la soirée.]', ph: [3, 4, 1], quote: true }],
-  evenementiel: [{ tag: 'Événement · [Lieu] · 2026', line: '[Une ligne sur l’événement.]', ph: [4, 3, 0] }],
-  culinaire: [{ tag: 'Culinaire · [Lieu] · 2026', line: '[Une ligne sur la commande.]', ph: [2, 1] }]
+  mariages: [{ tag: 'Mariage · [Lieu] · 2026', line: '[Une ligne sur la journée, écrite par Ernest.]', ph: [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], quote: true }, { tag: 'Mariage · [Lieu] · 2025', line: '[Une ligne sur la journée.]', ph: [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32] }],
+  engagement: [{ tag: 'Engagement · [Lieu] · 2026', line: '[Une ligne sur la séance.]', ph: [33, 34, 35, 36, 37, 38, 39, 40, 41, 42], quote: true }],
+  famille: [{ tag: 'Famille · [Lieu] · 2026', line: '[Une ligne sur la séance.]', ph: [43, 44, 45, 46, 47, 48, 49, 50, 51, 52] }],
+  anniversaires: [{ tag: 'Anniversaire · [Lieu] · 2026', line: '[Une ligne sur la soirée.]', ph: [53, 54, 55, 56, 57, 58, 59, 60], quote: true }],
+  evenementiel: [{ tag: 'Événement · [Lieu] · 2026', line: '[Une ligne sur l’événement.]', ph: [61, 62, 63, 64, 65, 66, 67, 68] }],
+  culinaire: [{ tag: 'Culinaire · [Lieu] · 2026', line: '[Une ligne sur la commande.]', ph: [69, 70, 71, 72, 73, 74, 75, 76] }]
 };
 const TETES = [['mariages', 'Mariages'], ['engagement', 'Engagement'], ['famille', 'Famille lifestyle'], ['anniversaires', 'Anniversaires'], ['evenementiel', 'Événementiel'], ['culinaire', 'Culinaire & studio']];
 
@@ -69,7 +69,7 @@ export function creer(ctx) {
         el('div', { class: 'mono' }, ecrit('[Prénoms]', { d: 1, u: 0.5 }))));
     }
     const ph = PHOTOS[it.idx];
-    const p = photo({ ton: ph.ton, nb: ph.nb, libelle: ph.libelle, alt: ph.alt, d: it.d });
+    const p = photo({ ton: ph.ton, nb: ph.nb, libelle: ph.libelle, alt: ph.alt, src: ph.src, d: it.d });
     p.removeAttribute('role'); p.setAttribute('aria-hidden', 'true');
     const bouton = el('button', { type: 'button', class: 'tap', 'aria-label': ph.alt + ' — agrandir', on: { click: () => ouvrir(it.n) } });
     return rv(el('div', { class: 'tuile' + (it.large ? ' large' : ''), 'data-pid': String(it.n) }, p, bouton));
@@ -87,7 +87,7 @@ export function creer(ctx) {
 
   function creerZoom() {
     const fond = el('div', { class: 'zoom-fond' });
-    const imgs = liste.map((m) => { const p = PHOTOS[m.idx]; const i = el('div', { class: 'zimg ton-' + p.ton + (p.nb ? ' nb' : ''), role: 'img', 'aria-label': p.alt }, el('span', null, p.libelle)); return i; });
+    const imgs = liste.map((m) => { const p = PHOTOS[m.idx]; const i = el('div', { class: 'zimg reel ton-' + p.ton + (p.nb ? ' nb' : ''), role: 'img', 'aria-label': p.alt }, el('span', null, p.libelle)); i.style.setProperty('--img', 'url("' + p.src + '")'); return i; });
     const boite = el('div', { class: 'zbox' }, ...imgs);
     const icone = (...d) => svg('svg', { width: 20, height: 20, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': 1.7, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'aria-hidden': 'true' }, ...d.map((x) => svg('path', { d: x })));
     const bPivot = el('button', { type: 'button', class: 'ib', 'aria-pressed': 'false', 'aria-label': 'Option : pivoter la photo quand on incline le téléphone', style: { left: '16px', top: 'calc(16px + env(safe-area-inset-top))' }, on: { click: basculerPivot } }, icone('M20 12a8 8 0 1 1-2.6-5.9', 'M20 4v4h-4'));
@@ -131,7 +131,7 @@ export function creer(ctx) {
     else { const w = Math.min(W - 44, H * 0.71 * p.r), h = w / p.r; cible = { l: (W - w) / 2, t: (H - h) / 2 - 28, w, h, rot: 0 }; }
     const b = v.ph === 'to' ? cible : { ...v.rect, rot: 0 };
     Object.assign(zoom.boite.style, { left: b.l + 'px', top: b.t + 'px', width: b.w + 'px', height: b.h + 'px', transform: `rotate(${b.rot}deg)` });
-    zoom.boite.className = 'zbox' + (v.ph === 'back' ? ' bk' : '');
+    zoom.boite.className = 'zbox pr' + (v.ph === 'back' ? ' bk' : '');
     zoom.fond.classList.toggle('on', v.ph === 'to');
     zoom.ctl.style.opacity = v.ph === 'to' ? '1' : '0';
     zoom.ctl.style.pointerEvents = v.ph === 'to' ? 'auto' : 'none';
@@ -143,7 +143,7 @@ export function creer(ctx) {
     zoom.cap.textContent = m.cap;
     zoom.imgs.forEach((im, k) => {
       const nb = PHOTOS[liste[k].idx].nb ? ' nb' : '';
-      im.className = 'zimg ton-' + PHOTOS[liste[k].idx].ton + nb + (v.ph === 'back' ? (k === v.i ? ' fin' : '') : (k === v.i ? ' on' + (v.premier ? '' : ' nx') : (k === v.prev ? ' out' : '')));
+      im.className = 'zimg reel ton-' + PHOTOS[liste[k].idx].ton + nb + (v.ph === 'back' ? (k === v.i ? ' fin' : '') : (k === v.i ? ' on' + (v.premier ? ' pr' : ' nx') : (k === v.prev ? ' out' : '')));
     });
   }
 
@@ -154,6 +154,14 @@ export function creer(ctx) {
     v = { i, prev: -1, ph: 'from', rect: rectDe(tuile), premier: true };
     zoom = creerZoom();
     e.racine.append(zoom.racine);
+    // un tap en dehors de la photo (et hors boutons) la referme aussi ; la couche de boutons couvre tout l'écran, on compare donc avec le cadre de la photo
+    zoom.racine.addEventListener('click', (ev) => {
+      if (ev.target.closest('.ib')) return;
+      const r = zoom.boite.getBoundingClientRect();
+      if (ev.clientX >= r.left && ev.clientX <= r.right && ev.clientY >= r.top && ev.clientY <= r.bottom) return;
+      fermer();
+    });
+    e.racine.querySelectorAll('.fq-skip').forEach((x) => x.classList.remove('fq-skip'));
     e.racine.classList.add('out');                    // le fond se décompose derrière la photo
     ctx.majChrome();
     ecouter(true);
@@ -175,6 +183,7 @@ export function creer(ctx) {
       const rect = tuile ? rectDe(tuile) : v.rect;
       // la page se redessine PENDANT que la photo revient (retour rapide, sans voile) : rien ne repasse à la fin
       e.racine.querySelectorAll('.rv[data-rv]').forEach((x) => x.classList.add('fq'));
+      if (tuile) tuile.classList.add('fq-skip');      // la photo refermée rejoint sa place sans aucune animation
       e.racine.classList.remove('out');
       v = { ...v, ph: 'back', rect, prev: -1 };
       rendreZoom();
@@ -186,7 +195,7 @@ export function creer(ctx) {
     ecouter(false);
     if (zoom) { zoom.racine.remove(); zoom = null; }
     v = null; inclinaison = 0;
-    e.racine.querySelectorAll('.fq').forEach((x) => x.classList.remove('fq'));
+    // 'fq' reste en place : le retirer ferait changer les animations de toute la page et la rejouerait en entier
   }
 
   return {

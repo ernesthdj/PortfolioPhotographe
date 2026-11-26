@@ -2,6 +2,7 @@
 import { creerEcran } from '../lib/ecran.js';
 import { eyebrow, titre, texte, ecrit, filet, bouton, lienFleche, photo, contour, rv } from '../lib/ecriture.js';
 import { el } from '../../../js/lib/dom.js';
+import { PHOTOS } from '../photos.js';
 import { SERVICES, TVA, KM_OFFERTS, PRIX_KM } from '../../../data/tarifs.js';
 
 export const titreDoc = 'Services · Ernest H.';
@@ -37,7 +38,7 @@ export function creer(ctx) {
 
     e.page.replaceChildren(
       eyebrow(`Services · 0${n} / 0${ORDRE.length}`),
-      rv(el('div', { class: 'photo-bloc' }, photo({ ton: f.ton, nb: f.nb, libelle: 'Photo · ' + s.t, alt: f.alt, d: 0.2 }))),
+      rv(el('div', { class: 'photo-bloc' }, photo({ ton: f.ton, nb: f.nb, libelle: 'Photo · ' + s.t, alt: f.alt, src: PHOTOS[80 + n].src, d: 0.2 }))),
       titre(f.t1, f.t2),
       texte(f.d, { d: 0.1 }),
       rv(el('div', { class: 'tarifs' },

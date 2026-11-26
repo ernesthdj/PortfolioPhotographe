@@ -10,6 +10,12 @@
 .lb-btn:hover{background:rgba(13,14,16,.06)}
 .lb-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .filtre:focus-visible,.vue:focus-visible,.lb-btn:focus-visible{outline:2px solid #0D0E10;outline-offset:3px}
-.lb-img{position:absolute;overflow:hidden;box-shadow:0 30px 60px -20px rgba(20,18,16,.38),0 8px 16px -6px rgba(20,18,16,.18)}
+/* fond de la photo agrandie : fond blanc avec forte vignette noire sur les bords (lumière de lampe animée) */
+.lb-teinte{position:absolute;inset:0;background:radial-gradient(ellipse var(--lw) var(--lh) at var(--lx) var(--ly),#fff 0,#fff 38%,#f1f1f1 47%,#d6d6d6 57%,#adadad 68%,#767676 83%,#2e2e2e 100%);animation:lbLampe 38s ease-in-out infinite alternate;opacity:0;transition:opacity .55s ease;pointer-events:none}
+.lb-teinte.on{opacity:1}
+/* à la fermeture le fond s'efface vite, pour ne pas masquer le retour des autres photos et éléments */
+.lb-teinte:not(.on){transition-duration:.16s}
+.lb-teinte::after{content:"";position:absolute;inset:0;background:#000;opacity:0;animation:lbScintille 24s ease-in-out infinite}
+.lb-img{position:absolute;overflow:hidden;box-shadow:0 56px 96px -26px rgba(20,18,16,.52),0 22px 40px -12px rgba(20,18,16,.34),0 4px 10px rgba(20,18,16,.18)}
 .temoin{position:absolute;margin:0}
 #fenetre > .om{display:none}

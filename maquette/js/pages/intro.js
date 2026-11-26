@@ -2,7 +2,7 @@
 import { E } from '../lib/anim.js';
 import { monterScene } from '../lib/scene.js';
 import { el, svg, mot, animer } from '../lib/dom.js';
-import { PHOTOS } from '../../data/photos-site.js';
+import { PHOTOS, habillePhoto } from '../../data/photos-site.js';
 import { monterAccueil } from './accueil.js';
 import { demonterEntete } from '../lib/entete.js';
 
@@ -28,6 +28,7 @@ const plan = el('div', { class: 'plan', style: 'left:calc(var(--dx) / 2)' });
 const phs = COLLAGE.map((c) => {
   const p = PHOTOS[c.p];
   const n = el('div', { class: 'ph ton-' + p.ton, role: 'img', 'aria-label': p.alt, style: { left: c.x + 'px', top: c.y + 'px', width: c.w + 'px', height: c.h + 'px', '--c0': 'inset(0 100% 0 0)', '--c1': 'inset(0 0 0 0)' } }, el('span', null, p.label));
+  habillePhoto(n, p);
   return n;
 });
 const traits = COLLAGE.map((c) => svg('path', { pathLength: '100', d: `M${c.x - 1} ${c.y - 1} L${c.x + c.w + 1} ${c.y - 1} L${c.x + c.w + 1} ${c.y + c.h + 1} L${c.x - 1} ${c.y + c.h + 1} Z` }));

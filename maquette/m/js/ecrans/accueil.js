@@ -9,7 +9,7 @@ import { PHOTOS } from '../photos.js';
 export const titreDoc = 'Ernest H. · Photographe';
 
 const P = Object.fromEntries(PHOTOS.map((p) => [p.id, p]));
-const cliche = (id, d) => photo({ ton: P[id].ton, nb: P[id].nb, libelle: P[id].libelle, alt: P[id].alt, d });
+const cliche = (id, d) => photo({ ton: P[id].ton, nb: P[id].nb, libelle: P[id].libelle, alt: P[id].alt, src: P[id].src, d });
 const INDEX = [['mariages', 'mar'], ['engagement', 'eng'], ['famille', 'fam'], ['anniversaires', 'ann'], ['evenementiel', 'evt'], ['culinaire', 'cul']];
 const NOMS = { mar: 'Mariages', eng: 'Engagement', fam: 'Famille lifestyle', ann: 'Anniversaires', evt: 'Événementiel', cul: 'Culinaire & studio' };
 

@@ -1,0 +1,22 @@
+{
+  "name": "portfolio-maquette",
+  "private": true,
+  "type": "module",
+  "description": "Maquette statique + mini CMS photos (fonctions Vercel dans api/)",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@vercel/blob": "^2.9.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "overrides": {
+    "zod": "^4.6.6"
+  }
+}

@@ -7,7 +7,7 @@ import { creerVie } from '../lib/vie.js';
 import { mesures } from '../lib/scene.js';
 import { param } from '../lib/params.js';
 import { memoriserFocus, clavierModale } from '../lib/modale.js';
-import { PHOTOS } from '../../data/photos-site.js';
+import { PHOTOS, habillePhoto } from '../../data/photos-site.js';
 
 let vie = null;
 
@@ -25,13 +25,13 @@ function enteteAnim(a, dissolve) {
 // ---- contenus ----------------------------------------------------------------------------------------------
 const SVC = ['Mariages', 'Engagement', 'Famille lifestyle', 'Anniversaires', 'Événementiel', 'Culinaire & studio'];
 const EVT = [
-  { svc: 0, tag: 'Mariage · [Lieu] · 2026', txt: '[Une phrase sur la journée]', ph: [0, 1, 2, 3, 4, 2], who: '[Prénoms des mariés]' },
-  { svc: 0, tag: 'Mariage · [Lieu] · 2025', txt: '[Une phrase sur la journée]', ph: [4, 3, 0, 1] },
-  { svc: 1, tag: 'Engagement · [Lieu]', txt: '[Une phrase sur la séance]', ph: [1, 4, 2, 0] },
-  { svc: 2, tag: 'Famille · [Lieu]', txt: '[Une phrase sur la séance]', ph: [3, 4, 0, 1, 2] },
-  { svc: 3, tag: 'Anniversaire · [Lieu]', txt: '[Une phrase sur la fête]', ph: [2, 0, 1, 3] },
-  { svc: 4, tag: 'Événement · [Lieu]', txt: '[Une phrase sur l’événement]', ph: [1, 2, 3, 4, 0] },
-  { svc: 5, tag: 'Culinaire · [Maison]', txt: '[Une phrase sur le shooting]', ph: [0, 4, 3, 1] }
+  { svc: 0, tag: 'Mariage · [Lieu] · 2026', txt: '[Une phrase sur la journée]', ph: [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84], who: '[Prénoms des mariés]' },
+  { svc: 0, tag: 'Mariage · [Lieu] · 2025', txt: '[Une phrase sur la journée]', ph: [85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144] },
+  { svc: 1, tag: 'Engagement · [Lieu]', txt: '[Une phrase sur la séance]', ph: [145, 146, 147, 148, 149, 150, 151, 152, 153, 154] },
+  { svc: 2, tag: 'Famille · [Lieu]', txt: '[Une phrase sur la séance]', ph: [155, 156, 157, 158, 159, 160, 161, 162, 163, 164] },
+  { svc: 3, tag: 'Anniversaire · [Lieu]', txt: '[Une phrase sur la fête]', ph: [165, 166, 167, 168, 169, 170, 171, 172] },
+  { svc: 4, tag: 'Événement · [Lieu]', txt: '[Une phrase sur l’événement]', ph: [173, 174, 175, 176, 177, 178, 179, 180] },
+  { svc: 5, tag: 'Culinaire · [Maison]', txt: '[Une phrase sur le shooting]', ph: [181, 182, 183, 184, 185, 186, 187, 188] }
 ];
 const TEM = ['« [Ce que le client a ressenti en découvrant les photos.] »', '« [Un moment qu’il revit grâce aux images.] »'];
 
@@ -59,7 +59,7 @@ function justifie(list, W, rowH, gap, padTop, legende) {  // W = largeur utile d
 
 // ---- état --------------------------------------------------------------------------------------------------
 // svc : filtre repris de l'adresse (?service=Mariages, liste blanche SVC), -1 = tout
-const S = { svc: SVC.indexOf(param('service', SVC, '')), n: 0, lb: null, lbN: 0, lbSt: 'from', lbR: null, tq: 0, tqOut: false, out: false, retour: false, sh: 0 };
+const S = { svc: SVC.indexOf(param('service', SVC, '')), n: 0, lb: null, lbN: 0, lbSt: 'from', lbR: null, tq: 0, tqOut: false, out: false, retour: false, sh: 0, lbLast: null };
 let rects = [], tLb, rendreFocus = null;   // rendreFocus : rend le focus à la vignette cliquée à la fermeture de la photo agrandie
 const set = (patch) => { Object.assign(S, patch); render(); };
 
@@ -93,17 +93,17 @@ const vignetteRect = (i) => {
 function ouvrir(i) {
   if (S.lb !== null) return;
   rendreFocus = memoriserFocus();
-  vie.clearTimeout(tLb); set({ lb: i, lbSt: 'from', lbN: 0, lbR: vignetteRect(i) });
+  vie.clearTimeout(tLb); set({ lb: i, lbSt: 'from', lbN: 0, lbR: vignetteRect(i), lbLast: null });
   tLb = vie.timeout(() => set({ lbSt: 'to' }), 40);
 }
 function fermer() {
   if (S.lbSt !== 'to') return;
-  set({ lbSt: 'closing', lbR: vignetteRect(S.lb), n: S.n + 1, retour: true });
+  set({ lbSt: 'closing', lbR: vignetteRect(S.lb), n: S.n + 1, retour: true, lbLast: S.lb });
   vie.clearTimeout(tLb); tLb = vie.timeout(() => { set({ lb: null, lbSt: 'from' }); if (rendreFocus) rendreFocus(); rendreFocus = null; }, 760);
 }
 function changer(i) {
   if (S.out || i === S.svc) return;
-  set({ out: true, lb: null, retour: false });
+  set({ out: true, lb: null, retour: false, lbLast: null });
   vie.timeout(() => set({ svc: i, n: S.n + 1, sh: S.sh + 1, out: false }), 480);
   // le filtre est partageable : l'adresse porte ?service=… (sans entrée d'historique supplémentaire)
   history.replaceState(history.state, '', window.location.pathname + (i < 0 ? '' : '?service=' + encodeURIComponent(SVC[i])) + window.location.hash);
@@ -195,6 +195,8 @@ function render() {
   if (S.retour && !S.out && !dissolve) {
     const q = (dl) => ({ o: `wIn .35s ${E} ${dl.toFixed(2)}s both`, f: `wIn .35s ${E} ${(dl + .1).toFixed(2)}s both` });
     vues.forEach((v, i2) => { v.anim = `${v.nb ? 'retourNB' : 'retourC'} .45s ease ${(i2 * .015).toFixed(2)}s both`; v.tr = 'none'; });
+    // la photo qu'on vient de refermer rejoint sa place sans aucune animation par-dessus : elle est déjà là, nette
+    if (S.lbLast !== null && vues[S.lbLast]) vues[S.lbLast].anim = 'none';
     reperes.forEach((r) => { r.a = q(.1); r.b = q(.15); r.l = `drawS .45s ${E} .1s both`; });
     temoins.forEach((t) => { t.q = q(.2); t.c = q(.25); });
     Object.assign(a, { sep: `drawS .45s ${E} 0s both`, pillL: `drawS .45s ${E} .05s both`, pill: `habille .5s ease .2s both`,
@@ -262,7 +264,7 @@ function render() {
     const [b, s] = n.children, ph = b.firstElementChild, p = PHOTOS[v.p];
     b.setAttribute('aria-label', v.label);
     Object.assign(b.style, { left: v.x + 'px', top: v.y + 'px', width: v.w + 'px', height: v.h + 'px' });
-    ph.className = 'ph ton-' + p.ton; ph.firstElementChild.textContent = p.label; ph.title = p.label;   // légende tronquée par une ellipse : texte complet au survol
+    ph.className = 'ph ton-' + p.ton; ph.firstElementChild.textContent = p.label; habillePhoto(ph, p); ph.title = p.label;   // légende tronquée par une ellipse : texte complet au survol
     animer(ph, v.anim);
     Object.assign(s.style, { left: (v.x - 1) + 'px', top: (v.y - 1) + 'px', width: (v.w + 2) + 'px', height: (v.h + 2) + 'px' });
     s.firstElementChild.setAttribute('d', cadrePhoto(v.w, v.h)); animer(s.firstElementChild, v.tr);
@@ -281,14 +283,16 @@ function renderLb(flat, dx) {
   const a2 = S.lbN % 2 === 1, box = (d, dl) => ['left', 'top', 'width', 'height'].map((k2) => `${k2} ${d}s ${E} ${dl}s`).join(', ');
   const go = (dd) => { if (S.lbSt === 'to') set({ lb: (S.lb + dd + flat.length) % flat.length, lbN: S.lbN + 1 }); };
   if (!lbEls) {
-    const img = el('div', { class: 'lb-img ph', role: 'img' }, el('span'));
+    const fond = el('div', { class: 'lb-teinte' }), img = el('div', { class: 'lb-img ph', role: 'img' }, el('span'));
     const trP = cheminSvg(''), trS = svg('svg', { class: 'ln', 'aria-hidden': 'true' }, trP);
-    const racine = el('div', { role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Photo en grand', style: 'position:absolute;inset:0' }, img, trS);
+    const racine = el('div', { role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Photo en grand', style: 'position:absolute;inset:0' }, fond, img, trS);
     lbHote.append(racine);
-    lbEls = { racine, img, trP, trS, ui: null };
+    vie.ecouter(racine, 'click', (ev) => { if (ev.target === racine) fermer(); });   // un clic en dehors de la photo la referme aussi
+    lbEls = { racine, fond, img, trP, trS, ui: null };
   }
   const L = lbEls;
-  L.img.className = 'lb-img ph ton-' + p.ton; L.img.setAttribute('aria-label', p.altG); L.img.firstElementChild.textContent = p.label;
+  L.fond.classList.toggle('on', big);
+  L.img.className = 'lb-img ph ton-' + p.ton; L.img.setAttribute('aria-label', p.altG); L.img.firstElementChild.textContent = p.label; habillePhoto(L.img, p);
   L.img.style.transition = ph === 'from' ? 'none' : (big ? box(.8, 0) : box(.7, 0));
   Object.assign(L.img.style, { left: Rc.x + 'px', top: Rc.y + 'px', width: Rc.w + 'px', height: Rc.h + 'px' });
   animer(L.img, big && S.lbN > 0 ? `${a2 ? 'dev2' : 'dev'} 2s ease-in-out .1s both` : 'none');

@@ -6,15 +6,16 @@ import { creerVie } from '../../../js/lib/vie.js';
 export const titreDoc = 'Ernest H. · Photographe';
 export const dureeSortie = 0;              // l'intro se résorbe elle-même : pas d'attente supplémentaire
 
+import { PHOTOS as THEQUE } from '../photos.js';
 const E = 'cubic-bezier(.45,0,.2,1)';
 const FIN = 5.2;                            // instant où tout se résorbe (s)
 // emplacements dans un plan de 390 × 1120 ; c = la photo finit en couleur
 const PHOTOS = [
-  { x: 30, y: 150, w: 180, h: 270, ton: 4, dl: 0.95, tr: 0.5, c: false, alt: 'Les mariés enlacés, bouquet au premier plan' },
-  { x: 222, y: 190, w: 138, h: 207, ton: 5, dl: 1.35, tr: 0.9, c: true, alt: 'Baiser sur la joue' },
-  { x: 70, y: 450, w: 300, h: 129, ton: 6, dl: 2.15, tr: 1.7, c: false, alt: 'Couple enlacé dans un champ' },
-  { x: 30, y: 600, w: 330, h: 141, ton: 3, dl: 2.85, tr: 2.4, c: false, alt: 'Couple debout dans un grand champ' },
-  { x: 150, y: 770, w: 210, h: 315, ton: 1, dl: 3.55, tr: 3.1, c: true, alt: 'Les mariés devant le château' }
+  { id: 'bouquet', x: 30, y: 150, w: 180, h: 270, ton: 4, dl: 0.95, tr: 0.5, c: false, alt: 'Les mariés enlacés, bouquet au premier plan' },
+  { id: 'baiser', x: 222, y: 190, w: 138, h: 207, ton: 5, dl: 1.35, tr: 0.9, c: true, alt: 'Baiser sur la joue' },
+  { id: 'champ', x: 70, y: 450, w: 300, h: 129, ton: 6, dl: 2.15, tr: 1.7, c: false, alt: 'Couple enlacé dans un champ' },
+  { id: 'grand-champ', x: 30, y: 600, w: 330, h: 141, ton: 3, dl: 2.85, tr: 2.4, c: false, alt: 'Couple debout dans un grand champ' },
+  { id: 'chateau', x: 150, y: 770, w: 210, h: 315, ton: 1, dl: 3.55, tr: 3.1, c: true, alt: 'Les mariés devant le château' }
 ];
 const TONS = {
   1: 'linear-gradient(150deg,#d9a98a,#8f5a4a)', 3: 'linear-gradient(150deg,#d8c6a0,#8c7448)', 4: 'linear-gradient(150deg,#aab4cf,#55608a)',
@@ -52,7 +53,7 @@ export function creer(ctx) {
     PHOTOS.forEach((p, i) => {
       const im = el('div', { class: 'mi-img', role: 'img', 'aria-label': p.alt });
       Object.assign(im.style, { left: p.x + 'px', top: p.y + 'px', width: p.w + 'px', height: p.h + 'px' });
-      im.style.setProperty('background', TONS[p.ton]);
+      im.style.setProperty('background', 'url("' + THEQUE.find((q) => q.id === p.id).src + '") center/cover no-repeat, ' + TONS[p.ton]);
       im.style.animation = `mi-rIn .8s ${E} ${p.dl}s both, ${p.c ? 'mi-dev' : 'mi-devNB'} 2.6s ease-in-out ${p.dl}s both, mi-fOut .8s ease-in-out ${(FIN + 0.4 + i * 0.1).toFixed(2)}s forwards`;
       plan.append(im);
       const tr = svg('path', { pathLength: 100, d: `M${p.x - 1} ${p.y - 1} L${p.x + p.w + 1} ${p.y - 1} L${p.x + p.w + 1} ${p.y + p.h + 1} L${p.x - 1} ${p.y + p.h + 1} Z` });

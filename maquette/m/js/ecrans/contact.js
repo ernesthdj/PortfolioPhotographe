@@ -3,6 +3,7 @@
 import { creerEcran } from '../lib/ecran.js';
 import { eyebrow, titre, texte, ecrit, bouton, contour, photo, rv } from '../lib/ecriture.js';
 import { el, svg } from '../../../js/lib/dom.js';
+import { PHOTOS } from '../photos.js';
 import { SERVICES } from '../../../data/tarifs.js';
 
 export const titreDoc = 'Contact · Ernest H.';
@@ -31,7 +32,7 @@ export function creer(ctx) {
       const ghost = el('button', { type: 'button', class: 'ghb', on: { click: () => changer('formulaire') } }, ecrit('Écrire maintenant', { d: 1.6, u: 0.5 }));
       ghost.style.setProperty('--d', '1.3s');
       return el('div', { class: 'porte-c' },
-        photo({ ton: 5, nb: true, libelle: 'Baiser · joue', alt: 'Baiser sur la joue', d: 0.45 }),
+        photo({ ton: 5, nb: true, libelle: 'Baiser · joue', alt: 'Baiser sur la joue', src: PHOTOS.find((p) => p.id === 'baiser').src, d: 0.45 }),
         el('div', { class: 'mono porte-k' }, ecrit('02 · Le plus personnel', { d: 1, u: 0.6 })),
         el('div', { class: 'porte-t' }, ecrit('Écrire un message', { d: 1.1, u: 0.7 })),
         el('div', { class: 'porte-d' }, ecrit('Racontez-moi votre projet avec vos mots : je réponds sous [48 h] avec mes questions.', { d: 1.25, u: 0.8, bloc: true })),
@@ -69,7 +70,7 @@ export function creer(ctx) {
   function construire() {
     const porte1 = rv(el('div', { class: 'porte', style: { marginTop: '28px' } }, el('div', { class: 'carte-verre verre' }), contour(24, 0.1),
       el('div', { class: 'porte-c' },
-        photo({ ton: 1, libelle: 'Mariés · château', alt: 'Les mariés devant le château', d: 0.3 }),
+        photo({ ton: 1, libelle: 'Mariés · château', alt: 'Les mariés devant le château', src: PHOTOS.find((p) => p.id === 'chateau').src, d: 0.3 }),
         el('div', { class: 'mono porte-k' }, ecrit('01 · Le plus rapide', { d: 0.9, u: 0.6 })),
         el('div', { class: 'porte-t' }, ecrit('Simuler mon devis', { d: 1, u: 0.7 })),
         el('div', { class: 'porte-d' }, ecrit('Vos lieux, vos horaires, votre service : le prix s’affiche en 3 minutes.', { d: 1.15, u: 0.8, bloc: true })),

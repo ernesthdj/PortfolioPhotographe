@@ -75,8 +75,10 @@ export function contour(rayon = 24, d = 0.1) {
 }
 
 /** Photo (emplacement dégradé tant qu'il n'y a pas de vrais clichés) : cadre tracé, développement noir et blanc -> couleur. */
-export function photo({ ton = 1, nb = false, libelle, alt, d = 0.2 }) {
-  const p = el('div', { class: `photo ton-${ton}${nb ? ' nb' : ''}`, role: 'img', 'aria-label': alt || libelle }, el('div', { class: 'img' }, el('span', null, libelle)),
+export function photo({ ton = 1, nb = false, libelle, alt, d = 0.2, src }) {
+  const img = el('div', { class: 'img' + (src ? ' reel' : '') }, el('span', null, libelle));
+  if (src) img.style.setProperty('--img', 'url("' + src + '")');
+  const p = el('div', { class: `photo ton-${ton}${nb ? ' nb' : ''}`, role: 'img', 'aria-label': alt || libelle }, img,
     svg('svg', { class: 'cadre', 'aria-hidden': 'true' }, svg('rect', { x: 0, y: 0, width: '100%', height: '100%', pathLength: 100 })));
   p.style.setProperty('--d', d + 's');
   return p;

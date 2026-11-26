@@ -9,7 +9,7 @@ import { mesures as scene } from '../lib/scene.js';   // (« mesures » est déj
 import { memoriserFocus, clavierModale } from '../lib/modale.js';
 import { creerSurligneur } from '../lib/surligneur.js';
 import { monterVagabond } from '../lib/vagabond.js';
-import { PHOTOS } from '../../data/photos-site.js';
+import { PHOTOS, habillePhoto } from '../../data/photos-site.js';
 
 const FRAGMENT = (...n) => { const f = document.createDocumentFragment(); f.append(...n); return f; };
 
@@ -70,12 +70,15 @@ function rectsMosaique(ratios, dx = 0) {
 }
 
 function emplacement(p, cls) {
-  return el('div', { class: cls + ' ph ton-' + p.ton, role: 'img', 'aria-label': p.alt }, el('span', null, p.label));
+  const n = el('div', { class: cls + ' ph ton-' + p.ton, role: 'img', 'aria-label': p.alt }, el('span', null, p.label));
+  habillePhoto(n, p);
+  return n;
 }
 function majEmplacement(n, p, cls) {
   n.className = cls + ' ph ton-' + p.ton;
   n.setAttribute('aria-label', p.alt);
   n.firstElementChild.textContent = p.label;
+  habillePhoto(n, p);
 }
 
 /**
@@ -86,7 +89,7 @@ export function monterAccueil(hote, { seul = true, retard = 0 } = {}) {
   const vie = creerVie(), dejaLa = enteteMontee();
   const D = seul ? 0 : retard;
   let vivant = true, rejoue = false;
-  const S = { ph: 'in', lbI: null, lbSt: 'from', lbN: 0, fast: false, navH: null, svc: 0, svcN: 0, svcFade: false, heroI: 0, heroN: 0, heroOut: false };
+  const S = { ph: 'in', lbI: null, lbSt: 'from', lbN: 0, fast: false, navH: null, svc: 0, svcN: 0, svcFade: false, heroI: 0, heroN: 0, heroOut: false, lbLast: null };
   const tm = {}; let navW = null, mctx = null, rj = null;
 
   // ---------- construction du décor statique ----------
@@ -184,18 +187,18 @@ export function monterAccueil(hote, { seul = true, retard = 0 } = {}) {
     if (S.svc === i && !S.svcFade) return;
     surfSvc.aller(i);
     vie.clearTimeout(tm.svc); S.svcFade = true; render();
-    tm.svc = vie.timeout(() => { S.svc = i; S.svcN += 1; S.svcFade = false; render(); }, 300);
+    tm.svc = vie.timeout(() => { S.svc = i; S.svcN += 1; S.svcFade = false; S.lbLast = null; render(); }, 300);
   };
   let rendreFocus = null;      // rend le focus à la photo cliquée quand la photo agrandie se ferme
   const ouvrir = (i) => {
     if (S.lbI !== null) return;
     rendreFocus = memoriserFocus();
-    vie.clearTimeout(tm.lb); S.lbI = i; S.lbSt = 'from'; S.lbN = 0; S.ph = 'out'; vag.masquer(true); render();
+    vie.clearTimeout(tm.lb); S.lbI = i; S.lbLast = null; S.lbSt = 'from'; S.lbN = 0; S.ph = 'out'; vag.masquer(true); render();
     tm.lb = vie.timeout(() => { S.lbSt = 'to'; render(); }, 40);
   };
   const fermer = () => {
     if (S.lbSt !== 'to') return;
-    S.lbSt = 'closing'; S.ph = 'in'; S.fast = true; render(); vie.clearTimeout(tm.lb);
+    S.lbLast = S.lbI; S.lbSt = 'closing'; S.ph = 'in'; S.fast = true; render(); vie.clearTimeout(tm.lb);
     tm.lb = vie.timeout(() => { S.lbI = null; S.lbSt = 'from'; vag.masquer(false); render(); if (rendreFocus) rendreFocus(); rendreFocus = null; }, 820);
   };
   const aller = (d, n) => { if (S.lbSt !== 'to') return; S.lbI = (S.lbI + d + n) % n; S.lbN += 1; render(); };
@@ -241,6 +244,11 @@ export function monterAccueil(hote, { seul = true, retard = 0 } = {}) {
         const dl = (.1 + i * .12).toFixed(2);
         anim = `${nb ? (alt2 ? 'devNB2' : 'devNB') : (alt2 ? 'dev2' : 'dev')} 2.8s ease-in-out ${dl}s both`;
         tr = `${alt2 ? 'trace2' : 'trace'} 2.6s ${E} ${dl}s both`;
+      }
+      // la photo qu'on vient de refermer rejoint sa place sans animation par-dessus : durée et délai à zéro, elle prend directement son état final
+      if (S.lbLast === i && on && !S.svcFade) {
+        const direct = (a) => a.replace(/^(\S+)\s+[\d.]+s\s+(\S+)\s+[\d.]+s/, '$1 0s $2 0s');
+        anim = direct(anim); tr = direct(tr);
       }
       let t0 = null;
       if (on && sn === 0) t0 = D + (.6 + i * .15) * K + 3.4; else if (on && !S.svcFade) t0 = .1 + i * .12 + 3.0;
@@ -392,10 +400,12 @@ export function monterAccueil(hote, { seul = true, retard = 0 } = {}) {
       const next = bt('Photo suivante', 'right:44px;top:416px', 'M9 5 L16 12 L9 19', () => aller(1, PH.length));
       const racine = el('div', { role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Photo en grand', style: 'position:absolute;inset:0' }, fond, img, cadre, trS, capP, numP, close, prev, next);
       lbHote.append(racine);
+      vie.ecouter(racine, 'click', (ev) => { if (ev.target === racine) fermer(); });   // un clic en dehors de la photo la referme aussi
       lbEls = { racine, fond, img, cadre, trS, trP, capW, numW, numP, close, prev, next };
       close.focus({ preventScroll: true });
     }
     const L = lbEls;
+    L.fond.classList.toggle('on', growing);
     majEmplacement(L.img, ph, 'lb-img');
     Object.assign(L.img.style, { left: tx + 'px', top: ty + 'px', width: tw + 'px', height: th + 'px' });
     animer(L.img, st === 'closing' ? `devOut .22s ${E} 0s forwards` : (growing ? `${alt ? 'dev2' : 'dev'} 2.2s ease-in-out ${S.lbN ? .3 : .1}s both` : 'devOut .01s linear 0s forwards'));
