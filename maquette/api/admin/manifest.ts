@@ -1,5 +1,5 @@
 import { fail, guard, json } from "../_lib/auth.js";
-import { emptyManifest, parseManifest, readManifest, writeManifest } from "../_lib/manifest.js";
+import { ConflictError, emptyManifest, parseManifest, readManifest, writeManifest } from "../_lib/manifest.js";
 
 const MAX_BODY = 1024 * 1024;
 
@@ -36,7 +36,8 @@ export async function PUT(request: Request): Promise<Response> {
     const saved = { ...next, rev: current.rev + 1 };
     await writeManifest(saved);
     return json(200, saved);
-  } catch {
+  } catch (e) {
+    if (e instanceof ConflictError) return json(409, { error: "Version périmée : rechargez avant d'enregistrer." });
     return fail(502, "Stockage injoignable.");
   }
 }

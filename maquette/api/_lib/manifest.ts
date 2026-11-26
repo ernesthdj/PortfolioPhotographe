@@ -1,4 +1,4 @@
-import { BlobNotFoundError, head, put } from "@vercel/blob";
+import { BlobError, del, list, put } from "@vercel/blob";
 
 /**
  * Manifeste du mini CMS : une seule source de vérité (cms/manifest.json dans le store Blob).
@@ -51,7 +51,11 @@ export const SLOT_LIMITS: Readonly<Record<string, number>> = Object.fromEntries(
   ]),
 ]);
 
-const MANIFEST_PATH = "cms/manifest.json";
+/** Un fichier IMMUABLE par version (cms/manifest/00000007.json) : on n'écrase jamais, donc jamais de lecture périmée ni d'écriture perdue. */
+const MANIFEST_DIR = "cms/manifest/";
+const KEEP_VERSIONS = 10;
+const versionPath = (rev: number): string => `${MANIFEST_DIR}${String(rev).padStart(8, "0")}.json`;
+const VERSION_RE = /^cms\/manifest\/(\d{8})\.json$/;
 const ID_RE = /^[a-z0-9_-]{4,40}$/;
 const FILE_RE = /^cms\/photos\/[a-z0-9._-]{4,80}$/;
 
@@ -132,27 +136,36 @@ export function removePhoto(m: Manifest, id: string): Manifest {
   };
 }
 
-export interface ReadDeps {
-  head: (pathname: string) => Promise<{ url: string }>;
+/** Accès au stockage, injectable pour les tests. */
+export interface StoreDeps {
+  list: (prefix: string) => Promise<{ pathname: string; url: string }[]>;
   fetch: typeof fetch;
-  now: () => number;
+  put: (pathname: string, body: string) => Promise<void>;
+  del: (pathnames: string[]) => Promise<void>;
 }
-const REAL_DEPS: ReadDeps = { head, fetch: (input, init) => fetch(input, init), now: () => Date.now() };
+const REAL_DEPS: StoreDeps = {
+  list: async (prefix) => (await list({ prefix, limit: 1000 })).blobs,
+  fetch: (input, init) => fetch(input, init),
+  put: async (pathname, body) => {
+    await put(pathname, body, { access: "public", contentType: "application/json", addRandomSuffix: false, allowOverwrite: false });
+  },
+  del: async (pathnames) => { await del(pathnames); },
+};
+
+/** La version demandée existe déjà : quelqu'un d'autre a enregistré entre-temps. */
+export class ConflictError extends Error {
+  constructor() { super("Version déjà enregistrée."); this.name = "ConflictError"; }
+}
 
 /**
- * Lit le manifeste À JOUR. Sur un magasin public, le CDN garde l'ancienne version jusqu'à 60 s après une écriture
- * (l'option `useCache: false` du SDK ne vaut que pour un magasin privé) : on lit donc une adresse unique à chaque appel.
- * Sans cela, deux enregistrements rapprochés se lisaient l'un l'autre en retard et l'un écrasait l'autre.
+ * Lit la DERNIÈRE version : la liste du magasin passe par l'API (pas par le CDN, qui garde un fichier réécrit jusqu'à 60 s),
+ * puis le fichier de cette version est lu à son adresse propre, qui ne change jamais.
  */
-export async function readManifest(deps: ReadDeps = REAL_DEPS): Promise<Manifest | null> {
-  let url: string;
-  try {
-    url = (await deps.head(MANIFEST_PATH)).url;
-  } catch (e) {
-    if (e instanceof BlobNotFoundError) return null;
-    throw e;
-  }
-  const res = await deps.fetch(`${url}?v=${deps.now()}`, { cache: "no-store" });
+export async function readManifest(deps: StoreDeps = REAL_DEPS): Promise<Manifest | null> {
+  const versions = (await deps.list(MANIFEST_DIR)).filter((b) => VERSION_RE.test(b.pathname)).sort((x, y) => (x.pathname < y.pathname ? 1 : -1));
+  const derniere = versions[0];
+  if (!derniere) return null;
+  const res = await deps.fetch(derniere.url, { cache: "no-store" });
   if (!res.ok) return null;
   try {
     return parseManifest(await res.json());
@@ -161,14 +174,40 @@ export async function readManifest(deps: ReadDeps = REAL_DEPS): Promise<Manifest
   }
 }
 
-export async function writeManifest(manifest: Manifest): Promise<void> {
-  await put(MANIFEST_PATH, JSON.stringify(manifest), {
-    access: "public",
-    contentType: "application/json",
-    addRandomSuffix: false,
-    allowOverwrite: true,
-    cacheControlMaxAge: 60,
-  });
+/** Écrit la version `manifest.rev` ; ConflictError si elle existe déjà. Garde les 10 dernières versions (nettoyage au mieux). */
+export async function writeManifest(manifest: Manifest, deps: StoreDeps = REAL_DEPS): Promise<void> {
+  try {
+    await deps.put(versionPath(manifest.rev), JSON.stringify(manifest));
+  } catch (e) {
+    if (e instanceof BlobError && /already exists/i.test(e.message)) throw new ConflictError();
+    throw e;
+  }
+  try {
+    const vieilles = (await deps.list(MANIFEST_DIR)).map((b) => b.pathname).filter((n) => VERSION_RE.test(n)).sort().slice(0, -KEEP_VERSIONS);
+    if (vieilles.length) await deps.del(vieilles);
+  } catch {
+    // le nettoyage n'est jamais bloquant
+  }
+}
+
+/**
+ * Modifie le manifeste de façon sûre : lit la dernière version, applique `change`, écrit la suivante. Si quelqu'un a écrit entre-temps
+ * (ConflictError), on relit et on rejoue (4 essais). `change` renvoie null pour dire « rien à faire » (résultat null).
+ */
+export async function updateManifest(change: (current: Manifest) => Manifest | null, deps: StoreDeps = REAL_DEPS): Promise<Manifest | null> {
+  for (let essai = 0; essai < 4; essai++) {
+    const courant = (await readManifest(deps)) ?? emptyManifest();
+    const suivant = change(courant);
+    if (suivant === null) return null;
+    const enregistre = { ...suivant, rev: courant.rev + 1 };
+    try {
+      await writeManifest(enregistre, deps);
+      return enregistre;
+    } catch (e) {
+      if (!(e instanceof ConflictError)) throw e;
+    }
+  }
+  throw new ConflictError();
 }
 
 /** Vue publique : seulement les photos publiées, et les emplacements nettoyés de ce qui ne l'est pas. */
