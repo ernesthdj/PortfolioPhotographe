@@ -17,7 +17,7 @@ export function creerZoomPhotos(e, ctx, { liste: lireListe, tuile: trouverTuile 
 
   function creerZoom(liste) {
     const fond = el('div', { class: 'zoom-fond' });
-    const imgs = liste.map((m) => { const p = PHOTOS[m.idx]; const i = el('div', { class: 'zimg reel ton-' + p.ton + (p.nb ? ' nb' : ''), role: 'img', 'aria-label': p.alt }, el('span', null, p.libelle)); i.style.setProperty('--img', 'url("' + p.src + '")'); return i; });
+    const imgs = liste.map((m) => { const p = PHOTOS[m.idx]; const i = el('div', { class: 'zimg reel ton-' + p.ton + (p.nb ? ' nb' : ''), role: 'img', 'aria-label': p.alt }, el('span', null, p.libelle)); i.style.setProperty('--img', 'url("' + (p.srcGrand || p.src) + '")'); return i; });
     const boite = el('div', { class: 'zbox' }, ...imgs);
     const icone = (...d) => svg('svg', { width: 20, height: 20, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': 1.7, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'aria-hidden': 'true' }, ...d.map((x) => svg('path', { d: x })));
     const bFermer = el('button', { type: 'button', class: 'ib', 'aria-label': 'Fermer la photo', style: { right: '16px', top: 'calc(16px + env(safe-area-inset-top))' }, on: { click: fermer } }, icone('M6 6l12 12M18 6L6 18'));

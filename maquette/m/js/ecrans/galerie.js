@@ -6,6 +6,7 @@ import { eyebrow, titre, ecrit, filet, lienFleche, photo, rv } from '../lib/ecri
 import { el } from '../../../js/lib/dom.js';
 import { creerZoomPhotos } from '../lib/zoom-photo.js';
 import { PHOTOS } from '../photos.js';
+import { EVT } from '../../../data/galerie-evenements.js';
 
 export const titreDoc = 'Galerie · Ernest H.';
 
@@ -13,15 +14,10 @@ const CATS = [
   ['tout', 'Tout', 'Toutes les', 'histoires.'], ['mariages', 'Mariages', 'Les', 'mariages.'], ['engagement', 'Engagement', 'Les', 'engagements.'],
   ['famille', 'Famille', 'Les', 'familles.'], ['anniversaires', 'Anniversaires', 'Les', 'anniversaires.'], ['evenementiel', 'Événementiel', 'Les', 'événements.'], ['culinaire', 'Culinaire', 'Le', 'culinaire.']
 ];
-// exemples : étiquettes, lignes et lieux restent entre crochets ; `ph` = indices dans PHOTOS ; `quote` = un témoignage s'invite dans la grille
-const EV = {
-  mariages: [{ tag: 'Mariage · [Lieu] · 2026', line: '[Une ligne sur la journée, écrite par Ernest.]', ph: [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], quote: true }, { tag: 'Mariage · [Lieu] · 2025', line: '[Une ligne sur la journée.]', ph: [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32] }],
-  engagement: [{ tag: 'Engagement · [Lieu] · 2026', line: '[Une ligne sur la séance.]', ph: [33, 34, 35, 36, 37, 38, 39, 40, 41, 42], quote: true }],
-  famille: [{ tag: 'Famille · [Lieu] · 2026', line: '[Une ligne sur la séance.]', ph: [43, 44, 45, 46, 47, 48, 49, 50, 51, 52] }],
-  anniversaires: [{ tag: 'Anniversaire · [Lieu] · 2026', line: '[Une ligne sur la soirée.]', ph: [53, 54, 55, 56, 57, 58, 59, 60], quote: true }],
-  evenementiel: [{ tag: 'Événement · [Lieu] · 2026', line: '[Une ligne sur l’événement.]', ph: [61, 62, 63, 64, 65, 66, 67, 68] }],
-  culinaire: [{ tag: 'Culinaire · [Lieu] · 2026', line: '[Une ligne sur la commande.]', ph: [69, 70, 71, 72, 73, 74, 75, 76] }]
-};
+// Événements = ceux de la version PC (data/galerie-evenements.js) : mêmes photos, mêmes séries, même ordre. `quote` : un témoignage s'invite dans la grille.
+const CLE = ['mariages', 'engagement', 'famille', 'anniversaires', 'evenementiel', 'culinaire'];
+const EV = {};
+EVT.forEach((ev) => { const l = (EV[CLE[ev.svc]] = EV[CLE[ev.svc]] || []); l.push({ tag: ev.tag, line: ev.txt, ph: ev.ph, quote: l.length === 0 && [0, 1, 3].includes(ev.svc) }); });
 const TETES = [['mariages', 'Mariages'], ['engagement', 'Engagement'], ['famille', 'Famille lifestyle'], ['anniversaires', 'Anniversaires'], ['evenementiel', 'Événementiel'], ['culinaire', 'Culinaire & studio']];
 
 /** Éléments du fil d'une catégorie + liste à plat des photos (pour le zoom). */

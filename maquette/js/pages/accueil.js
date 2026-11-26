@@ -9,7 +9,7 @@ import { mesures as scene } from '../lib/scene.js';   // (« mesures » est déj
 import { memoriserFocus, clavierModale } from '../lib/modale.js';
 import { creerSurligneur } from '../lib/surligneur.js';
 import { monterVagabond } from '../lib/vagabond.js';
-import { PHOTOS, habillePhoto } from '../../data/photos-site.js';
+import { PHOTOS, TAILLES, habillePhoto } from '../../data/photos-site.js';
 
 const FRAGMENT = (...n) => { const f = document.createDocumentFragment(); f.append(...n); return f; };
 
@@ -69,16 +69,16 @@ function rectsMosaique(ratios, dx = 0) {
   return out;
 }
 
-function emplacement(p, cls) {
+function emplacement(p, cls, w) {
   const n = el('div', { class: cls + ' ph ton-' + p.ton, role: 'img', 'aria-label': p.alt }, el('span', null, p.label));
-  habillePhoto(n, p);
+  habillePhoto(n, p, w);
   return n;
 }
-function majEmplacement(n, p, cls) {
+function majEmplacement(n, p, cls, w) {
   n.className = cls + ' ph ton-' + p.ton;
   n.setAttribute('aria-label', p.alt);
   n.firstElementChild.textContent = p.label;
-  habillePhoto(n, p);
+  habillePhoto(n, p, w);
 }
 
 /**
@@ -387,7 +387,7 @@ export function monterAccueil(hote, { seul = true, retard = 0 } = {}) {
     const t = st === 'closing' ? { o: `wOut .18s ${E} 0s both`, f: `wOut .18s ${E} 0s both` }
       : { o: growing ? `wIn .45s ${E} .7s both` : 'none', f: growing ? `wIn .45s ${E} .85s both` : 'none' };
     if (!lbEls) {
-      const fond = el('div', { class: 'lb-fond' }), img = emplacement(ph, 'lb-img'), cadre = el('div', { class: 'lb-cadre' });
+      const fond = el('div', { class: 'lb-fond' }), img = emplacement(ph, 'lb-img', TAILLES.grand), cadre = el('div', { class: 'lb-cadre' });
       const trP = cheminSvg('');
       const trS = svg('svg', { class: 'lbtr', 'aria-hidden': 'true' }, trP);
       const capW = mot(''), numW = mot('');
@@ -406,7 +406,7 @@ export function monterAccueil(hote, { seul = true, retard = 0 } = {}) {
     }
     const L = lbEls;
     L.fond.classList.toggle('on', growing);
-    majEmplacement(L.img, ph, 'lb-img');
+    majEmplacement(L.img, ph, 'lb-img', TAILLES.grand);
     Object.assign(L.img.style, { left: tx + 'px', top: ty + 'px', width: tw + 'px', height: th + 'px' });
     animer(L.img, st === 'closing' ? `devOut .22s ${E} 0s forwards` : (growing ? `${alt ? 'dev2' : 'dev'} 2.2s ease-in-out ${S.lbN ? .3 : .1}s both` : 'devOut .01s linear 0s forwards'));
     L.numP.style.left = `calc(670px + var(--dx) / 2)`;
