@@ -6,14 +6,21 @@ import { el, svg } from '../../../js/lib/dom.js';
 import { SERVICES } from '../../../data/tarifs.js';
 import { creerZoomPhotos } from '../lib/zoom-photo.js';
 import { PHOTOS } from '../photos.js';
+import { choixCms } from '../../../data/photos-site.js';
 
 export const titreDoc = 'Ernest H. · Photographe';
 
-const P = Object.fromEntries(PHOTOS.map((p) => [p.id, p]));
 const cliche = (id, d) => photo({ ton: P[id].ton, nb: P[id].nb, libelle: P[id].libelle, alt: P[id].alt, src: P[id].src, d });
 // photos de la page, dans l'ordre où le zoom les parcourt (légendes provisoires comme les séances de la page)
 const ORDRE = [['chateau', 'Mariage · [Lieu] · 2026'], ['bouquet', 'Mariage · [Lieu] · 2026'], ['baiser', 'Mariage · [Lieu] · 2026'], ['grand-champ', 'Engagement · [Lieu] · 2026'], ['champ', 'Engagement · [Lieu] · 2026']];
-const LISTE = ORDRE.map(([id, cap]) => ({ idx: PHOTOS.findIndex((p) => p.id === id), cap }));
+// indice de chaque photo dans PHOTOS ; les emplacements « accueil:0 » (mariages) et « accueil:1 » (engagement) du CMS les remplacent quand ils sont assez fournis
+const IDX = Object.fromEntries(ORDRE.map(([id]) => [id, PHOTOS.findIndex((p) => p.id === id)]));
+for (const [ids, cle] of [[['chateau', 'bouquet', 'baiser'], 'accueil:0'], [['grand-champ', 'champ'], 'accueil:1']]) {
+  const choix = choixCms(cle);
+  if (choix.length >= ids.length) ids.forEach((id, k) => { IDX[id] = choix[k]; });
+}
+const P = Object.fromEntries(Object.entries(IDX).map(([id, i]) => [id, PHOTOS[i]]));
+const LISTE = ORDRE.map(([id, cap]) => ({ idx: IDX[id], cap }));
 const INDEX = [['mariages', 'mar'], ['engagement', 'eng'], ['famille', 'fam'], ['anniversaires', 'ann'], ['evenementiel', 'evt'], ['culinaire', 'cul']];
 const NOMS = { mar: 'Mariages', eng: 'Engagement', fam: 'Famille lifestyle', ann: 'Anniversaires', evt: 'Événementiel', cul: 'Culinaire & studio' };
 

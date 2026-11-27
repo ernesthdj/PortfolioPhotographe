@@ -14,6 +14,6 @@ const TETE = [
 
 export const PHOTOS = SITE.map((s, i) => {
   const n = String(i + 1).padStart(3, '0');
-  const base = TETE[i] || { id: 'p' + n, libelle: 'Marie & Bryan · ' + n, alt: 'Photo de mariage ' + n, ton: ((i - 5) % 6) + 1 };
+  const base = TETE[i] || (s.cms ? { id: 'p' + n, libelle: s.alt, alt: s.alt, ton: s.ton } : { id: 'p' + n, libelle: 'Marie & Bryan · ' + n, alt: 'Photo de mariage ' + n, ton: ((i - 5) % 6) + 1 });
   return { ...base, r: s.r, src: urlPhoto(s.src, TAILLES.vignette), srcGrand: urlPhoto(s.src, TAILLES.grand) };
 });

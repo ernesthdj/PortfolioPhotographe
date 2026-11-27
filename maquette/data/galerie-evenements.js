@@ -1,3 +1,4 @@
+import { SERIES_CMS } from './photos-site.js';
 // Événements de la galerie : SOURCE UNIQUE des photos par service, pour la version PC (js/pages/galerie.js) et la version mobile (m/js/ecrans/galerie.js).
 // `ph` = indices dans PHOTOS (data/photos-site.js) ; `svc` = indice dans SVC.
 export const SVC = ['Mariages', 'Engagement', 'Famille lifestyle', 'Anniversaires', 'Événementiel', 'Culinaire & studio'];
@@ -10,3 +11,5 @@ export const EVT = [
   { svc: 4, tag: 'Événement · [Lieu]', txt: '[Une phrase sur l’événement]', ph: [173, 174, 175, 176, 177, 178, 179, 180] },
   { svc: 5, tag: 'Culinaire · [Maison]', txt: '[Une phrase sur le shooting]', ph: [181, 182, 183, 184, 185, 186, 187, 188] }
 ];
+// Séries créées dans le CMS : s'il y en a au moins une, elles remplacent entièrement les séries de test (le tableau est modifié en place).
+if (SERIES_CMS.length) EVT.splice(0, EVT.length, ...SERIES_CMS);

@@ -35,9 +35,9 @@ function assembler(cat) {
     }
   };
   if (cat === 'tout') {
-    TETES.forEach(([cle, label], q) => { items.push({ t: 'h', label, num: '0' + (q + 1), cle }); grouper(EV[cle][0], EV[cle][0].ph.slice(0, 3), false); });
+    TETES.forEach(([cle, label], q) => { if (!EV[cle]) return; items.push({ t: 'h', label, num: '0' + (q + 1), cle }); grouper(EV[cle][0], EV[cle][0].ph.slice(0, 3), false); });   // un service sans série (CMS partiel) est sauté
   } else {
-    EV[cat].forEach((ev) => { items.push({ t: 'm', tag: ev.tag, line: ev.line }); grouper(ev, ev.ph, !!ev.quote); });
+    (EV[cat] || []).forEach((ev) => { items.push({ t: 'm', tag: ev.tag, line: ev.line }); grouper(ev, ev.ph, !!ev.quote); });
   }
   return { items, liste };
 }

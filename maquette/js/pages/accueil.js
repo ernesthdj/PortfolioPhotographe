@@ -10,7 +10,7 @@ import { memoriserFocus } from '../lib/modale.js';
 import { creerPhotoAgrandie } from '../lib/photo-agrandie.js';
 import { creerSurligneur } from '../lib/surligneur.js';
 import { monterVagabond } from '../lib/vagabond.js';
-import { PHOTOS, habillePhoto } from '../../data/photos-site.js';
+import { PHOTOS, habillePhoto, choixCms } from '../../data/photos-site.js';
 
 const FRAGMENT = (...n) => { const f = document.createDocumentFragment(); f.append(...n); return f; };
 
@@ -234,7 +234,7 @@ export function monterAccueil(hote, { seul = true, retard = 0 } = {}) {
 
     // -- collage selon le service --
     const dx = scene.dx;   // gain de largeur de la fenêtre (0 à 1440 x 900)
-    const cur = SERVICES[S.svc].set.map((k) => PHOTOS[k]);
+    const cur = choixCms('accueil:' + S.svc, SERVICES[S.svc].set).map((k) => PHOTOS[k]);
     const sn = S.svcN, alt2 = sn % 2 === 1, rects = rectsMosaique(cur.map((p) => p.r), dx);
     const mos = cur.map((p, i) => {
       const r = rects[i], nb = i % 2 === 1; let anim, tr;

@@ -3,11 +3,24 @@
 // `r` = largeur / hauteur réelles ; `ton` reste le dégradé de repli affiché pendant le chargement.
 // SOURCE UNIQUE : la version mobile (m/js/photos.js) et les événements de la galerie (galerie-evenements.js) en dérivent.
 import { BLOB, REELLES } from './photos-blob.js';
+import { CMS } from './cms.js';
+import { fusionner } from './cms-fusion.js';
 
 export const PHOTOS = REELLES.map(([f, w, h], i) => {
   const n = String(i + 1).padStart(3, '0');
   return { alt: 'Photo de mariage ' + n, altG: 'Photo de mariage ' + n, label: 'Marie & Bryan · ' + n, r: w / h, ton: (i % 8) + 1, src: BLOB + f };
 });
+
+// Photos du CMS (/admin/photos) : ajoutées à la suite, avec leurs emplacements et leurs séries. Sans CMS joignable, rien ne change.
+const FUSION = fusionner(CMS, PHOTOS.length, BLOB);
+PHOTOS.push(...FUSION.photos);
+export const SERIES_CMS = FUSION.events;
+
+/** Photos choisies dans le CMS pour un emplacement (« intro », « accueil:0 »…, indices dans PHOTOS) ; `defaut` s'il n'y en a pas. */
+export function choixCms(cle, defaut = []) {
+  const l = FUSION.slots[cle];
+  return l && l.length ? l : defaut;
+}
 
 /** Largeurs servies par la redimensionneuse d'images de Vercel : elles DOIVENT figurer dans vercel.json > images.sizes. */
 export const TAILLES = { vignette: 960, grand: 1600 };

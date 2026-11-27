@@ -7,6 +7,7 @@ export const titreDoc = 'Ernest H. · Photographe';
 export const dureeSortie = 0;              // l'intro se résorbe elle-même : pas d'attente supplémentaire
 
 import { PHOTOS as THEQUE } from '../photos.js';
+import { choixCms } from '../../../data/photos-site.js';
 const E = 'cubic-bezier(.45,0,.2,1)';
 const FIN = 5.2;                            // instant où tout se résorbe (s)
 // emplacements dans un plan de 390 × 1120 ; c = la photo finit en couleur
@@ -50,10 +51,12 @@ export function creer(ctx) {
     const plan = el('div', { class: 'mi-plan' });
     plan.style.animation = 'mi-pan 6.4s linear 0s both';
     const lignes = svg('svg', { class: 'mi-lines', 'aria-hidden': 'true' });
+    const choix = choixCms('intro');   // photos choisies dans le CMS (sinon les photos de test)
     PHOTOS.forEach((p, i) => {
-      const im = el('div', { class: 'mi-img', role: 'img', 'aria-label': p.alt });
+      const cms = choix[i] !== undefined ? THEQUE[choix[i]] : null;
+      const im = el('div', { class: 'mi-img', role: 'img', 'aria-label': cms ? cms.alt : p.alt });
       Object.assign(im.style, { left: p.x + 'px', top: p.y + 'px', width: p.w + 'px', height: p.h + 'px' });
-      im.style.setProperty('background', 'url("' + THEQUE.find((q) => q.id === p.id).src + '") center/cover no-repeat, ' + TONS[p.ton]);
+      im.style.setProperty('background', 'url("' + (cms || THEQUE.find((q) => q.id === p.id)).src + '") center/cover no-repeat, ' + TONS[p.ton]);
       im.style.animation = `mi-rIn .8s ${E} ${p.dl}s both, ${p.c ? 'mi-dev' : 'mi-devNB'} 2.6s ease-in-out ${p.dl}s both, mi-fOut .8s ease-in-out ${(FIN + 0.4 + i * 0.1).toFixed(2)}s forwards`;
       plan.append(im);
       const tr = svg('path', { pathLength: 100, d: `M${p.x - 1} ${p.y - 1} L${p.x + p.w + 1} ${p.y - 1} L${p.x + p.w + 1} ${p.y + p.h + 1} L${p.x - 1} ${p.y + p.h + 1} Z` });
