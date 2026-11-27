@@ -1,28 +1,20 @@
 // Règles de placement des photos de l'administration : logique PURE (sans DOM ni réseau), testée dans tests/placement.test.ts.
-// Une « édition » est la copie de travail du manifeste : { photos: [{ id, alt, published }], slots: { cle: [id] }, events: [{ id, svc, tag, txt, photos: [id] }] }.
-// Les limites reprennent celles du serveur (api/_lib/manifest.ts : SLOT_LIMITS, 20 séries, 200 photos par série, textes).
+// Une « édition » est la copie de travail du manifeste : { photos: [{ id, alt, published }], slots: { cle: [placement] }, events: [{ id, svc, tag, txt, photos: [placement] }] },
+// où un placement est l'objet photo { photo, legende: { actif, texte }, fx, fy, format }. Les emplacements et leurs limites viennent du registre data/zones.js (le même que le serveur).
 
-export const SVC = ['Mariages', 'Engagement', 'Famille lifestyle', 'Anniversaires', 'Événementiel', 'Culinaire & studio'];
-export const MAX_SERIES = 20;
-export const MAX_PHOTOS_SERIE = 200;
+import { SERVICES, CLES, SERIES, limite, nomZone } from '../../data/zones.js';
+export { CLES, limite, nomZone };
+export const SVC = SERVICES;
+export const MAX_SERIES = SERIES.max;
+export const MAX_PHOTOS_SERIE = SERIES.maxPhotos;
 export const MAX_TAG = 160;
 export const MAX_TXT = 240;
 export const MAX_ALT = 200;
 
-/** Toutes les clés d'emplacement, dans l'ordre d'affichage. */
-export const CLES = ['intro', ...SVC.map((_, i) => 'accueil:' + i), ...SVC.map((_, i) => 'service:' + i)];
-
-export function limite(cle) {
-  if (!CLES.includes(cle)) return 0;
-  return cle === 'intro' ? 5 : cle.startsWith('accueil:') ? 6 : 1;
-}
-
-export function nomZone(cle) {
-  if (cle === 'intro') return 'Intro';
-  const [zone, n] = cle.split(':');
-  const svc = SVC[Number(n)] ?? '?';
-  return (zone === 'accueil' ? 'Accueil' : 'Services') + ' · ' + svc;
-}
+/** Photo posée sans habillage (légende masquée, recadrage et format de la photo) : forme de tout placement fraîchement créé. */
+export const parDefaut = (photo) => ({ photo, legende: { actif: false, texte: '' }, fx: null, fy: null, format: 'auto' });
+/** Identifiants des photos d'une liste de placements, dans l'ordre. */
+export const idsDe = (liste) => liste.map((p) => p.photo);
 
 // ---- copie de travail ---------------------------------------------------------------------------------------
 const clone = (v) => JSON.parse(JSON.stringify(v));
@@ -53,7 +45,7 @@ export function reporter(ed, m) {
   const connues = new Map(ed.photos.map((p) => [p.id, p]));
   const photos = m.photos.map((p) => connues.get(p.id) ?? { id: p.id, alt: p.alt, published: p.published });
   const vivantes = new Set(photos.map((p) => p.id));
-  const garde = (ids) => ids.filter((id) => vivantes.has(id));
+  const garde = (liste) => liste.filter((p) => vivantes.has(p.photo));
   return {
     photos,
     slots: Object.fromEntries(Object.entries(ed.slots).map(([k, v]) => [k, garde(v)])),
@@ -66,14 +58,14 @@ export function reporter(ed, m) {
 export function placer(ed, cle, id) {
   if (!CLES.includes(cle)) return { ed, erreur: 'Emplacement inconnu.' };
   const liste = ed.slots[cle] ?? [];
-  if (liste.includes(id)) return { ed, erreur: 'Cette photo est déjà dans « ' + nomZone(cle) + ' ».' };
+  if (idsDe(liste).includes(id)) return { ed, erreur: 'Cette photo est déjà dans « ' + nomZone(cle) + ' ».' };
   const max = limite(cle);
   if (max > 1 && liste.length >= max) return { ed, erreur: '« ' + nomZone(cle) + ' » est pleine (' + max + ' photos).' };
-  return { ed: { ...ed, slots: { ...ed.slots, [cle]: max === 1 ? [id] : [...liste, id] } } };
+  return { ed: { ...ed, slots: { ...ed.slots, [cle]: max === 1 ? [parDefaut(id)] : [...liste, parDefaut(id)] } } };
 }
 
 export function retirer(ed, cle, id) {
-  return { ...ed, slots: { ...ed.slots, [cle]: (ed.slots[cle] ?? []).filter((x) => x !== id) } };
+  return { ...ed, slots: { ...ed.slots, [cle]: (ed.slots[cle] ?? []).filter((p) => p.photo !== id) } };
 }
 
 /** Déplace l'élément `i` de `delta` rang (−1 = avant, +1 = après) ; bornes respectées. */
@@ -108,14 +100,14 @@ export function majSerie(ed, id, champs) {
 export function placerDansSerie(ed, serieId, photoId) {
   const e = ed.events.find((x) => x.id === serieId);
   if (!e) return { ed, erreur: 'Série introuvable.' };
-  if (e.photos.includes(photoId)) return { ed, erreur: 'Cette photo est déjà dans la série.' };
+  if (idsDe(e.photos).includes(photoId)) return { ed, erreur: 'Cette photo est déjà dans la série.' };
   if (e.photos.length >= MAX_PHOTOS_SERIE) return { ed, erreur: 'Une série contient au plus ' + MAX_PHOTOS_SERIE + ' photos.' };
-  return { ed: majSerie(ed, serieId, { photos: [...e.photos, photoId] }) };
+  return { ed: majSerie(ed, serieId, { photos: [...e.photos, parDefaut(photoId)] }) };
 }
 
 export function retirerDeSerie(ed, serieId, photoId) {
   const e = ed.events.find((x) => x.id === serieId);
-  return e ? majSerie(ed, serieId, { photos: e.photos.filter((x) => x !== photoId) }) : ed;
+  return e ? majSerie(ed, serieId, { photos: e.photos.filter((p) => p.photo !== photoId) }) : ed;
 }
 
 export function deplacerDansSerie(ed, serieId, i, delta) {
@@ -134,8 +126,8 @@ const nomSerie = (e) => e.tag.trim() || SVC[e.svc] || 'Série';
 /** Étiquettes « Intro », « Accueil · Mariages », « Galerie · Mariage Paris »… ; vide si la photo n'est placée nulle part. */
 export function etiquettes(ed, id) {
   const l = [];
-  for (const cle of CLES) if ((ed.slots[cle] ?? []).includes(id)) l.push(nomZone(cle));
-  for (const e of ed.events) if (e.photos.includes(id)) l.push('Galerie · ' + nomSerie(e));
+  for (const cle of CLES) if (idsDe(ed.slots[cle] ?? []).includes(id)) l.push(nomZone(cle));
+  for (const e of ed.events) if (idsDe(e.photos).includes(id)) l.push('Galerie · ' + nomSerie(e));
   return l;
 }
 
@@ -161,8 +153,10 @@ export function changements(base, ed) {
   for (const cle of CLES) {
     const a = base.slots[cle] ?? [], b = ed.slots[cle] ?? [];
     if (meme(a, b)) continue;
-    const ajout = b.filter((x) => !a.includes(x)).length, retrait = a.filter((x) => !b.includes(x)).length;
-    const detail = [ajout ? '+' + ajout : '', retrait ? '−' + retrait : '', !ajout && !retrait ? 'ordre modifié' : ''].filter(Boolean).join(' ');
+    const ia = idsDe(a), ib = idsDe(b);
+    const ajout = ib.filter((x) => !ia.includes(x)).length, retrait = ia.filter((x) => !ib.includes(x)).length;
+    const sansChangementDeContenu = !ajout && !retrait;
+    const detail = [ajout ? '+' + ajout : '', retrait ? '−' + retrait : '', sansChangementDeContenu ? (meme(ia, ib) ? 'habillage modifié' : 'ordre ou habillage modifié') : ''].filter(Boolean).join(' ');
     l.push(nomZone(cle) + ' : ' + detail + ' (' + b.length + ' photo' + (b.length > 1 ? 's' : '') + ')');
   }
 

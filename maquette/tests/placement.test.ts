@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   ajouterSerie, changements, deplacer, deplacerDansSerie, deplacerSerie, depuisManifeste, etiquettes, limite, majSerie, nomZone,
-  placer, placerDansSerie, reporter, retirer, retirerDeSerie, retirerSerie, versManifeste,
+  placer, placerDansSerie, reporter, retirer, retirerDeSerie, retirerSerie, versManifeste, parDefaut, idsDe,
 } from "../js/admin/placement.js";
 import { parseManifest } from "../api/_lib/manifest.ts";
 
@@ -25,7 +25,7 @@ test("should_name_zones_for_humans", () => {
 test("should_place_a_photo_in_a_slot", () => {
   const r = placer(ed(), "intro", "aaaa");
   assert.equal(r.erreur, undefined);
-  assert.deepEqual(r.ed.slots["intro"], ["aaaa"]);
+  assert.deepEqual(r.ed.slots["intro"], [parDefaut("aaaa")]);
 });
 test("should_refuse_a_duplicate_in_the_same_slot", () => {
   const r = placer(placer(ed(), "intro", "aaaa").ed, "intro", "aaaa");
@@ -40,7 +40,7 @@ test("should_refuse_when_a_multi_slot_is_full", () => {
 test("should_replace_the_photo_of_a_single_place_slot", () => {
   const r = placer(placer(ed(), "service:0", "aaaa").ed, "service:0", "bbbb");
   assert.equal(r.erreur, undefined);
-  assert.deepEqual(r.ed.slots["service:0"], ["bbbb"]);
+  assert.deepEqual(r.ed.slots["service:0"], [parDefaut("bbbb")]);
 });
 test("should_refuse_an_unknown_slot", () => {
   assert.match(placer(ed(), "autre", "aaaa").erreur ?? "", /inconnu/);
@@ -74,9 +74,9 @@ test("should_manage_the_photos_of_a_series", () => {
   e = placerDansSerie(e, id, "bbbb").ed;
   assert.match(placerDansSerie(e, id, "aaaa").erreur ?? "", /déjà/);
   e = deplacerDansSerie(e, id, 1, -1);
-  assert.deepEqual(e.events[0]?.photos, ["bbbb", "aaaa"]);
+  assert.deepEqual(idsDe(e.events[0]!.photos), ["bbbb", "aaaa"]);
   e = retirerDeSerie(e, id, "bbbb");
-  assert.deepEqual(e.events[0]?.photos, ["aaaa"]);
+  assert.deepEqual(idsDe(e.events[0]!.photos), ["aaaa"]);
 });
 test("should_reorder_and_remove_series", () => {
   let e = ajouterSerie(ajouterSerie(ed(), 0).ed, 1).ed;
@@ -132,5 +132,38 @@ test("should_keep_pending_edits_and_drop_deleted_photos_when_the_server_changes"
   const r = reporter(e, apres);
   assert.deepEqual(r.photos.map((p: { id: string }) => p.id), ["bbbb", "cccc", "dddd"]);
   assert.equal(r.photos[0]?.alt, "Modifié");
-  assert.deepEqual(r.slots["intro"], ["bbbb"]);
+  assert.deepEqual(idsDe(r.slots["intro"]!), ["bbbb"]);
+});
+
+// ---- objet photo : l'habillage voyage avec la photo ---------------------------------------------------------
+const habille = { photo: "aaaa", legende: { actif: true, texte: "Le premier regard" }, fx: 0.2, fy: 0.8, format: "paysage" };
+
+test("should_create_placements_without_dressing_when_placing", () => {
+  const e = placer(ed(), "accueil:0", "aaaa").ed;
+  assert.deepEqual(e.slots["accueil:0"]?.[0], parDefaut("aaaa"));
+  assert.equal(e.slots["accueil:0"]?.[0]?.legende.actif, false);
+  assert.equal(e.slots["accueil:0"]?.[0]?.format, "auto");
+});
+test("should_keep_the_dressing_when_reordering_or_when_the_server_changes", () => {
+  const e = { ...ed(), slots: { intro: [habille, parDefaut("bbbb")] } };
+  const bouge = { ...e, slots: { intro: deplacer(e.slots["intro"]!, 0, 1) } };
+  assert.deepEqual(bouge.slots["intro"]?.[1], habille);
+  const apres = reporter(bouge, { ...serveur(), rev: 9 });
+  assert.deepEqual(apres.slots["intro"]?.[1], habille);
+});
+test("should_report_a_dressing_change_even_when_the_photos_are_the_same", () => {
+  const base = { ...ed(), slots: { intro: [parDefaut("aaaa")] } };
+  const e = { ...base, slots: { intro: [habille] } };
+  assert.ok(changements(base, e).some((x) => /^Intro : habillage modifié/.test(x)), changements(base, e).join(" | "));
+});
+test("should_send_the_dressing_to_the_server_which_accepts_it", () => {
+  const e = { ...ed(), slots: { intro: [habille] }, events: [] };
+  const m = versManifeste(serveur(), e);
+  assert.deepEqual(parseManifest(m)?.slots["intro"]?.[0], habille);
+});
+test("should_know_the_new_zones", () => {
+  assert.equal(limite("apropos:portrait"), 1);
+  assert.equal(limite("contact:mariage"), 1);
+  assert.equal(nomZone("contact:portrait"), "Contact · Portrait");
+  assert.equal(placer(ed(), "contact:mariage", "aaaa").erreur, undefined);
 });

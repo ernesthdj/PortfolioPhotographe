@@ -44,3 +44,10 @@ test("should_use_a_default_alt_when_missing", () => {
   const r = fusionner(manifeste({ photos: [photo("aaaa", { alt: "  " })] }), 0, BASE);
   assert.equal(r.photos[0]?.alt, "Photographie");
 });
+
+test("should_read_placement_objects_as_well_as_plain_ids", () => {
+  const pl = (photo: string) => ({ photo, legende: { actif: false, texte: "" }, fx: null, fy: null, format: "auto" });
+  const r = fusionner(manifeste({ slots: { intro: [pl("bbbb"), "aaaa"] }, events: [{ id: "evt1", svc: 0, tag: "t", txt: "x", photos: [pl("aaaa")] }] }), 189, BASE);
+  assert.deepEqual(r.slots, { intro: [190, 189] });
+  assert.deepEqual(r.events[0]?.ph, [189]);
+});

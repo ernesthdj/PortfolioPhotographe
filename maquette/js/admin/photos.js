@@ -6,7 +6,7 @@ import { el } from '../lib/dom.js';
 import { BLOB } from '../../data/photos-blob.js';
 import {
   SVC, limite, nomZone, depuisManifeste, versManifeste, reporter, placer, retirer, deplacer, ajouterSerie, retirerSerie, majSerie,
-  placerDansSerie, retirerDeSerie, deplacerDansSerie, deplacerSerie, etiquettes, changements,
+  placerDansSerie, retirerDeSerie, deplacerDansSerie, deplacerSerie, etiquettes, changements, idsDe,
 } from './placement.js';
 
 const MAX_COTE = 2400;          // réduction avant envoi : bien au-dessus des 1600 px réellement affichés
@@ -186,9 +186,9 @@ function ongletPhotos() {
 
 // ---- onglet Emplacements ---------------------------------------------------------------------------------------
 function blocEmplacement(cle) {
-  const ids = ed.slots[cle] ?? [], max = limite(cle), ouv = ouvert === 'slot:' + cle;
+  const placements = ed.slots[cle] ?? [], ids = idsDe(placements), max = limite(cle), ouv = ouvert === 'slot:' + cle;
   const range = (liste) => { ed = { ...ed, slots: { ...ed.slots, [cle]: liste } }; rafraichir(); };
-  const rangee = ids.map((id, i) => mini(id, i, ids.length, { avant: () => range(deplacer(ids, i, -1)), apres: () => range(deplacer(ids, i, 1)), retirer: () => { ed = retirer(ed, cle, id); rafraichir(); } }));
+  const rangee = ids.map((id, i) => mini(id, i, ids.length, { avant: () => range(deplacer(placements, i, -1)), apres: () => range(deplacer(placements, i, 1)), retirer: () => { ed = retirer(ed, cle, id); rafraichir(); } }));
   const pleine = max > 1 && ids.length >= max;
   const libelle = max === 1 ? (ids.length ? 'Remplacer' : 'Choisir une photo') : pleine ? 'Pleine' : '+ Ajouter une photo';
   return el('section', { class: 'emplacement' },
@@ -215,7 +215,7 @@ function blocSerie(e, rang) {
     ...SVC.map((nom, i) => el('option', { value: String(i), selected: i === e.svc }, nom)));
   const tag = el('input', { type: 'text', value: e.tag, maxlength: '160', placeholder: 'Titre (ex. Mariage · Château de… · 2026)', 'aria-label': 'Titre de la série', on: { input: () => majTexte('tag', tag.value) } });
   const txt = el('input', { type: 'text', value: e.txt, maxlength: '240', placeholder: 'Une phrase sur la journée', 'aria-label': 'Phrase de la série', on: { input: () => majTexte('txt', txt.value) } });
-  const rangee = e.photos.map((id, i) => mini(id, i, e.photos.length, {
+  const rangee = idsDe(e.photos).map((id, i) => mini(id, i, e.photos.length, {
     avant: () => { ed = deplacerDansSerie(ed, e.id, i, -1); rafraichir(); },
     apres: () => { ed = deplacerDansSerie(ed, e.id, i, 1); rafraichir(); },
     retirer: () => { ed = retirerDeSerie(ed, e.id, id); rafraichir(); },
@@ -229,7 +229,7 @@ function blocSerie(e, rang) {
       petit('↑', 'Monter la série', () => { ed = deplacerSerie(ed, e.id, -1); rafraichir(); }, rang === 0),
       petit('↓', 'Descendre la série', () => { ed = deplacerSerie(ed, e.id, 1); rafraichir(); }, rang === ed.events.length - 1),
       el('button', { type: 'button', class: 'danger', on: { click: () => { if (window.confirm('Supprimer cette série ? Les photos restent dans la photothèque.')) { ed = retirerSerie(ed, e.id); ouvert = null; rafraichir(); } } } }, 'Supprimer la série')),
-    ouv ? selecteur(e.photos, (id) => appliquer(placerDansSerie(ed, e.id, id))) : null);
+    ouv ? selecteur(idsDe(e.photos), (id) => appliquer(placerDansSerie(ed, e.id, id))) : null);
 }
 
 function ongletSeries() {

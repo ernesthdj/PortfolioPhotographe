@@ -27,7 +27,9 @@ export function fusionner(manifeste, nbBase, base) {
     photos.push({ alt, altG: alt, label: alt, r: p.w / p.h, ton: (photos.length % 8) + 1, src: base + p.file, cms: true });
   }
 
-  const versIndices = (ids) => (Array.isArray(ids) ? ids.map((id) => indice.get(id)).filter((i) => i !== undefined) : []);
+  // un placement est un objet photo { photo, … } (l'habillage n'est pas encore lu par les pages) ; un simple identifiant reste accepté
+  const idDe = (x) => (typeof x === 'string' ? x : estObjet(x) ? x.photo : undefined);
+  const versIndices = (liste) => (Array.isArray(liste) ? liste.map((x) => indice.get(idDe(x))).filter((i) => i !== undefined) : []);
 
   const slots = {};
   if (estObjet(manifeste.slots)) {

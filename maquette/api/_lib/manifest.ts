@@ -1,4 +1,5 @@
 import { BlobError, del, list, put } from "@vercel/blob";
+import { CLES, FORMATS, MAX_LEGENDE, SERIES, limite } from "../../data/zones.js";
 
 /**
  * Manifeste du mini CMS : une seule source de vérité (cms/manifest.json dans le store Blob).
@@ -19,13 +20,28 @@ export interface Photo {
   fy: number;
 }
 
+export type Format = "auto" | "portrait" | "paysage" | "carre";
+
+/**
+ * Une photo POSÉE dans un emplacement (ou dans une série) : l'objet photo du CMS. La photo elle-même reste dans `photos` ;
+ * le placement porte son habillage à cet endroit-là (légende, recadrage, format du cadre).
+ */
+export interface Placement {
+  photo: string;
+  legende: { actif: boolean; texte: string };
+  /** Point focal du recadrage à cet endroit (0 à 1) ; null = celui de la photo. fx et fy vont ensemble. */
+  fx: number | null;
+  fy: number | null;
+  format: Format;
+}
+
 export interface EventGroup {
   id: string;
   /** Service (0 à 5, voir SERVICES côté site). */
   svc: number;
   tag: string;
   txt: string;
-  photos: string[];
+  photos: Placement[];
 }
 
 export interface Manifest {
@@ -33,8 +49,8 @@ export interface Manifest {
   /** Incrémenté à chaque sauvegarde : refuse une sauvegarde faite sur une version périmée. */
   rev: number;
   photos: Photo[];
-  /** Emplacements nommés : « intro » (5), « accueil:0 »…« accueil:5 » (6), « service:0 »…« service:5 » (1). */
-  slots: Record<string, string[]>;
+  /** Emplacements nommés (registre : data/zones.js) → photos posées, dans l'ordre. */
+  slots: Record<string, Placement[]>;
   events: EventGroup[];
 }
 
@@ -43,13 +59,25 @@ export function emptyManifest(): Manifest {
   return { version: 1, rev: 0, photos: [], slots: {}, events: [] };
 }
 
-export const SLOT_LIMITS: Readonly<Record<string, number>> = Object.fromEntries([
-  ["intro", 5],
-  ...[0, 1, 2, 3, 4, 5].flatMap((s) => [
-    [`accueil:${s}`, 6],
-    [`service:${s}`, 1],
-  ]),
-]);
+/** Placement sans habillage : c'est la forme de toute photo posée sans réglage particulier. */
+export function placementParDefaut(photo: string): Placement {
+  return { photo, legende: { actif: false, texte: "" }, fx: null, fy: null, format: "auto" };
+}
+
+const estParDefaut = (p: Placement): boolean => !p.legende.actif && p.legende.texte === "" && p.fx === null && p.fy === null && p.format === "auto";
+
+/**
+ * Forme STOCKÉE : un placement sans habillage reste un simple identifiant (comme avant les objets photo), de sorte qu'un manifeste
+ * sans photo habillée est encore lisible par l'ancien code tant que celui-ci est en production.
+ */
+export function compactManifest(m: Manifest): unknown {
+  const compact = (l: Placement[]): (string | Placement)[] => l.map((p) => (estParDefaut(p) ? p.photo : p));
+  return {
+    ...m,
+    slots: Object.fromEntries(Object.entries(m.slots).map(([k, v]) => [k, compact(v)])),
+    events: m.events.map((e) => ({ ...e, photos: compact(e.photos) })),
+  };
+}
 
 /** Un fichier IMMUABLE par version (cms/manifest/00000007.json) : on n'écrase jamais, donc jamais de lecture périmée ni d'écriture perdue. */
 const MANIFEST_DIR = "cms/manifest/";
@@ -68,6 +96,41 @@ const unit = (v: unknown): number | null =>
   typeof v === "number" && Number.isFinite(v) && v >= 0 && v <= 1 ? v : null;
 const dim = (v: unknown): number | null =>
   typeof v === "number" && Number.isInteger(v) && v >= 1 && v <= 20000 ? v : null;
+
+/** Placement : un identifiant (ancienne forme) ou un objet ; renvoie null s'il est invalide. */
+function parsePlacement(raw: unknown, ids: ReadonlySet<string>): Placement | null {
+  if (typeof raw === "string") return ids.has(raw) ? placementParDefaut(raw) : null;
+  if (!isRecord(raw) || typeof raw.photo !== "string" || !ids.has(raw.photo)) return null;
+  let legende = { actif: false, texte: "" };
+  if (raw.legende !== undefined) {
+    if (!isRecord(raw.legende) || typeof raw.legende.actif !== "boolean") return null;
+    const texte = text(raw.legende.texte ?? "", MAX_LEGENDE);
+    if (texte === null) return null;
+    legende = { actif: raw.legende.actif, texte };
+  }
+  const fx = raw.fx === undefined || raw.fx === null ? null : unit(raw.fx);
+  const fy = raw.fy === undefined || raw.fy === null ? null : unit(raw.fy);
+  if ((raw.fx !== undefined && raw.fx !== null && fx === null) || (raw.fy !== undefined && raw.fy !== null && fy === null)) return null;
+  if ((fx === null) !== (fy === null)) return null;
+  const format = raw.format ?? "auto";
+  if (typeof format !== "string" || !FORMATS.includes(format)) return null;
+  return { photo: raw.photo, legende, fx, fy, format: format as Format };
+}
+
+/** Liste de placements : la même photo n'apparaît qu'une fois (les doublons sont écartés, jamais refusés : un ancien fichier doit rester lisible). */
+function parsePlacements(raw: unknown, ids: ReadonlySet<string>, max: number): Placement[] | null {
+  if (!Array.isArray(raw) || raw.length > max) return null;
+  const vus = new Set<string>();
+  const out: Placement[] = [];
+  for (const r of raw) {
+    const p = parsePlacement(r, ids);
+    if (!p) return null;
+    if (vus.has(p.photo)) continue;
+    vus.add(p.photo);
+    out.push(p);
+  }
+  return out;
+}
 
 /** Valide une entrée inconnue (corps de requête ou fichier lu) ; renvoie null si invalide. */
 export function parseManifest(input: unknown): Manifest | null {
@@ -91,16 +154,16 @@ export function parseManifest(input: unknown): Manifest | null {
     photos.push({ id, file, w, h, alt: altOk, published, fx, fy });
   }
 
-  const slots: Record<string, string[]> = {};
+  const slots: Record<string, Placement[]> = {};
   if (!isRecord(input.slots)) return null;
   for (const [key, list] of Object.entries(input.slots)) {
-    const limit = SLOT_LIMITS[key];
-    if (limit === undefined || !Array.isArray(list) || list.length > limit) return null;
-    if (!list.every((id): id is string => typeof id === "string" && ids.has(id))) return null;
-    slots[key] = list;
+    if (!CLES.includes(key)) return null;
+    const placements = parsePlacements(list, ids, limite(key));
+    if (!placements) return null;
+    slots[key] = placements;
   }
 
-  if (!Array.isArray(input.events) || input.events.length > 20) return null;
+  if (!Array.isArray(input.events) || input.events.length > SERIES.max) return null;
   const events: EventGroup[] = [];
   const eventIds = new Set<string>();
   for (const raw of input.events) {
@@ -110,10 +173,10 @@ export function parseManifest(input: unknown): Manifest | null {
     if (typeof id !== "string" || !ID_RE.test(id) || eventIds.has(id)) return null;
     if (typeof svc !== "number" || !Number.isInteger(svc) || svc < 0 || svc > 5) return null;
     if (tag === null || txt === null) return null;
-    if (!Array.isArray(raw.photos) || raw.photos.length > 200) return null;
-    if (!raw.photos.every((p): p is string => typeof p === "string" && ids.has(p))) return null;
+    const photosSerie = parsePlacements(raw.photos, ids, SERIES.maxPhotos);
+    if (!photosSerie) return null;
     eventIds.add(id);
-    events.push({ id, svc, tag, txt, photos: raw.photos });
+    events.push({ id, svc, tag, txt, photos: photosSerie });
   }
 
   return { version: 1, rev, photos, slots, events };
@@ -128,7 +191,7 @@ export function addPhoto(m: Manifest, photo: Photo): Manifest {
 
 /** Retire une photo du manifeste ET de tous les emplacements et séries qui la citent. */
 export function removePhoto(m: Manifest, id: string): Manifest {
-  const sans = (ids: string[]): string[] => ids.filter((x) => x !== id);
+  const sans = (l: Placement[]): Placement[] => l.filter((p) => p.photo !== id);
   return {
     ...m,
     photos: m.photos.filter((p) => p.id !== id),
@@ -178,7 +241,7 @@ export async function readManifest(deps: StoreDeps = REAL_DEPS): Promise<Manifes
 /** Écrit la version `manifest.rev` ; ConflictError si elle existe déjà. Garde les 10 dernières versions (nettoyage au mieux). */
 export async function writeManifest(manifest: Manifest, deps: StoreDeps = REAL_DEPS): Promise<void> {
   try {
-    await deps.put(versionPath(manifest.rev), JSON.stringify(manifest));
+    await deps.put(versionPath(manifest.rev), JSON.stringify(compactManifest(manifest)));
   } catch (e) {
     if (e instanceof BlobError && /already exists/i.test(e.message)) throw new ConflictError();
     throw e;
@@ -215,7 +278,7 @@ export async function updateManifest(change: (current: Manifest) => Manifest | n
 /** Vue publique : seulement les photos publiées, et les emplacements nettoyés de ce qui ne l'est pas. */
 export function toPublic(m: Manifest): Manifest {
   const live = new Set(m.photos.filter((p) => p.published).map((p) => p.id));
-  const keep = (ids: string[]): string[] => ids.filter((id) => live.has(id));
+  const keep = (l: Placement[]): Placement[] => l.filter((p) => live.has(p.photo));
   return {
     version: 1,
     rev: m.rev,
